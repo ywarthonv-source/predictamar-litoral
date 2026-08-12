@@ -3,3 +3,4 @@ earthengine-api
 pyyaml
 numpy
 xarray
+pandas
