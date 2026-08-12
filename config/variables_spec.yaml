@@ -1,0 +1,128 @@
+# Especificación de variables — PredictaMAR Litoral (Pucusana)
+#
+# PRINCIPIO DE DISEÑO (de la auditoría a Costero v1.2, ago 2026):
+# Cada variable debe declarar sus 4 propiedades explícitamente. Ninguna variable
+# entra al motor de puntaje sin este bloque completo. "role" decide si participa
+# en la diferenciación espacial (A) o solo modula el tono general del día (B).
+#
+# role: "A" -> varía punto a punto dentro del área operativa, decide coordenadas
+# role: "B" -> uniforme o casi uniforme en el área, modula el resultado pero no
+#              decide qué punto se recomienda
+# role: "rejected" -> evaluada y descartada por resolución insuficiente
+
+variables:
+
+  sst:
+    role: A
+    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY"
+    resolution_km: 8.9
+    available: "modelo/reanálisis — no depende de nubosidad, ~100% disponible"
+    varies_in_time: true
+    varies_in_space: true  # 3-6 celdas dentro del área operativa
+    predictively_valid: null  # TODO: pendiente de validar contra puntos de control
+
+  corrientes:
+    role: A
+    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY"
+    resolution_km: 8.9
+    available: "modelo/reanálisis — ~100% disponible"
+    varies_in_time: true
+    varies_in_space: true
+    predictively_valid: null
+
+  gradiente_vertical:
+    role: A
+    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY (50 niveles verticales)"
+    resolution_km: 8.9
+    available: "modelo/reanálisis — ~100% disponible"
+    varies_in_time: true
+    varies_in_space: true
+    predictively_valid: null
+    nota: "Forzar misma fecha/hora que SST antes de calcular el gradiente (bug encontrado en Costero: SST T-7 vs T10 hoy/ayer)"
+
+  salinidad:
+    role: A
+    source: "CMEMS cmems_mod_glo_phy-so_anfc_0.083deg (verificado activo en catálogo)"
+    resolution_km: 8.9
+    available: "modelo/reanálisis — ~100% disponible"
+    varies_in_time: true
+    varies_in_space: true
+    predictively_valid: null
+
+  clorofila:
+    role: A
+    source_primary: "OLCI 300m (Sentinel-3, óptico)"
+    source_fallback: "Multi-sensor 4km gap-free"
+    resolution_km: 0.3  # cuando hay dato real
+    available: "REGLA HÍBRIDA — ver docstring en ingestion/fetch_chlorophyll.py"
+    varies_in_time: true
+    varies_in_space: true
+    predictively_valid: null
+    nota: >
+      Pucusana está en la franja de garúa costera (may-nov, pico jun-sep).
+      El producto de 300m tendrá huecos reales y frecuentes en esos meses.
+      Declarar SIEMPRE qué fuente se usó por punto (chl_source: "300m" | "4km_gapfree").
+      Si >80% de puntos caen a 4km en un día, emitir alerta de cobertura del día.
+
+  radar:
+    role: A
+    source: "Sentinel-1 (SAR) + ALOS-2"
+    resolution_m: [10, 20]
+    available: "no depende de nubosidad (microondas) — limitado por frecuencia de paso del satélite"
+    varies_in_time: true
+    varies_in_space: true
+    predictively_valid: null
+    nota: "Declarar antigüedad de la imagen por punto (puede tener varios días) — nunca presentar como 'hoy' sin verificar fecha real"
+
+  frentes_eddy:
+    role: rejected
+    source: "Altimetría estándar SSH/DUACS"
+    resolution_km: 27
+    available: "no depende de nubosidad — pero resolución insuficiente incluso a escala Pucusana"
+    varies_in_time: true
+    varies_in_space: false  # marginal / insuficiente
+    predictively_valid: null
+    alternativa: "Detectar frentes vía gradiente de SST y/o clorofila en vez de altimetría directa"
+
+  batimetria:
+    role: A
+    source: "GEBCO"
+    resolution_m: 450  # malla real, NO la escala de muestreo del código
+    available: "estática — se descarga una sola vez"
+    varies_in_time: false
+    varies_in_space: true
+    predictively_valid: null
+    nota: "Declarar explícitamente que es apoyo estructural, no señal dinámica. No usar profundidad directa: usar pendiente/curvatura derivada, documentando el método."
+
+  zonas_empiricas_pescadores:
+    role: A
+    source: "Conocimiento del gremio de Pucusana"
+    available: "estática, requiere levantamiento con el gremio"
+    varies_in_time: false
+    varies_in_space: true
+    predictively_valid: null
+    riesgo: "VALIDACIÓN CIRCULAR — excluir estas zonas de los puntos de control usados para validar el modelo completo"
+
+  viento:
+    role: B
+    source: "ERA5"
+    resolution_km: 28  # ~0.25°, mismo orden que frentes de eddy
+    available: "modelo/reanálisis — ~100% disponible"
+    varies_in_time: true
+    varies_in_space: false  # marginal a esta escala, tratado como condición del día
+    predictively_valid: null
+    nota: "Mismo criterio aplicado a frentes de eddy: resolución insuficiente para diferenciar puntos. Reevaluar si aparece producto de mayor resolución."
+
+  oleaje:
+    role: B
+    source: "CMEMS (modelo de oleaje)"
+    resolution_km: 8.9
+    available: "modelo/reanálisis — ~100% disponible"
+    varies_in_time: true
+    varies_in_space: false  # uso como filtro de seguridad, no de ranking
+    predictively_valid: "N/A — no es una variable de predicción de captura, es un filtro de seguridad"
+    nota: >
+      DISEÑO FAIL-SAFE OBLIGATORIO (bug crítico encontrado en Costero):
+      si la descarga falla o no hay dato, el sistema DEBE reportar explícitamente
+      "sin datos" — nunca un valor por defecto que se vea como una lectura real.
+      Nunca fusionar "sin datos" y "condición calma" en el mismo estado de salida.

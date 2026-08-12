@@ -1,0 +1,26 @@
+# Área operativa — PredictaMAR Litoral (Pucusana)
+# Punto de referencia: boyas de fondeo, Caleta Pucusana (fuente: DHN, Perú)
+reference_point:
+  name: "Caleta Pucusana"
+  lat: -12.471
+  lon: -76.790
+  source: "DHN - Corrección a las Cartas y Publicaciones Náuticas"
+
+# Radio operativo declarado por el gremio: 15-30 millas náuticas (~28-56 km)
+operational_radius_nm:
+  min: 15
+  max: 30
+operational_radius_km:
+  min: 27.8
+  max: 55.6
+
+# Bounding box aproximado para las descargas de datos (con margen)
+bounding_box:
+  lat_min: -12.90
+  lat_max: -12.05
+  lon_min: -77.35
+  lon_max: -76.40
+
+# Especies objetivo: mismas del proyecto PredictaMAR original (offshore)
+# Ver /areas/predictamar.md para la matriz de pesos por especie (Tabla 2 del paper)
+species: "same_as_original_project"  # TODO: pegar aquí la lista exacta de 10 especies cuando se confirme
