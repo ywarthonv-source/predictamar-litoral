@@ -17,8 +17,13 @@ advertencia explícita), nunca tratarse como equivalente a "calma_confirmada".
 """
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime, timedelta
 from enum import Enum
+
+import copernicusmarine
+
+DATASET_ID = "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i"
+VARIABLE = "VHM0"  # altura de ola significativa, espectro total (m)
 
 
 class WaveStatus(str, Enum):
@@ -41,13 +46,41 @@ class WaveReading:
 
 def fetch_wave_height(lat: float, lon: float, target_date: date) -> float | None:
     """
-    Intenta obtener la altura de ola significativa (CMEMS, modelo de oleaje).
-    Devuelve None explícitamente si la descarga falla — NUNCA un valor por
-    defecto disfrazado de lectura real.
+    Obtiene la altura de ola significativa (VHM0) desde Copernicus Marine
+    (GLOBAL_ANALYSISFORECAST_WAV_001_027, resolución 0.083° / ~9km).
 
-    TODO: reemplazar por la llamada real a Copernicus Marine.
+    Requiere credenciales configuradas vía `copernicusmarine login` (local)
+    o las variables de entorno COPERNICUSMARINE_SERVICE_USERNAME /
+    _PASSWORD (para GitHub Actions más adelante).
+
+    Devuelve None explícitamente si algo falla — NUNCA un valor por defecto
+    disfrazado de lectura real (ver docstring del módulo).
     """
-    raise NotImplementedError("Conectar con la fuente real de datos (Copernicus Marine)")
+    start = datetime.combine(target_date, datetime.min.time())
+    end = start + timedelta(days=1)
+
+    try:
+        ds = copernicusmarine.open_dataset(
+            dataset_id=DATASET_ID,
+            variables=[VARIABLE],
+            minimum_longitude=lon - 0.05,
+            maximum_longitude=lon + 0.05,
+            minimum_latitude=lat - 0.05,
+            maximum_latitude=lat + 0.05,
+            start_datetime=start,
+            end_datetime=end,
+        )
+        # Punto más cercano dentro de la pequeña ventana, promedio del día
+        point = ds[VARIABLE].sel(latitude=lat, longitude=lon, method="nearest")
+        value = float(point.mean(dim="time", skipna=True).values)
+        if value != value:  # NaN check sin depender de numpy aquí
+            return None
+        return value
+    except Exception:
+        # Cualquier fallo (red, credenciales, dataset caído, punto sin dato)
+        # se trata igual: None. La decisión de qué hacer con eso vive en
+        # get_wave_status / kill_switch, no aquí.
+        return None
 
 
 def get_wave_status(lat: float, lon: float, target_date: date) -> WaveReading:
