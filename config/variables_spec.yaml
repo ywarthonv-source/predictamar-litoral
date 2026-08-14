@@ -294,28 +294,59 @@ variables:
   oleaje:
     descripcion: "Altura de ola significativa; compuerta de seguridad, no variable de ranking"
     intended_role: safety_gate
-    implementation_status: implementada_sin_reauditar
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: fuera_del_ranking
     predictively_valid: "N/A"
     profile: pendiente_de_definir
     modulo: "ingestion/fetch_waves.py"
-    tests: null
-    motivo_sin_reauditar: >
-      No cumple aún la definición de implementada_validada_tecnicamente. Ver
-      deudas_protocolo.
-    deudas_protocolo:
-      - "No existe tests/test_fetch_waves.py: las verificaciones realizadas fueron manuales y puntuales, no una suite sintética reproducible"
-      - "WaveReading lleva data_scope y scope_warning, pero NO lleva dataset_id ni variable en el resultado; no cumple todavía la convención de procedencia para lectura cruda"
+    tests: "tests/test_fetch_waves.py (18 casos sintéticos)"
     dataset_id: "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i"
     variable: "VHM0"
+    producto:
+      version: "202411"
+      parte: "default"
+      nota: >
+        Versión y parte observadas en la selección del toolbox durante el
+        diagnóstico real. No se ejecutó un diagnóstico de catálogo completo
+        para este producto, por lo que no se registran aquí product_id,
+        estado de retiro ni otros metadatos no observados.
     cadencia: "instantánea cada 3 horas"
     resolucion_km: 8.9
-    agregacion: "MÁXIMO dentro de la ventana (no promedio): importa el peor momento, no el típico"
+    agregacion:
+      temporal: >
+        Máximo temporal nativo de VHM0 por celda dentro de la ventana. No se
+        promedia: importa el peor momento, no el típico.
+      espacial: >
+        Entre las celdas que tengan al menos un valor válido en la ventana y
+        cuyo centro esté a una distancia menor o igual que
+        MAX_VALID_CELL_DISTANCE_KM del punto solicitado, se selecciona la de
+        MAYOR máximo temporal de VHM0 -- no la más cercana.
+      desempate: >
+        A igual máximo, menor distancia Haversine; si el empate persiste,
+        menor latitud y luego menor longitud. Determinista: no depende del
+        orden en que el producto devuelva las coordenadas.
+      prohibiciones:
+        - "No se amplía el recuadro consultado"
+        - "No se interpola"
+        - "No se promedia"
+        - "No se fabrica ningún valor"
+      justificacion: >
+        Es una compuerta de SEGURIDAD. Ante dos celdas ambas admisibles,
+        quedarse con la que reporta menos oleaje sería elegir la lectura más
+        favorable, que es precisamente el patrón fail-open que este módulo
+        existe para evitar. La cercanía sigue acotada por el límite de
+        distancia; dentro de ese límite manda la condición más adversa.
     limites_propios:
+      wave_height_threshold_m:
+        valor: 1.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
       nota: >
-        Los límites de este módulo (distancia máxima de celda y umbral de
-        altura) NO derivan del perfil de la familia PT6H: fueron fijados para
-        este producto y siguen marcados como provisionales en el código.
+        Estos límites NO derivan del perfil de la familia PT6H: fueron
+        fijados para este producto y siguen marcados como provisionales en
+        el código. El criterio espacial conservador también es provisional.
     estados:
       - enum_name: "BAJO_UMBRAL_REGIONAL"
         serialized_value: "bajo_umbral_regional"
@@ -326,10 +357,20 @@ variables:
     enum_class: "WaveStatus"
     alcance: "Oleaje regional de referencia; NO es medición puntual costera ni autorización de salida"
     nota_critica: >
-      Queda expresamente FUERA del ranking pesquero. BAJO_UMBRAL_REGIONAL no
-      constituye autorización operativa: el umbral es provisional y no está
-      validado por la asesoría oceanográfica. Pendiente: fuente costera fina
-      u observación local para seguridad exacta.
+      Queda expresamente FUERA del ranking pesquero. BAJO_UMBRAL_REGIONAL, y
+      por tanto kill_switch()=False, NO constituye autorización operativa de
+      salida a faenar: el umbral, el límite de distancia y el criterio
+      espacial siguen siendo provisionales y no validados por la asesoría
+      oceanográfica. SIN_DATOS activa el kill_switch igual que
+      SOBRE_UMBRAL_REGIONAL: ante ausencia de dato nunca se asume la
+      condición favorable. Pendiente: fuente costera fina u observación
+      local para la seguridad exacta.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 18/18"
+      - "Regresión conjunta 43/43 (10 temperatura + 15 salinidad + 18 oleaje), sin acceso a Copernicus"
+      - "Diagnóstico real en Pucusana (2026-08-14, ventana local 00:00-23:59): version 202411, parte default, status sobre_umbral_regional, VHM0 máx 1.7799999602139996 m, máximo en 2026-08-15 03:00 UTC = 2026-08-14 22:00 local, celda (-12.5, -76.83333333333334) a 5.703572637964016 km, kill_switch True"
+      - "LIMITACIÓN del diagnóstico real: solo había UNA celda válida admisible dentro del límite, por lo que ese caso NO discrimina empíricamente entre el criterio conservador y el de mera cercanía; esa discriminación está cubierta únicamente por los tests sintéticos 3, 5 y 6"
 
   clorofila:
     descripcion: "Concentración de clorofila-a superficial, esquema híbrido de dos fuentes"

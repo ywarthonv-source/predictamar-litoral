@@ -1,15 +1,14 @@
 """
 Ingesta de oleaje — PredictaMAR Litoral (Pucusana)
 
-ALCANCE DE ESTA FUENTE (decidido ago 2026, tras diagnóstico en campo):
-Esta fuente es OLEAJE REGIONAL DE REFERENCIA, no una medición puntual de
-Pucusana. La grilla de CMEMS (~9km) no resuelve la costa: la celda válida
-más cercana al punto solicitado puede estar a varios km mar adentro (en
-las pruebas reales, ~5.7km). El oleaje cerca de la costa cambia por
-asomeramiento, refracción y batimetría local -- puede ser mayor o menor
-que lo que indica esta fuente. Por eso cada WaveReading lleva su propio
-`data_scope` y `scope_warning`: la limitación viaja con el dato, no solo
-en este docstring.
+ALCANCE DE ESTA FUENTE:
+Es OLEAJE REGIONAL DE REFERENCIA, no una medición puntual de Pucusana. La
+grilla de CMEMS (~9 km) no resuelve la costa: la celda utilizada puede estar
+a varios km del punto solicitado, y la máscara de tierra deja sin dato a
+celdas geométricamente más cercanas. El oleaje junto a la costa cambia por
+asomeramiento, refracción y batimetría local -- puede ser mayor o menor que
+lo que indica esta fuente. Por eso cada WaveReading lleva su propio
+`data_scope` y `scope_warning`: la limitación viaja con el dato.
 
 Pendiente: incorporar una fuente costera más fina u observación local para
 la validación de seguridad exacta.
@@ -21,29 +20,39 @@ False y se usaba un valor ficticio de 0.8m. Es un diseño fail-open: ante duda,
 el sistema asumía la condición más favorable. Aquí se prohíbe ese patrón.
 
 Estado de salida: SIEMPRE uno de estos tres, nunca un cuarto estado implícito:
-  - "bajo_umbral_regional"  -> hubo dato regional válido, dentro de distancia
-                                aceptable, y bajo el umbral
-  - "sobre_umbral_regional" -> hubo dato regional válido, dentro de distancia
-                                aceptable, y en o sobre el umbral
-  - "sin_datos"             -> ninguna celda del recuadro tuvo dato válido
-                                DENTRO de la distancia máxima aceptable
+  - "bajo_umbral_regional"  -> hubo dato regional válido, bajo el umbral
+  - "sobre_umbral_regional" -> hubo dato regional válido, en o sobre el umbral
+  - "sin_datos"             -> ninguna celda aceptable tuvo dato válido
 
 IMPORTANTE -- ESTO NO ES UNA AUTORIZACIÓN OPERATIVA:
 BAJO_UMBRAL_REGIONAL (y por lo tanto kill_switch()=False) NO significa que
-esté autorizado salir a faenar. Es una referencia regional bajo un umbral
-todavía PROVISIONAL (WAVE_HEIGHT_THRESHOLD_M), no validado por la asesoría
-oceanográfica del proyecto. Ver NOT_AN_AUTHORIZATION_NOTICE.
+esté autorizado salir a faenar. Ver NOT_AN_AUTHORIZATION_NOTICE.
 
-Selección espacial: entre las celdas del recuadro consultado, se descartan
-las que no tengan dato válido (NaN) y, de las restantes, se elige la
-geográficamente MÁS CERCANA al punto solicitado por distancia Haversine
-real. Si esa celda más cercana está más lejos que MAX_VALID_CELL_DISTANCE_KM,
-también se descarta -- no se amplía el recuadro de búsqueda, y no se acepta
-una celda "más cercana disponible" si igual está demasiado lejos para servir
-de referencia. Si no queda ninguna celda válida y dentro de distancia
-aceptable, el resultado es SIN_DATOS.
+CRITERIO ESPACIAL CONSERVADOR (decidido ago 2026, PROVISIONAL):
+Dentro del recuadro consultado (±0.05°), se consideran únicamente las celdas
+que tengan algún valor válido de VHM0 en la ventana Y cuyo centro esté a
+<= MAX_VALID_CELL_DISTANCE_KM del punto solicitado. De cada una se toma su
+MÁXIMO TEMPORAL nativo, y se selecciona la celda con el MAYOR de esos
+máximos -- no la más cercana. El desempate es determinista: a igual máximo,
+menor distancia; si persiste, menor latitud y luego menor longitud.
+
+Por qué el máximo y no la cercanía: esta es una compuerta de SEGURIDAD. Ante
+dos celdas ambas admisibles, quedarse con la que reporta menos oleaje sería
+elegir la lectura más favorable, que es precisamente el patrón fail-open que
+este módulo existe para evitar. La cercanía sigue acotada por el límite de
+distancia; dentro de ese límite manda la condición más adversa.
+
+NO se amplía el recuadro, NO se interpola, NO se promedia y NO se fabrican
+valores. Si no hay ninguna celda válida dentro del límite, el resultado es
+SIN_DATOS.
+
+CARÁCTER PROVISIONAL: el criterio espacial anterior, el límite
+MAX_VALID_CELL_DISTANCE_KM = 6.5 km y el umbral WAVE_HEIGHT_THRESHOLD_M =
+1.5 m son PROVISIONALES. Ninguno ha sido validado por la asesoría
+oceanográfica del proyecto y ninguno constituye autorización operativa.
 """
 
+import logging
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from enum import Enum
@@ -53,6 +62,8 @@ from zoneinfo import ZoneInfo
 import copernicusmarine
 import pandas as pd
 
+logger = logging.getLogger(__name__)
+
 DATASET_ID = "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i"
 VARIABLE = "VHM0"  # altura de ola significativa, espectro total (m)
 
@@ -61,34 +72,38 @@ TZ_PUCUSANA = ZoneInfo("America/Lima")  # UTC-5, sin horario de verano
 DATA_SCOPE = "oleaje_regional_referencia"
 
 DATA_SCOPE_WARNING = (
-    "Oleaje regional de referencia (grilla ~9km, celda válida más cercana "
-    "dentro del recuadro consultado y dentro de la distancia máxima "
-    "aceptable, sin ampliar el área de búsqueda). NO es medición exacta de "
-    "Pucusana ni autorización de salida para pesca artesanal costera. "
-    "Pendiente: fuente costera fina u observación local."
+    "Oleaje regional de referencia (grilla ~9km). Cuando existe una lectura "
+    "válida, procede del máximo temporal nativo de UNA celda del recuadro "
+    "consultado, elegida con criterio conservador: entre las celdas con dato "
+    "válido y dentro de la distancia máxima aceptable, se toma la de MAYOR "
+    "máximo de oleaje, no la más cercana; a igual máximo se prefiere la más "
+    "cercana y, si persiste el empate, el orden determinista por latitud y "
+    "longitud. No se amplía el área de búsqueda, no se interpola y no se "
+    "promedia. NO es medición exacta de Pucusana ni autorización de salida "
+    "para pesca artesanal costera. Si el estado es SIN_DATOS no se tomó "
+    "ningún valor ni celda. Pendiente: fuente costera fina u observación "
+    "local."
 )
 
-WAVE_HEIGHT_THRESHOLD_M = 1.5  # TODO: PROVISIONAL -- ajustar con criterio de la asesoría oceanográfica
+WAVE_HEIGHT_THRESHOLD_M = 1.5  # TODO: PROVISIONAL -- pendiente de validación oceanográfica
 
-# ---- LÍMITE DE DISTANCIA (añadido, revisión técnica ago 2026) ----------
-# PROVISIONAL -- pendiente de validación oceanográfica. El recuadro
-# consultado es ±0.05° (~5.5km por eje a esta latitud); la distancia
-# máxima teórica centro-esquina dentro de ese recuadro es ~7.8km, así que
-# cualquier límite >= 7.8km nunca filtraría nada. Se usa en su lugar la
-# mitad de la diagonal de una celda de la grilla nativa (~9.2km de
-# resolución) como criterio: una celda a más de esa distancia ya está más
-# cerca de la SIGUIENTE celda que de la solicitada, y no debería tratarse
-# como "la referencia" de este punto.
-MAX_VALID_CELL_DISTANCE_KM = 6.5  # TODO: PROVISIONAL -- ajustar con criterio de la asesoría oceanográfica
-# --------------------------------------------------------------------------
+# ---- LÍMITE DE DISTANCIA (PROVISIONAL) -------------------------------
+# El recuadro consultado es ±0.05° (~5.5km por eje a esta latitud); la
+# distancia máxima teórica centro-esquina dentro de ese recuadro es ~7.8km,
+# así que cualquier límite >= 7.8km nunca filtraría nada. Se usa en su lugar
+# la mitad de la diagonal de una celda de la grilla nativa (~9.2km): una
+# celda a más de esa distancia ya está más cerca de la SIGUIENTE celda que
+# del punto solicitado.
+MAX_VALID_CELL_DISTANCE_KM = 6.5  # TODO: PROVISIONAL -- pendiente de validación oceanográfica
+# ----------------------------------------------------------------------
 
 NOT_AN_AUTHORIZATION_NOTICE = (
     "BAJO_UMBRAL_REGIONAL y kill_switch()=False NO constituyen autorización "
-    "operativa de salida a faenar. WAVE_HEIGHT_THRESHOLD_M y "
-    "MAX_VALID_CELL_DISTANCE_KM son valores provisionales, todavía no "
-    "validados por la asesoría oceanográfica del proyecto. Esta fuente es "
-    "oleaje regional de referencia, no medición puntual costera (ver "
-    "DATA_SCOPE_WARNING)."
+    "operativa de salida a faenar. El criterio espacial conservador, "
+    "WAVE_HEIGHT_THRESHOLD_M y MAX_VALID_CELL_DISTANCE_KM son valores y "
+    "reglas provisionales, todavía no validados por la asesoría "
+    "oceanográfica del proyecto. Esta fuente es oleaje regional de "
+    "referencia, no medición puntual costera (ver DATA_SCOPE_WARNING)."
 )
 
 
@@ -112,12 +127,14 @@ class WaveReading:
     lat: float  # solicitada
     lon: float  # solicitada
     date: date
-    significant_wave_height_m: float | None  # MÁXIMO de la celda seleccionada, ventana del día
+    significant_wave_height_m: float | None  # MÁXIMO de la celda seleccionada
     max_time_utc: datetime | None
     max_time_local: datetime | None
-    cell_lat: float | None  # coordenada real de la celda usada (None si se rechazó por distancia o SIN_DATOS)
+    cell_lat: float | None  # coordenada real de la celda usada
     cell_lon: float | None
-    distance_km: float | None  # distancia real de la celda ACEPTADA (dentro del límite)
+    distance_km: float | None
+    dataset_id: str
+    variable: str
     data_scope: str
     scope_warning: str
     status: WaveStatus
@@ -157,46 +174,44 @@ def _local_window_to_utc(
     return local_start.astimezone(timezone.utc), local_end.astimezone(timezone.utc)
 
 
-def _select_nearest_valid_cell(
+def _select_conservative_valid_cell(
     da, lat: float, lon: float
 ) -> tuple[float, float, float] | None:
     """
-    Entre todas las celdas (latitude, longitude) del recuadro ya consultado,
-    descarta las que no tengan ningún valor válido en toda la ventana
-    temporal, y de las restantes elige la geográficamente MÁS CERCANA al
-    punto solicitado.
+    Selección espacial CONSERVADORA para la compuerta de seguridad.
 
-    NO amplía el recuadro. Si la celda válida más cercana está más lejos
-    que MAX_VALID_CELL_DISTANCE_KM, TAMBIÉN se descarta -- ver bloque
-    "LÍMITE DE DISTANCIA" más abajo.
+    De todas las celdas del recuadro ya consultado:
+      1. Se descartan las que no tengan ningún valor válido en la ventana
+         (su máximo temporal es NaN).
+      2. Se descartan las que estén a más de MAX_VALID_CELL_DISTANCE_KM del
+         punto solicitado.
+      3. De las restantes se elige la de MAYOR máximo temporal de VHM0.
+      4. Desempate determinista: a igual máximo, menor distancia; si persiste,
+         menor latitud y luego menor longitud.
 
-    Devuelve None si no queda ninguna celda válida y dentro del límite.
+    NO amplía el recuadro. Devuelve (cell_lat, cell_lon, distance_km), o None
+    si no queda ninguna celda válida y dentro del límite.
     """
     cell_max = da.max(dim="time", skipna=True)  # dims: (latitude, longitude)
 
-    best = None  # (distance_km, cell_lat, cell_lon)
+    candidatos = []  # (-max, distancia, cell_lat, cell_lon)
     for lat_val in cell_max.latitude.values:
         for lon_val in cell_max.longitude.values:
-            val = float(cell_max.sel(latitude=lat_val, longitude=lon_val).values)
-            if val != val:  # NaN -> celda sin dato válido, se descarta
+            v = float(cell_max.sel(latitude=lat_val, longitude=lon_val).values)
+            if v != v:  # NaN -> celda sin ningún dato válido en la ventana
                 continue
-            dist = _haversine_km(lat, lon, float(lat_val), float(lon_val))
-            if best is None or dist < best[0]:
-                best = (dist, float(lat_val), float(lon_val))
+            cell_lat, cell_lon = float(lat_val), float(lon_val)
+            dist = _haversine_km(lat, lon, cell_lat, cell_lon)
+            if dist > MAX_VALID_CELL_DISTANCE_KM:
+                continue
+            candidatos.append((-v, dist, cell_lat, cell_lon))
 
-    if best is None:
+    if not candidatos:
         return None
 
-    dist, cell_lat, cell_lon = best
-
-    # ---- LÍMITE DE DISTANCIA (añadido, revisión técnica ago 2026) -------
-    # Aunque sea la celda válida MÁS CERCANA disponible, si sigue estando
-    # más lejos que MAX_VALID_CELL_DISTANCE_KM se rechaza igual -- "más
-    # cercana disponible" no es lo mismo que "suficientemente cercana".
-    if dist > MAX_VALID_CELL_DISTANCE_KM:
-        return None
-    # -----------------------------------------------------------------------
-
+    # Orden: -max ascendente (= max descendente), luego distancia, lat, lon.
+    candidatos.sort()
+    _, dist, cell_lat, cell_lon = candidatos[0]
     return cell_lat, cell_lon, dist
 
 
@@ -208,10 +223,9 @@ def fetch_wave_height(
     hour_end: int = 23,
 ) -> WaveMeasurement:
     """
-    Obtiene el MÁXIMO de VHM0, dentro de la ventana horaria LOCAL dada, de
-    la celda válida geográficamente más cercana al punto solicitado dentro
-    del recuadro consultado y dentro de MAX_VALID_CELL_DISTANCE_KM (sin
-    ampliar el recuadro).
+    Obtiene el MÁXIMO de VHM0 dentro de la ventana horaria LOCAL dada, de la
+    celda seleccionada con el criterio conservador descrito en
+    _select_conservative_valid_cell (sin ampliar el recuadro).
 
     Devuelve WaveMeasurement con todos los campos en None si no hay ninguna
     celda válida y dentro de distancia aceptable, o si falla la descarga --
@@ -233,35 +247,60 @@ def fetch_wave_height(
             start_datetime=start_utc,
             end_datetime=end_utc,
             # coordinates_selection_method NO se fija a "nearest" aquí:
-            # el tiempo se queda "inside" (comportamiento por defecto);
-            # la selección espacial la hace _select_nearest_valid_cell,
-            # que excluye celdas NaN Y celdas fuera del límite de
-            # distancia antes de aceptar una.
+            # afectaría también a la dimensión tiempo y podría traer
+            # timestamps fuera de la ventana solicitada.
         )
         da = ds[VARIABLE]
 
         if da.sizes.get("time", 0) == 0:
-            return WaveMeasurement(None, None, None, None, None)
+            logger.warning(
+                "Sin instantes devueltos para (%s, %s) %s [%s]",
+                lat, lon, target_date, DATASET_ID,
+            )
+            return WaveMeasurement(
+                value_m=None, time_utc=None, cell_lat=None, cell_lon=None, distance_km=None
+            )
 
-        selection = _select_nearest_valid_cell(da, lat, lon)
-        if selection is None:
-            return WaveMeasurement(None, None, None, None, None)
-        cell_lat, cell_lon, distance_km = selection
+        seleccion = _select_conservative_valid_cell(da, lat, lon)
+        if seleccion is None:
+            logger.warning(
+                "Ninguna celda válida dentro de %.2f km para (%s, %s) %s",
+                MAX_VALID_CELL_DISTANCE_KM, lat, lon, target_date,
+            )
+            return WaveMeasurement(
+                value_m=None, time_utc=None, cell_lat=None, cell_lon=None, distance_km=None
+            )
+        cell_lat, cell_lon, distance_km = seleccion
 
         series = da.sel(latitude=cell_lat, longitude=cell_lon, method="nearest")
         value = float(series.max(dim="time", skipna=True).values)
-        if value != value:  # no debería pasar, ya se filtró arriba, pero por seguridad
-            return WaveMeasurement(None, None, None, None, None)
+        if value != value:  # defensivo: ya se filtró arriba, pero por seguridad
+            return WaveMeasurement(
+                value_m=None, time_utc=None, cell_lat=None, cell_lon=None, distance_km=None
+            )
 
         max_time_raw = series.idxmax(dim="time", skipna=True).values
         max_time_utc = pd.Timestamp(max_time_raw).to_pydatetime().replace(tzinfo=timezone.utc)
 
-        return WaveMeasurement(value, max_time_utc, cell_lat, cell_lon, distance_km)
+        return WaveMeasurement(
+            value_m=value,
+            time_utc=max_time_utc,
+            cell_lat=cell_lat,
+            cell_lon=cell_lon,
+            distance_km=distance_km,
+        )
     except Exception:
-        # Cualquier fallo de datos/red (no de uso -- ver ValueError arriba)
-        # se trata igual: sin dato. La decisión de qué hacer con eso vive
-        # en get_wave_status / kill_switch, no aquí.
-        return WaveMeasurement(None, None, None, None, None)
+        # Fallo de datos/red o error de programación (no de uso -- ver
+        # ValueError arriba). Se registra con traza para que NO quede
+        # indistinguible de una ausencia legítima de datos; no se registran
+        # credenciales ni información sensible.
+        logger.exception(
+            "Fallo al obtener oleaje para (%s, %s) %s [%s]",
+            lat, lon, target_date, DATASET_ID,
+        )
+        return WaveMeasurement(
+            value_m=None, time_utc=None, cell_lat=None, cell_lon=None, distance_km=None
+        )
 
 
 def get_wave_status(
@@ -275,11 +314,20 @@ def get_wave_status(
 
     if m.value_m is None or m.time_utc is None:
         return WaveReading(
-            lat, lon, target_date,
-            None, None, None,
-            None, None, None,
-            DATA_SCOPE, DATA_SCOPE_WARNING,
-            WaveStatus.SIN_DATOS,
+            lat=lat,
+            lon=lon,
+            date=target_date,
+            significant_wave_height_m=None,
+            max_time_utc=None,
+            max_time_local=None,
+            cell_lat=None,
+            cell_lon=None,
+            distance_km=None,
+            dataset_id=DATASET_ID,
+            variable=VARIABLE,
+            data_scope=DATA_SCOPE,
+            scope_warning=DATA_SCOPE_WARNING,
+            status=WaveStatus.SIN_DATOS,
         )
 
     max_time_local = m.time_utc.astimezone(TZ_PUCUSANA)
@@ -290,11 +338,20 @@ def get_wave_status(
         else WaveStatus.BAJO_UMBRAL_REGIONAL
     )
     return WaveReading(
-        lat, lon, target_date,
-        m.value_m, m.time_utc, max_time_local,
-        m.cell_lat, m.cell_lon, m.distance_km,
-        DATA_SCOPE, DATA_SCOPE_WARNING,
-        status,
+        lat=lat,
+        lon=lon,
+        date=target_date,
+        significant_wave_height_m=m.value_m,
+        max_time_utc=m.time_utc,
+        max_time_local=max_time_local,
+        cell_lat=m.cell_lat,
+        cell_lon=m.cell_lon,
+        distance_km=m.distance_km,
+        dataset_id=DATASET_ID,
+        variable=VARIABLE,
+        data_scope=DATA_SCOPE,
+        scope_warning=DATA_SCOPE_WARNING,
+        status=status,
     )
 
 
