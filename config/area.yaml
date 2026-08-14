@@ -1,26 +1,76 @@
+# =====================================================================
 # Área operativa — PredictaMAR Litoral (Pucusana)
-# Punto de referencia: boyas de fondeo, Caleta Pucusana (fuente: DHN, Perú)
+# =====================================================================
+# Este archivo DECLARA el alcance operativo del proyecto.
+# Hoy NO es consumido por ningún módulo: los fetchers reciben lat/lon como
+# argumentos y construyen su propio recuadro de consulta por punto.
+# Ver `nota_trazabilidad` al final.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# PUNTO DE REFERENCIA (confirmado)
+# ---------------------------------------------------------------------
 reference_point:
   name: "Caleta Pucusana"
   lat: -12.471
   lon: -76.790
   source: "DHN - Corrección a las Cartas y Publicaciones Náuticas"
 
-# Radio operativo declarado por el gremio: 15-30 millas náuticas (~28-56 km)
-operational_radius_nm:
-  min: 15
-  max: 30
-operational_radius_km:
-  min: 27.8
-  max: 55.6
+# ---------------------------------------------------------------------
+# ALCANCE OPERATIVO VIGENTE DE PREDICTAMAR LITORAL
+# ---------------------------------------------------------------------
+operational_range_km:
+  min: 0
+  max: 10
+  typical_max_observed: 8
+  fuente_operativa: "Reformulación de alcance de PredictaMAR Litoral (2026), basada en levantamiento operativo con pescadores artesanales; no constituye validación científica del modelo"
+  descripcion: >
+    Distancia MAR ADENTRO DESDE EL LITORAL a la que opera la pesca
+    artesanal: rango de 0 a 10 km, con un máximo habitual aproximado
+    observado de 8 km. Caleta Pucusana se conserva como punto de referencia
+    geográfico del proyecto, pero este alcance NO está definido como un
+    círculo de radio 10 km alrededor de esa coordenada: son geometrías
+    distintas y no deben confundirse. El futuro diseño espacial deberá
+    definir explícitamente cómo se proyecta este alcance sobre coordenadas
+    o sectores concretos.
+  no_confundir_con: >
+    Este alcance tampoco es el recuadro técnico de consulta. Cada fetcher
+    construye su propio recuadro local (±0.05° alrededor del punto
+    solicitado) y aplica sus propios límites internos de selección de celda.
+    Son conceptos independientes: uno describe dónde faena la flota, el otro
+    describe cómo se consulta un producto de datos. No deben mezclarse ni
+    derivarse el uno del otro.
 
-# Bounding box aproximado para las descargas de datos (con margen)
+# ---------------------------------------------------------------------
+# RECUADRO GEOGRÁFICO GLOBAL
+# ---------------------------------------------------------------------
 bounding_box:
-  lat_min: -12.90
-  lat_max: -12.05
-  lon_min: -77.35
-  lon_max: -76.40
+  estado: "no_definido"
+  usado_actualmente: false
+  motivo: >
+    Los módulos de ingesta reciben lat/lon en cada llamada y consultan un
+    recuadro local por punto, de modo que hoy no existe ni se necesita un
+    recuadro global del área. Si en el futuro hiciera falta (por ejemplo,
+    para variables derivadas sobre campos espaciales como frentes o
+    gradientes), deberá diseñarse explícitamente y no heredarse de ningún
+    alcance anterior.
 
-# Especies objetivo: mismas del proyecto PredictaMAR original (offshore)
-# Ver /areas/predictamar.md para la matriz de pesos por especie (Tabla 2 del paper)
-species: "same_as_original_project"  # TODO: pegar aquí la lista exacta de 10 especies cuando se confirme
+# ---------------------------------------------------------------------
+# ESPECIES OBJETIVO
+# ---------------------------------------------------------------------
+species:
+  estado: "pendiente_de_confirmacion"
+  lista: null
+  nota: >
+    No existe en este repositorio una lista de especies autorizada para el
+    alcance litoral. No se reutiliza la del proyecto anterior ni se registra
+    ninguna especie hasta que la lista sea confirmada explícitamente.
+
+# ---------------------------------------------------------------------
+# TRAZABILIDAD
+# ---------------------------------------------------------------------
+nota_trazabilidad: >
+  Este archivo declara alcance operativo, pero ningún módulo lo carga ni lo
+  parsea todavía: es documentación, no configuración efectiva. Si en algún
+  momento pasa a ser consumido por el código, ese cambio debe hacerse de
+  forma explícita y verificable, no por suposición.
