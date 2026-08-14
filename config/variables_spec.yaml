@@ -360,27 +360,63 @@ variables:
       - "No hereda ninguna regla ni límite del perfil físico PT6H"
 
   # -------------------------------------------------------------------
-  # SIGUIENTE MÓDULO
+  # SEGUNDA VARIABLE DEL PERFIL PT6H — validada técnicamente
   # -------------------------------------------------------------------
 
   salinidad:
     descripcion: "Salinidad en el nivel superficial disponible"
     intended_role: A
-    implementation_status: pendiente_siguiente
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
     profile: fetcher_puntual_phy_0083deg_pt6h
-    profile_estado: "CANDIDATO — a confirmar cuando se implemente y diagnostique"
+    modulo: "ingestion/fetch_salinity.py"
+    tests: "tests/test_fetch_salinity.py (15 casos sintéticos)"
     prioridad_cientifica: "muy alta"
     respaldo_cientifico: >
       Literatura vincula la distribución de anchoveta a temperatura, salinidad
       y oxígeno de forma conjunta. Contexto bibliográfico ÚNICAMENTE: no se
       implementan umbrales ni clasificaciones en el módulo de ingesta.
-    candidate_dataset_id: "cmems_mod_glo_phy-so_anfc_0.083deg_PT6H-i"
-    verificacion_oficial: "PENDIENTE — no confirmado todavía bajo el protocolo de diagnóstico"
-    variable_esperada: "so"
-    resolucion_km_esperada: 8.9
-    nota: "Misma familia de producto que sst; se espera poder reutilizar el mismo patrón"
+    dataset_id: "cmems_mod_glo_phy-so_anfc_0.083deg_PT6H-i"
+    verificacion_oficial: "CONFIRMADA contra el catálogo oficial (ago 2026)"
+    producto:
+      product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
+      version: "202406"
+      parte: "default"
+      retired: null
+      estado: "activo"
+    variable: "so"
+    standard_name: "sea_water_salinity"
+    units: "1e-3"
+    nota_unidad: >
+      Unidad nativa declarada por el producto. Se conserva y se transporta tal
+      cual en cada lectura: NO se denomina PSU ni se convierte, porque
+      cualquier conversión exigiría una justificación científica explícita que
+      hoy no existe.
+    cadencia: "instantánea cada 6 horas"
+    resolucion_km: 8.9
+    instantes_locales_pucusana: ["01:00", "07:00", "13:00", "19:00"]
+    profundidad:
+      estrategia: "maximum_depth=5.0 sin minimum_depth; nivel más somero elegido dinámicamente"
+      nivel_tipico_m: 0.494025
+      nota: "No se hardcodea el nivel: podría cambiar en una versión futura del producto"
+    consulta:
+      coordinates_selection_method: "no se usa 'nearest' (afectaría la dimensión tiempo)"
+    estados:
+      - enum_name: "VALIDA_EN_VENTANA"
+        serialized_value: "valida_en_ventana"
+      - enum_name: "VALIDA_CERCANA_EN_TIEMPO"
+        serialized_value: "valida_cercana_en_tiempo"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+    enum_class: "SalinityStatus"
+    alcance: "Salinidad regional de referencia; NO es medición puntual ni in situ en Pucusana"
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 15/15"
+      - "Diagnóstico real dentro de ventana (4 muestras, cobertura 1.0, celda a 5.408949 km, nivel 0.494025 m)"
+      - "Diagnóstico real de fallback (1 muestra externa, offset 1.0 h, cobertura None)"
+    pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
 
   # -------------------------------------------------------------------
   # CANDIDATAS / PLANIFICADAS — todas inactivas en scoring
