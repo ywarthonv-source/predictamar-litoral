@@ -1,128 +1,696 @@
+# =====================================================================
 # Especificación de variables — PredictaMAR Litoral (Pucusana)
+# =====================================================================
 #
 # PRINCIPIO DE DISEÑO (de la auditoría a Costero v1.2, ago 2026):
-# Cada variable debe declarar sus 4 propiedades explícitamente. Ninguna variable
-# entra al motor de puntaje sin este bloque completo. "role" decide si participa
-# en la diferenciación espacial (A) o solo modula el tono general del día (B).
+# este archivo separa TRES dimensiones que antes se confundían en un
+# único campo `role`:
 #
-# role: "A" -> varía punto a punto dentro del área operativa, decide coordenadas
-# role: "B" -> uniforme o casi uniforme en el área, modula el resultado pero no
-#              decide qué punto se recomienda
-# role: "rejected" -> evaluada y descartada por resolución insuficiente
+#   1. intended_role         -> función científica POTENCIAL de la variable
+#   2. implementation_status -> si el módulo existe y en qué estado está
+#   3. scoring_status        -> si participa o no en el motor de puntaje
+#
+# Una variable puede tener intended_role: A (capaz de diferenciar puntos)
+# y aun así estar sin implementar y fuera del scoring. Confundir esas
+# dimensiones fue exactamente el error de Costero v1.2, donde variables
+# documentadas como decisorias en realidad no diferenciaban nada.
+#
+# predictively_valid es una CUARTA dimensión, independiente de las tres
+# anteriores: mide si existe evidencia de campo de que la variable mejora
+# la predicción. Hoy NINGUNA variable tiene esa evidencia.
+# =====================================================================
 
+schema_version: 2
+
+meta:
+  proyecto: "PredictaMAR Litoral"
+  area_operativa: "Pucusana (ver config/area.yaml)"
+  ultima_actualizacion: "2026-08-14"
+  nota: >
+    Ninguna variable de este archivo tiene predictively_valid: true.
+    No existe todavía validación predictiva independiente contra datos de
+    campo. Cualquier afirmación de que una variable "funciona" debe
+    especificar cuál de las cuatro dimensiones se está afirmando.
+
+# ---------------------------------------------------------------------
+# DEFINICIONES DE LOS CAMPOS DE ESTADO
+# ---------------------------------------------------------------------
+definitions:
+
+  intended_role:
+    A: "Función potencial de diferenciar espacialmente entre puntos dentro del área operativa"
+    B: "Función potencial de describir la condición general del día, sin diferenciar puntos"
+    safety_gate: "Compuerta de seguridad; no participa del ranking pesquero en ningún caso"
+    structural_support: "Contexto estructural estático; no es señal dinámica"
+    empirical_prior: "Conocimiento empírico previo; requiere control de circularidad"
+    por_determinar: "Función potencial aún no establecida; pendiente de diagnóstico"
+    rejected: "Evaluada y descartada; ver motivo en el campo `rechazo`"
+
+  implementation_status:
+    implementada_validada_tecnicamente: "Módulo existe, y ha pasado suite sintética Y diagnóstico real"
+    implementada_sin_reauditar: "Módulo existe, pero no ha pasado el protocolo actual completo"
+    pendiente_siguiente: "Próximo módulo a implementar"
+    no_implementada: "No existe módulo en este repositorio"
+    bloqueada: "No se implementará mientras persista el motivo de bloqueo"
+
+  scoring_status:
+    inactiva: "No participa del motor de puntaje"
+    fuera_del_ranking: "Excluida por diseño del ranking pesquero (p.ej. seguridad)"
+    no_admitida: "Rechazada; no puede admitirse sin cambiar el motivo de rechazo"
+
+  predictively_valid:
+    "null": "Sin evidencia de campo; no se ha evaluado o no se ha demostrado. Se escribe como predictively_valid: null"
+    "N/A": "La pregunta no aplica: no es una variable de predicción de captura"
+    nota: >
+      No se admite el valor true en este esquema mientras no exista una
+      validación independiente contra datos de campo documentada.
+
+# ---------------------------------------------------------------------
+# PROTOCOLO GLOBAL DE ADMISIÓN AL SCORING
+# ---------------------------------------------------------------------
+# Ninguna variable entra al motor de puntaje sin recorrer estas etapas en
+# orden. Que un fetcher corra sin errores NO es criterio de admisión.
+scoring_admission_protocol:
+  - paso: 1
+    etapa: "relevancia_cientifica"
+    criterio: "Existe respaldo en literatura o en datos propios para esperar señal"
+  - paso: 2
+    etapa: "resolucion_espacial_y_temporal_aceptable"
+    criterio: "La resolución permite diferenciar dentro del área operativa litoral"
+  - paso: 3
+    etapa: "disponibilidad_operativa"
+    criterio: "El producto responde de forma consistente en el rango de fechas de uso"
+  - paso: 4
+    etapa: "seleccion_de_celda_valida_y_cobertura"
+    criterio: "Selección espacial trazable, descarte de NaN, límites declarados, cobertura reportada según el método propio del producto"
+  - paso: 5
+    etapa: "procedencia"
+    criterio: >
+      La procedencia exigible depende del TIPO de dato.
+      Lectura cruda: dataset_id, variable, data_scope y scope_warning.
+      Resultado derivado: productos y variables de origen, timestamps de
+      entrada, método o fórmula, versión del algoritmo, unidades de salida,
+      resolución efectiva y scope_warning.
+      Dato estructural o empírico: fuente, versión o fecha de levantamiento,
+      método y limitación de alcance.
+  - paso: 6
+    etapa: "pruebas_sinteticas"
+    criterio: "Suite sintética propia, sin consultar la API real"
+  - paso: 7
+    etapa: "diagnostico_real"
+    criterio: "Casos reales contra el producto, incluyendo bordes y fallback si aplica"
+  - paso: 8
+    etapa: "validacion_independiente_de_campo"
+    criterio: "Contraste contra datos de campo/IMARPE, con puntos de control fuera de las zonas empíricas"
+  - paso: 9
+    etapa: "scoring"
+    criterio: "Recién entonces la variable puede admitirse al motor de puntaje"
+
+# ---------------------------------------------------------------------
+# CONVENCIONES GLOBALES
+# ---------------------------------------------------------------------
+# SOLO reglas verdaderamente universales, aplicables a cualquier módulo
+# del pipeline con independencia del producto, la cadencia o la geometría.
+# Las reglas ligadas a un tipo de producto viven en `profiles`.
+global_conventions:
+
+  timezone_operacional:
+    valor: "America/Lima"
+    aplicabilidad: >
+      Se aplica cuando el módulo expone al usuario una fecha u hora, o
+      interpreta una ventana solicitada. Un producto estático (p.ej.
+      batimetría) no tiene componente temporal y esta regla no le aplica.
+    nota_operativa: >
+      date.today() en entornos de servidor puede devolver la fecha UTC. Para
+      representar "hoy local" debe usarse explícitamente America/Lima o la
+      fecha seleccionada por el usuario.
+
+  valores_nativos_y_variables_derivadas:
+    ingesta_de_datos_crudos: >
+      En la INGESTA, PredictaMAR no interpola, no rellena huecos y no fabrica
+      valores. Cada muestra entregada corresponde a un valor nativo del
+      producto fuente, en un instante y una celda concretos y declarados.
+    variables_derivadas: >
+      PredictaMAR SÍ puede CALCULAR variables derivadas a partir de datos
+      nativos: diferencias, anomalías, gradientes, convergencia u otras
+      transformaciones científicamente definidas. Estas operaciones NO son
+      fabricación de valores. Toda variable derivada debe declarar: sus
+      entradas, la fórmula o el método aplicado, las unidades de salida, la
+      resolución efectiva resultante, el tratamiento de bordes y la versión
+      del algoritmo.
+    regla_de_presentacion: >
+      Una variable derivada NUNCA debe presentarse como una observación
+      nativa. La distinción entre lectura cruda y resultado calculado debe ser
+      explícita en la salida y en la documentación.
+    aclaracion_sobre_los_productos_fuente: >
+      Nada de lo anterior afirma que los datos de origen estén libres de
+      interpolación. Los productos fuente pueden ser modelos numéricos,
+      análisis o productos L4 gap-free, en los que el proveedor ya ha
+      realizado asimilación, interpolación o relleno de huecos como parte de
+      su procesamiento.
+
+  procedencia:
+    regla_general: >
+      Toda salida declara su procedencia, incluidos los estados sin dato. La
+      limitación de alcance acompaña al dato, no vive solo en la
+      documentación. Los campos exigibles dependen del TIPO de dato.
+    lectura_cruda:
+      campos: ["dataset_id", "variable", "data_scope", "scope_warning"]
+    resultado_derivado:
+      campos:
+        - "productos y variables de origen"
+        - "timestamps de entrada"
+        - "método o fórmula"
+        - "versión del algoritmo"
+        - "unidades de salida"
+        - "resolución efectiva"
+        - "scope_warning"
+      nota: >
+        Una variable derivada puede depender de uno o varios productos, por lo
+        que un único dataset_id no basta para describir su procedencia.
+    dato_estructural_o_empirico:
+      campos:
+        - "fuente"
+        - "versión o fecha de levantamiento"
+        - "método"
+        - "limitación de alcance"
+
+  tratamiento_explicito_de_errores:
+    regla: >
+      Los errores de USO (p.ej. rango horario inválido) se propagan como
+      excepción; no se silencian como ausencia de datos. Los fallos de datos
+      o de red producen un estado explícito de "sin datos", nunca un valor
+      por defecto disfrazado de lectura real.
+
+  logging:
+    regla: >
+      Toda excepción que derive en un estado sin dato se registra con traza,
+      para que un error de programación no quede indistinguible de una
+      ausencia legítima de datos. No se registran credenciales ni información
+      sensible.
+
+# ---------------------------------------------------------------------
+# PERFILES POR TIPO DE PRODUCTO
+# ---------------------------------------------------------------------
+# Un perfil agrupa decisiones técnicas que SOLO están justificadas para una
+# familia concreta de productos. No son universales: aplicarlas fuera de su
+# familia sería exactamente el tipo de generalización indebida que la
+# auditoría de Costero identificó como riesgo.
+profiles:
+
+  fetcher_puntual_phy_0083deg_pt6h:
+    descripcion: >
+      Fetcher PUNTUAL de serie temporal sobre la familia física de Copernicus
+      a 0.083° con cadencia instantánea de 6 h. Entrega una serie de muestras
+      para un punto solicitado, no un campo espacial.
+    aplica_a_hoy: ["sst"]
+    aplica_a_candidato: ["salinidad"]
+    no_aplica_a: >
+      Oleaje PT3H (otra cadencia y rol de seguridad), clorofila (otra
+      familia, resolución y regla híbrida), OSTIA, batimetría, radar, campos
+      espaciales y variables derivadas como frentes o gradientes. Cada uno
+      deberá definir posteriormente sus propios límites y su propio método
+      espacial.
+    reglas:
+      ventana_horaria: >
+        Se define en fecha y hora LOCAL de Pucusana y se convierte a UTC antes
+        de consultar. Nunca cruza la fecha local solicitada, aunque en UTC sí
+        cruce de fecha.
+      una_sola_celda_por_serie: >
+        Toda la serie procede de una única celda: mayor cobertura temporal
+        dentro de la ventana y, en empate, menor distancia Haversine. La serie
+        nunca salta entre celdas.
+      cobertura_temporal_declarada: >
+        Se reportan n_native_times_in_window, n_samples, n_missing_samples y
+        coverage_fraction. coverage_fraction mide únicamente la proporción de
+        instantes nativos DENTRO de la ventana cubiertos por la celda
+        seleccionada.
+      fallback_temporal_determinista: >
+        Si la ventana no contiene ningún valor válido, se acepta el instante
+        nativo más cercano fuera de ella dentro del límite; a igual desfase se
+        prefiere el instante ANTERIOR. Nunca se interpola: el valor es nativo.
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+        criterio: "Mitad de la diagonal de una celda de la grilla nativa (~9.2 km)"
+        alcance: "Justificado SOLO para esta familia de productos"
+      max_temporal_offset_hours:
+        valor: 3.0
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+        criterio: "Mitad de la cadencia de 6 h de esta familia"
+        alcance: "Justificado SOLO para esta familia de productos"
+
+  pendiente_de_definir:
+    descripcion: >
+      Marcador para variables cuyo perfil técnico (método espacial, límites,
+      tratamiento temporal) todavía no se ha establecido. No hereda ningún
+      límite de otro perfil.
+
+# =====================================================================
+# VARIABLES
+# =====================================================================
 variables:
 
+  # -------------------------------------------------------------------
+  # IMPLEMENTADAS
+  # -------------------------------------------------------------------
+
   sst:
-    role: A
-    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY"
-    resolution_km: 8.9
-    available: "modelo/reanálisis — no depende de nubosidad, ~100% disponible"
-    varies_in_time: true
-    varies_in_space: true  # 3-6 celdas dentro del área operativa
-    predictively_valid: null  # TODO: pendiente de validar contra puntos de control
-
-  corrientes:
-    role: A
-    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY"
-    resolution_km: 8.9
-    available: "modelo/reanálisis — ~100% disponible"
-    varies_in_time: true
-    varies_in_space: true
+    descripcion: "Temperatura potencial del mar en el nivel superficial disponible"
+    intended_role: A
+    implementation_status: implementada_validada_tecnicamente
+    scoring_status: inactiva
     predictively_valid: null
-
-  gradiente_vertical:
-    role: A
-    source: "CMEMS GLOBAL_ANALYSISFORECAST_PHY (50 niveles verticales)"
-    resolution_km: 8.9
-    available: "modelo/reanálisis — ~100% disponible"
-    varies_in_time: true
-    varies_in_space: true
-    predictively_valid: null
-    nota: "Forzar misma fecha/hora que SST antes de calcular el gradiente (bug encontrado en Costero: SST T-7 vs T10 hoy/ayer)"
-
-  salinidad:
-    role: A
-    source: "CMEMS cmems_mod_glo_phy-so_anfc_0.083deg (verificado activo en catálogo)"
-    resolution_km: 8.9
-    available: "modelo/reanálisis — ~100% disponible"
-    varies_in_time: true
-    varies_in_space: true
-    predictively_valid: null
-
-  clorofila:
-    role: A
-    source_primary: "OLCI 300m (Sentinel-3, óptico)"
-    source_fallback: "Multi-sensor 4km gap-free"
-    resolution_km: 0.3  # cuando hay dato real
-    available: "REGLA HÍBRIDA — ver docstring en ingestion/fetch_chlorophyll.py"
-    varies_in_time: true
-    varies_in_space: true
-    predictively_valid: null
-    nota: >
-      Pucusana está en la franja de garúa costera (may-nov, pico jun-sep).
-      El producto de 300m tendrá huecos reales y frecuentes en esos meses.
-      Declarar SIEMPRE qué fuente se usó por punto (chl_source: "300m" | "4km_gapfree").
-      Si >80% de puntos caen a 4km en un día, emitir alerta de cobertura del día.
-
-  radar:
-    role: A
-    source: "Sentinel-1 (SAR) + ALOS-2"
-    resolution_m: [10, 20]
-    available: "no depende de nubosidad (microondas) — limitado por frecuencia de paso del satélite"
-    varies_in_time: true
-    varies_in_space: true
-    predictively_valid: null
-    nota: "Declarar antigüedad de la imagen por punto (puede tener varios días) — nunca presentar como 'hoy' sin verificar fecha real"
-
-  frentes_eddy:
-    role: rejected
-    source: "Altimetría estándar SSH/DUACS"
-    resolution_km: 27
-    available: "no depende de nubosidad — pero resolución insuficiente incluso a escala Pucusana"
-    varies_in_time: true
-    varies_in_space: false  # marginal / insuficiente
-    predictively_valid: null
-    alternativa: "Detectar frentes vía gradiente de SST y/o clorofila en vez de altimetría directa"
-
-  batimetria:
-    role: A
-    source: "GEBCO"
-    resolution_m: 450  # malla real, NO la escala de muestreo del código
-    available: "estática — se descarga una sola vez"
-    varies_in_time: false
-    varies_in_space: true
-    predictively_valid: null
-    nota: "Declarar explícitamente que es apoyo estructural, no señal dinámica. No usar profundidad directa: usar pendiente/curvatura derivada, documentando el método."
-
-  zonas_empiricas_pescadores:
-    role: A
-    source: "Conocimiento del gremio de Pucusana"
-    available: "estática, requiere levantamiento con el gremio"
-    varies_in_time: false
-    varies_in_space: true
-    predictively_valid: null
-    riesgo: "VALIDACIÓN CIRCULAR — excluir estas zonas de los puntos de control usados para validar el modelo completo"
-
-  viento:
-    role: B
-    source: "ERA5"
-    resolution_km: 28  # ~0.25°, mismo orden que frentes de eddy
-    available: "modelo/reanálisis — ~100% disponible"
-    varies_in_time: true
-    varies_in_space: false  # marginal a esta escala, tratado como condición del día
-    predictively_valid: null
-    nota: "Mismo criterio aplicado a frentes de eddy: resolución insuficiente para diferenciar puntos. Reevaluar si aparece producto de mayor resolución."
+    profile: fetcher_puntual_phy_0083deg_pt6h
+    modulo: "ingestion/fetch_temperature.py"
+    tests: "tests/test_fetch_temperature.py (10 casos sintéticos)"
+    dataset_id: "cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i"
+    variable: "thetao"
+    cadencia: "instantánea cada 6 horas"
+    resolucion_km: 8.9
+    instantes_locales_pucusana: ["01:00", "07:00", "13:00", "19:00"]
+    profundidad:
+      estrategia: "maximum_depth=5.0 sin minimum_depth; nivel más somero elegido dinámicamente"
+      nivel_tipico_m: 0.494025
+      nota: "No se hardcodea el nivel: podría cambiar en una versión futura del producto"
+    consulta:
+      coordinates_selection_method: "no se usa 'nearest' (afectaría la dimensión tiempo)"
+    estados:
+      - enum_name: "VALIDA_EN_VENTANA"
+        serialized_value: "valida_en_ventana"
+      - enum_name: "VALIDA_CERCANA_EN_TIEMPO"
+        serialized_value: "valida_cercana_en_tiempo"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+    enum_class: "TemperatureStatus"
+    alcance: "Temperatura regional de referencia; NO es medición puntual ni in situ en Pucusana"
+    validacion_ejecutada:
+      - "Compilación"
+      - "Caso real dentro de ventana (4 muestras, cobertura 1.0, celda a 5.409 km)"
+      - "Caso real de fallback (1 muestra externa, offset 1.0 h, cobertura None)"
+      - "Suite sintética 10/10"
+    pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
 
   oleaje:
-    role: B
-    source: "CMEMS (modelo de oleaje)"
-    resolution_km: 8.9
-    available: "modelo/reanálisis — ~100% disponible"
-    varies_in_time: true
-    varies_in_space: false  # uso como filtro de seguridad, no de ranking
-    predictively_valid: "N/A — no es una variable de predicción de captura, es un filtro de seguridad"
+    descripcion: "Altura de ola significativa; compuerta de seguridad, no variable de ranking"
+    intended_role: safety_gate
+    implementation_status: implementada_sin_reauditar
+    scoring_status: fuera_del_ranking
+    predictively_valid: "N/A"
+    profile: pendiente_de_definir
+    modulo: "ingestion/fetch_waves.py"
+    tests: null
+    motivo_sin_reauditar: >
+      No cumple aún la definición de implementada_validada_tecnicamente. Ver
+      deudas_protocolo.
+    deudas_protocolo:
+      - "No existe tests/test_fetch_waves.py: las verificaciones realizadas fueron manuales y puntuales, no una suite sintética reproducible"
+      - "WaveReading lleva data_scope y scope_warning, pero NO lleva dataset_id ni variable en el resultado; no cumple todavía la convención de procedencia para lectura cruda"
+    dataset_id: "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i"
+    variable: "VHM0"
+    cadencia: "instantánea cada 3 horas"
+    resolucion_km: 8.9
+    agregacion: "MÁXIMO dentro de la ventana (no promedio): importa el peor momento, no el típico"
+    limites_propios:
+      nota: >
+        Los límites de este módulo (distancia máxima de celda y umbral de
+        altura) NO derivan del perfil de la familia PT6H: fueron fijados para
+        este producto y siguen marcados como provisionales en el código.
+    estados:
+      - enum_name: "BAJO_UMBRAL_REGIONAL"
+        serialized_value: "bajo_umbral_regional"
+      - enum_name: "SOBRE_UMBRAL_REGIONAL"
+        serialized_value: "sobre_umbral_regional"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+    enum_class: "WaveStatus"
+    alcance: "Oleaje regional de referencia; NO es medición puntual costera ni autorización de salida"
+    nota_critica: >
+      Queda expresamente FUERA del ranking pesquero. BAJO_UMBRAL_REGIONAL no
+      constituye autorización operativa: el umbral es provisional y no está
+      validado por la asesoría oceanográfica. Pendiente: fuente costera fina
+      u observación local para seguridad exacta.
+
+  clorofila:
+    descripcion: "Concentración de clorofila-a superficial, esquema híbrido de dos fuentes"
+    intended_role: A
+    implementation_status: implementada_sin_reauditar
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    modulo: "ingestion/fetch_chlorophyll.py"
+    tests: null
+    fuentes:
+      primaria: "OLCI 300 m (Sentinel-3, óptico)"
+      fallback: "Multi-sensor 4 km gap-free"
+    resolucion_km_primaria: 0.3
+    resolucion_km_fallback: 4.0
+    regla_hibrida: >
+      Se intenta primero 300 m por punto; si el píxel viene enmascarado por
+      nubes, se cae a 4 km PARA ESE PUNTO. Obligatorio declarar `source` por
+      lectura ("300m" | "4km_gapfree"): nunca fallback silencioso. Si >80% de
+      los puntos del día caen a 4 km, emitir alerta de cobertura del día.
+    nota_climatica: >
+      Pucusana está en la franja de garúa costera (may-nov, pico jun-sep);
+      los huecos del producto óptico son esperables y frecuentes en esos meses.
+    deudas_protocolo:
+      - "No existe todavía una suite sintética reproducible para este módulo"
+      - "ChlorophyllReading no transporta dataset_id, variable, data_scope ni scope_warning (sus campos actuales son lat, lon, date, value_mg_m3, source y source_age_days), por lo que NO cumple actualmente la convención de procedencia para lecturas crudas"
+      - "Su perfil técnico —selección espacial, límites propios, tratamiento temporal y cobertura— está pendiente de definir y auditar"
+      - "No hereda ninguna regla ni límite del perfil físico PT6H"
+
+  # -------------------------------------------------------------------
+  # SIGUIENTE MÓDULO
+  # -------------------------------------------------------------------
+
+  salinidad:
+    descripcion: "Salinidad en el nivel superficial disponible"
+    intended_role: A
+    implementation_status: pendiente_siguiente
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: fetcher_puntual_phy_0083deg_pt6h
+    profile_estado: "CANDIDATO — a confirmar cuando se implemente y diagnostique"
+    prioridad_cientifica: "muy alta"
+    respaldo_cientifico: >
+      Literatura vincula la distribución de anchoveta a temperatura, salinidad
+      y oxígeno de forma conjunta. Contexto bibliográfico ÚNICAMENTE: no se
+      implementan umbrales ni clasificaciones en el módulo de ingesta.
+    candidate_dataset_id: "cmems_mod_glo_phy-so_anfc_0.083deg_PT6H-i"
+    verificacion_oficial: "PENDIENTE — no confirmado todavía bajo el protocolo de diagnóstico"
+    variable_esperada: "so"
+    resolucion_km_esperada: 8.9
+    nota: "Misma familia de producto que sst; se espera poder reutilizar el mismo patrón"
+
+  # -------------------------------------------------------------------
+  # CANDIDATAS / PLANIFICADAS — todas inactivas en scoring
+  # -------------------------------------------------------------------
+
+  sst_observed_ostia:
+    descripcion: "SST observada L4 gap-free (OSTIA), como alternativa observacional a la SST de modelo"
+    intended_role: A
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    resolucion_km_referencia: 6.0
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+    proposito: >
+      Diagnóstico comparativo contra la SST de modelo ya implementada, para
+      decidir si mejora la representación costera. No sustituye a sst sin ese
+      diagnóstico.
     nota: >
-      DISEÑO FAIL-SAFE OBLIGATORIO (bug crítico encontrado en Costero):
-      si la descarga falla o no hay dato, el sistema DEBE reportar explícitamente
-      "sin datos" — nunca un valor por defecto que se vea como una lectura real.
-      Nunca fusionar "sin datos" y "condición calma" en el mismo estado de salida.
+      Producto L4 gap-free: el proveedor ya realiza relleno de huecos. Sus
+      límites espaciales y su tratamiento temporal deben definirse aparte; no
+      hereda el perfil PT6H.
+
+  sst_anomaly:
+    descripcion: "Anomalía de temperatura superficial respecto a climatología"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+
+  thermal_front:
+    descripcion: "Frente/gradiente térmico derivado por nosotros a partir de un producto de SST"
+    intended_role: A
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    modulo_previsto: "derive_thermal_front.py"
+    tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+    nota: >
+      NO reutilizar el producto de frentes de eddy de ~27 km ya rechazado.
+      Se deriva a partir de una fuente de mayor resolución, a evaluar. Al
+      operar sobre un campo espacial y no sobre una serie puntual, las reglas
+      de celda única y cobertura temporal del perfil PT6H no le aplican
+      literalmente.
+    fuente_candidata: "SST observada L4 (OSTIA) — pendiente de verificación oficial"
+
+  chlorophyll_front:
+    descripcion: "Frente/gradiente de clorofila"
+    intended_role: A
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    modulo_previsto: "derive_chlorophyll_front.py"
+    tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+    nota: >
+      Se evaluará si existe en el catálogo oficial un producto o variable de
+      gradiente de clorofila adecuado. Identificador, resolución y
+      disponibilidad pendientes de verificación.
+
+  temperature_10m:
+    descripcion: "Temperatura a ~10 m de profundidad"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    nota: >
+      Debe salir del MISMO producto y MISMO timestamp que sst. Mezclar fechas
+      entre superficie y profundidad fue un bug real encontrado en Costero.
+
+  temperature_50m:
+    descripcion: "Temperatura a ~50 m de profundidad"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    nota: "Mismo producto y mismo timestamp que sst; relevancia esperada para pota y jurel"
+
+  delta_sst_t10:
+    descripcion: "Diferencia SST menos temperatura a 10 m"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    nota: "Derivada; exige coherencia temporal estricta entre ambos niveles"
+
+  delta_sst_t50:
+    descripcion: "Diferencia SST menos temperatura a 50 m"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    nota: "Derivada; exige coherencia temporal estricta entre ambos niveles"
+
+  thermal_structure:
+    descripcion: "Estructura térmica vertical / termoclina"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    reemplaza_a: "gradiente_vertical (concepto agregado del esquema v1, ahora desglosado)"
+    nota: "Sin pesos ni umbrales definidos"
+
+  ssh:
+    descripcion: "Altura del nivel del mar (sea surface height)"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+    proposito: "Estructuras de mesoescala"
+
+  sla:
+    descripcion: "Anomalía del nivel del mar (sea level anomaly)"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+
+  surface_currents:
+    descripcion: "Corrientes superficiales"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+    nota_critica: >
+      NO es operativa ni admitida al scoring. Requiere primero diagnóstico de:
+      velocidad, dirección, persistencia, convergencia/divergencia y relación
+      con la costa. El valor esperado está en los features derivados, no en el
+      valor crudo de velocidad.
+    diagnostico_requerido:
+      - velocidad
+      - direccion
+      - persistencia
+      - convergencia_divergencia
+      - relacion_con_costa
+
+  current_convergence:
+    descripcion: "Convergencia/divergencia derivada del campo de corrientes"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    depende_de: "surface_currents"
+    tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+
+  mld:
+    descripcion: "Profundidad de la capa de mezcla (mixed layer depth)"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    dataset_id: null
+    verificacion_oficial: "PENDIENTE"
+
+  pft:
+    descripcion: "Tipos funcionales de fitoplancton"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    fase: "screening científico exploratorio"
+
+  kd490_zsd:
+    descripcion: "Coeficiente de atenuación difusa Kd490 / profundidad de disco de Secchi"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    fase: "screening científico exploratorio"
+
+  spm:
+    descripcion: "Material particulado en suspensión"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    fase: "screening científico exploratorio"
+
+  par:
+    descripcion: "Radiación fotosintéticamente activa"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    fase: "screening científico exploratorio"
+    clasificacion: "contexto específico — candidata para pota, no para scoring diario general"
+
+  # -------------------------------------------------------------------
+  # EXISTENTES CON ESTADO REVISADO
+  # -------------------------------------------------------------------
+
+  radar:
+    descripcion: "Retrodispersión radar (Sentinel-1, ALOS-2)"
+    intended_role: por_determinar
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    estado: "EXPERIMENTAL — no admitido automáticamente como A"
+    requisitos_previos_para_admision:
+      - "Demostrar relevancia científica (un gradiente genérico no es firma biológica única)"
+      - "Demostrar disponibilidad temporal suficiente (frecuencia de paso del satélite)"
+      - "Declarar y acotar la antigüedad de la imagen por punto"
+    nota: >
+      La retrodispersión puede responder a viento, calma, películas
+      superficiales, lluvia, tráfico o el borde tierra-mar, no solo a
+      estructuras de interés pesquero.
+
+  batimetria:
+    descripcion: "Batimetría (GEBCO)"
+    intended_role: structural_support
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    resolucion_m_real: 450
+    nota_temporal: "Producto ESTÁTICO: no tiene ventana horaria ni cobertura temporal"
+    nota_critica: >
+      Soporte estructural ESTÁTICO, no señal dinámica. No se afirma que la
+      profundidad directa prediga captura. Priorizar pendiente/curvatura
+      derivadas, y solo cuando el método esté documentado. Muestrear a una
+      escala más fina que la malla nativa no crea información real.
+
+  zonas_empiricas_pescadores:
+    descripcion: "Zonas conocidas por los pescadores del gremio"
+    intended_role: empirical_prior
+    implementation_status: no_implementada
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: pendiente_de_definir
+    riesgo_critico: >
+      VALIDACIÓN CIRCULAR: si estas zonas entran al modelo y luego se valida
+      pescando en esas mismas zonas, un acierto confirma el conocimiento previo
+      del pescador, no el aporte del modelo.
+    regla_obligatoria: >
+      Deben permanecer FUERA de los puntos de control independientes usados
+      para la validación de campo.
+
+# =====================================================================
+# BLOQUEADAS O RECHAZADAS
+# =====================================================================
+# Se documentan explícitamente para que no se reintroduzcan por olvido.
+rejected_or_blocked:
+
+  oxigeno_disuelto:
+    descripcion: "Oxígeno disuelto (producto biogeoquímico global)"
+    intended_role: rejected
+    implementation_status: bloqueada
+    scoring_status: no_admitida
+    predictively_valid: null
+    resolucion_km: 27.5
+    rechazo: "Bloqueado por resolución (~0.25°), mismo umbral aplicado a viento y eddies"
+    nota: >
+      Científicamente muy relevante para anchoveta y jurel. El bloqueo es de
+      resolución, no de relevancia: revisable si aparece un producto más fino.
+
+  npp_diario_global:
+    descripcion: "Producción primaria neta diaria (modelo biogeoquímico global)"
+    intended_role: rejected
+    implementation_status: bloqueada
+    scoring_status: no_admitida
+    predictively_valid: null
+    resolucion_km: 27.5
+    rechazo: "Rechazado para scoring litoral diario por resolución (~0.25°)"
+    nota: >
+      Evaluar por separado, sin comprometer nada aún, si una versión de Ocean
+      Colour a 4 km (aunque mensual) sirve como CONTEXTO ESTACIONAL LENTO, no
+      como variable diaria de scoring, y únicamente cuando se valide.
+
+  viento_era5:
+    descripcion: "Viento (ERA5)"
+    intended_role: rejected
+    implementation_status: bloqueada
+    scoring_status: no_admitida
+    predictively_valid: null
+    resolucion_km: 28.0
+    rechazo: "Rechazado por resolución (~0.25°), insuficiente para la escala litoral"
+    nota: "En el esquema v1 figuraba como role B; el estudio posterior decidió no reactivarlo"
+
+  frentes_eddy_altimetria:
+    descripcion: "Frentes de eddy derivados de altimetría estándar (SSH/DUACS)"
+    intended_role: rejected
+    implementation_status: bloqueada
+    scoring_status: no_admitida
+    predictively_valid: null
+    resolucion_km: 27.0
+    rechazo: "Rechazado por resolución (~0.25°), y resolución efectiva aún más gruesa por interpolación"
+    alternativa: "Derivar frentes por gradiente de SST o de clorofila (ver thermal_front / chlorophyll_front)"
