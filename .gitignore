@@ -1,0 +1,8 @@
+# Cachés de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Caché de pytest
+.pytest_cache/
