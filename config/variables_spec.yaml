@@ -206,11 +206,13 @@ profiles:
     aplica_a_hoy: ["sst"]
     aplica_a_candidato: ["salinidad"]
     no_aplica_a: >
-      Oleaje PT3H (otra cadencia y rol de seguridad), clorofila (otra
-      familia, resolución y regla híbrida), OSTIA, batimetría, radar, campos
-      espaciales y variables derivadas como frentes o gradientes. Cada uno
-      deberá definir posteriormente sus propios límites y su propio método
-      espacial.
+      Oleaje PT3H (otra cadencia y rol de seguridad), clorofila (producto L4
+      gap-free multifuente, resolución ~4 km y semántica temporal diaria; ver
+      fetcher_puntual_oceancolour_l4_gapfree_4km_p1d), OSTIA, batimetría,
+      radar, campos espaciales y variables derivadas como frentes o
+      gradientes. Ninguna de estas variables hereda este perfil: clorofila ya
+      usa su perfil propio y las restantes deberán definir sus propios límites
+      y su propio método espacial.
     reglas:
       ventana_horaria: >
         Se define en fecha y hora LOCAL de Pucusana y se convierte a UTC antes
@@ -240,6 +242,54 @@ profiles:
         criterio: "Mitad de la cadencia de 6 h de esta familia"
         alcance: "Justificado SOLO para esta familia de productos"
 
+  fetcher_puntual_oceancolour_l4_gapfree_4km_p1d:
+    descripcion: >
+      Fetcher PUNTUAL sobre el producto Ocean Colour L4 gap-free multifuente
+      de ~4 km con cadencia diaria (P1D). Entrega UNA lectura para un punto y
+      una fecha local solicitados, no una serie temporal ni un campo espacial.
+    aplica_a_hoy: ["clorofila"]
+    no_aplica_a: >
+      Ningún otro producto hereda estas reglas. Son propias de esta familia
+      Ocean Colour L4 gap-free, de su grilla de ~4 km y de su cadencia diaria:
+      no se aplican a la familia física PT6H, ni al producto de oleaje PT3H,
+      ni a productos observacionales L3, ni a campos espaciales o variables
+      derivadas. Cada producto debe declarar sus propios límites y su propio
+      método de selección.
+    reglas:
+      fuente_unica: >
+        Se consulta un solo dataset. No hay fuente primaria ni secundaria, no
+        hay conmutación entre productos y no hay respaldo alternativo: si este
+        producto no ofrece un dato admisible, el resultado es SIN_DATOS.
+      conversion_temporal: >
+        Los timestamps nativos son de 00:00 UTC y corresponden a las 19:00
+        hora local de Pucusana del día ANTERIOR. Todo timestamp se convierte a
+        America/Lima ANTES de asociarlo a una fecha local; la fecha UTC nunca
+        se usa como fecha local.
+      seleccion_del_instante: >
+        La referencia es 23:59:59 de la fecha local solicitada. Nunca se usan
+        observaciones posteriores a ese final local. Entre los instantes que
+        tengan alguna celda válida y admisible se elige el MÁS RECIENTE.
+      seleccion_espacial: >
+        Del recuadro consultado se descartan las celdas NaN y las que superen
+        la distancia máxima aceptable; entre las restantes se toma la MÁS
+        CERCANA al punto solicitado, con desempate determinista por menor
+        latitud y luego menor longitud. No se toma máximo espacial ni
+        promedio.
+      sin_relleno_anadido: >
+        PredictaMAR no interpola, no promedia y no rellena huecos. El producto
+        de origen es L4 gap-free y ya incorpora relleno del proveedor, pero
+        sobre esa salida no se añade ninguna capa adicional: cada valor
+        entregado es nativo del producto.
+      max_temporal_age_hours:
+        valor: 72.0
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+        criterio: "Cadencia diaria y latencia observada del producto NRT"
+        alcance: "Justificado SOLO para esta familia de productos"
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+        criterio: "Acorde a la grilla de ~4.5 km zonales en la latitud de Pucusana"
+        alcance: "Justificado SOLO para esta familia de productos"
   pendiente_de_definir:
     descripcion: >
       Marcador para variables cuyo perfil técnico (método espacial, límites,
@@ -373,37 +423,92 @@ variables:
       - "LIMITACIÓN del diagnóstico real: solo había UNA celda válida admisible dentro del límite, por lo que ese caso NO discrimina empíricamente entre el criterio conservador y el de mera cercanía; esa discriminación está cubierta únicamente por los tests sintéticos 3, 5 y 6"
 
   clorofila:
-    descripcion: "Concentración de clorofila-a superficial, esquema híbrido de dos fuentes"
+    descripcion: "Concentración de clorofila-a superficial, fuente única L4 gap-free multifuente"
     intended_role: A
-    implementation_status: implementada_sin_reauditar
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
+    profile: fetcher_puntual_oceancolour_l4_gapfree_4km_p1d
     modulo: "ingestion/fetch_chlorophyll.py"
-    tests: null
-    fuentes:
-      primaria: "OLCI 300 m (Sentinel-3, óptico)"
-      fallback: "Multi-sensor 4 km gap-free"
-    resolucion_km_primaria: 0.3
-    resolucion_km_fallback: 4.0
-    regla_hibrida: >
-      Se intenta primero 300 m por punto; si el píxel viene enmascarado por
-      nubes, se cae a 4 km PARA ESE PUNTO. Obligatorio declarar `source` por
-      lectura ("300m" | "4km_gapfree"): nunca fallback silencioso. Si >80% de
-      los puntos del día caen a 4 km, emitir alerta de cobertura del día.
-    nota_climatica: >
-      Pucusana está en la franja de garúa costera (may-nov, pico jun-sep);
-      los huecos del producto óptico son esperables y frecuentes en esos meses.
-    deudas_protocolo:
-      - "No existe todavía una suite sintética reproducible para este módulo"
-      - "ChlorophyllReading no transporta dataset_id, variable, data_scope ni scope_warning (sus campos actuales son lat, lon, date, value_mg_m3, source y source_age_days), por lo que NO cumple actualmente la convención de procedencia para lecturas crudas"
-      - "Su perfil técnico —selección espacial, límites propios, tratamiento temporal y cobertura— está pendiente de definir y auditar"
-      - "No hereda ninguna regla ni límite del perfil físico PT6H"
-
-  # -------------------------------------------------------------------
-  # SEGUNDA VARIABLE DEL PERFIL PT6H — validada técnicamente
-  # -------------------------------------------------------------------
-
+    tests: "tests/test_fetch_chlorophyll.py (18 casos sintéticos)"
+    producto:
+      product_id: "OCEANCOLOUR_GLO_BGC_L4_NRT_009_102"
+      version: "202311"
+      parte: "default"
+    dataset_id: "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D"
+    variable: "CHL"
+    standard_name: "mass_concentration_of_chlorophyll_a_in_sea_water"
+    units: "milligram m-3"
+    nota_unidad: >
+      Unidad nativa del producto. Se conserva y se transporta tal cual en cada
+      lectura: no se convierte a otra escala.
+    cadencia: "diaria (P1D), timestamps nativos a las 00:00 UTC"
+    nota_cadencia: >
+      Un timestamp de 00:00 UTC corresponde a las 19:00 hora local de Pucusana
+      del día ANTERIOR. La asociación con una fecha local se hace siempre tras
+      convertir a America/Lima, nunca sobre la fecha UTC.
+    resolucion_km: 4.5289
+    nota_resolucion: "Resolución zonal calculada en la latitud de Pucusana desde el paso de longitud declarado"
+    naturaleza_del_producto: >
+      L4 gap-free multifuente es un producto PROCESADO por el proveedor, que ya
+      aplica combinación de sensores y relleno de huecos. NO es una medición
+      puntual ni in situ en Pucusana. PredictaMAR no añade ninguna capa
+      adicional de relleno: cada valor entregado es nativo del producto.
+    seleccion_de_fuente:
+      motivo: "CONTINUIDAD OPERATIVA, no validez predictiva"
+      nota: >
+        No existe evidencia de campo de que este producto mejore la predicción.
+        Se eligió por disponibilidad temporal, no por desempeño demostrado.
+      diagnostico_comparativo_real:
+        periodo: "2026-08-07 a 2026-08-14, punto de referencia de Pucusana"
+        l3_multi_4km: "cobertura temporal 50.0%"
+        l3_olci_4km: "cobertura temporal 16.7%"
+        l4_gapfree_multi_4km: "cobertura temporal 100.0%"
+      fuente_unica: true
+      nota_fuente_unica: >
+        El catálogo oficial no expone ninguna alternativa global activa de
+        mayor resolución que cubra Pucusana. Este módulo consulta un solo
+        producto: no hay segunda fuente ni conmutación entre productos.
+    semantica_temporal:
+      referencia: "23:59:59 de la fecha local solicitada en America/Lima"
+      ventana: "retrospectiva, cubre la antigüedad permitida y la cadencia diaria"
+      regla: >
+        Nunca se usan observaciones posteriores al final local solicitado.
+        Entre los instantes con celda válida y admisible se prefiere el MÁS
+        RECIENTE. No se interpola en el tiempo, no se rellenan fechas y no se
+        fabrican valores.
+    seleccion_espacial: >
+      De las celdas del recuadro consultado se descartan las NaN y las que
+      superen la distancia máxima aceptable; entre las restantes se toma la MÁS
+      CERCANA, con desempate determinista por menor latitud y luego menor
+      longitud. No se toma máximo espacial ni promedio: es una lectura
+      ambiental puntual de referencia, no una compuerta de seguridad.
+    limites_propios:
+      max_temporal_age_hours:
+        valor: 72.0
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+      nota: >
+        Ambos límites son propios de este producto y de su grilla y cadencia.
+        NO se heredan del perfil físico PT6H ni de ningún otro módulo.
+    estados:
+      - enum_name: "VALIDA_EN_FECHA_LOCAL"
+        serialized_value: "valida_en_fecha_local"
+      - enum_name: "VALIDA_RECIENTE"
+        serialized_value: "valida_reciente"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+    enum_class: "ChlorophyllStatus"
+    alcance: "Clorofila-a regional de referencia; NO es medición puntual ni in situ en Pucusana"
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 18/18"
+      - "Regresión conjunta 61/61 (10 temperatura + 15 salinidad + 18 oleaje + 18 clorofila), sin acceso a Copernicus"
+      - "Diagnóstico real comparativo de tres candidatos (2026-08-07 a 2026-08-14): L3 multi 50.0%, L3 OLCI 16.7%, L4 gap-free 100.0%; unidades coincidentes; sin ERROR"
+      - "Diagnóstico real del L4 seleccionado: 18 valores válidos y 18 NaN costeros en el recuadro; los NaN de tierra no se sustituyen; último dato observado 2026-08-12 19:00 local"
+    pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
   salinidad:
     descripcion: "Salinidad en el nivel superficial disponible"
     intended_role: A
