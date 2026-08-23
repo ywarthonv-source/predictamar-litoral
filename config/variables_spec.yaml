@@ -208,11 +208,14 @@ profiles:
     no_aplica_a: >
       Oleaje PT3H (otra cadencia y rol de seguridad), clorofila (producto L4
       gap-free multifuente, resolución ~4 km y semántica temporal diaria; ver
-      fetcher_puntual_oceancolour_l4_gapfree_4km_p1d), OSTIA, batimetría,
-      radar, campos espaciales y variables derivadas como frentes o
-      gradientes. Ninguna de estas variables hereda este perfil: clorofila ya
-      usa su perfil propio y las restantes deberán definir sus propios límites
-      y su propio método espacial.
+      fetcher_puntual_oceancolour_l4_gapfree_4km_p1d), surface_currents
+      (misma familia, resolución y cadencia, pero VECTORIAL: usa
+      fetcher_puntual_vectorial_phy_0083deg_pt6h, con emparejamiento
+      estricto de componentes y selección de celda por instante), OSTIA,
+      batimetría, radar, campos espaciales y variables derivadas como frentes
+      o gradientes. Ninguna de estas variables hereda este perfil: cada una
+      usa el suyo o deberá definir sus propios límites y su propio método
+      espacial.
     reglas:
       ventana_horaria: >
         Se define en fecha y hora LOCAL de Pucusana y se convierte a UTC antes
@@ -290,6 +293,77 @@ profiles:
         estado: "PROVISIONAL — pendiente de validación oceanográfica"
         criterio: "Acorde a la grilla de ~4.5 km zonales en la latitud de Pucusana"
         alcance: "Justificado SOLO para esta familia de productos"
+  fetcher_puntual_vectorial_phy_0083deg_pt6h:
+    descripcion: >
+      Fetcher PUNTUAL VECTORIAL sobre la familia física de Copernicus a
+      0.083° con cadencia instantánea de 6 h. A diferencia del perfil escalar
+      de la misma familia, aquí el dato es un VECTOR de dos componentes
+      nativas (este y norte) que deben leerse juntas: una celda solo es
+      válida si ambas lo son en el mismo instante, profundidad y coordenada.
+    aplica_a_hoy: ["surface_currents"]
+    no_aplica_a: >
+      No lo heredan las variables escalares. sst y salinidad usan
+      fetcher_puntual_phy_0083deg_pt6h aunque compartan familia, resolución y
+      cadencia: su regla de celda única para toda la serie y su fallback
+      temporal fuera de ventana no aplican aquí. Tampoco lo heredan oleaje,
+      clorofila, campos espaciales ni variables derivadas.
+    reglas:
+      lectura_vectorial_estricta: >
+        Las dos componentes se solicitan JUNTAS en la misma consulta. Una
+        celda con una componente válida y la otra en NaN se descarta por
+        completo: medio vector no es un vector, y tomar la componente ausente
+        como cero fabricaría una dirección que nadie midió.
+      ejes_comunes: >
+        Instantes, latitudes y longitudes se cruzan explícitamente entre las
+        dos componentes. Una etiqueta presente en una y ausente en la otra
+        descarta SOLO esa celda o ese instante, nunca el día entero ni por la
+        vía del manejador general de excepciones.
+      ventana_horaria: >
+        Se define en fecha y hora LOCAL de Pucusana y se convierte a UTC. Los
+        cuatro instantes nativos caen en 01:00, 07:00, 13:00 y 19:00 local;
+        el de las 19:00 corresponde a las 00:00 UTC del día siguiente.
+      version_y_parte_explicitas: >
+        La versión y la parte se pasan explícitamente a la consulta, para que
+        lo documentado y lo abierto no puedan divergir.
+      profundidad: >
+        Se consulta con maximum_depth y SIN minimum_depth, y se toma el nivel
+        más somero COMÚN a ambas componentes, elegido dinámicamente. No se
+        hardcodea ninguna profundidad.
+      seleccion_espacial: >
+        Por cada instante se toma la celda MÁS CERCANA con par completo
+        dentro del límite de distancia, con desempate determinista por menor
+        distancia, luego menor latitud y luego menor longitud. Si la más
+        cercana tiene el par incompleto, la siguiente completa ocupa su
+        lugar.
+      seleccion_por_instante: >
+        La celda se elige POR INSTANTE, no una sola para toda la serie. Es
+        una diferencia deliberada respecto del perfil escalar y debe tenerse
+        en cuenta al derivar features de persistencia: la serie puede cambiar
+        de celda entre instantes, y cada medición declara la suya.
+      cobertura_esperada_dinamica: >
+        Los instantes ESPERADOS se calculan desde la ventana solicitada, no
+        son un número fijo: un día completo espera cuatro y una ventana 00-06
+        espera uno. Así, los timestamps que el producto no devuelve también
+        cuentan como ausentes, no solo los devueltos con el par incompleto.
+      cobertura_sin_relleno: >
+        Los instantes sin par admisible se reportan como cobertura
+        incompleta. No se interpola, no se promedia, no se rellenan
+        timestamps y no se fabrica cero.
+      derivadas_declaradas: >
+        speed = sqrt(uo^2 + vo^2) y direction_toward = degrees(atan2(uo, vo))
+        mod 360 son transformaciones algebraicas exactas de dos valores
+        nativos de la misma celda e instante, no interpolaciones. La
+        dirección es hacia la que FLUYE el agua, en grados desde el norte y
+        en sentido horario (convención oceanográfica). En un VECTOR NULO la
+        dirección es null, no 0 grados: atan2(0,0) devolvería 0.0, que se
+        leería como "hacia el norte", y eso sería fabricar una orientación.
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+        alcance: "Justificado SOLO para esta familia de productos"
+      surface_search_max_depth_m:
+        valor: 5.0
+        estado: "Techo de la banda superficial de búsqueda, no un nivel fijo"
   pendiente_de_definir:
     descripcion: >
       Marcador para variables cuyo perfil técnico (método espacial, límites,
@@ -717,7 +791,117 @@ variables:
       - persistencia
       - convergencia_divergencia
       - relacion_con_costa
-
+  surface_currents:
+    descripcion: "Corrientes superficiales; vector de dos componentes nativas (este y norte)"
+    intended_role: A
+    implementation_status: implementada_validada_tecnicamente
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: fetcher_puntual_vectorial_phy_0083deg_pt6h
+    modulo: "ingestion/fetch_currents.py"
+    tests: "tests/test_fetch_currents.py (22 casos sintéticos)"
+    producto:
+      product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
+      version: "202406"
+      parte: "default"
+      released: "2024-06-18T13:00:00Z"
+      retired: null
+      estado: "activo"
+    dataset_id: "cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i"
+    variables_componentes:
+      este:
+        short_name: "uo"
+        standard_name: "eastward_sea_water_velocity"
+      norte:
+        short_name: "vo"
+        standard_name: "northward_sea_water_velocity"
+    units_componentes: "m s-1"
+    units_rapidez: "m s-1"
+    units_direccion: "degrees"
+    nota_unidades: >
+      Unidades nativas del producto. Se conservan y se transportan tal cual:
+      no se convierten a nudos ni a otra escala.
+    cadencia: "instantánea cada 6 horas (PT6H)"
+    instantes_locales_pucusana: ["01:00", "07:00", "13:00", "19:00"]
+    resolucion_km: 9.0578
+    nota_resolucion: "Resolución zonal calculada en la latitud de Pucusana desde el paso de longitud declarado (0.083333°)"
+    naturaleza_vectorial: >
+      uo y vo son las dos componentes de un mismo vector. Una celda solo es
+      válida si AMBAS lo son en el mismo instante, profundidad y coordenada.
+      Un par incompleto se descarta: no se completa la componente ausente con
+      cero ni con ningún otro valor.
+    derivadas:
+      rapidez: "sqrt(uo^2 + vo^2)"
+      direccion: "degrees(atan2(uo, vo)) mod 360"
+      vector_nulo: >
+        Si uo y vo son exactamente cero, la rapidez es 0.0 y la dirección es
+        null, NO 0 grados: un vector de módulo nulo no apunta al norte, no
+        tiene dirección.
+      convencion_direccion: >
+        Dirección HACIA LA QUE FLUYE el agua, en grados desde el norte y en
+        sentido horario. La convención meteorológica es la contraria;
+        confundirlas invierte el resultado 180 grados.
+      nota: >
+        Ambas son transformaciones algebraicas exactas de dos valores nativos
+        de la misma celda e instante, no interpolaciones ni mediciones
+        independientes.
+    cobertura:
+      expected_instants: >
+        Calculado desde la ventana solicitada, no fijo: un día completo
+        espera cuatro instantes y una ventana 00-06 espera uno.
+      n_missing_measurements: >
+        max(0, expected_instants - n_measurements). Cuenta también los
+        timestamps que el producto no devuelve, no solo los devueltos con el
+        par incompleto. Se aplica igual sin timestamps, sin profundidad común
+        y tras una excepción.
+      ejes_comunes: >
+        Un desajuste de ejes entre uo y vo descarta solo la celda o el
+        instante afectado, nunca el día completo.
+    profundidad:
+      estrategia: "maximum_depth=5.0 sin minimum_depth; nivel más somero COMÚN a ambas componentes, elegido dinámicamente"
+      nivel_observado_m: 0.49402499198913574
+      nota: "No se hardcodea el nivel: se toma el que devuelva el producto en la banda superficial"
+    limites_propios:
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+      nota: >
+        Límite provisional propio de este producto. Cualquier interpretación
+        pesquera de estas lecturas es igualmente provisional: esta
+        integración no ejecuta el paso 8 ni demuestra validez predictiva.
+    estados:
+      - enum_name: "VALIDA_EN_VENTANA"
+        serialized_value: "valida_en_ventana"
+        criterio: "n_measurements >= 1 y n_measurements >= expected_instants; expected_instants depende de la ventana solicitada y no es un número fijo"
+      - enum_name: "COBERTURA_PARCIAL"
+        serialized_value: "cobertura_parcial"
+        criterio: "0 < n_measurements < expected_instants; las mediciones ausentes NO se completan"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+        criterio: "n_measurements == 0; NO significa calma ni corriente cero"
+    enum_class: "CurrentStatus"
+    alcance: "Corrientes superficiales regionales de referencia; NO es medición puntual ni in situ en Pucusana"
+    aporte_y_limite: >
+      Aporta el eje de TRANSPORTE, que ni SST, ni salinidad, ni clorofila
+      transportan. El valor ecológico esperado está en los features DERIVADOS
+      (persistencia, convergencia/divergencia, relación con la costa), no en
+      la velocidad cruda: este módulo es el sustrato para calcularlos, no el
+      resultado ecológico.
+    diagnostico_pendiente_para_derivadas:
+      - persistencia
+      - convergencia_divergencia
+      - relacion_con_costa
+    nota_diagnostico_pendiente: >
+      Velocidad y dirección ya se ingieren con procedencia completa. Los tres
+      diagnósticos anteriores siguen pendientes y son los que deben sustentar
+      cualquier uso ecológico.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 22/22"
+      - "Regresión conjunta 83/83 (10 temperatura + 15 salinidad + 18 oleaje + 18 clorofila + 22 corrientes), sin acceso a Copernicus"
+      - "Verificación de catálogo: dataset activo, versión 202406, parte default, componentes uo/vo confirmadas por standard_name, servicio de metadatos arco-geo-series/zarr con puntuación 10/10, cobertura de Pucusana confirmada"
+      - "Diagnóstico real (2026-08-16, ventana local 00:00-23:59 = UTC 2026-08-16 05:00 a 2026-08-17 04:59:59): cuatro instantes válidos en 01:00, 07:00, 13:00 y 19:00 local; dos celdas dentro del límite; celda más cercana (-12.5, -76.75) a 5.408949 km; los cuatro instantes con par uo/vo completo; nivel más somero observado 0.49402499198913574 m"
+    pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
   current_convergence:
     descripcion: "Convergencia/divergencia derivada del campo de corrientes"
     intended_role: por_determinar
