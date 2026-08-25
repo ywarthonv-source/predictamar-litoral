@@ -364,6 +364,88 @@ profiles:
       surface_search_max_depth_m:
         valor: 5.0
         estado: "Techo de la banda superficial de búsqueda, no un nivel fijo"
+  fetcher_puntual_estatico_gebco_15arcsec:
+    descripcion: >
+      Fetcher PUNTUAL ESTÁTICO sobre la grilla global GEBCO_2026 de 15 segundos
+      de arco, registrada al centro del píxel y servida por OPeNDAP desde el
+      CEDA del NERC. El fondo marino no tiene cadencia: este perfil no define
+      ventana temporal, ni instantes esperados, ni antigüedad máxima, ni
+      fallback de tiempo. Combina DOS recursos de la misma geometría -- la
+      elevación y la grilla Type Identifier (TID) -- que deben leerse alineados
+      celda a celda.
+    aplica_a_hoy: ["batimetria"]
+    no_aplica_a: >
+      Ningún producto dinámico hereda este perfil. sst, salinidad y
+      surface_currents pertenecen a la familia física de Copernicus y tienen
+      cadencia; oleaje es una compuerta de seguridad PT3H; clorofila es un L4
+      diario. Ninguno comparte con este perfil ni la geometría, ni el proveedor,
+      ni la ausencia de tiempo. A la inversa, este perfil NO hereda de ellos el
+            límite de 6.5 km, que sería absurdo sobre una grilla unas veinte veces
+      más fina por eje (unas cuatrocientas veces menor en área de celda)..
+    reglas:
+      naturaleza_estatica: >
+        La API pública recibe únicamente latitud y longitud. No existe fecha,
+        ventana horaria ni conversión a hora local de Pucusana.
+      recuadro_minimo: >
+        Se solicita solo ±2.5 celdas alrededor del punto (unas 5x5 celdas
+        nativas), suficiente para buscar la celda oceánica más cercana y sus
+        cuatro vecinos cardinales. La grilla completa (43200 x 86400 celdas)
+        NUNCA se materializa.
+      cierre_de_conexiones: >
+        Ambos recursos OPeNDAP se abren como context managers, se recorta, se
+        cargan en memoria únicamente esos dos recortes y se cierran antes de
+        devolverlos. No queda ninguna conexión remota abierta por llamada.
+      alineacion_verificada_en_ejecucion: >
+        Antes de combinar elevación y TID se comprueba que ambos declaren las
+        dimensiones (lat, lon) EN ESE ORDEN, la misma forma y las mismas
+        coordenadas valor a valor. Un TID transpuesto declara los mismos ejes
+        con los mismos valores, de modo que comparar solo las coordenadas lo
+        dejaría pasar y asignaría la procedencia a la celda equivocada. Ante
+        cualquier desalineación se registra con traza y se devuelve SIN_DATOS.
+      celda_oceanica: >
+        Una celda es oceánica solo si su elevación es finita y ESTRICTAMENTE
+        negativa. El cero NO es mar: en GEBCO corresponde a línea de costa o
+        tierra a nivel del mar, y tratarlo como profundidad cero convertiría
+        tierra en un fondeadero de 0 m.
+      seleccion_espacial: >
+        Se elige la celda oceánica válida MÁS CERCANA dentro del vecindario
+        nativo inmediato -- distancia de índice 1 respecto de la celda
+        geométricamente más próxima -- con desempate determinista por menor
+        distancia, luego menor latitud y luego menor longitud. No se interpola,
+        no se rellena, no se promedia y no se fabrican valores.
+      limite_espacial_derivado: >
+        El límite NO es una distancia heredada sino el propio vecindario
+        nativo. En la latitud de Pucusana la celda mide ~452.4 m en longitud y
+        ~463.3 m en latitud (diagonal ~647.5 m), de modo que la distancia
+        máxima posible queda por debajo de 1 km. Cada lectura declara su
+        distancia real en metros.
+      pendiente_condicionada: >
+        La pendiente se calcula SOLO por diferencias centradas con los cuatro
+        vecinos cardinales, todos oceánicos y válidos, y con distancias
+        métricas reales entre los centros de celda. Si falta uno, el resultado
+        es null con motivo explícito: NO se recurre a una diferencia lateral,
+        porque desplazaría el punto de cálculo y sesgaría la serie costera
+        siempre en la misma dirección, de forma invisible.
+      curvatura_no_implementada: >
+        Deliberadamente ausente. Falta acordar la definición (laplaciana,
+        media, gaussiana, de perfil o de planta) y observar antes el TID real.
+        Una segunda derivada sobre una superficie posiblemente interpolada
+        amplificaría el artefacto de interpolación. No se devuelve cero: un
+        cero se leería como fondo plano.
+      procedencia_tid_dinamica: >
+        El significado de cada código TID se lee dinámicamente de los atributos
+        flag_values y flag_meanings del propio archivo. No se mantiene una
+        tabla duplicada en el código, que podría divergir de la fuente y
+        convertirse en una verdad paralela. La AGRUPACIÓN por rangos sí es
+        política declarada del proyecto.
+      errores: >
+        Los argumentos inválidos se validan ANTES de tocar la red y propagan
+        ValueError. Los fallos de red, OPeNDAP, esquema o datos se registran
+        con logger.exception y producen SIN_DATOS, sin credenciales ni
+        información sensible.
+    dependencias_python:
+      - "pydap==3.5.10"
+      - "dask[array]==2026.7.1"
   pendiente_de_definir:
     descripcion: >
       Marcador para variables cuyo perfil técnico (método espacial, límites,
@@ -981,20 +1063,135 @@ variables:
       estructuras de interés pesquero.
 
   batimetria:
-    descripcion: "Batimetría (GEBCO)"
+    descripcion: "Batimetría y pendiente del fondo; soporte estructural estático"
     intended_role: structural_support
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
-    resolucion_m_real: 450
-    nota_temporal: "Producto ESTÁTICO: no tiene ventana horaria ni cobertura temporal"
-    nota_critica: >
-      Soporte estructural ESTÁTICO, no señal dinámica. No se afirma que la
-      profundidad directa prediga captura. Priorizar pendiente/curvatura
-      derivadas, y solo cuando el método esté documentado. Muestrear a una
-      escala más fina que la malla nativa no crea información real.
-
+    profile: fetcher_puntual_estatico_gebco_15arcsec
+    modulo: "ingestion/fetch_bathymetry.py"
+    tests: "tests/test_fetch_bathymetry.py (22 casos sintéticos)"
+    producto:
+      nombre: "GEBCO_2026 Grid"
+      version: "2026"
+      doi: "10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa"
+      released: "2026-04-23"
+      distribuidor: "CEDA (NERC), acceso OPeNDAP"
+    endpoints:
+      elevacion: "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/ice_surface_elevation/netcdf/GEBCO_2026.nc"
+      tid: "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/type_identifier_grid/netcdf/gebco_2026_tid.nc"
+      motor: "pydap"
+    variables_fuente:
+      elevacion:
+        variable: "elevation"
+        units: "m"
+        convencion_signo: "negativa bajo el mar, positiva en tierra; se conserva nativa"
+      tid:
+        variable: "tid"
+        fill_value: 127
+    coordenadas: ["lat", "lon"]
+    resolucion_nominal: "15 arc-seconds (1/240 grado), registro al centro del pixel"
+    resolucion_metrica_pucusana:
+      dx_m: 452.4
+      dy_m: 463.3
+      diagonal_m: 647.5
+      nota: >
+        Calculada en la latitud de Pucusana. La grilla de 15 segundos de arco
+        es unas veinte veces más fina por eje que la grilla física de 0.0833°
+        (unas cuatrocientas veces menor en área de celda), por lo que puede
+        diferenciar múltiples celdas dentro del alcance operativo de 0-10 km.
+    seleccion_celda_oceanica: >
+      Celda oceánica válida más cercana dentro del vecindario nativo inmediato
+      (distancia de índice 1). Oceánica significa elevación finita y
+      ESTRICTAMENTE negativa: el cero no es mar y tierra nunca se trata como
+      profundidad cero. Desempate determinista por distancia, latitud y
+      longitud. Sin interpolación, relleno, promedio ni valores fabricados.
+    limite_espacial: >
+      No hereda los 6.5 km de los productos PT6H. El límite es el vecindario
+      nativo, que acota la distancia máxima por debajo de 1 km; cada lectura
+      declara su distancia real en metros.
+    derivados:
+      depth_m: "positiva, derivada solo cuando elevation_m < 0"
+      slope_deg: >
+        Diferencias centradas con los CUATRO vecinos cardinales, todos
+        oceánicos y válidos, y distancias métricas reales entre centros de
+        celda. Si falta un vecino es null con motivo explícito; nunca una
+        diferencia lateral silenciosa.
+      curvatura: "NO implementada; ver nota del perfil. No se devuelve cero."
+    procedencia_tid:
+      lectura: "dinámica desde flag_values y flag_meanings del propio archivo"
+      agrupacion:
+        directa: "10-17"
+        indirecta: "40-48"
+        mixta_desconocida: "70-72"
+        no_clasificado: >
+          Cualquier código fuera de los rangos anteriores, incluidos 0 (tierra)
+          y 127 (relleno). No se fuerzan a mixta_desconocida: clasificarlos sin
+          criterio inventaría una procedencia que la fuente no declara.
+      limitacion_observada:
+        descripcion: >
+          En GEBCO_2026 los atributos NO tienen la misma longitud: 21
+          flag_values frente a 19 flag_meanings. No existe correspondencia
+          posicional fiable.
+        flag_values: 21
+        flag_meanings: 19
+        tratamiento: >
+          No se empareja nada. Rellenar, truncar o adivinar el desfase
+          asignaría a un código un significado que el archivo no afirma, y ese
+          error sería invisible. tid_meaning queda en null y tid_meaning_source
+          declara el motivo. El código numérico y su grupo de procedencia se
+          conservan intactos.
+        motivo_declarado: "flag_values/flag_meanings_inconsistentes:21_valores_vs_19_significados"
+    estados:
+      - enum_name: "VALIDA"
+        serialized_value: "valida"
+        criterio: "existe celda oceánica válida en el vecindario nativo"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+        criterio: >
+          no hay celda oceánica, o fallaron la alineación, el proveedor o los
+          datos; nunca significa profundidad cero
+    enum_class: "BathymetryStatus"
+    enum_class_procedencia: "TidGroup"
+    alcance: >
+      Batimetría regional de referencia, ESTÁTICA; NO es medición in situ en
+      Pucusana, NO es apta para navegación, seguridad marítima ni autorización
+      de faena.
+    advertencias:
+      - "La resolución de la grilla NO equivale a la resolución real del levantamiento"
+      - "El datum vertical puede NO ser homogéneo en aguas someras"
+      - "El TID describe procedencia, no garantiza exactitud"
+      - "La pendiente es derivada, no una observación, y puede reflejar interpolación"
+      - "No participa en el scoring y no implica aptitud pesquera"
+    dependencias_python:
+      - "pydap==3.5.10"
+      - "dask[array]==2026.7.1"
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 22/22"
+      - "Regresión conjunta 105/105 (10 temperatura + 15 salinidad + 18 oleaje + 18 clorofila + 22 corrientes + 22 batimetría), sin acceso a red"
+      - "Compuerta de acceso oficial: endpoints OPeNDAP de CEDA con HTTP 200 en elevación y TID, dimensiones (43200, 86400) en ambos y ejes alineados"
+      - "Diagnóstico real en Pucusana: status=valida, depth_m=28.0, tid_code=40, tid_group=indirecta, tid_meaning=null con motivo flag_values/flag_meanings_inconsistentes:21_valores_vs_19_significados, slope_deg=null por vecinos_no_oceanicos_o_invalidos: este"
+    diagnostico_real:
+      punto: "Caleta Pucusana (-12.471, -76.790)"
+      status: "valida"
+      depth_m: 28.0
+      tid_code: 40
+      tid_group: "indirecta"
+      tid_meaning: null
+      tid_meaning_source: "flag_values/flag_meanings_inconsistentes:21_valores_vs_19_significados"
+      slope_deg: null
+      slope_unavailable_reason: "vecinos_no_oceanicos_o_invalidos: este"
+      lectura: >
+        La profundidad es válida y el código TID 40 cae en el grupo de
+        procedencia INDIRECTA definido por la política de rangos del proyecto.
+        El significado fuente exacto del código no puede determinarse porque
+        GEBCO_2026 declara 21 flag_values y solo 19 flag_meanings; por eso no se
+        afirma si corresponde específicamente a interpolación, predicción u
+        otro método. La pendiente no es calculable porque el vecino ESTE no es
+        oceánico o es inválido. Esta limitación se declara en vez de sustituirla
+        por una diferencia lateral.
+    pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
   zonas_empiricas_pescadores:
     descripcion: "Zonas conocidas por los pescadores del gremio"
     intended_role: empirical_prior
