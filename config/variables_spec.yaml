@@ -25,7 +25,7 @@ schema_version: 2
 meta:
   proyecto: "PredictaMAR Litoral"
   area_operativa: "Pucusana (ver config/area.yaml)"
-  ultima_actualizacion: "2026-08-14"
+  ultima_actualizacion: "2026-08-27"
   nota: >
     Ninguna variable de este archivo tiene predictively_valid: true.
     No existe todavía validación predictiva independiente contra datos de
@@ -48,6 +48,7 @@ definitions:
 
   implementation_status:
     implementada_validada_tecnicamente: "Módulo existe, y ha pasado suite sintética Y diagnóstico real"
+    implementada_validada_sinteticamente: "Módulo existe y pasó su suite sintética; diagnóstico real todavía pendiente"
     implementada_sin_reauditar: "Módulo existe, pero no ha pasado el protocolo actual completo"
     pendiente_siguiente: "Próximo módulo a implementar"
     no_implementada: "No existe módulo en este repositorio"
@@ -293,6 +294,60 @@ profiles:
         estado: "PROVISIONAL — pendiente de validación oceanográfica"
         criterio: "Acorde a la grilla de ~4.5 km zonales en la latitud de Pucusana"
         alcance: "Justificado SOLO para esta familia de productos"
+
+  fetcher_campo_ostia_l4_005deg_p1d:
+    descripcion: >
+      Fetcher de CAMPO ESPACIAL sobre OSTIA L4 diario gap-free a 0.05°.
+      Devuelve una grilla para un recuadro técnico explícito, no una lectura
+      puntual y no una geometría operativa de pesca.
+    aplica_a_hoy: ["sst_observed_ostia"]
+    no_aplica_a: >
+      No lo heredan la SST de modelo PT6H, clorofila, oleaje ni ningún fetcher
+      puntual. thermal_front consume su salida, pero usa un perfil derivado
+      propio y nunca se presenta como observación nativa.
+    reglas:
+      fuente_unica:
+        producto: "SST_GLO_SST_L4_NRT_OBSERVATIONS_010_001"
+        dataset_id: "METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2"
+        variables: ["analysed_sst", "analysis_error"]
+      campo_y_fecha_unicos: >
+        SST y error deben compartir exactamente timestamp, latitudes y
+        longitudes. No se alinean, interpolan ni combinan fechas distintas.
+      unidades: >
+        analysed_sst se conserva en kelvin y también se expone su conversión
+        exacta a grados Celsius. analysis_error permanece en kelvin.
+      temporalidad: >
+        Producto diario, media de 00:00 a 24:00 UTC centrada a las 12:00 UTC.
+        Se usa el campo más reciente no posterior al final de la fecha local,
+        con antigüedad máxima provisional de 72 horas.
+      faltantes_y_cobertura: >
+        Los NaN permanecen como faltantes. Se informan celdas totales, celdas
+        válidas y fracción de cobertura; PredictaMAR no añade relleno.
+      recuadro: >
+        Los límites geográficos son argumentos explícitos. No se derivan del
+        alcance 0–10 km ni lo redefinen.
+
+  derivada_gradiente_termico_ostia_v1:
+    descripcion: >
+      Gradiente espacial calculado por PredictaMAR sobre un único campo OSTIA.
+      Es una variable DERIVADA, no una observación nativa.
+    aplica_a_hoy: ["thermal_front"]
+    reglas:
+      fuente: "sst_observed_ostia, mismo campo y timestamp"
+      algoritmo: "finite_difference_haversine_v1"
+      formula: "sqrt((dT/dx)^2 + (dT/dy)^2)"
+      unidades: "degree_Celsius km-1"
+      distancias: "Haversine entre centros reales de celdas"
+      interior: "diferencias centradas cuando existen ambos vecinos"
+      bordes: "diferencias unilaterales declaradas cuando existe un solo vecino"
+      faltantes: >
+        Si una componente no tiene vecinos válidos, el gradiente de esa celda
+        es null. No se rellena, no se transforma en cero y no se usa un vecino
+        diagonal como sustituto silencioso.
+      interpretacion: >
+        Se entrega intensidad cruda sin umbral de frente fuerte, clasificación
+        favorable, ranking ni scoring.
+
   fetcher_puntual_vectorial_phy_0083deg_pt6h:
     descripcion: >
       Fetcher PUNTUAL VECTORIAL sobre la familia física de Copernicus a
@@ -727,21 +782,46 @@ variables:
   sst_observed_ostia:
     descripcion: "SST observada L4 gap-free (OSTIA), como alternativa observacional a la SST de modelo"
     intended_role: A
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
+    profile: fetcher_campo_ostia_l4_005deg_p1d
+    modulo: "ingestion/fetch_ostia.py"
+    tests: "tests/test_fetch_ostia.py (18 casos sintéticos)"
+    producto:
+      product_id: "SST_GLO_SST_L4_NRT_OBSERVATIONS_010_001"
+      doi: "10.48670/moi-00165"
+      origen: "Met Office (UK)"
+      processing_level: "L4"
+    dataset_id: "METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2"
+    variables:
+      sst:
+        short_name: "analysed_sst"
+        standard_name: "sea_surface_foundation_temperature"
+        native_units: "kelvin"
+        converted_units: "degree_Celsius"
+      error:
+        short_name: "analysis_error"
+        native_units: "kelvin"
+    cadencia: "diaria; media de 00:00 a 24:00 UTC centrada a las 12:00 UTC"
+    resolucion_grados: 0.05
     resolucion_km_referencia: 6.0
-    dataset_id: null
-    verificacion_oficial: "PENDIENTE"
+    verificacion_oficial: "CONFIRMADA 2026-08-27; PUM issue 8.0 (noviembre 2025)"
     proposito: >
       Diagnóstico comparativo contra la SST de modelo ya implementada, para
       decidir si mejora la representación costera. No sustituye a sst sin ese
       diagnóstico.
     nota: >
-      Producto L4 gap-free: el proveedor ya realiza relleno de huecos. Sus
-      límites espaciales y su tratamiento temporal deben definirse aparte; no
-      hereda el perfil PT6H.
+      Campo L4 gap-free procesado por el proveedor a partir de observaciones
+      satelitales e in situ. PredictaMAR no añade relleno. No hereda el perfil
+      PT6H y todavía no ha pasado diagnóstico real en Pucusana.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 18/18, sin acceso a Copernicus"
+    pendiente:
+      - "Diagnóstico real de cobertura, latencia y geometría costera"
+      - "Comparación contra la SST de modelo"
+      - "Validación independiente antes de cualquier scoring"
 
   sst_anomaly:
     descripcion: "Anomalía de temperatura superficial respecto a climatología"
@@ -756,19 +836,31 @@ variables:
   thermal_front:
     descripcion: "Frente/gradiente térmico derivado por nosotros a partir de un producto de SST"
     intended_role: A
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
-    modulo_previsto: "derive_thermal_front.py"
+    profile: derivada_gradiente_termico_ostia_v1
+    modulo: "derivation/thermal_front.py"
+    tests: "tests/test_thermal_front.py (14 casos sintéticos)"
     tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+    fuente: "sst_observed_ostia; mismo campo y timestamp"
+    algoritmo_version: "finite_difference_haversine_v1"
+    formula: "sqrt((dT/dx)^2 + (dT/dy)^2)"
+    units: "degree_Celsius km-1"
+    bordes: "diferencias unilaterales explícitas; interior con diferencias centradas"
+    faltantes: "null si falta una componente espacial; sin relleno ni cero fabricado"
+    umbral_de_frente: null
+    nota_umbral: "No se define frente fuerte/favorable sin diagnóstico real y validación"
     nota: >
-      NO reutilizar el producto de frentes de eddy de ~27 km ya rechazado.
-      Se deriva a partir de una fuente de mayor resolución, a evaluar. Al
-      operar sobre un campo espacial y no sobre una serie puntual, las reglas
-      de celda única y cobertura temporal del perfil PT6H no le aplican
-      literalmente.
-    fuente_candidata: "SST observada L4 (OSTIA) — pendiente de verificación oficial"
+      No reutiliza el producto de frentes de eddy de ~27 km rechazado. La
+      intensidad es una derivada de OSTIA a 0.05° y conserva procedencia,
+      timestamp, método, unidades, cobertura y resolución efectiva.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética 14/14, sin acceso a Copernicus"
+    pendiente:
+      - "Diagnóstico real de celdas oceánicas útiles y artefactos de costa"
+      - "Validación por especie y temporada antes de cualquier interpretación pesquera"
 
   chlorophyll_front:
     descripcion: "Frente/gradiente de clorofila"
@@ -853,26 +945,6 @@ variables:
     dataset_id: null
     verificacion_oficial: "PENDIENTE"
 
-  surface_currents:
-    descripcion: "Corrientes superficiales"
-    intended_role: por_determinar
-    implementation_status: no_implementada
-    scoring_status: inactiva
-    predictively_valid: null
-    profile: pendiente_de_definir
-    dataset_id: null
-    verificacion_oficial: "PENDIENTE"
-    nota_critica: >
-      NO es operativa ni admitida al scoring. Requiere primero diagnóstico de:
-      velocidad, dirección, persistencia, convergencia/divergencia y relación
-      con la costa. El valor esperado está en los features derivados, no en el
-      valor crudo de velocidad.
-    diagnostico_requerido:
-      - velocidad
-      - direccion
-      - persistencia
-      - convergencia_divergencia
-      - relacion_con_costa
   surface_currents:
     descripcion: "Corrientes superficiales; vector de dos componentes nativas (este y norte)"
     intended_role: A
