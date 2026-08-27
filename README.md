@@ -20,7 +20,7 @@ de la auditoría de agosto de 2026 como contratos verificables.
 8. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **170 pruebas**.
+Regresión sintética actual: **185 pruebas**.
 
 ## Fuentes y credenciales
 
@@ -59,6 +59,21 @@ opcionales, son la razón de ser de este pipeline nuevo:
 ## Siguiente paso inmediato
 
 Ejecutar el diagnóstico real costero del bloque OSTIA + gradiente térmico sin
-activar scoring. Después se evaluará el bloque vertical
-`temperature_10m` + `delta_sst_t10`; al cerrar esas señales se construirá el
-ensamblador y la aplicación web.
+activar scoring. Requiere una sesión válida de Copernicus Marine y consulta,
+por defecto, siete fechas hasta el día anterior en un recuadro técnico alrededor
+de Pucusana:
+
+```bash
+python -m diagnostics.diagnose_ostia_pucusana
+```
+
+Para emitir el mismo resumen como JSON, sin guardar las matrices crudas:
+
+```bash
+python -m diagnostics.diagnose_ostia_pucusana --json
+```
+
+El recuadro del diagnóstico no representa el alcance operativo de 0–10 km y la
+salida no valida pesca ni detecta cardúmenes. Después se evaluará el bloque
+vertical `temperature_10m` + `delta_sst_t10`; al cerrar esas señales se
+construirá el ensamblador y la aplicación web.
