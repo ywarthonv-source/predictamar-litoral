@@ -6,3 +6,15 @@ __pycache__/
 
 # Caché de pytest
 .pytest_cache/
+
+# --- Datos restringidos: NUNCA versionar ---
+# Criterio por extensión, no por nombre.
+# .gitignore impide el commit, pero no autoriza transferir estos archivos
+# a Codespaces ni a ningún otro entorno remoto.
+*.zip
+*.xlsx
+*.xls
+*.csv
+*.pdf
+data/
+datos/

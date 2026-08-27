@@ -1,0 +1,131 @@
+# ---------------------------------------------------------------------------
+# Declaración de la fuente IMARPE — PredictaMAR Litoral
+#
+# ESTE ARCHIVO NO CONTIENE DATOS NI RUTAS. Describe únicamente el ESQUEMA
+# esperado y la política de tratamiento. La ubicación del Excel llega
+# exclusivamente por variable de entorno, nunca por este archivo ni por el
+# código, de modo que el repositorio pueda ser público sin exponer dónde vive
+# el material restringido.
+#
+# Fase 1A: inspección de esquema. Los roles de columna quedan en null a
+# propósito: no se inventan ni se adivinan encabezados. Se completan en la
+# Fase 1B con la salida real del inspector.
+# ---------------------------------------------------------------------------
+meta:
+  fase: "1A"
+  proposito: "Inspección segura de esquema y protección de datos restringidos"
+  alcance: >
+    Validación ambiental REGIONAL. No se extrapola todavía ningún sesgo
+    específico a Pucusana. El crucero no aporta etiquetas biológicas.
+  restriccion: >
+    Entrega sujeta a restricciones de transferencia. Los archivos brutos no se
+    incorporan al repositorio ni a entornos remotos, incluido Codespaces. El
+    código debe poder ejecutarse sin red, en un equipo local autorizado.
+
+fuente:
+  variable_entorno: "PREDICTAMAR_IMARPE_XLSX"
+  formato: "xlsx"
+  nota_ruta: >
+    La ruta real NUNCA se escribe aquí ni en el código. Si esta clave llegara a
+    contener una ruta, sería un fallo de gobernanza, no una comodidad.
+
+hojas_requeridas:
+  - "BOTELLAS"
+  - "CTD"
+
+minimizacion_de_acceso:
+  politica: >
+    Se listan los nombres de hoja SIN cargar su contenido y se materializan
+    únicamente las hojas requeridas. Ninguna otra hoja del libro se abre, se
+    lee ni se recorre: el acceso mínimo es una obligación, no una optimización.
+
+periodo_esperado:
+  inicio: "2026-02-16"
+  fin: "2026-04-03"
+  tratamiento_fuera_de_periodo: >
+    CUARENTENA. Las fechas fuera de este rango se cuentan y se marcan; NUNCA se
+    corrigen, se infieren ni se reasignan al crucero. Una fecha anómala puede
+    ser un error de exportación con más registros afectados, y corregirla
+    borraría la evidencia.
+
+# Roles de columna: VACÍOS a propósito. Se completan en Fase 1B con los
+# encabezados EXACTOS que devuelva el inspector.
+#
+# REGLA DURA: sin rol declarado NO se calcula la métrica correspondiente y NO
+# se adivina la columna por tipo ni por semejanza de nombre. Un rol declarado
+# cuya columna no exista es un error, no una degradación silenciosa. Se validan
+# los SEIS roles: fecha, hora, latitud, longitud, estación y profundidad.
+#
+# 'hora' NO se deduce nunca de 'fecha'. Si la hora viaja dentro de la misma
+# columna que la fecha, hay que declarar ESE MISMO encabezado en los dos roles:
+# dejar '.hora' en null significa "no lo sabemos", no "mira en la fecha".
+column_roles:
+  BOTELLAS:
+    fecha: null
+    hora: null
+    latitud: null
+    longitud: null
+    estacion: null
+    profundidad: null
+  CTD:
+    fecha: null
+    hora: null
+    latitud: null
+    longitud: null
+    estacion: null
+    profundidad: null
+
+encabezados:
+  politica: >
+    Se leen EXACTOS de la fila de encabezado, sin normalizar, sin recortar
+    espacios y sin añadir sufijos. Encabezados vacíos, duplicados o no
+    interpretables detienen la inspección con error: renombrarlos produciría un
+    esquema que no es el del archivo.
+
+fluorescencia:
+  tokens_encabezado:
+    - "fluor"
+  declaracion: >
+    NO CUANTITATIVA. La fluorescencia NO es clorofila calibrada y NO puede
+    usarse para validar el producto de clorofila mientras no exista
+    documentación de calibración. La relación fluorescencia-clorofila varía con
+    la especie, la hora del día, la fotoinhibición y el estado fisiológico.
+
+faltantes:
+  politica: >
+    Los faltantes permanecen faltantes. Sin relleno, sin interpolación, sin
+    conversión a cero y sin propagación desde filas vecinas. Las fechas y
+    profundidades no interpretables se CUENTAN; sus valores no se muestran ni
+    se corrigen.
+
+proteccion_datos:
+  # Cualquier archivo RASTREADO por Git con una de estas extensiones se
+  # considera una fuga, AUNQUE su ruta no mencione IMARPE. El criterio es la
+  # extensión portadora de datos, no el nombre: un archivo renombrado sigue
+  # llevando los mismos datos dentro.
+  extensiones:
+    - ".zip"
+    - ".xlsx"
+    - ".xls"
+    - ".csv"
+    - ".pdf"
+  # Excepciones EXPLÍCITAS, por ruta exacta. Vacía por defecto a propósito:
+  # cada excepción debe ser una decisión consciente y revisable.
+  allowlist: []
+  nota_gitignore: >
+    .gitignore evita versionar los datos, pero NO autoriza copiarlos a
+    Codespaces ni a ningún entorno remoto. Son dos controles distintos: uno
+    impide el commit, el otro es una restricción de transferencia que el
+    repositorio no puede hacer cumplir por sí solo.
+
+entorno_de_ejecucion:
+  bloquear_codespaces: true
+  bloquear_archivo_dentro_del_repo: true
+  nota: >
+    La inspección REAL solo debe ejecutarse en el equipo local autorizado. Se
+    rechaza CODESPACES=true, porque copiar el archivo a una máquina remota de
+    un tercero ya es transferirlo, y se rechaza que el Excel esté dentro del
+    árbol del repositorio aunque .gitignore lo oculte: ignorado no es ausente.
+    La raíz del repositorio se deduce de la ubicación del módulo, no del
+    directorio de trabajo. Las pruebas sintéticas no pasan por esta compuerta y
+    sí pueden ejecutarse en Codespaces.
