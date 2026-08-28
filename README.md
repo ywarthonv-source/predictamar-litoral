@@ -14,14 +14,17 @@ de la auditoría de agosto de 2026 como contratos verificables.
 5. ✅ **Primer bloque espacial** — SST OSTIA y gradiente térmico implementados;
    el diagnóstico real corregido confirmó 7/7 fechas nominales, siete campos
    únicos, cero fallbacks y ejes de grilla estables
-6. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
+6. 🟡 **Bloque térmico vertical emparejado** — `temperature_10m` y
+   `delta_sst_t10` implementadas con pruebas sintéticas; falta ejecutar el
+   diagnóstico real de siete días en Pucusana
+7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
-7. 🔲 **Ensamblador y aplicación** — siguientes etapas después de cerrar las
+8. 🔲 **Ensamblador y aplicación** — siguientes etapas después de cerrar las
    señales ambientales priorizadas
-8. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
+9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **187 pruebas**.
+Regresión sintética actual: **225 pruebas**.
 
 ## Fuentes y credenciales
 
@@ -57,7 +60,7 @@ opcionales, son la razón de ser de este pipeline nuevo:
   módulo pase sus pruebas no demuestra que encuentre pesca. La admisión al
   scoring exige validación independiente y control de circularidad.
 
-## Estado del bloque térmico
+## Estado del bloque térmico horizontal
 
 El diagnóstico real corregido del 20 al 26 de agosto de 2026 confirmó 7/7
 fechas con OSTIA y gradiente, siete campos fuente únicos, cero fallbacks y ejes
@@ -84,6 +87,35 @@ salida no valida pesca ni detecta cardúmenes. OSTIA es un análisis suavizado d
 0.05° y el gradiente debe presentarse únicamente como **gradiente térmico
 regional (experimental)**. Las diferencias centradas y unilaterales usan
 soportes espaciales distintos y sus magnitudes no son directamente comparables
-entre celdas sin consultar el método trazado. Después se evaluará el bloque
-vertical `temperature_10m` + `delta_sst_t10`; al cerrar esas señales se
-construirá el ensamblador y la aplicación web.
+entre celdas sin consultar el método trazado.
+
+## Estado del bloque térmico vertical
+
+`temperature_10m` y `delta_sst_t10` se calculan conjuntamente desde una sola
+consulta a `thetao` PT6H. El nivel superficial típico es 0.494025 m y el nivel
+nativo más próximo a 10 m es 9.572997 m; ambos valores efectivos viajan en la
+salida y nunca se interpola a 10.0 m.
+
+Cada par exige misma versión del dataset, timestamp y celda. Si falta uno de
+los niveles, falta el par completo. `delta_sst_t10` es superficie menos
+temperatura a 9.572997 m, en grados Celsius: no es un gradiente en grados por
+metro ni demuestra por sí sola una termoclina. La suite sintética del fetcher
+y el diagnosticador suma 37 pruebas; la regresión completa alcanza 225.
+
+Para ejecutar siete días reales completos alrededor de Pucusana sin guardar
+muestras crudas:
+
+```bash
+python -m diagnostics.diagnose_vertical_temperature_pucusana
+```
+
+También puede elegirse el final del periodo:
+
+```bash
+python -m diagnostics.diagnose_vertical_temperature_pucusana --end-date 2026-08-26 --days 7
+```
+
+Este diagnóstico solo decidirá disponibilidad, cobertura y coherencia técnica.
+No valida pesca, no detecta cardúmenes y no activa scoring. Después de revisar
+el resultado real se cerrarán las señales ambientales priorizadas y se pasará
+al ensamblador y la aplicación web.

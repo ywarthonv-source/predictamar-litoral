@@ -63,3 +63,26 @@ def test_3_ninguna_variable_afirma_validez_predictiva():
     variables = load_spec()["variables"]
     assert not [name for name, cfg in variables.items() if cfg.get("predictively_valid") is True]
     assert all(variables[name]["scoring_status"] == "inactiva" for name in ("sst_observed_ostia", "thermal_front"))
+
+
+def test_4_par_termico_vertical_declara_coherencia_y_nivel_nativo_real():
+    data = load_spec()
+    variables = data["variables"]
+    profile = data["profiles"]["fetcher_puntual_termico_vertical_phy_0083deg_pt6h"]
+    temperature = variables["temperature_10m"]
+    delta = variables["delta_sst_t10"]
+
+    assert profile["aplica_a_hoy"] == ["temperature_10m", "delta_sst_t10"]
+    assert "misma celda" in profile["reglas"]["emparejamiento_estricto"]
+    assert temperature["implementation_status"] == "implementada_validada_sinteticamente"
+    assert temperature["modulo"] == "ingestion/fetch_vertical_temperature.py"
+    assert temperature["dataset_version"] == "202406"
+    assert temperature["profundidad"]["solicitada_m"] == 10.0
+    assert temperature["profundidad"]["nivel_nativo_oficial_m"] == 9.572997093200684
+    assert delta["implementation_status"] == "implementada_validada_sinteticamente"
+    assert delta["formula"] == "thetao_superficie - thetao_nivel_nativo_cercano_a_10m"
+    assert delta["unidades"] == "degree_Celsius"
+    assert "NO equivale a gradiente vertical" in delta["nota"]
+    assert temperature["scoring_status"] == delta["scoring_status"] == "inactiva"
+    assert temperature["predictively_valid"] is None
+    assert delta["predictively_valid"] is None

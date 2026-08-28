@@ -358,6 +358,66 @@ profiles:
         Se entrega intensidad cruda sin umbral de frente fuerte, clasificación
         favorable, ranking ni scoring.
 
+  fetcher_puntual_termico_vertical_phy_0083deg_pt6h:
+    descripcion: >
+      Fetcher PUNTUAL EMPAREJADO sobre la temperatura potencial instantánea
+      PT6H del modelo físico global a 0.083 grados. Obtiene conjuntamente la
+      temperatura superficial, la del nivel nativo más próximo a 10 m y su
+      diferencia; nunca ejecuta dos fetchers independientes.
+    aplica_a_hoy: ["temperature_10m", "delta_sst_t10"]
+    no_aplica_a: >
+      sst conserva su fetcher superficial independiente; este perfil tampoco
+      se aplica a temperature_50m, delta_sst_t50 ni thermal_structure, que
+      siguen sin implementar. Compartir producto no autoriza a heredar este
+      contrato sin una auditoría propia de profundidad y relevancia.
+    reglas:
+      consulta_unica_versionada: >
+        Superficie y profundidad se solicitan juntas en una sola llamada al
+        dataset cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i, versión 202406,
+        parte default y variable thetao. No se usa nearest sobre las
+        coordenadas ni se ejecutan fallbacks por nivel.
+      profundidad_superficial: >
+        Se elige dinámicamente el nivel más somero devuelto. En la versión
+        declarada su valor oficial típico es 0.49402499198913574 m; la salida
+        conserva siempre el valor efectivo.
+      profundidad_cercana_a_10m: >
+        Entre los demás niveles devueltos se elige el nativo con menor
+        distancia a 10.0 m. En la versión declarada es
+        9.572997093200684 m. No se interpola a 10.0 m y el nivel efectivo se
+        expone. Si el más cercano se aleja más de 1.5 m, el bloque queda
+        SIN_DATOS para evitar una etiqueta engañosa.
+      emparejamiento_estricto: >
+        Un par solo existe si thetao superficial y thetao cercana a 10 m son
+        finitas en exactamente el mismo timestamp y la misma celda. Un valor
+        suelto no se rellena, no se convierte en cero y no se combina con otra
+        celda o fecha.
+      una_sola_celda_por_serie: >
+        Dentro de la ventana se elige una única celda por mayor cantidad de
+        pares completos; en empate gana la menor distancia Haversine y luego
+        latitud y longitud para un desempate determinista.
+      fallback_temporal_conjunto: >
+        Solo si no existe ningún par dentro de la ventana se admite un único
+        timestamp nativo externo hasta 3 horas. Ambos niveles usan juntos ese
+        timestamp y esa celda o el resultado es SIN_DATOS; a igual desfase se
+        prefiere el instante anterior.
+      diferencia_termica:
+        formula: "thetao_superficie - thetao_nivel_nativo_cercano_a_10m"
+        unidades: "degree_Celsius"
+        algoritmo: "vertical_thermal_pair_v1"
+        aclaracion: >
+          Es una diferencia Delta T, no un gradiente en degree_Celsius/m. La
+          separación vertical efectiva también se declara, pero este bloque
+          no calcula ni etiqueta una termoclina.
+      alcance: >
+        Contexto regional de modelo a 1/12 de grado, no medición in situ ni
+        detección de cardumen. Scoring permanece inactivo.
+      max_valid_cell_distance_km:
+        valor: 6.5
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+      max_temporal_offset_hours:
+        valor: 3.0
+        estado: "PROVISIONAL — pendiente de validación oceanográfica"
+
   fetcher_puntual_vectorial_phy_0083deg_pt6h:
     descripcion: >
       Fetcher PUNTUAL VECTORIAL sobre la familia física de Copernicus a
@@ -905,13 +965,47 @@ variables:
   temperature_10m:
     descripcion: "Temperatura a ~10 m de profundidad"
     intended_role: por_determinar
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
+    profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
+    modulo: "ingestion/fetch_vertical_temperature.py"
+    tests: "tests/test_fetch_vertical_temperature.py (23 casos sintéticos compartidos con delta_sst_t10)"
+    diagnostico: "diagnostics/diagnose_vertical_temperature_pucusana.py"
+    tests_diagnostico: "tests/test_diagnose_vertical_temperature_pucusana.py (14 casos sintéticos)"
+    product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
+    dataset_id: "cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i"
+    dataset_version: "202406"
+    dataset_part: "default"
+    variable: "thetao"
+    unidades: "degree_Celsius"
+    cadencia: "instantánea cada 6 horas"
+    resolucion_km: 8.9
+    profundidad:
+      solicitada_m: 10.0
+      nivel_nativo_oficial_m: 9.572997093200684
+      estrategia: "nivel nativo más cercano a 10 m, sin interpolación; valor efectivo siempre expuesto"
+      desviacion_maxima_admitida_m: 1.5
+    estados:
+      - enum_name: "VALIDA_EN_VENTANA"
+        serialized_value: "valida_en_ventana"
+      - enum_name: "VALIDA_CERCANA_EN_TIEMPO"
+        serialized_value: "valida_cercana_en_tiempo"
+      - enum_name: "SIN_DATOS"
+        serialized_value: "sin_datos"
+    alcance: "Temperatura subsuperficial regional de modelo; no medición puntual ni in situ"
     nota: >
-      Debe salir del MISMO producto y MISMO timestamp que sst. Mezclar fechas
-      entre superficie y profundidad fue un bug real encontrado en Costero.
+      Sale en un par estricto con la superficie de la MISMA consulta, celda y
+      timestamp. El nombre temperature_10m conserva el concepto del esquema,
+      pero la salida declara 9.572997 m como nivel nativo típico y nunca lo
+      renombra silenciosamente como 10.0 m.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética conjunta del fetcher 23/23"
+      - "Suite sintética del diagnosticador 14/14"
+    pendiente:
+      - "Ejecutar diagnóstico real de siete días en Pucusana"
+      - "Validación independiente antes de interpretar relevancia pesquera"
 
   temperature_50m:
     descripcion: "Temperatura a ~50 m de profundidad"
@@ -925,11 +1019,40 @@ variables:
   delta_sst_t10:
     descripcion: "Diferencia SST menos temperatura a 10 m"
     intended_role: por_determinar
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
-    nota: "Derivada; exige coherencia temporal estricta entre ambos niveles"
+    profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
+    modulo: "ingestion/fetch_vertical_temperature.py"
+    tests: "tests/test_fetch_vertical_temperature.py (23 casos sintéticos compartidos con temperature_10m)"
+    diagnostico: "diagnostics/diagnose_vertical_temperature_pucusana.py"
+    fuente:
+      product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
+      dataset_id: "cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i"
+      dataset_version: "202406"
+      dataset_part: "default"
+      variable: "thetao"
+    tipo: "variable derivada de dos valores nativos emparejados"
+    formula: "thetao_superficie - thetao_nivel_nativo_cercano_a_10m"
+    unidades: "degree_Celsius"
+    algoritmo: "vertical_thermal_pair_v1"
+    entradas:
+      superficie_nativa_m: 0.49402499198913574
+      profundidad_nativa_cercana_a_10m_m: 9.572997093200684
+      coherencia: "misma consulta, dataset, versión, parte, timestamp y celda"
+    tratamiento_de_faltantes: >
+      Si cualquiera de los dos valores es NaN o falta, el par completo queda
+      ausente. No se interpola, no se rellena y no se cruzan fallbacks.
+    nota: >
+      Delta T en degree_Celsius; NO equivale a gradiente vertical en
+      degree_Celsius/m y no demuestra por sí sola una termoclina.
+    validacion_ejecutada:
+      - "Compilación"
+      - "Suite sintética conjunta del fetcher 23/23"
+      - "Suite sintética del diagnosticador 14/14"
+    pendiente:
+      - "Ejecutar diagnóstico real de siete días en Pucusana"
+      - "Validación independiente antes de interpretar relevancia pesquera"
 
   delta_sst_t50:
     descripcion: "Diferencia SST menos temperatura a 50 m"
