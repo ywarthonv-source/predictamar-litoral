@@ -261,6 +261,8 @@ def test_17_procedencia_y_limitacion_en_todos_los_estados(install_dataset, monke
         assert result.processing_level == "L4"
         assert result.nominal_resolution_deg == 0.05
         assert "no detecta cardúmenes" in result.scope_warning
+        assert "espacialmente suavizado" in result.scope_warning
+        assert "contexto regional" in result.scope_warning
 
 
 def test_18_sin_interpolacion_scoring_ni_umbral_pesquero():

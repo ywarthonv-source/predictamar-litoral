@@ -346,6 +346,10 @@ profiles:
       distancias: "Haversine entre centros reales de celdas"
       interior: "diferencias centradas cuando existen ambos vecinos"
       bordes: "diferencias unilaterales declaradas cuando existe un solo vecino"
+      comparabilidad: >
+        Las diferencias centradas y unilaterales usan soportes espaciales
+        distintos. Sus magnitudes no son directamente comparables entre
+        celdas sin consultar el campo method que acompaña cada resultado.
       faltantes: >
         Si una componente no tiene vecinos válidos, el gradiente de esa celda
         es null. No se rellena, no se transforma en cero y no se usa un vecino
@@ -786,7 +790,7 @@ variables:
   # -------------------------------------------------------------------
 
   sst_observed_ostia:
-    descripcion: "SST observada L4 gap-free (OSTIA), como alternativa observacional a la SST de modelo"
+    descripcion: "SST de fundación observada L4 gap-free (OSTIA), como referencia regional frente a la SST de modelo"
     intended_role: A
     implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
@@ -816,20 +820,25 @@ variables:
     proposito: >
       Diagnóstico comparativo contra la SST de modelo ya implementada, para
       decidir si mejora la representación costera. No sustituye a sst sin ese
-      diagnóstico.
+      diagnóstico. No son magnitudes idénticas: OSTIA es SST de fundación
+      diaria y la fuente de modelo usa thetao instantánea PT6H en el nivel
+      superficial disponible (~0.5 m). Una diferencia puede combinar modelo,
+      resolución, profundidad, muestreo temporal y ciclo diurno; no constituye
+      por sí sola una señal pesquera.
     nota: >
       Campo L4 gap-free procesado por el proveedor a partir de observaciones
-      satelitales e in situ. PredictaMAR no añade relleno. No hereda el perfil
-      PT6H. La fecha nominal diaria se mantiene separada de la coordenada
-      temporal cruda para impedir desplazamientos artificiales al convertirla
-      a hora de Lima.
+      satelitales e in situ. Es un análisis espacialmente suavizado para
+      producir un campo diario continuo; PredictaMAR no añade relleno. No
+      hereda el perfil PT6H. La fecha nominal diaria se mantiene separada de la
+      coordenada temporal cruda para impedir desplazamientos artificiales al
+      convertirla a hora de Lima. A 0.05° aporta contexto regional, no una
+      medición dentro de cada zona de faena.
     validacion_ejecutada:
       - "Compilación"
       - "Suite sintética 19/19, sin acceso a Copernicus"
       - "Diagnóstico real inicial 7/7 en Pucusana; identificó una ambigüedad entre fecha nominal diaria y coordenada temporal cruda"
+      - "Diagnóstico real corregido 2026-08-20 a 2026-08-26: OSTIA 7/7, gradiente 7/7, siete campos en fecha nominal, cero fallbacks, siete campos únicos, cero reutilizados y ejes de grilla estables"
     pendiente:
-      - "Repetir una vez el diagnóstico real con el contrato nominal corregido"
-      - "Evaluar cobertura, latencia y geometría costera con la salida corregida"
       - "Comparación contra la SST de modelo"
       - "Validación independiente antes de cualquier scoring"
 
@@ -844,7 +853,7 @@ variables:
     verificacion_oficial: "PENDIENTE"
 
   thermal_front:
-    descripcion: "Frente/gradiente térmico derivado por nosotros a partir de un producto de SST"
+    descripcion: "Gradiente térmico regional experimental derivado por PredictaMAR a partir de OSTIA"
     intended_role: A
     implementation_status: implementada_validada_sinteticamente
     scoring_status: inactiva
@@ -853,23 +862,30 @@ variables:
     modulo: "derivation/thermal_front.py"
     tests: "tests/test_thermal_front.py (14 casos sintéticos)"
     tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+    etiqueta_visualizacion: "Gradiente térmico regional (experimental)"
     fuente: "sst_observed_ostia; mismo campo y timestamp"
     algoritmo_version: "finite_difference_haversine_v1"
     formula: "sqrt((dT/dx)^2 + (dT/dy)^2)"
     units: "degree_Celsius km-1"
     bordes: "diferencias unilaterales explícitas; interior con diferencias centradas"
+    comparabilidad_metodos: >
+      Las diferencias centradas y unilaterales usan soportes espaciales
+      distintos. Sus magnitudes no son directamente comparables entre celdas
+      sin consultar el campo method.
     faltantes: "null si falta una componente espacial; sin relleno ni cero fabricado"
     umbral_de_frente: null
     nota_umbral: "No se define frente fuerte/favorable sin diagnóstico real y validación"
     nota: >
       No reutiliza el producto de frentes de eddy de ~27 km rechazado. La
       intensidad es una derivada de OSTIA a 0.05° y conserva procedencia,
-      timestamp, método, unidades, cobertura y resolución efectiva.
+      timestamp, método, unidades, cobertura y resolución efectiva. OSTIA es
+      un análisis suavizado y esta derivada describe contexto regional; no
+      demuestra un frente costero dentro de la zona de faena.
     validacion_ejecutada:
       - "Compilación"
       - "Suite sintética 14/14, sin acceso a Copernicus"
+      - "Diagnóstico real corregido 2026-08-20 a 2026-08-26: gradiente 7/7 sobre campos OSTIA nominales únicos; grilla y procedencia estables"
     pendiente:
-      - "Diagnóstico real de celdas oceánicas útiles y artefactos de costa"
       - "Validación por especie y temporada antes de cualquier interpretación pesquera"
 
   chlorophyll_front:

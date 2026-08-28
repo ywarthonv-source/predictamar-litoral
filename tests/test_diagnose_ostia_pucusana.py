@@ -157,6 +157,8 @@ def test_5_resume_error_y_gradiente_sin_inventar_umbral():
     assert day.gradient_c_per_km.maximum > 0
     assert report.n_days_with_gradient == 1
     assert "no activa scoring" in report.interpretation_warning
+    assert "variación ambiental regional" in report.interpretation_warning
+    assert "no son directamente comparables" in report.interpretation_warning
 
 
 def test_6_detecta_reutilizacion_de_campo_por_fallback_nominal():

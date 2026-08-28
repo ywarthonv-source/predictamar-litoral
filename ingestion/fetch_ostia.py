@@ -68,8 +68,10 @@ DATA_SCOPE_WARNING = (
     "como procedencia y nunca se convierte a hora local para decidir qué día "
     "representa el producto. "
     "PredictaMAR no interpola ni rellena celdas: los faltantes permanecen como "
-    "faltantes. La resolución nominal de 0.05 grados sigue siendo regional para "
-    "un alcance litoral de 0–10 km."
+    "faltantes. OSTIA es un análisis espacialmente suavizado para producir un "
+    "campo diario continuo. Su resolución nominal de 0.05 grados describe "
+    "contexto regional para un alcance litoral de 0–10 km, no una medición "
+    "dentro de cada zona de faena."
 )
 
 

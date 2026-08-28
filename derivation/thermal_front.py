@@ -33,8 +33,11 @@ SCOPE_WARNING = (
     "Gradiente térmico calculado por PredictaMAR a partir de un único campo "
     "OSTIA L4 diario gap-free. No es una observación nativa, no detecta "
     "cardúmenes y no incorpora umbrales de favorabilidad. OSTIA es un análisis "
-    "procesado por el proveedor y su resolución nominal de 0.05 grados puede "
-    "suavizar frentes costeros. Los faltantes no se rellenan."
+    "espacialmente suavizado y su resolución nominal de 0.05 grados describe "
+    "contexto regional, no un frente dentro de cada zona de faena. Las "
+    "diferencias centradas y unilaterales usan soportes espaciales distintos; "
+    "sus magnitudes no son directamente comparables entre celdas sin consultar "
+    "el método trazado. Los faltantes no se rellenan."
 )
 
 

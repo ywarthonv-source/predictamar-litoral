@@ -49,10 +49,14 @@ def test_2_bloque_termico_declara_modulos_fuente_y_estado_real():
     assert ostia["implementation_status"] == "implementada_validada_sinteticamente"
     assert ostia["dataset_id"] == "METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2"
     assert ostia["modulo"] == "ingestion/fetch_ostia.py"
+    assert "thetao instantánea PT6H" in ostia["proposito"]
+    assert "contexto regional" in ostia["nota"]
     assert front["implementation_status"] == "implementada_validada_sinteticamente"
     assert front["fuente"].startswith("sst_observed_ostia")
     assert front["modulo"] == "derivation/thermal_front.py"
     assert front["umbral_de_frente"] is None
+    assert front["etiqueta_visualizacion"] == "Gradiente térmico regional (experimental)"
+    assert "no son directamente comparables" in front["comparabilidad_metodos"]
 
 
 def test_3_ninguna_variable_afirma_validez_predictiva():

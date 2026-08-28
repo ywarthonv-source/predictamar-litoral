@@ -51,8 +51,11 @@ TECHNICAL_BBOX_NOTE = (
     "litoral y no define zonas de pesca."
 )
 INTERPRETATION_WARNING = (
-    "Este diagnóstico verifica disponibilidad y variación ambiental del "
-    "producto. No valida pesca, no detecta cardúmenes y no activa scoring."
+    "Este diagnóstico verifica disponibilidad y variación ambiental regional "
+    "del producto. Las diferencias centradas y unilaterales del gradiente usan "
+    "soportes espaciales distintos y no son directamente comparables entre "
+    "celdas sin consultar el método trazado. No valida pesca, no detecta "
+    "cardúmenes y no activa scoring."
 )
 
 

@@ -157,6 +157,8 @@ def test_13_procedencia_derivada_completa_sin_umbral():
     assert result.source_time_utc == datetime(2026, 8, 12, 12, tzinfo=timezone.utc)
     assert not any("threshold" in name or "score" in name for name in result.__dataclass_fields__)
     assert "no detecta cardúmenes" in result.scope_warning
+    assert "no son directamente comparables" in result.scope_warning
+    assert "método trazado" in result.scope_warning
 
 
 def test_14_fetch_integrado_usa_un_unico_campo(monkeypatch):

@@ -11,9 +11,9 @@ de la auditoría de agosto de 2026 como contratos verificables.
 3. ✅ **Entorno técnico** — dependencias declaradas en `requirements.txt`
 4. ✅ **Seis fuentes base** — SST de modelo, salinidad, oleaje, clorofila,
    corrientes superficiales y batimetría, todas con suites sintéticas
-5. 🟡 **Primer bloque espacial** — SST OSTIA y gradiente térmico implementados;
-   el primer diagnóstico real confirmó disponibilidad y reveló una ambigüedad
-   de fecha diaria ya corregida en el contrato; falta una única repetición
+5. ✅ **Primer bloque espacial** — SST OSTIA y gradiente térmico implementados;
+   el diagnóstico real corregido confirmó 7/7 fechas nominales, siete campos
+   únicos, cero fallbacks y ejes de grilla estables
 6. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
 7. 🔲 **Ensamblador y aplicación** — siguientes etapas después de cerrar las
@@ -57,13 +57,17 @@ opcionales, son la razón de ser de este pipeline nuevo:
   módulo pase sus pruebas no demuestra que encuentre pesca. La admisión al
   scoring exige validación independiente y control de circularidad.
 
-## Siguiente paso inmediato
+## Estado del bloque térmico
 
-Repetir una vez el diagnóstico real costero del bloque OSTIA + gradiente
-térmico, sin activar scoring. La fecha solicitada representa la fecha nominal
-UTC de la media diaria OSTIA; la coordenada temporal cruda se informa aparte y
-no se convierte a Lima para decidir el día del producto. Por defecto se elige
-la última fecha que debería estar publicada según la entrega diaria de 12 UTC:
+El diagnóstico real corregido del 20 al 26 de agosto de 2026 confirmó 7/7
+fechas con OSTIA y gradiente, siete campos fuente únicos, cero fallbacks y ejes
+de grilla estables. Esto cierra la compuerta técnica de disponibilidad y
+trazabilidad, pero no demuestra validez pesquera ni activa scoring.
+
+El diagnóstico puede repetirse sin guardar las matrices crudas. La fecha
+solicitada representa la fecha nominal UTC de la media diaria OSTIA; la
+coordenada temporal cruda se informa aparte y no se convierte a Lima para
+decidir el día del producto:
 
 ```bash
 python -m diagnostics.diagnose_ostia_pucusana
@@ -76,8 +80,10 @@ python -m diagnostics.diagnose_ostia_pucusana --json
 ```
 
 El recuadro del diagnóstico no representa el alcance operativo de 0–10 km y la
-salida no valida pesca ni detecta cardúmenes. La repetición debe confirmar si
-cada fecha nominal utiliza un campo independiente o declarar explícitamente un
-fallback real. Después se evaluará el bloque vertical `temperature_10m` +
-`delta_sst_t10`; al cerrar esas señales se construirá el ensamblador y la
-aplicación web.
+salida no valida pesca ni detecta cardúmenes. OSTIA es un análisis suavizado de
+0.05° y el gradiente debe presentarse únicamente como **gradiente térmico
+regional (experimental)**. Las diferencias centradas y unilaterales usan
+soportes espaciales distintos y sus magnitudes no son directamente comparables
+entre celdas sin consultar el método trazado. Después se evaluará el bloque
+vertical `temperature_10m` + `delta_sst_t10`; al cerrar esas señales se
+construirá el ensamblador y la aplicación web.
