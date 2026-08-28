@@ -51,6 +51,7 @@ class ThermalFrontField:
     maximum_latitude: float
     minimum_longitude: float
     maximum_longitude: float
+    source_nominal_product_date: date | None
     source_time_utc: datetime | None
     source_time_local: datetime | None
     latitudes: tuple[float, ...]
@@ -114,6 +115,7 @@ def _empty_like(field: OstiaField, status: ThermalFrontStatus) -> ThermalFrontFi
         maximum_latitude=field.maximum_latitude,
         minimum_longitude=field.minimum_longitude,
         maximum_longitude=field.maximum_longitude,
+        source_nominal_product_date=field.nominal_product_date,
         source_time_utc=field.time_utc,
         source_time_local=field.time_local,
         latitudes=field.latitudes,
@@ -257,6 +259,7 @@ def derive_thermal_front(field: OstiaField) -> ThermalFrontField:
         maximum_latitude=field.maximum_latitude,
         minimum_longitude=field.minimum_longitude,
         maximum_longitude=field.maximum_longitude,
+        source_nominal_product_date=field.nominal_product_date,
         source_time_utc=field.time_utc,
         source_time_local=field.time_local,
         latitudes=field.latitudes,

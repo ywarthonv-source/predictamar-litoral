@@ -7,6 +7,10 @@ favorabilidad pesquera y no afirma presencia de cardúmenes.
 El recuadro por defecto es TÉCNICO: aporta vecinos suficientes para calcular
 un gradiente sobre la grilla de 0.05 grados. No representa ni redefine el
 alcance artesanal de 0–10 km desde el litoral.
+
+Las fechas solicitadas son fechas nominales UTC de medias diarias OSTIA. La
+coordenada temporal cruda del servicio se conserva aparte y no se desplaza de
+día al convertirla a la zona horaria de Pucusana.
 """
 
 from __future__ import annotations
@@ -28,7 +32,6 @@ from derivation.thermal_front import (
 from ingestion.fetch_ostia import (
     DATASET_ID,
     PRODUCT_ID,
-    TZ_PUCUSANA,
     OstiaField,
     OstiaStatus,
     fetch_ostia_field,
@@ -36,7 +39,7 @@ from ingestion.fetch_ostia import (
 
 DEFAULT_DAYS = 7
 MAX_DAYS = 31
-DEFAULT_END_DATE_LAG_DAYS = 1
+PRODUCT_DELIVERY_HOUR_UTC = 12
 
 REFERENCE_NAME = "Caleta Pucusana"
 REFERENCE_LATITUDE = -12.471
@@ -105,8 +108,9 @@ class NumericSummary:
 class DiagnosticDay:
     requested_date: date
     source_status: str
-    source_time_utc: datetime | None
-    temporal_age_hours: float | None
+    source_nominal_product_date: date | None
+    source_time_raw_utc: datetime | None
+    source_nominal_age_days: int | None
     n_latitudes: int
     n_longitudes: int
     n_grid_cells: int
@@ -139,8 +143,8 @@ class OstiaDiagnosticReport:
     n_days_with_source: int
     n_days_without_source: int
     n_days_with_gradient: int
-    n_days_same_local_date: int
-    n_days_using_recent_fallback: int
+    n_days_matching_nominal_date: int
+    n_days_using_nominal_fallback: int
     n_unique_source_fields: int
     n_reused_source_fields: int
     grid_axes_stable: bool | None
@@ -152,13 +156,13 @@ Deriver = Callable[[OstiaField], ThermalFrontField]
 
 
 def default_end_date(now_utc: datetime | None = None) -> date:
-    """Usa ayer en Pucusana para reducir consultas al día todavía incompleto."""
+    """Elige la última fecha nominal que OSTIA debería haber publicado."""
     current = now_utc or datetime.now(timezone.utc)
     if current.tzinfo is None:
         raise ValueError("now_utc debe incluir zona horaria.")
-    return current.astimezone(TZ_PUCUSANA).date() - timedelta(
-        days=DEFAULT_END_DATE_LAG_DAYS
-    )
+    current_utc = current.astimezone(timezone.utc)
+    lag_days = 1 if current_utc.hour >= PRODUCT_DELIVERY_HOUR_UTC else 2
+    return current_utc.date() - timedelta(days=lag_days)
 
 
 def _numeric_summary(matrix: Sequence[Sequence[float | None]]) -> NumericSummary:
@@ -199,8 +203,9 @@ def _diagnose_day(field: OstiaField, front: ThermalFrontField) -> DiagnosticDay:
     return DiagnosticDay(
         requested_date=field.requested_date,
         source_status=field.status.value,
-        source_time_utc=field.time_utc,
-        temporal_age_hours=field.temporal_age_hours,
+        source_nominal_product_date=field.nominal_product_date,
+        source_time_raw_utc=field.time_utc,
+        source_nominal_age_days=field.nominal_age_days,
         n_latitudes=len(field.latitudes),
         n_longitudes=len(field.longitudes),
         n_grid_cells=field.n_grid_cells,
@@ -234,7 +239,7 @@ def run_diagnostic(
     generated = generated.astimezone(timezone.utc)
 
     daily: list[DiagnosticDay] = []
-    source_times: list[datetime] = []
+    source_nominal_dates: list[date] = []
     source_axes: list[tuple[tuple[float, ...], tuple[float, ...]]] = []
     source_statuses: list[OstiaStatus] = []
 
@@ -249,8 +254,12 @@ def run_diagnostic(
         front = deriver(field)
         daily.append(_diagnose_day(field, front))
         source_statuses.append(field.status)
-        if field.time_utc is not None and field.n_valid_cells:
-            source_times.append(field.time_utc)
+        if (
+            field.nominal_product_date is not None
+            and field.time_utc is not None
+            and field.n_valid_cells
+        ):
+            source_nominal_dates.append(field.nominal_product_date)
             source_axes.append((field.latitudes, field.longitudes))
 
     n_with_source = sum(status != OstiaStatus.SIN_DATOS for status in source_statuses)
@@ -259,11 +268,11 @@ def run_diagnostic(
         and item.n_gradient_cells > 0
         for item in daily
     )
-    n_same_date = sum(
-        status == OstiaStatus.VALIDA_EN_FECHA_LOCAL for status in source_statuses
+    n_matching_nominal_date = sum(
+        status == OstiaStatus.VALIDA_EN_FECHA_NOMINAL for status in source_statuses
     )
     n_recent = sum(status == OstiaStatus.VALIDA_RECIENTE for status in source_statuses)
-    unique_source_times = len(set(source_times))
+    unique_source_fields = len(set(source_nominal_dates))
     grid_stable = len(set(source_axes)) <= 1 if source_axes else None
 
     return OstiaDiagnosticReport(
@@ -282,10 +291,13 @@ def run_diagnostic(
         n_days_with_source=n_with_source,
         n_days_without_source=len(dates) - n_with_source,
         n_days_with_gradient=n_with_gradient,
-        n_days_same_local_date=n_same_date,
-        n_days_using_recent_fallback=n_recent,
-        n_unique_source_fields=unique_source_times,
-        n_reused_source_fields=max(0, len(source_times) - unique_source_times),
+        n_days_matching_nominal_date=n_matching_nominal_date,
+        n_days_using_nominal_fallback=n_recent,
+        n_unique_source_fields=unique_source_fields,
+        n_reused_source_fields=max(
+            0,
+            len(source_nominal_dates) - unique_source_fields,
+        ),
         grid_axes_stable=grid_stable,
         interpretation_warning=INTERPRETATION_WARNING,
     )
@@ -335,15 +347,28 @@ def format_report(report: OstiaDiagnosticReport) -> str:
         "--- RESULTADOS POR FECHA ---",
     ]
     for item in report.days:
-        source_time = (
-            item.source_time_utc.isoformat() if item.source_time_utc else "sin_dato"
+        nominal_date = (
+            item.source_nominal_product_date.isoformat()
+            if item.source_nominal_product_date
+            else "sin_dato"
+        )
+        source_time_raw = (
+            item.source_time_raw_utc.isoformat()
+            if item.source_time_raw_utc
+            else "sin_dato"
         )
         lines.extend(
             [
-                f"fecha_solicitada: {item.requested_date.isoformat()}",
+                f"fecha_nominal_solicitada: {item.requested_date.isoformat()}",
                 (
-                    f"  fuente: status={item.source_status}, timestamp_utc={source_time}, "
-                    f"antiguedad_h={_format_optional(item.temporal_age_hours, 2)}"
+                    f"  fuente: status={item.source_status}, "
+                    f"fecha_nominal={nominal_date}, "
+                    f"timestamp_crudo_utc={source_time_raw}"
+                ),
+                (
+                    "  edad_fuente: "
+                    "nominal_dias="
+                    f"{item.source_nominal_age_days if item.source_nominal_age_days is not None else 'sin_dato'}"
                 ),
                 (
                     f"  grilla: {item.n_latitudes}x{item.n_longitudes}, "
@@ -380,9 +405,15 @@ def format_report(report: OstiaDiagnosticReport) -> str:
             f"fechas_con_ostia: {report.n_days_with_source}/{report.days_requested}",
             f"fechas_sin_ostia: {report.n_days_without_source}",
             f"fechas_con_gradiente: {report.n_days_with_gradient}",
-            f"campos_en_fecha_local: {report.n_days_same_local_date}",
-            f"campos_por_fallback_reciente: {report.n_days_using_recent_fallback}",
-            f"timestamps_fuente_unicos: {report.n_unique_source_fields}",
+            (
+                "campos_en_fecha_nominal: "
+                f"{report.n_days_matching_nominal_date}"
+            ),
+            (
+                "campos_por_fallback_nominal: "
+                f"{report.n_days_using_nominal_fallback}"
+            ),
+            f"campos_fuente_unicos: {report.n_unique_source_fields}",
             f"campos_fuente_reutilizados: {report.n_reused_source_fields}",
             (
                 "ejes_de_grilla_estables: "
@@ -444,7 +475,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--end-date",
         type=_parse_date,
         default=default_end_date(),
-        help="Última fecha local a consultar (YYYY-MM-DD); por defecto, ayer.",
+        help=(
+            "Última fecha nominal OSTIA a consultar (YYYY-MM-DD); por defecto, "
+            "la última que debería estar publicada según la entrega de 12 UTC."
+        ),
     )
     parser.add_argument(
         "--days",

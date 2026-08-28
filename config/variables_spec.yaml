@@ -318,8 +318,14 @@ profiles:
         exacta a grados Celsius. analysis_error permanece en kelvin.
       temporalidad: >
         Producto diario, media de 00:00 a 24:00 UTC centrada a las 12:00 UTC.
-        Se usa el campo más reciente no posterior al final de la fecha local,
-        con antigüedad máxima provisional de 72 horas.
+        La fecha solicitada es la FECHA NOMINAL UTC de esa media diaria. La
+        coordenada temporal cruda del servicio se conserva como procedencia,
+        pero nunca se convierte a America/Lima para decidir qué día representa:
+        el servicio puede etiquetar el mismo contrato diario a las 00:00 UTC,
+        mientras el PUM y los nombres de archivo lo centran a las 12:00 UTC.
+        Ambas etiquetas conservan el mismo día UTC. Si falta la fecha nominal,
+        se admite provisionalmente una fecha anterior de hasta 2 días; nunca
+        una fecha nominal futura.
       faltantes_y_cobertura: >
         Los NaN permanecen como faltantes. Se informan celdas totales, celdas
         válidas y fracción de cobertura; PredictaMAR no añade relleno.
@@ -787,7 +793,7 @@ variables:
     predictively_valid: null
     profile: fetcher_campo_ostia_l4_005deg_p1d
     modulo: "ingestion/fetch_ostia.py"
-    tests: "tests/test_fetch_ostia.py (18 casos sintéticos)"
+    tests: "tests/test_fetch_ostia.py (19 casos sintéticos)"
     producto:
       product_id: "SST_GLO_SST_L4_NRT_OBSERVATIONS_010_001"
       doi: "10.48670/moi-00165"
@@ -814,12 +820,16 @@ variables:
     nota: >
       Campo L4 gap-free procesado por el proveedor a partir de observaciones
       satelitales e in situ. PredictaMAR no añade relleno. No hereda el perfil
-      PT6H y todavía no ha pasado diagnóstico real en Pucusana.
+      PT6H. La fecha nominal diaria se mantiene separada de la coordenada
+      temporal cruda para impedir desplazamientos artificiales al convertirla
+      a hora de Lima.
     validacion_ejecutada:
       - "Compilación"
-      - "Suite sintética 18/18, sin acceso a Copernicus"
+      - "Suite sintética 19/19, sin acceso a Copernicus"
+      - "Diagnóstico real inicial 7/7 en Pucusana; identificó una ambigüedad entre fecha nominal diaria y coordenada temporal cruda"
     pendiente:
-      - "Diagnóstico real de cobertura, latencia y geometría costera"
+      - "Repetir una vez el diagnóstico real con el contrato nominal corregido"
+      - "Evaluar cobertura, latencia y geometría costera con la salida corregida"
       - "Comparación contra la SST de modelo"
       - "Validación independiente antes de cualquier scoring"
 

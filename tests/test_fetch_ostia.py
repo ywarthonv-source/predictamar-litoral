@@ -7,7 +7,7 @@
 import ast
 import inspect
 import logging
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timezone
 
 import numpy as np
 import pytest
@@ -16,12 +16,13 @@ import xarray as xr
 import ingestion.fetch_ostia as fo
 
 TARGET_DATE = date(2026, 8, 12)
-END_UTC = datetime(2026, 8, 13, 4, 59, 59, tzinfo=timezone.utc)
+START_UTC = datetime(2026, 8, 10, 0, 0, 0, tzinfo=timezone.utc)
+END_UTC = datetime(2026, 8, 12, 23, 59, 59, tzinfo=timezone.utc)
 T_TODAY = datetime(2026, 8, 12, 12, 0)
 T_YESTERDAY = datetime(2026, 8, 11, 12, 0)
 T_FUTURE = datetime(2026, 8, 13, 12, 0)
-T_72H_EXACT = datetime(2026, 8, 10, 4, 59, 59)
-T_TOO_OLD = datetime(2026, 8, 10, 4, 59, 58)
+T_TWO_DAYS_AGO = datetime(2026, 8, 10, 0, 0)
+T_TOO_OLD = datetime(2026, 8, 9, 12, 0)
 
 MIN_LAT, MAX_LAT = -12.60, -12.30
 MIN_LON, MAX_LON = -76.95, -76.65
@@ -92,9 +93,7 @@ def test_1_contrato_oficial_y_consulta_explicita(install_dataset):
     assert kw["minimum_longitude"] == MIN_LON
     assert kw["maximum_longitude"] == MAX_LON
     assert kw["end_datetime"] == END_UTC
-    assert kw["start_datetime"] == END_UTC - timedelta(
-        hours=fo.MAX_TEMPORAL_AGE_HOURS + fo.QUERY_MARGIN_HOURS
-    )
+    assert kw["start_datetime"] == START_UTC
     assert "coordinates_selection_method" not in kw
 
 
@@ -111,29 +110,32 @@ def test_2_conserva_kelvin_y_convierte_celsius(install_dataset):
     assert result.analysis_error_kelvin[1][1] is None
 
 
-def test_3_timestamp_y_estado_de_fecha_local(install_dataset):
+def test_3_timestamp_y_estado_de_fecha_nominal(install_dataset):
     install_dataset(build_dataset())
     result = fetch()
+    assert result.nominal_product_date == TARGET_DATE
     assert result.time_utc == datetime(2026, 8, 12, 12, 0, tzinfo=timezone.utc)
     assert result.time_local == datetime(2026, 8, 12, 7, 0, tzinfo=fo.TZ_PUCUSANA)
-    assert result.inside_requested_local_date is True
-    assert result.status == fo.OstiaStatus.VALIDA_EN_FECHA_LOCAL
-    assert result.temporal_age_hours == pytest.approx(16.9997, abs=0.001)
+    assert result.matches_requested_nominal_date is True
+    assert result.status == fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL
+    assert result.nominal_age_days == 0
 
 
 def test_4_campo_anterior_dentro_del_limite(install_dataset):
     install_dataset(build_dataset(times=(T_YESTERDAY,)))
     result = fetch()
     assert result.status == fo.OstiaStatus.VALIDA_RECIENTE
-    assert result.inside_requested_local_date is False
+    assert result.matches_requested_nominal_date is False
+    assert result.nominal_product_date == date(2026, 8, 11)
+    assert result.nominal_age_days == 1
     assert result.time_local.date() == date(2026, 8, 11)
 
 
-def test_5_limite_temporal_inclusivo(install_dataset):
-    install_dataset(build_dataset(times=(T_72H_EXACT,)))
+def test_5_limite_nominal_inclusivo(install_dataset):
+    install_dataset(build_dataset(times=(T_TWO_DAYS_AGO,)))
     result = fetch()
     assert result.status == fo.OstiaStatus.VALIDA_RECIENTE
-    assert result.temporal_age_hours == pytest.approx(72.0)
+    assert result.nominal_age_days == fo.MAX_NOMINAL_AGE_DAYS
 
 
 def test_6_campo_demasiado_antiguo_es_sin_datos(install_dataset):
@@ -204,7 +206,7 @@ def test_11_ordena_ejes_y_reordena_los_valores(install_dataset):
 def test_12_acepta_aliases_lat_lon_sin_remuestrear(install_dataset):
     install_dataset(build_dataset(coord_style="short"))
     result = fetch()
-    assert result.status == fo.OstiaStatus.VALIDA_EN_FECHA_LOCAL
+    assert result.status == fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL
     assert len(result.latitudes) == 2 and len(result.longitudes) == 3
 
 
@@ -271,3 +273,17 @@ def test_18_sin_interpolacion_scoring_ni_umbral_pesquero():
     tree = ast.parse(source)
     names = {node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
     assert not {"score", "rank", "classify_front"} & names
+
+
+def test_19_etiqueta_00utc_conserva_fecha_nominal_sin_desplazarla_a_lima(
+    install_dataset,
+):
+    midnight_label = datetime(2026, 8, 12, 0, 0)
+    install_dataset(build_dataset(times=(midnight_label,)))
+    result = fetch()
+
+    assert result.time_local.date() == date(2026, 8, 11)
+    assert result.nominal_product_date == date(2026, 8, 12)
+    assert result.matches_requested_nominal_date is True
+    assert result.nominal_age_days == 0
+    assert result.status == fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL

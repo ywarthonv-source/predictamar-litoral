@@ -20,10 +20,11 @@ def make_field(values, errors=None, lats=(-12.50, -12.45, -12.40), lons=(-76.85,
         maximum_latitude=-12.3,
         minimum_longitude=-76.95,
         maximum_longitude=-76.65,
+        nominal_product_date=date(2026, 8, 12),
         time_utc=datetime(2026, 8, 12, 12, tzinfo=timezone.utc),
         time_local=datetime(2026, 8, 12, 7, tzinfo=fo.TZ_PUCUSANA),
-        temporal_age_hours=17.0,
-        inside_requested_local_date=True,
+        nominal_age_days=0,
+        matches_requested_nominal_date=True,
         latitudes=tuple(lats),
         longitudes=tuple(lons),
         sst_kelvin=tuple(tuple(None if v is None else v + 273.15 for v in row) for row in values),
@@ -42,7 +43,7 @@ def make_field(values, errors=None, lats=(-12.50, -12.45, -12.40), lons=(-76.85,
         nominal_resolution_deg=fo.NOMINAL_RESOLUTION_DEG,
         data_scope=fo.DATA_SCOPE,
         scope_warning=fo.DATA_SCOPE_WARNING,
-        status=fo.OstiaStatus.VALIDA_EN_FECHA_LOCAL,
+        status=fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL,
     )
 
 
@@ -53,6 +54,7 @@ def empty_source():
 def test_1_campo_constante_produce_gradiente_cero_valido():
     result = tf.derive_thermal_front(make_field([[20.0] * 3 for _ in range(3)]))
     assert result.status == tf.ThermalFrontStatus.VALIDO
+    assert result.source_nominal_product_date == date(2026, 8, 12)
     assert result.n_gradient_cells == 9
     assert all(value == pytest.approx(0.0) for row in result.gradient_c_per_km for value in row)
 

@@ -16,7 +16,7 @@ def make_field(
     values=((19.0, 20.0, 21.0), (20.0, 21.0, 22.0), (21.0, 22.0, 23.0)),
     errors=None,
     source_time: datetime | None = None,
-    status: fo.OstiaStatus = fo.OstiaStatus.VALIDA_EN_FECHA_LOCAL,
+    status: fo.OstiaStatus = fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL,
 ):
     rows = len(values)
     cols = len(values[0]) if rows else 0
@@ -29,16 +29,21 @@ def make_field(
         tzinfo=timezone.utc,
     )
     valid = sum(value is not None for row in values for value in row)
+    nominal_product_date = source_time.date()
+    nominal_age_days = (target_date - nominal_product_date).days
     return fo.OstiaField(
         requested_date=target_date,
         minimum_latitude=diag.DEFAULT_BBOX.minimum_latitude,
         maximum_latitude=diag.DEFAULT_BBOX.maximum_latitude,
         minimum_longitude=diag.DEFAULT_BBOX.minimum_longitude,
         maximum_longitude=diag.DEFAULT_BBOX.maximum_longitude,
+        nominal_product_date=nominal_product_date,
         time_utc=source_time,
         time_local=source_time.astimezone(fo.TZ_PUCUSANA),
-        temporal_age_hours=17.0,
-        inside_requested_local_date=status == fo.OstiaStatus.VALIDA_EN_FECHA_LOCAL,
+        nominal_age_days=nominal_age_days,
+        matches_requested_nominal_date=(
+            status == fo.OstiaStatus.VALIDA_EN_FECHA_NOMINAL
+        ),
         latitudes=tuple(-12.50 + 0.05 * i for i in range(rows)),
         longitudes=tuple(-76.85 + 0.05 * j for j in range(cols)),
         sst_kelvin=tuple(
@@ -89,9 +94,13 @@ def build_report(fields, generated_at=None):
     )
 
 
-def test_1_fecha_default_es_ayer_en_pucusana():
-    now = datetime(2026, 8, 27, 15, tzinfo=timezone.utc)
-    assert diag.default_end_date(now) == date(2026, 8, 26)
+def test_1_fecha_default_respeta_hora_de_entrega_ostia():
+    assert diag.default_end_date(
+        datetime(2026, 8, 27, 11, 59, tzinfo=timezone.utc)
+    ) == date(2026, 8, 25)
+    assert diag.default_end_date(
+        datetime(2026, 8, 27, 12, 0, tzinfo=timezone.utc)
+    ) == date(2026, 8, 26)
     with pytest.raises(ValueError):
         diag.default_end_date(datetime(2026, 8, 27, 15))  # noqa: DTZ001
 
@@ -150,7 +159,7 @@ def test_5_resume_error_y_gradiente_sin_inventar_umbral():
     assert "no activa scoring" in report.interpretation_warning
 
 
-def test_6_detecta_reutilizacion_de_timestamp_por_fallback():
+def test_6_detecta_reutilizacion_de_campo_por_fallback_nominal():
     shared = datetime(2026, 8, 11, 12, tzinfo=timezone.utc)
     fields = [
         make_field(date(2026, 8, 11), source_time=shared),
@@ -164,7 +173,7 @@ def test_6_detecta_reutilizacion_de_timestamp_por_fallback():
     assert report.n_days_with_source == 2
     assert report.n_unique_source_fields == 1
     assert report.n_reused_source_fields == 1
-    assert report.n_days_using_recent_fallback == 1
+    assert report.n_days_using_nominal_fallback == 1
 
 
 def test_7_dia_sin_fuente_permanece_sin_datos():
@@ -202,6 +211,8 @@ def test_10_formato_humano_es_agregado_y_declara_limitaciones():
     report = build_report([make_field(date(2026, 8, 12))])
     output = diag.format_report(report)
     assert "DIAGNÓSTICO REAL OSTIA" in output
+    assert "fecha_nominal_solicitada" in output
+    assert "timestamp_crudo_utc" in output
     assert "sst_validas=9/9" in output
     assert "DECISIÓN: pendiente de revisión humana" in output
     assert "no detecta cardúmenes" in output
@@ -213,6 +224,7 @@ def test_11_json_contiene_resumen_y_no_matrices():
     report = build_report([make_field(date(2026, 8, 12))])
     payload = json.loads(diag.report_to_json(report))
     assert payload["requested_end_date"] == "2026-08-12"
+    assert payload["days"][0]["source_nominal_product_date"] == "2026-08-12"
     assert payload["days"][0]["sst_celsius"]["count"] == 9
     assert "gradient_c_per_km" in payload["days"][0]
     text = json.dumps(payload)
@@ -271,3 +283,24 @@ def test_15_modulo_no_toca_imarpe_ni_implementa_scoring_directo():
     assert "copernicusmarine" not in source
     assert "score(" not in source
     assert "threshold" not in source.lower()
+
+
+def test_16_etiquetas_00utc_consecutivas_son_campos_nominales_distintos():
+    fields = [
+        make_field(
+            target_date,
+            source_time=datetime(
+                target_date.year,
+                target_date.month,
+                target_date.day,
+                tzinfo=timezone.utc,
+            ),
+        )
+        for target_date in (date(2026, 8, 11), date(2026, 8, 12))
+    ]
+    report = build_report(fields)
+
+    assert report.n_days_matching_nominal_date == 2
+    assert report.n_days_using_nominal_fallback == 0
+    assert report.n_unique_source_fields == 2
+    assert report.n_reused_source_fields == 0

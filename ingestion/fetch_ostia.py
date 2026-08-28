@@ -48,18 +48,25 @@ PROCESSING_LEVEL = "L4"
 
 TZ_PUCUSANA = ZoneInfo("America/Lima")
 
-# OSTIA es diario, con una latencia operacional que puede hacer que la última
-# fecha disponible sea anterior a la solicitada. Este límite es provisional y
-# siempre queda expuesto en la salida; no implica validez pesquera.
-MAX_TEMPORAL_AGE_HOURS = 72.0
-QUERY_MARGIN_HOURS = 24.0
+# OSTIA representa medias diarias UTC. El PUM las define de medianoche a
+# medianoche y centradas al mediodía, pero el eje servido por Copernicus puede
+# aparecer etiquetado a las 00:00 UTC. Por eso la FECHA nominal se obtiene del
+# día UTC de la coordenada cruda y nunca de su conversión a America/Lima.
+#
+# La latencia operacional puede hacer que la última fecha nominal disponible
+# sea anterior a la solicitada. Este fallback es provisional y siempre queda
+# expuesto; no implica validez pesquera.
+MAX_NOMINAL_AGE_DAYS = 2
 
 DATA_SCOPE = "sst_observada_ostia_regional_referencia"
 DATA_SCOPE_WARNING = (
     "SST de fundación observada OSTIA, producto L4 diario gap-free procesado "
     "por Met Office a partir de observaciones satelitales e in situ. No es una "
     "medición puntual ni in situ en Pucusana y no detecta cardúmenes. El campo "
-    "corresponde a un único timestamp nativo y al recuadro técnico solicitado. "
+    "corresponde a una única fecha nominal y coordenada temporal nativa, y al "
+    "recuadro técnico solicitado. La coordenada temporal cruda se conserva "
+    "como procedencia y nunca se convierte a hora local para decidir qué día "
+    "representa el producto. "
     "PredictaMAR no interpola ni rellena celdas: los faltantes permanecen como "
     "faltantes. La resolución nominal de 0.05 grados sigue siendo regional para "
     "un alcance litoral de 0–10 km."
@@ -67,7 +74,7 @@ DATA_SCOPE_WARNING = (
 
 
 class OstiaStatus(str, Enum):
-    VALIDA_EN_FECHA_LOCAL = "valida_en_fecha_local"
+    VALIDA_EN_FECHA_NOMINAL = "valida_en_fecha_nominal"
     VALIDA_RECIENTE = "valida_reciente"
     SIN_DATOS = "sin_datos"
 
@@ -82,10 +89,11 @@ class OstiaField:
     maximum_latitude: float
     minimum_longitude: float
     maximum_longitude: float
+    nominal_product_date: date | None
     time_utc: datetime | None
     time_local: datetime | None
-    temporal_age_hours: float | None
-    inside_requested_local_date: bool | None
+    nominal_age_days: int | None
+    matches_requested_nominal_date: bool | None
     latitudes: tuple[float, ...]
     longitudes: tuple[float, ...]
     sst_kelvin: Matrix
@@ -140,12 +148,13 @@ def _validate_bounds(
         )
 
 
-def _local_end_and_window(target_date: date) -> tuple[datetime, datetime, datetime]:
-    local_end = datetime.combine(target_date, datetime.min.time(), tzinfo=TZ_PUCUSANA)
-    local_end += timedelta(hours=23, minutes=59, seconds=59)
-    end_utc = local_end.astimezone(timezone.utc)
-    start_utc = end_utc - timedelta(hours=MAX_TEMPORAL_AGE_HOURS + QUERY_MARGIN_HOURS)
-    return local_end, end_utc, start_utc
+def _utc_query_window(target_date: date) -> tuple[datetime, datetime]:
+    """Incluye etiquetas diarias tanto de 00:00 como de 12:00 UTC."""
+    start_date = target_date - timedelta(days=MAX_NOMINAL_AGE_DAYS)
+    start_utc = datetime.combine(start_date, datetime.min.time(), tzinfo=timezone.utc)
+    end_utc = datetime.combine(target_date, datetime.min.time(), tzinfo=timezone.utc)
+    end_utc += timedelta(hours=23, minutes=59, seconds=59)
+    return end_utc, start_utc
 
 
 def _empty_field(
@@ -161,10 +170,11 @@ def _empty_field(
         maximum_latitude=float(maximum_latitude),
         minimum_longitude=float(minimum_longitude),
         maximum_longitude=float(maximum_longitude),
+        nominal_product_date=None,
         time_utc=None,
         time_local=None,
-        temporal_age_hours=None,
-        inside_requested_local_date=None,
+        nominal_age_days=None,
+        matches_requested_nominal_date=None,
         latitudes=(),
         longitudes=(),
         sst_kelvin=(),
@@ -252,12 +262,13 @@ def fetch_ostia_field(
     target_date: date,
 ) -> OstiaField:
     """
-    Obtiene el campo OSTIA más reciente y admisible para la fecha local.
+    Obtiene el campo OSTIA más reciente para la fecha nominal solicitada.
 
-    Se solicita un recuadro explícito y una ventana retrospectiva. Nunca se
-    utiliza un timestamp posterior al final de la fecha local solicitada. Si el
-    timestamp más reciente no contiene ninguna SST válida, se examina el
-    anterior dentro del límite de antigüedad; no se combinan dos fechas.
+    ``target_date`` identifica la media diaria UTC del producto, no una hora
+    local de observación. La coordenada temporal cruda se conserva, pero su
+    conversión a America/Lima no se usa para asignar la fecha del producto. Si
+    la fecha nominal solicitada no contiene SST válida, se examinan fechas
+    nominales anteriores dentro del límite; nunca se combinan dos fechas.
     """
     _validate_bounds(
         minimum_latitude,
@@ -266,7 +277,7 @@ def fetch_ostia_field(
         maximum_longitude,
         target_date,
     )
-    _local_end, end_utc, start_utc = _local_end_and_window(target_date)
+    end_utc, start_utc = _utc_query_window(target_date)
 
     try:
         ds = copernicusmarine.open_dataset(
@@ -302,14 +313,27 @@ def fetch_ostia_field(
         candidates = []
         for raw_time in sst.time.values:
             time_utc = _as_utc(raw_time)
-            if time_utc > end_utc:
+            nominal_product_date = time_utc.date()
+            if nominal_product_date > target_date:
                 continue
-            age = (end_utc - time_utc).total_seconds() / 3600.0
-            if age <= MAX_TEMPORAL_AGE_HOURS:
-                candidates.append((time_utc, raw_time, age))
-        candidates.sort(key=lambda item: item[0], reverse=True)
+            nominal_age_days = (target_date - nominal_product_date).days
+            if nominal_age_days <= MAX_NOMINAL_AGE_DAYS:
+                candidates.append(
+                    (
+                        nominal_product_date,
+                        time_utc,
+                        raw_time,
+                        nominal_age_days,
+                    )
+                )
+        candidates.sort(key=lambda item: (item[0], item[1]), reverse=True)
 
-        for time_utc, raw_time, age in candidates:
+        for (
+            nominal_product_date,
+            time_utc,
+            raw_time,
+            nominal_age_days,
+        ) in candidates:
             sst_slice = sst.sel(time=raw_time).sortby("latitude").sortby("longitude")
             err_slice = error.sel(time=raw_time).sortby("latitude").sortby("longitude")
             sst_values = np.asarray(sst_slice.values, dtype=float)
@@ -325,17 +349,18 @@ def fetch_ostia_field(
             valid_error = valid & np.isfinite(err_values) & (err_values >= 0.0)
             n_grid = int(sst_values.size)
             time_local = time_utc.astimezone(TZ_PUCUSANA)
-            same_local_date = time_local.date() == target_date
+            same_nominal_date = nominal_product_date == target_date
             return OstiaField(
                 requested_date=target_date,
                 minimum_latitude=float(minimum_latitude),
                 maximum_latitude=float(maximum_latitude),
                 minimum_longitude=float(minimum_longitude),
                 maximum_longitude=float(maximum_longitude),
+                nominal_product_date=nominal_product_date,
                 time_utc=time_utc,
                 time_local=time_local,
-                temporal_age_hours=float(age),
-                inside_requested_local_date=same_local_date,
+                nominal_age_days=nominal_age_days,
+                matches_requested_nominal_date=same_nominal_date,
                 latitudes=tuple(float(v) for v in sst_slice.latitude.values),
                 longitudes=tuple(float(v) for v in sst_slice.longitude.values),
                 sst_kelvin=_matrix(sst_values, valid),
@@ -355,16 +380,16 @@ def fetch_ostia_field(
                 data_scope=DATA_SCOPE,
                 scope_warning=DATA_SCOPE_WARNING,
                 status=(
-                    OstiaStatus.VALIDA_EN_FECHA_LOCAL
-                    if same_local_date
+                    OstiaStatus.VALIDA_EN_FECHA_NOMINAL
+                    if same_nominal_date
                     else OstiaStatus.VALIDA_RECIENTE
                 ),
             )
 
         logger.warning(
-            "Sin campo OSTIA admisible para %s dentro de %.1f h [%s]",
+            "Sin campo OSTIA admisible para %s dentro de %d días nominales [%s]",
             target_date,
-            MAX_TEMPORAL_AGE_HOURS,
+            MAX_NOMINAL_AGE_DAYS,
             DATASET_ID,
         )
         return _empty_field(
