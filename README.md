@@ -14,9 +14,9 @@ de la auditoría de agosto de 2026 como contratos verificables.
 5. ✅ **Primer bloque espacial** — SST OSTIA y gradiente térmico implementados;
    el diagnóstico real corregido confirmó 7/7 fechas nominales, siete campos
    únicos, cero fallbacks y ejes de grilla estables
-6. 🟡 **Bloque térmico vertical emparejado** — `temperature_10m` y
-   `delta_sst_t10` implementadas con pruebas sintéticas; falta ejecutar el
-   diagnóstico real de siete días en Pucusana
+6. ✅ **Bloque térmico vertical emparejado** — `temperature_10m` y
+   `delta_sst_t10` implementadas; el diagnóstico real confirmó siete días de
+   cobertura completa, 28 pares nativos únicos y cero fallbacks
 7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
 8. 🔲 **Ensamblador y aplicación** — siguientes etapas después de cerrar las
@@ -119,3 +119,12 @@ Este diagnóstico solo decidirá disponibilidad, cobertura y coherencia técnica
 No valida pesca, no detecta cardúmenes y no activa scoring. Después de revisar
 el resultado real se cerrarán las señales ambientales priorizadas y se pasará
 al ensamblador y la aplicación web.
+
+El diagnóstico real del 20 al 26 de agosto de 2026 cerró esa compuerta técnica:
+7/7 fechas tuvieron cobertura completa, 28/28 pares fueron nativos y únicos,
+no hubo fallback ni reutilización y permanecieron estables las profundidades y
+la celda seleccionada. El nivel profundo fue 9.572997 m, separado 9.078972 m
+del nivel superficial de 0.494025 m; la celda regional quedó a 5.703 km del
+punto solicitado. Entre los 28 pares, `temperature_10m` abarcó 19.4191–20.5213
+°C y `delta_sst_t10` 0.0331–1.3456 °C. Estos rangos demuestran variación del
+producto, no validez pesquera.

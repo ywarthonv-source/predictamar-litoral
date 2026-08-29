@@ -965,7 +965,7 @@ variables:
   temperature_10m:
     descripcion: "Temperatura a ~10 m de profundidad"
     intended_role: por_determinar
-    implementation_status: implementada_validada_sinteticamente
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
     profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
@@ -1003,8 +1003,9 @@ variables:
       - "Compilación"
       - "Suite sintética conjunta del fetcher 23/23"
       - "Suite sintética del diagnosticador 14/14"
+      - "Diagnóstico real 2026-08-20 a 2026-08-26: 7/7 fechas con cobertura completa, 28 pares nativos únicos, cero fallbacks y profundidades/celda estables"
+      - "Rangos observados en 28 pares: temperature_10m=19.4191–20.5213 degree_Celsius; delta_sst_t10=0.0331–1.3456 degree_Celsius"
     pendiente:
-      - "Ejecutar diagnóstico real de siete días en Pucusana"
       - "Validación independiente antes de interpretar relevancia pesquera"
 
   temperature_50m:
@@ -1019,7 +1020,7 @@ variables:
   delta_sst_t10:
     descripcion: "Diferencia SST menos temperatura a 10 m"
     intended_role: por_determinar
-    implementation_status: implementada_validada_sinteticamente
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
     profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
@@ -1050,8 +1051,9 @@ variables:
       - "Compilación"
       - "Suite sintética conjunta del fetcher 23/23"
       - "Suite sintética del diagnosticador 14/14"
+      - "Diagnóstico real 2026-08-20 a 2026-08-26: 7/7 fechas con cobertura completa, 28 pares nativos únicos, cero fallbacks y profundidades/celda estables"
+      - "Rango observado en 28 pares: 0.0331–1.3456 degree_Celsius"
     pendiente:
-      - "Ejecutar diagnóstico real de siete días en Pucusana"
       - "Validación independiente antes de interpretar relevancia pesquera"
 
   delta_sst_t50:

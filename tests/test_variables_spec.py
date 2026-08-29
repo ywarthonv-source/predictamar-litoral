@@ -74,15 +74,17 @@ def test_4_par_termico_vertical_declara_coherencia_y_nivel_nativo_real():
 
     assert profile["aplica_a_hoy"] == ["temperature_10m", "delta_sst_t10"]
     assert "misma celda" in profile["reglas"]["emparejamiento_estricto"]
-    assert temperature["implementation_status"] == "implementada_validada_sinteticamente"
+    assert temperature["implementation_status"] == "implementada_validada_tecnicamente"
     assert temperature["modulo"] == "ingestion/fetch_vertical_temperature.py"
     assert temperature["dataset_version"] == "202406"
     assert temperature["profundidad"]["solicitada_m"] == 10.0
     assert temperature["profundidad"]["nivel_nativo_oficial_m"] == 9.572997093200684
-    assert delta["implementation_status"] == "implementada_validada_sinteticamente"
+    assert delta["implementation_status"] == "implementada_validada_tecnicamente"
     assert delta["formula"] == "thetao_superficie - thetao_nivel_nativo_cercano_a_10m"
     assert delta["unidades"] == "degree_Celsius"
     assert "NO equivale a gradiente vertical" in delta["nota"]
     assert temperature["scoring_status"] == delta["scoring_status"] == "inactiva"
     assert temperature["predictively_valid"] is None
     assert delta["predictively_valid"] is None
+    assert any("28 pares nativos únicos" in item for item in temperature["validacion_ejecutada"])
+    assert any("0.0331–1.3456" in item for item in delta["validacion_ejecutada"])
