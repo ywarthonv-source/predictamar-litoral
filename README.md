@@ -24,7 +24,7 @@ de la auditoría de agosto de 2026 como contratos verificables.
 9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **259 pruebas**.
+Regresión sintética actual: **260 pruebas**.
 
 ## Estado del ensamblador ambiental
 
@@ -39,6 +39,14 @@ alimenta `sst_observed_ostia` y `thermal_front`; un mismo par vertical alimenta
 `temperature_10m` y `delta_sst_t10`. La caja regional de OSTIA se declara en
 la solicitud y usa por defecto ±0.15° alrededor del punto. Ese campo aporta
 contexto regional y no representa el dominio operativo de 0–10 km.
+
+La instantánea hace esa diferencia comprobable mediante `spatial_context`:
+los 0–10 km se declaran como distancia mar adentro desde el litoral, no como
+radio alrededor del punto solicitado; el campo queda marcado con
+`field_is_operational_domain: false`. Cada resultado también declara
+`spatial_scope`: `regional_field` para OSTIA y su gradiente,
+`regional_maximum` para el máximo conservador de oleaje y `point` para las
+otras siete variables.
 
 Cada variable queda envuelta con:
 

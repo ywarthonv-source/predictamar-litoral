@@ -459,3 +459,42 @@ def test_20_proveedores_predeterminados_exponen_nueve_callables():
             "fetch_bathymetry",
         )
     )
+
+
+def test_21_contrato_espacial_distingue_campo_regional_y_alcance_operativo():
+    providers, _ = make_providers()
+
+    snapshot = ea.assemble_environmental_snapshot(make_request(), providers=providers)
+    context = snapshot.spatial_context
+    document = json.loads(snapshot.to_json())
+    area = yaml.safe_load(ea.DEFAULT_AREA_PATH.read_text(encoding="utf-8"))
+
+    assert ea.DEFAULT_FIELD_HALF_WIDTH_DEG == pytest.approx(0.15)
+    assert context.field_half_width_deg == pytest.approx(0.15)
+    assert context.operational_range_min_km == pytest.approx(
+        area["operational_range_km"]["min"]
+    )
+    assert context.operational_range_max_km == pytest.approx(
+        area["operational_range_km"]["max"]
+    )
+    assert context.operational_range_basis == "distance_offshore_from_coastline"
+    assert context.operational_range_is_radius_from_request_point is False
+    assert context.operational_bounding_box_defined is False
+    assert context.field_is_operational_domain is False
+    assert context.field_scope_relation == "regional_context_not_operational_domain"
+    assert context.field_purpose == "regional_context_for_ostia_and_thermal_front"
+    assert area["bounding_box"]["usado_actualmente"] is False
+
+    scopes = {result.variable_id: result.spatial_scope for result in snapshot.variables}
+    assert scopes["sst_observed_ostia"] is ea.SpatialScope.REGIONAL_FIELD
+    assert scopes["thermal_front"] is ea.SpatialScope.REGIONAL_FIELD
+    assert scopes["oleaje"] is ea.SpatialScope.REGIONAL_MAXIMUM
+    assert all(
+        scope is ea.SpatialScope.POINT
+        for variable_id, scope in scopes.items()
+        if variable_id not in {"oleaje", "sst_observed_ostia", "thermal_front"}
+    )
+    assert document["spatial_context"]["field_is_operational_domain"] is False
+    assert document["variables"]["sst_observed_ostia"]["spatial_scope"] == "regional_field"
+    assert document["variables"]["oleaje"]["spatial_scope"] == "regional_maximum"
+    assert document["variables"]["sst"]["spatial_scope"] == "point"

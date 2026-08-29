@@ -12,6 +12,12 @@ Los fallos de una fuente no impiden recuperar las demás. Un error de uso en la
 solicitud se rechaza antes de invocar proveedores; un fallo posterior queda
 trazado como ``error`` en las variables afectadas. La compuerta de oleaje se
 informa por separado y nunca se convierte en autorización de navegación.
+
+La salida distingue siete variables puntuales, el máximo regional conservador
+de oleaje y los dos campos regionales OSTIA. El recuadro OSTIA predeterminado de
++/-0.15 grados sirve para construir SST y gradiente térmico; no es el dominio
+operativo. Los 0-10 km operativos describen distancia mar adentro desde el
+litoral y no un radio alrededor del punto pedido.
 """
 
 from __future__ import annotations
@@ -44,6 +50,13 @@ logger = logging.getLogger(__name__)
 SCHEMA_VERSION = "environmental_snapshot_v1"
 DEFAULT_FIELD_HALF_WIDTH_DEG = 0.15
 DEFAULT_SPEC_PATH = Path(__file__).resolve().parents[1] / "config" / "variables_spec.yaml"
+DEFAULT_AREA_PATH = Path(__file__).resolve().parents[1] / "config" / "area.yaml"
+
+OPERATIONAL_RANGE_MIN_KM = 0.0
+OPERATIONAL_RANGE_MAX_KM = 10.0
+OPERATIONAL_RANGE_BASIS = "distance_offshore_from_coastline"
+REGIONAL_FIELD_PURPOSE = "regional_context_for_ostia_and_thermal_front"
+REGIONAL_FIELD_RELATION = "regional_context_not_operational_domain"
 
 VARIABLE_ORDER = (
     "sst",
@@ -133,12 +146,44 @@ class OverallAssemblyStatus(str, Enum):
     FAILED = "failed"
 
 
+class SpatialScope(str, Enum):
+    POINT = "point"
+    REGIONAL_MAXIMUM = "regional_maximum"
+    REGIONAL_FIELD = "regional_field"
+
+
+REGIONAL_FIELD_VARIABLES = frozenset({"sst_observed_ostia", "thermal_front"})
+SPATIAL_SCOPE_BY_VARIABLE = {
+    variable_id: (
+        SpatialScope.REGIONAL_FIELD
+        if variable_id in REGIONAL_FIELD_VARIABLES
+        else SpatialScope.REGIONAL_MAXIMUM
+        if variable_id == "oleaje"
+        else SpatialScope.POINT
+    )
+    for variable_id in VARIABLE_ORDER
+}
+
+
 @dataclass(frozen=True)
 class FieldBounds:
     minimum_latitude: float
     maximum_latitude: float
     minimum_longitude: float
     maximum_longitude: float
+
+
+@dataclass(frozen=True)
+class SpatialContext:
+    operational_range_min_km: float
+    operational_range_max_km: float
+    operational_range_basis: str
+    operational_range_is_radius_from_request_point: bool
+    operational_bounding_box_defined: bool
+    field_half_width_deg: float
+    field_is_operational_domain: bool
+    field_scope_relation: str
+    field_purpose: str
 
 
 @dataclass(frozen=True)
@@ -214,6 +259,7 @@ class VariableResult:
     source_status: str | None
     source_type: str | None
     shared_operation: str
+    spatial_scope: SpatialScope
     value_paths: tuple[str, ...]
     governance: VariableGovernance
     payload: dict[str, object] | None
@@ -234,6 +280,7 @@ class SafetySummary:
 class EnvironmentalSnapshot:
     schema_version: str
     request: AssemblyRequest
+    spatial_context: SpatialContext
     status: OverallAssemblyStatus
     variables: tuple[VariableResult, ...]
     available_count: int
@@ -253,6 +300,7 @@ class EnvironmentalSnapshot:
         return {
             "schema_version": self.schema_version,
             "request": request_document,
+            "spatial_context": _to_primitive(self.spatial_context),
             "status": self.status.value,
             "counts": {
                 "available": self.available_count,
@@ -425,6 +473,7 @@ def _variable_result(
             source_status=source_status,
             source_type=type(reading).__name__,
             shared_operation=SHARED_OPERATION[variable_id],
+            spatial_scope=SPATIAL_SCOPE_BY_VARIABLE[variable_id],
             value_paths=VALUE_PATHS[variable_id],
             governance=governance,
             payload=payload,
@@ -448,6 +497,7 @@ def _error_result(
         source_status=None,
         source_type=None,
         shared_operation=SHARED_OPERATION[variable_id],
+        spatial_scope=SPATIAL_SCOPE_BY_VARIABLE[variable_id],
         value_paths=VALUE_PATHS[variable_id],
         governance=governance,
         payload=None,
@@ -482,6 +532,21 @@ def _overall_status(results: tuple[VariableResult, ...]) -> OverallAssemblyStatu
     if available == 0 and errors == 0:
         return OverallAssemblyStatus.NO_DATA
     return OverallAssemblyStatus.PARTIAL
+
+
+def _spatial_context(request: AssemblyRequest) -> SpatialContext:
+    """Declara la relación semántica entre el recuadro y el alcance operativo."""
+    return SpatialContext(
+        operational_range_min_km=OPERATIONAL_RANGE_MIN_KM,
+        operational_range_max_km=OPERATIONAL_RANGE_MAX_KM,
+        operational_range_basis=OPERATIONAL_RANGE_BASIS,
+        operational_range_is_radius_from_request_point=False,
+        operational_bounding_box_defined=False,
+        field_half_width_deg=float(request.field_half_width_deg),
+        field_is_operational_domain=False,
+        field_scope_relation=REGIONAL_FIELD_RELATION,
+        field_purpose=REGIONAL_FIELD_PURPOSE,
+    )
 
 
 def _safety_summary(wave: VariableResult) -> SafetySummary:
@@ -525,6 +590,10 @@ def assemble_environmental_snapshot(
     ``request`` se valida al construir ``AssemblyRequest``. No se calcula
     ningún promedio diario, favorabilidad, peso, score o ranking. La caja
     regional solo soporta OSTIA y su gradiente y viaja explícita en la salida.
+    Por defecto usa +/-0.15 grados y puede abarcar una extensión mayor que los
+    0-10 km operativos. Esos 0-10 km se miden mar adentro desde el litoral, no
+    como radio desde ``request.lat``/``request.lon``; ``spatial_context`` evita
+    presentar el campo regional como si fuera el dominio de faena.
     """
     if not isinstance(request, AssemblyRequest):
         raise TypeError("request debe ser una instancia de AssemblyRequest.")
@@ -627,6 +696,7 @@ def assemble_environmental_snapshot(
     return EnvironmentalSnapshot(
         schema_version=SCHEMA_VERSION,
         request=request,
+        spatial_context=_spatial_context(request),
         status=_overall_status(results),
         variables=results,
         available_count=available_count,
