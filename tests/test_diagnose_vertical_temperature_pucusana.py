@@ -218,6 +218,7 @@ def test_7_formato_humano_declara_limites_y_no_lista_muestras():
     assert "delta_sst_t10" in output
     assert "no detecta cardúmenes" in output
     assert "no un gradiente" in output
+    assert "no usa sst_observed_ostia" in output
     assert "DECISIÓN: pendiente de revisión humana" in output
     assert "VerticalThermalSample" not in output
     assert "surface_temperature_celsius" not in output

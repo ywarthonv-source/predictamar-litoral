@@ -341,11 +341,14 @@ def test_17_procedencia_distingue_delta_de_gradiente(patch_open_dataset):
     reading = fvt.fetch_vertical_thermal_pair(LAT, LON, TARGET_DATE)
 
     assert reading.delta_formula == "thetao_surface - thetao_nearest_native_10m"
+    assert reading.surface_source == "thetao_model_surface"
+    assert reading.uses_ostia is False
     assert reading.units_temperature == "degree_Celsius"
     assert reading.algorithm_version == "vertical_thermal_pair_v1"
     assert "diferencia, no un gradiente" in reading.scope_warning
     assert not hasattr(reading.samples[0], "vertical_gradient_c_per_m")
     assert "no detecta cardúmenes" in reading.scope_warning
+    assert "no usa sst_observed_ostia" in reading.scope_warning
 
 
 def test_18_cruce_utc_conserva_fecha_y_hora_local(patch_open_dataset):
@@ -381,3 +384,51 @@ def test_20_delta_usa_valores_nativos_sin_interpolacion(patch_open_dataset):
     assert sample.temperature_10m_celsius == pytest.approx(19.987654)
     assert sample.delta_sst_t10_celsius == pytest.approx(20.123456 - 19.987654)
     assert sample.temperature_10m_celsius != -999.0
+
+
+def test_21_rechaza_falsa_superficie_si_cambia_el_esquema(patch_open_dataset):
+    shifted_surface = (
+        SURFACE + fvt.MAX_SURFACE_DEPTH_DEVIATION_M + 0.01
+    )
+    depths = (shifted_surface, TARGET_10M, DEEPER)
+    values = {
+        (shifted_surface, LON_NEAR): [21.0] * 4,
+        (TARGET_10M, LON_NEAR): [19.0] * 4,
+    }
+    patch_open_dataset(build_dataset(NATIVE_TIMES, [LON_NEAR], values, depths=depths))
+
+    reading = fvt.fetch_vertical_thermal_pair(LAT, LON, TARGET_DATE)
+
+    assert reading.status == fvt.VerticalThermalStatus.SIN_DATOS
+    assert reading.surface_depth_actual_m is None
+    assert reading.temperature_10m_depth_actual_m is None
+
+
+def test_22_delta_conserva_signo_en_inversion_termica(patch_open_dataset):
+    values = {
+        (SURFACE, LON_NEAR): [18.5] * 4,
+        (TARGET_10M, LON_NEAR): [19.2] * 4,
+    }
+    patch_open_dataset(build_dataset(NATIVE_TIMES, [LON_NEAR], values))
+
+    sample = fvt.fetch_vertical_thermal_pair(LAT, LON, TARGET_DATE).samples[0]
+
+    assert sample.delta_sst_t10_celsius == pytest.approx(-0.7)
+
+
+def test_23_fallback_elige_la_celda_completa_mas_cercana(patch_open_dataset):
+    before = datetime(2026, 8, 12, 4)
+    values = {
+        (SURFACE, LON_NEAR): [22.0],
+        (TARGET_10M, LON_NEAR): [20.0],
+        (SURFACE, LON_FAR): [30.0],
+        (TARGET_10M, LON_FAR): [25.0],
+    }
+    patch_open_dataset(build_dataset([before], [LON_FAR, LON_NEAR], values))
+
+    reading = fvt.fetch_vertical_thermal_pair(LAT, LON, TARGET_DATE, 2, 5)
+
+    assert reading.status == fvt.VerticalThermalStatus.VALIDA_CERCANA_EN_TIEMPO
+    assert reading.cell_lon == pytest.approx(LON_NEAR)
+    assert reading.samples[0].surface_temperature_celsius == pytest.approx(22.0)
+    assert reading.samples[0].delta_sst_t10_celsius == pytest.approx(2.0)

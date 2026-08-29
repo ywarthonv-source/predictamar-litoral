@@ -70,14 +70,17 @@ TEMPERATURE_10M_DEPTH_REQUESTED_M = 10.0
 # nivel nativo más próximo a 10 m sin descargar los 50 niveles.
 DEPTH_QUERY_MAX_M = 12.0
 
-# Regla de identidad de la variable, no umbral pesquero. Evita llamar "~10 m"
-# a un nivel alejado si el esquema del producto cambia o llega incompleto.
+# Reglas de identidad del esquema, no umbrales pesqueros. Evitan aceptar como
+# superficie o "~10 m" niveles distintos si el producto cambia o llega
+# incompleto.
+MAX_SURFACE_DEPTH_DEVIATION_M = 0.1
 MAX_TARGET_DEPTH_DEVIATION_M = 1.5
 
 OFFICIAL_SURFACE_DEPTH_M = 0.49402499198913574
 OFFICIAL_NEAREST_10M_DEPTH_M = 9.572997093200684
 
 UNITS_TEMPERATURE = "degree_Celsius"
+SURFACE_SOURCE = "thetao_model_surface"
 DELTA_FORMULA = "thetao_surface - thetao_nearest_native_10m"
 ALGORITHM_VERSION = "vertical_thermal_pair_v1"
 DATA_SCOPE = "estructura_termica_vertical_regional_modelo"
@@ -87,8 +90,9 @@ DATA_SCOPE_WARNING = (
     "a 10 m proceden siempre del mismo dataset, versión, parte, timestamp y "
     "celda; las profundidades nativas efectivas se declaran en la salida. "
     "PredictaMAR no interpola niveles ni rellena valores ausentes. "
-    "delta_sst_t10 es thetao de superficie menos thetao del nivel nativo más "
-    "cercano a 10 m, en degree_Celsius: es una diferencia, no un gradiente "
+    "delta_sst_t10 es thetao de superficie del mismo modelo menos thetao del "
+    "nivel nativo más cercano a 10 m; no usa sst_observed_ostia ni combina "
+    "productos. Su unidad es degree_Celsius: es una diferencia, no un gradiente "
     "vertical ni una detección de termoclina. El producto aporta contexto "
     "regional, no una medición in situ en Pucusana; no detecta cardúmenes y "
     "no activa scoring."
@@ -139,6 +143,8 @@ class VerticalThermalReading:
     dataset_version: str = DATASET_VERSION
     dataset_part: str = DATASET_PART
     variable: str = VARIABLE
+    surface_source: str = SURFACE_SOURCE
+    uses_ostia: bool = False
     units_temperature: str = UNITS_TEMPERATURE
     delta_formula: str = DELTA_FORMULA
     algorithm_version: str = ALGORITHM_VERSION
@@ -207,6 +213,8 @@ def _select_native_depths(depth_values) -> tuple[float, float] | None:
     if len(finite_depths) < 2:
         return None
     surface = finite_depths[0]
+    if abs(surface - OFFICIAL_SURFACE_DEPTH_M) > MAX_SURFACE_DEPTH_DEVIATION_M:
+        return None
     candidates = [value for value in finite_depths if value > surface]
     if not candidates:
         return None
@@ -293,7 +301,9 @@ def fetch_vertical_thermal_pair(
     cantidad de pares completos y, en empate, la de menor distancia. Si no
     existe ningún par dentro de la ventana, se permite un único timestamp
     nativo cercano según el mismo límite temporal del fetcher SST; ambos
-    niveles usan juntos ese fallback o ninguno lo usa.
+    niveles usan juntos ese fallback o ninguno lo usa. Para cada timestamp de
+    fallback todas las celdas completas contienen un solo par, por lo que gana
+    explícitamente la más cercana de la lista ordenada de candidatos.
     """
     _validate_inputs(lat, lon, target_date)
     window_start_utc, window_end_utc = _local_window_to_utc(

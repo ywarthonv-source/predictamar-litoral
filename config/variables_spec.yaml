@@ -379,7 +379,9 @@ profiles:
       profundidad_superficial: >
         Se elige dinámicamente el nivel más somero devuelto. En la versión
         declarada su valor oficial típico es 0.49402499198913574 m; la salida
-        conserva siempre el valor efectivo.
+        conserva siempre el valor efectivo. Si se aleja más de 0.1 m del nivel
+        oficial, el esquema se rechaza completo como SIN_DATOS. Es una regla
+        de identidad del producto, no un umbral pesquero.
       profundidad_cercana_a_10m: >
         Entre los demás niveles devueltos se elige el nativo con menor
         distancia a 10.0 m. En la versión declarada es
@@ -399,11 +401,14 @@ profiles:
         Solo si no existe ningún par dentro de la ventana se admite un único
         timestamp nativo externo hasta 3 horas. Ambos niveles usan juntos ese
         timestamp y esa celda o el resultado es SIN_DATOS; a igual desfase se
-        prefiere el instante anterior.
+        prefiere el instante anterior. Como cada celda completa aporta un solo
+        par en ese timestamp, se elige la celda completa más cercana.
       diferencia_termica:
         formula: "thetao_superficie - thetao_nivel_nativo_cercano_a_10m"
         unidades: "degree_Celsius"
         algoritmo: "vertical_thermal_pair_v1"
+        superficie_fuente: "thetao superficial del mismo modelo y consulta"
+        usa_sst_observed_ostia: false
         aclaracion: >
           Es una diferencia Delta T, no un gradiente en degree_Celsius/m. La
           separación vertical efectiva también se declara, pero este bloque
@@ -964,13 +969,14 @@ variables:
 
   temperature_10m:
     descripcion: "Temperatura a ~10 m de profundidad"
-    intended_role: por_determinar
+    intended_role: B
+    intended_role_reason: "Condición térmica regional general del día; la resolución de 1/12 grado ofrece poca discriminación entre puntos dentro de 0–10 km"
     implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
     profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
     modulo: "ingestion/fetch_vertical_temperature.py"
-    tests: "tests/test_fetch_vertical_temperature.py (23 casos sintéticos compartidos con delta_sst_t10)"
+    tests: "tests/test_fetch_vertical_temperature.py (26 casos sintéticos compartidos con delta_sst_t10)"
     diagnostico: "diagnostics/diagnose_vertical_temperature_pucusana.py"
     tests_diagnostico: "tests/test_diagnose_vertical_temperature_pucusana.py (14 casos sintéticos)"
     product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
@@ -1001,7 +1007,7 @@ variables:
       renombra silenciosamente como 10.0 m.
     validacion_ejecutada:
       - "Compilación"
-      - "Suite sintética conjunta del fetcher 23/23"
+      - "Suite sintética conjunta del fetcher 26/26"
       - "Suite sintética del diagnosticador 14/14"
       - "Diagnóstico real 2026-08-20 a 2026-08-26: 7/7 fechas con cobertura completa, 28 pares nativos únicos, cero fallbacks y profundidades/celda estables"
       - "Rangos observados en 28 pares: temperature_10m=19.4191–20.5213 degree_Celsius; delta_sst_t10=0.0331–1.3456 degree_Celsius"
@@ -1018,14 +1024,15 @@ variables:
     nota: "Mismo producto y mismo timestamp que sst; relevancia esperada para pota y jurel"
 
   delta_sst_t10:
-    descripcion: "Diferencia SST menos temperatura a 10 m"
-    intended_role: por_determinar
+    descripcion: "Diferencia entre thetao superficial del modelo y thetao del nivel nativo cercano a 10 m"
+    intended_role: B
+    intended_role_reason: "Estructura térmica vertical regional del día; no aporta resolución fina entre puntos dentro de 0–10 km"
     implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
     profile: fetcher_puntual_termico_vertical_phy_0083deg_pt6h
     modulo: "ingestion/fetch_vertical_temperature.py"
-    tests: "tests/test_fetch_vertical_temperature.py (23 casos sintéticos compartidos con temperature_10m)"
+    tests: "tests/test_fetch_vertical_temperature.py (26 casos sintéticos compartidos con temperature_10m)"
     diagnostico: "diagnostics/diagnose_vertical_temperature_pucusana.py"
     fuente:
       product_id: "GLOBAL_ANALYSISFORECAST_PHY_001_024"
@@ -1038,6 +1045,8 @@ variables:
     unidades: "degree_Celsius"
     algoritmo: "vertical_thermal_pair_v1"
     entradas:
+      superficie_fuente: "thetao del mismo modelo, dataset, versión, timestamp y celda"
+      usa_sst_observed_ostia: false
       superficie_nativa_m: 0.49402499198913574
       profundidad_nativa_cercana_a_10m_m: 9.572997093200684
       coherencia: "misma consulta, dataset, versión, parte, timestamp y celda"
@@ -1045,11 +1054,14 @@ variables:
       Si cualquiera de los dos valores es NaN o falta, el par completo queda
       ausente. No se interpola, no se rellena y no se cruzan fallbacks.
     nota: >
-      Delta T en degree_Celsius; NO equivale a gradiente vertical en
-      degree_Celsius/m y no demuestra por sí sola una termoclina.
+      El identificador delta_sst_t10 se conserva por compatibilidad con el
+      esquema previamente mapeado. Su superficie es thetao del modelo a
+      0.494025 m: NO usa sst_observed_ostia ni combina productos. Delta T en
+      degree_Celsius NO equivale a gradiente vertical en degree_Celsius/m y no
+      demuestra por sí sola una termoclina.
     validacion_ejecutada:
       - "Compilación"
-      - "Suite sintética conjunta del fetcher 23/23"
+      - "Suite sintética conjunta del fetcher 26/26"
       - "Suite sintética del diagnosticador 14/14"
       - "Diagnóstico real 2026-08-20 a 2026-08-26: 7/7 fechas con cobertura completa, 28 pares nativos únicos, cero fallbacks y profundidades/celda estables"
       - "Rango observado en 28 pares: 0.0331–1.3456 degree_Celsius"

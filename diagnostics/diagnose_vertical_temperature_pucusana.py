@@ -38,8 +38,9 @@ INTERPRETATION_WARNING = (
     "Este diagnóstico comprueba disponibilidad, coherencia y variación del "
     "par térmico vertical del modelo en una referencia regional. No valida "
     "pesca, no detecta cardúmenes, no demuestra una termoclina y no activa "
-    "scoring. delta_sst_t10 es una diferencia en degree_Celsius, no un "
-    "gradiente en degree_Celsius/m."
+    "scoring. delta_sst_t10 resta dos niveles thetao del mismo modelo; no usa "
+    "sst_observed_ostia. Es una diferencia en degree_Celsius, no un gradiente "
+    "en degree_Celsius/m."
 )
 
 

@@ -24,7 +24,7 @@ de la auditoría de agosto de 2026 como contratos verificables.
 9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **225 pruebas**.
+Regresión sintética actual: **228 pruebas**.
 
 ## Fuentes y credenciales
 
@@ -97,10 +97,14 @@ nativo más próximo a 10 m es 9.572997 m; ambos valores efectivos viajan en la
 salida y nunca se interpola a 10.0 m.
 
 Cada par exige misma versión del dataset, timestamp y celda. Si falta uno de
-los niveles, falta el par completo. `delta_sst_t10` es superficie menos
-temperatura a 9.572997 m, en grados Celsius: no es un gradiente en grados por
-metro ni demuestra por sí sola una termoclina. La suite sintética del fetcher
-y el diagnosticador suma 37 pruebas; la regresión completa alcanza 225.
+los niveles, falta el par completo. El identificador `delta_sst_t10` conserva
+el nombre del esquema mapeado, pero resta dos niveles `thetao` del mismo modelo:
+la superficie nativa menos 9.572997 m. No usa `sst_observed_ostia` ni mezcla
+productos; tampoco es un gradiente en grados por metro ni demuestra por sí
+sola una termoclina. Ambas variables tienen rol `B`: describen la condición
+térmica regional del día y no prometen discriminación fina entre puntos. La
+suite sintética del fetcher y el diagnosticador suma 40 pruebas; la regresión
+completa alcanza 228.
 
 Para ejecutar siete días reales completos alrededor de Pucusana sin guardar
 muestras crudas:
