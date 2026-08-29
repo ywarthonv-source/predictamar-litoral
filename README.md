@@ -19,12 +19,64 @@ de la auditoría de agosto de 2026 como contratos verificables.
    cobertura completa, 28 pares nativos únicos y cero fallbacks
 7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
-8. 🔲 **Ensamblador y aplicación** — siguientes etapas después de cerrar las
-   señales ambientales priorizadas
+8. 🟡 **Ensamblador y aplicación** — contrato ambiental v1 implementado y
+   cubierto sintéticamente; aplicación web pendiente
 9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **228 pruebas**.
+Regresión sintética actual: **259 pruebas**.
+
+## Estado del ensamblador ambiental
+
+`assembly/environmental_assembler.py` coordina ocho adquisiciones para producir
+las diez variables implementadas bajo el contrato
+`environmental_snapshot_v1`. No calcula medias nuevas, favorabilidad, pesos,
+score ni ranking: conserva las series, campos y metadatos completos que ya
+entrega cada módulo.
+
+Las dependencias compartidas se consultan una sola vez. Un mismo campo OSTIA
+alimenta `sst_observed_ostia` y `thermal_front`; un mismo par vertical alimenta
+`temperature_10m` y `delta_sst_t10`. La caja regional de OSTIA se declara en
+la solicitud y usa por defecto ±0.15° alrededor del punto. Ese campo aporta
+contexto regional y no representa el dominio operativo de 0–10 km.
+
+Cada variable queda envuelta con:
+
+- estado de ensamblado (`available`, `no_data` o `error`);
+- estado original del módulo, sin reinterpretarlo;
+- salida completa serializable y rutas de los valores principales;
+- rol, madurez técnica, estado de scoring y validez predictiva tomados de
+  `config/variables_spec.yaml`;
+- operación compartida, para demostrar que una fuente no se descargó dos
+  veces.
+
+El estado global `complete` significa que las diez variables devolvieron algún
+dato admisible. No convierte un fallback o una cobertura parcial en cobertura
+perfecta: el `source_status` y el payload original permanecen visibles. Un
+fallo de fuente queda aislado como `error`; no borra las demás variables. La
+seguridad por oleaje viaja en un bloque separado: dato ausente, error o altura
+sobre el umbral provisional mantienen el bloqueo. Un resultado bajo el umbral
+regional tampoco constituye autorización de navegación.
+
+Uso programático:
+
+```python
+from datetime import date
+
+from assembly import AssemblyRequest, assemble_environmental_snapshot
+
+request = AssemblyRequest(
+    lat=-12.471,
+    lon=-76.790,
+    target_date=date(2026, 8, 26),
+)
+snapshot = assemble_environmental_snapshot(request)
+print(snapshot.to_json())
+```
+
+Los archivos IMARPE no se leen ni se incorporan por esta ruta. Permanecen como
+fuente restringida de validación independiente y requieren un contrato de
+observaciones separado antes de cualquier emparejamiento.
 
 ## Fuentes y credenciales
 

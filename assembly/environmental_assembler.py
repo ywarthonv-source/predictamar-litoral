@@ -1,0 +1,636 @@
+"""Ensamblador ambiental v1, sin scoring ni interpretación pesquera.
+
+El ensamblador coordina los ocho trabajos necesarios para exponer las diez
+variables implementadas. Conserva las salidas completas de cada módulo y no
+promedia, interpola, clasifica ni reduce sus valores. Dos dependencias se
+comparten de forma explícita:
+
+* un único campo OSTIA alimenta ``sst_observed_ostia`` y ``thermal_front``;
+* un único par térmico alimenta ``temperature_10m`` y ``delta_sst_t10``.
+
+Los fallos de una fuente no impiden recuperar las demás. Un error de uso en la
+solicitud se rechaza antes de invocar proveedores; un fallo posterior queda
+trazado como ``error`` en las variables afectadas. La compuerta de oleaje se
+informa por separado y nunca se convierte en autorización de navegación.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, fields, is_dataclass
+from datetime import date, datetime
+from enum import Enum
+import json
+import logging
+from math import isfinite
+from pathlib import Path
+from numbers import Real
+from typing import Callable
+
+import yaml
+
+from derivation.thermal_front import derive_thermal_front
+from ingestion.fetch_bathymetry import fetch_bathymetry
+from ingestion.fetch_chlorophyll import fetch_chlorophyll
+from ingestion.fetch_currents import fetch_currents
+from ingestion.fetch_ostia import fetch_ostia_field
+from ingestion.fetch_salinity import fetch_salinity
+from ingestion.fetch_temperature import fetch_sst
+from ingestion.fetch_vertical_temperature import fetch_vertical_thermal_pair
+from ingestion.fetch_waves import NOT_AN_AUTHORIZATION_NOTICE, get_wave_status
+
+
+logger = logging.getLogger(__name__)
+
+SCHEMA_VERSION = "environmental_snapshot_v1"
+DEFAULT_FIELD_HALF_WIDTH_DEG = 0.15
+DEFAULT_SPEC_PATH = Path(__file__).resolve().parents[1] / "config" / "variables_spec.yaml"
+
+VARIABLE_ORDER = (
+    "sst",
+    "oleaje",
+    "clorofila",
+    "salinidad",
+    "sst_observed_ostia",
+    "thermal_front",
+    "temperature_10m",
+    "delta_sst_t10",
+    "surface_currents",
+    "batimetria",
+)
+
+VALUE_PATHS = {
+    "sst": ("samples[].value_celsius",),
+    "oleaje": ("significant_wave_height_m",),
+    "clorofila": ("value_mg_m3",),
+    "salinidad": ("samples[].value_salinity",),
+    "sst_observed_ostia": ("sst_celsius[][]", "analysis_error_kelvin[][]"),
+    "thermal_front": (
+        "gradient_c_per_km[][]",
+        "eastward_gradient_c_per_km[][]",
+        "northward_gradient_c_per_km[][]",
+    ),
+    "temperature_10m": ("samples[].temperature_10m_celsius",),
+    "delta_sst_t10": ("samples[].delta_sst_t10_celsius",),
+    "surface_currents": (
+        "measurements[].uo_m_s",
+        "measurements[].vo_m_s",
+        "measurements[].speed_m_s",
+        "measurements[].direction_toward_deg",
+    ),
+    "batimetria": ("depth_m", "slope_deg", "tid_code"),
+}
+
+SHARED_OPERATION = {
+    "sst": "sst_model",
+    "oleaje": "waves",
+    "clorofila": "chlorophyll",
+    "salinidad": "salinity",
+    "sst_observed_ostia": "ostia_field",
+    "thermal_front": "ostia_field",
+    "temperature_10m": "vertical_thermal_pair",
+    "delta_sst_t10": "vertical_thermal_pair",
+    "surface_currents": "surface_currents",
+    "batimetria": "bathymetry",
+}
+
+AVAILABLE_SOURCE_STATUSES = {
+    "sst": {"valida_en_ventana", "valida_cercana_en_tiempo"},
+    "oleaje": {"bajo_umbral_regional", "sobre_umbral_regional"},
+    "clorofila": {"valida_en_fecha_local", "valida_reciente"},
+    "salinidad": {"valida_en_ventana", "valida_cercana_en_tiempo"},
+    "sst_observed_ostia": {"valida_en_fecha_nominal", "valida_reciente"},
+    "thermal_front": {"valido"},
+    "temperature_10m": {"valida_en_ventana", "valida_cercana_en_tiempo"},
+    "delta_sst_t10": {"valida_en_ventana", "valida_cercana_en_tiempo"},
+    "surface_currents": {"valida_en_ventana", "cobertura_parcial"},
+    "batimetria": {"valida"},
+}
+
+NO_DATA_SOURCE_STATUSES = {
+    "sst": {"sin_datos"},
+    "oleaje": {"sin_datos"},
+    "clorofila": {"sin_datos"},
+    "salinidad": {"sin_datos"},
+    "sst_observed_ostia": {"sin_datos"},
+    "thermal_front": {"sin_gradientes", "fuente_sin_datos"},
+    "temperature_10m": {"sin_datos"},
+    "delta_sst_t10": {"sin_datos"},
+    "surface_currents": {"sin_datos"},
+    "batimetria": {"sin_datos"},
+}
+
+
+class AssemblyState(str, Enum):
+    AVAILABLE = "available"
+    NO_DATA = "no_data"
+    ERROR = "error"
+
+
+class OverallAssemblyStatus(str, Enum):
+    COMPLETE = "complete"
+    PARTIAL = "partial"
+    NO_DATA = "no_data"
+    FAILED = "failed"
+
+
+@dataclass(frozen=True)
+class FieldBounds:
+    minimum_latitude: float
+    maximum_latitude: float
+    minimum_longitude: float
+    maximum_longitude: float
+
+
+@dataclass(frozen=True)
+class AssemblyRequest:
+    lat: float
+    lon: float
+    target_date: date
+    hour_start_local: int = 0
+    hour_end_local: int = 23
+    field_half_width_deg: float = DEFAULT_FIELD_HALF_WIDTH_DEG
+
+    def __post_init__(self) -> None:
+        for name, value, lower, upper in (
+            ("lat", self.lat, -90.0, 90.0),
+            ("lon", self.lon, -180.0, 180.0),
+        ):
+            if (
+                not isinstance(value, Real)
+                or isinstance(value, bool)
+                or not isfinite(float(value))
+                or not lower <= float(value) <= upper
+            ):
+                raise ValueError(f"{name} debe ser un número finito entre {lower:g} y {upper:g}.")
+        if not isinstance(self.target_date, date) or isinstance(self.target_date, datetime):
+            raise ValueError("target_date debe ser datetime.date, no datetime ni texto.")
+        for name, value in (
+            ("hour_start_local", self.hour_start_local),
+            ("hour_end_local", self.hour_end_local),
+        ):
+            if not isinstance(value, int) or isinstance(value, bool) or not 0 <= value <= 23:
+                raise ValueError(f"{name} debe ser un entero entre 0 y 23.")
+        if self.hour_start_local > self.hour_end_local:
+            raise ValueError("hour_start_local no puede ser mayor que hour_end_local.")
+        if (
+            not isinstance(self.field_half_width_deg, Real)
+            or isinstance(self.field_half_width_deg, bool)
+            or not isfinite(float(self.field_half_width_deg))
+            or not 0.0 < float(self.field_half_width_deg) <= 1.0
+        ):
+            raise ValueError("field_half_width_deg debe ser finito, mayor que 0 y menor o igual que 1.")
+        bounds = self.field_bounds
+        if not (-90.0 <= bounds.minimum_latitude < bounds.maximum_latitude <= 90.0):
+            raise ValueError("El campo regional solicitado excede los límites de latitud.")
+        if not (-180.0 <= bounds.minimum_longitude < bounds.maximum_longitude <= 180.0):
+            raise ValueError("El campo regional solicitado excede los límites de longitud.")
+
+    @property
+    def field_bounds(self) -> FieldBounds:
+        half_width = float(self.field_half_width_deg)
+        return FieldBounds(
+            minimum_latitude=float(self.lat) - half_width,
+            maximum_latitude=float(self.lat) + half_width,
+            minimum_longitude=float(self.lon) - half_width,
+            maximum_longitude=float(self.lon) + half_width,
+        )
+
+
+@dataclass(frozen=True)
+class VariableGovernance:
+    description: str
+    intended_role: str
+    implementation_status: str
+    scoring_status: str
+    predictively_valid: bool | str | None
+    profile: str
+    module: str
+
+
+@dataclass(frozen=True)
+class VariableResult:
+    variable_id: str
+    state: AssemblyState
+    source_status: str | None
+    source_type: str | None
+    shared_operation: str
+    value_paths: tuple[str, ...]
+    governance: VariableGovernance
+    payload: dict[str, object] | None
+    error_code: str | None = None
+    error_type: str | None = None
+
+
+@dataclass(frozen=True)
+class SafetySummary:
+    blocked: bool
+    source_variable: str
+    source_status: str | None
+    reason: str
+    not_authorization_notice: str = NOT_AN_AUTHORIZATION_NOTICE
+
+
+@dataclass(frozen=True)
+class EnvironmentalSnapshot:
+    schema_version: str
+    request: AssemblyRequest
+    status: OverallAssemblyStatus
+    variables: tuple[VariableResult, ...]
+    available_count: int
+    no_data_count: int
+    error_count: int
+    safety: SafetySummary
+
+    def get(self, variable_id: str) -> VariableResult:
+        for result in self.variables:
+            if result.variable_id == variable_id:
+                return result
+        raise KeyError(variable_id)
+
+    def to_dict(self) -> dict[str, object]:
+        request_document = _to_primitive(self.request)
+        request_document["field_bounds"] = _to_primitive(self.request.field_bounds)
+        return {
+            "schema_version": self.schema_version,
+            "request": request_document,
+            "status": self.status.value,
+            "counts": {
+                "available": self.available_count,
+                "no_data": self.no_data_count,
+                "error": self.error_count,
+                "total": len(self.variables),
+            },
+            "safety": _to_primitive(self.safety),
+            "variables": {
+                result.variable_id: _to_primitive(result) for result in self.variables
+            },
+        }
+
+    def to_json(self, *, indent: int | None = 2) -> str:
+        return json.dumps(
+            self.to_dict(),
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=indent,
+        )
+
+
+@dataclass(frozen=True)
+class AssemblerProviders:
+    fetch_sst: Callable[..., object] = fetch_sst
+    get_wave_status: Callable[..., object] = get_wave_status
+    fetch_chlorophyll: Callable[..., object] = fetch_chlorophyll
+    fetch_salinity: Callable[..., object] = fetch_salinity
+    fetch_ostia_field: Callable[..., object] = fetch_ostia_field
+    derive_thermal_front: Callable[[object], object] = derive_thermal_front
+    fetch_vertical_thermal_pair: Callable[..., object] = fetch_vertical_thermal_pair
+    fetch_currents: Callable[..., object] = fetch_currents
+    fetch_bathymetry: Callable[..., object] = fetch_bathymetry
+
+
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader que rechaza claves duplicadas en el contrato YAML."""
+
+
+def _construct_unique_mapping(loader, node, deep=False):
+    mapping = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in mapping:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                f"duplicate key: {key!r}",
+                key_node.start_mark,
+            )
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+_UniqueKeyLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_unique_mapping,
+)
+
+
+def _load_governance(spec_path: Path) -> dict[str, VariableGovernance]:
+    try:
+        document = yaml.load(spec_path.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
+    except OSError as exc:
+        raise ValueError(f"No se pudo leer el contrato de variables: {spec_path}") from exc
+    if not isinstance(document, dict) or not isinstance(document.get("variables"), dict):
+        raise ValueError("variables_spec.yaml debe contener un mapping 'variables'.")
+
+    governance = {}
+    required = (
+        "descripcion",
+        "intended_role",
+        "implementation_status",
+        "scoring_status",
+        "predictively_valid",
+        "profile",
+        "modulo",
+    )
+    for variable_id in VARIABLE_ORDER:
+        config = document["variables"].get(variable_id)
+        if not isinstance(config, dict):
+            raise ValueError(f"Falta la variable ensamblada {variable_id!r} en variables_spec.yaml.")
+        missing = [name for name in required if name not in config]
+        if missing:
+            raise ValueError(f"{variable_id!r} no declara campos de gobernanza: {missing}.")
+        implementation_status = str(config["implementation_status"])
+        if not implementation_status.startswith("implementada_"):
+            raise ValueError(
+                f"{variable_id!r} está registrada en el ensamblador pero no implementada: "
+                f"{implementation_status!r}."
+            )
+        governance[variable_id] = VariableGovernance(
+            description=str(config["descripcion"]),
+            intended_role=str(config["intended_role"]),
+            implementation_status=implementation_status,
+            scoring_status=str(config["scoring_status"]),
+            predictively_valid=config["predictively_valid"],
+            profile=str(config["profile"]),
+            module=str(config["modulo"]),
+        )
+    return governance
+
+
+def _to_primitive(value):
+    if is_dataclass(value) and not isinstance(value, type):
+        return {field.name: _to_primitive(getattr(value, field.name)) for field in fields(value)}
+    if isinstance(value, Enum):
+        return _to_primitive(value.value)
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {str(key): _to_primitive(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_to_primitive(item) for item in value]
+    if isinstance(value, Real) and not isinstance(value, bool):
+        numeric = float(value)
+        if not isfinite(numeric):
+            raise ValueError("La salida de un proveedor contiene un número no finito.")
+        return int(value) if isinstance(value, int) else numeric
+    if value is None or isinstance(value, (str, bool)):
+        return value
+    raise TypeError(f"Tipo no serializable en salida del proveedor: {type(value).__name__}")
+
+
+def _source_status(reading: object) -> str:
+    if not is_dataclass(reading) or isinstance(reading, type):
+        raise TypeError("El proveedor debe devolver una instancia dataclass trazable.")
+    status = getattr(reading, "status", None)
+    if isinstance(status, Enum):
+        status = status.value
+    if not isinstance(status, str) or not status:
+        raise TypeError("La salida del proveedor debe declarar un status serializable.")
+    return status
+
+
+def _validate_value_paths(payload: dict[str, object], variable_id: str) -> None:
+    for path in VALUE_PATHS[variable_id]:
+        root = path.split(".", 1)[0].split("[", 1)[0]
+        if root not in payload:
+            raise TypeError(
+                f"La salida de {variable_id!r} no contiene la raíz declarada {root!r}."
+            )
+
+
+def _variable_result(
+    variable_id: str,
+    reading: object,
+    governance: VariableGovernance,
+) -> VariableResult:
+    try:
+        source_status = _source_status(reading)
+        payload = _to_primitive(reading)
+        if not isinstance(payload, dict):
+            raise TypeError("La salida serializada del proveedor debe ser un mapping.")
+        _validate_value_paths(payload, variable_id)
+        if source_status in AVAILABLE_SOURCE_STATUSES[variable_id]:
+            state = AssemblyState.AVAILABLE
+            error_code = None
+        elif source_status in NO_DATA_SOURCE_STATUSES[variable_id]:
+            state = AssemblyState.NO_DATA
+            error_code = None
+        else:
+            state = AssemblyState.ERROR
+            error_code = "unknown_source_status"
+        return VariableResult(
+            variable_id=variable_id,
+            state=state,
+            source_status=source_status,
+            source_type=type(reading).__name__,
+            shared_operation=SHARED_OPERATION[variable_id],
+            value_paths=VALUE_PATHS[variable_id],
+            governance=governance,
+            payload=payload,
+            error_code=error_code,
+            error_type=None,
+        )
+    except Exception as exc:
+        logger.exception("Contrato de salida inválido para la variable %s", variable_id)
+        return _error_result(variable_id, governance, "invalid_provider_result", exc)
+
+
+def _error_result(
+    variable_id: str,
+    governance: VariableGovernance,
+    error_code: str,
+    exc: Exception,
+) -> VariableResult:
+    return VariableResult(
+        variable_id=variable_id,
+        state=AssemblyState.ERROR,
+        source_status=None,
+        source_type=None,
+        shared_operation=SHARED_OPERATION[variable_id],
+        value_paths=VALUE_PATHS[variable_id],
+        governance=governance,
+        payload=None,
+        error_code=error_code,
+        error_type=type(exc).__name__,
+    )
+
+
+def _call_provider(
+    operation: str,
+    variable_ids: tuple[str, ...],
+    call: Callable[[], object],
+    governance: dict[str, VariableGovernance],
+) -> tuple[object | None, list[VariableResult]]:
+    try:
+        return call(), []
+    except Exception as exc:
+        logger.exception("Fallo aislado en la operación ambiental %s", operation)
+        return None, [
+            _error_result(variable_id, governance[variable_id], "provider_exception", exc)
+            for variable_id in variable_ids
+        ]
+
+
+def _overall_status(results: tuple[VariableResult, ...]) -> OverallAssemblyStatus:
+    available = sum(result.state is AssemblyState.AVAILABLE for result in results)
+    errors = sum(result.state is AssemblyState.ERROR for result in results)
+    if available == len(results):
+        return OverallAssemblyStatus.COMPLETE
+    if errors == len(results):
+        return OverallAssemblyStatus.FAILED
+    if available == 0 and errors == 0:
+        return OverallAssemblyStatus.NO_DATA
+    return OverallAssemblyStatus.PARTIAL
+
+
+def _safety_summary(wave: VariableResult) -> SafetySummary:
+    if wave.state is AssemblyState.ERROR:
+        return SafetySummary(
+            blocked=True,
+            source_variable="oleaje",
+            source_status=None,
+            reason="provider_error",
+        )
+    if wave.source_status == "bajo_umbral_regional":
+        return SafetySummary(
+            blocked=False,
+            source_variable="oleaje",
+            source_status=wave.source_status,
+            reason="below_provisional_regional_threshold",
+        )
+    if wave.source_status == "sobre_umbral_regional":
+        return SafetySummary(
+            blocked=True,
+            source_variable="oleaje",
+            source_status=wave.source_status,
+            reason="at_or_above_provisional_regional_threshold",
+        )
+    return SafetySummary(
+        blocked=True,
+        source_variable="oleaje",
+        source_status=wave.source_status,
+        reason="no_wave_data",
+    )
+
+
+def assemble_environmental_snapshot(
+    request: AssemblyRequest,
+    *,
+    providers: AssemblerProviders | None = None,
+    spec_path: Path | str = DEFAULT_SPEC_PATH,
+) -> EnvironmentalSnapshot:
+    """Construye una instantánea ambiental trazable para punto, fecha y ventana.
+
+    ``request`` se valida al construir ``AssemblyRequest``. No se calcula
+    ningún promedio diario, favorabilidad, peso, score o ranking. La caja
+    regional solo soporta OSTIA y su gradiente y viaja explícita en la salida.
+    """
+    if not isinstance(request, AssemblyRequest):
+        raise TypeError("request debe ser una instancia de AssemblyRequest.")
+    providers = AssemblerProviders() if providers is None else providers
+    if not isinstance(providers, AssemblerProviders):
+        raise TypeError("providers debe ser una instancia de AssemblerProviders.")
+    governance = _load_governance(Path(spec_path))
+
+    results_by_id: dict[str, VariableResult] = {}
+    point_args = (
+        float(request.lat),
+        float(request.lon),
+        request.target_date,
+        request.hour_start_local,
+        request.hour_end_local,
+    )
+
+    point_operations = (
+        ("sst_model", "sst", lambda: providers.fetch_sst(*point_args)),
+        ("waves", "oleaje", lambda: providers.get_wave_status(*point_args)),
+        (
+            "chlorophyll",
+            "clorofila",
+            lambda: providers.fetch_chlorophyll(*point_args[:3]),
+        ),
+        ("salinity", "salinidad", lambda: providers.fetch_salinity(*point_args)),
+    )
+    for operation, variable_id, call in point_operations:
+        reading, errors = _call_provider(operation, (variable_id,), call, governance)
+        if errors:
+            results_by_id[variable_id] = errors[0]
+        else:
+            results_by_id[variable_id] = _variable_result(
+                variable_id, reading, governance[variable_id]
+            )
+
+    bounds = request.field_bounds
+    ostia, errors = _call_provider(
+        "ostia_field",
+        ("sst_observed_ostia", "thermal_front"),
+        lambda: providers.fetch_ostia_field(
+            bounds.minimum_latitude,
+            bounds.maximum_latitude,
+            bounds.minimum_longitude,
+            bounds.maximum_longitude,
+            request.target_date,
+        ),
+        governance,
+    )
+    if errors:
+        for result in errors:
+            results_by_id[result.variable_id] = result
+    else:
+        results_by_id["sst_observed_ostia"] = _variable_result(
+            "sst_observed_ostia", ostia, governance["sst_observed_ostia"]
+        )
+        front, front_errors = _call_provider(
+            "thermal_front_derivation",
+            ("thermal_front",),
+            lambda: providers.derive_thermal_front(ostia),
+            governance,
+        )
+        results_by_id["thermal_front"] = (
+            front_errors[0]
+            if front_errors
+            else _variable_result("thermal_front", front, governance["thermal_front"])
+        )
+
+    vertical, errors = _call_provider(
+        "vertical_thermal_pair",
+        ("temperature_10m", "delta_sst_t10"),
+        lambda: providers.fetch_vertical_thermal_pair(*point_args),
+        governance,
+    )
+    if errors:
+        for result in errors:
+            results_by_id[result.variable_id] = result
+    else:
+        for variable_id in ("temperature_10m", "delta_sst_t10"):
+            results_by_id[variable_id] = _variable_result(
+                variable_id, vertical, governance[variable_id]
+            )
+
+    final_operations = (
+        ("surface_currents", "surface_currents", lambda: providers.fetch_currents(*point_args)),
+        ("bathymetry", "batimetria", lambda: providers.fetch_bathymetry(*point_args[:2])),
+    )
+    for operation, variable_id, call in final_operations:
+        reading, errors = _call_provider(operation, (variable_id,), call, governance)
+        results_by_id[variable_id] = (
+            errors[0]
+            if errors
+            else _variable_result(variable_id, reading, governance[variable_id])
+        )
+
+    results = tuple(results_by_id[variable_id] for variable_id in VARIABLE_ORDER)
+    available_count = sum(result.state is AssemblyState.AVAILABLE for result in results)
+    no_data_count = sum(result.state is AssemblyState.NO_DATA for result in results)
+    error_count = sum(result.state is AssemblyState.ERROR for result in results)
+    return EnvironmentalSnapshot(
+        schema_version=SCHEMA_VERSION,
+        request=request,
+        status=_overall_status(results),
+        variables=results,
+        available_count=available_count,
+        no_data_count=no_data_count,
+        error_count=error_count,
+        safety=_safety_summary(results_by_id["oleaje"]),
+    )
