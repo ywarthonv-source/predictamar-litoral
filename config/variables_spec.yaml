@@ -25,7 +25,7 @@ schema_version: 2
 meta:
   proyecto: "PredictaMAR Litoral"
   area_operativa: "Pucusana (ver config/area.yaml)"
-  ultima_actualizacion: "2026-08-27"
+  ultima_actualizacion: "2026-08-30"
   nota: >
     Ninguna variable de este archivo tiene predictively_valid: true.
     No existe todavía validación predictiva independiente contra datos de
@@ -332,6 +332,48 @@ profiles:
       recuadro: >
         Los límites geográficos son argumentos explícitos. No se derivan del
         alcance 0–10 km ni lo redefinen.
+
+  fetcher_campo_oceancolour_l3_olci_300m_p1d:
+    descripcion: >
+      Capa regional OLCI L3 diaria opcional. Conserva CHL, incertidumbre y
+      LAND en la grilla entregada; no sustituye la referencia puntual L4.
+    aplica_a_hoy: ["chlorophyll_olci"]
+    reglas:
+      fuente_unica:
+        producto: "OCEANCOLOUR_GLO_BGC_L3_NRT_009_101"
+        dataset_id: "cmems_obs-oc_glo_bgc-plankton_nrt_l3-olci-300m_P1D"
+        dataset_version: "202207"
+        dataset_part: "default"
+        variables: ["CHL", "CHL_uncertainty", "flags"]
+      temporalidad: >
+        Una sola fecha nominal UTC, completada antes de as_of_utc, nunca una
+        fecha futura ni un mosaico. El límite provisional es 72 horas desde
+        00:00 UTC; no demuestra persistencia ni disponibilidad histórica.
+      grilla: >
+        La etiqueta 300 m no se toma como resolución efectiva. El código
+        valida el paso nativo de 1/180 grado e informa las distancias reales.
+      recuadro_y_halo: >
+        Consulta dos celdas adicionales y calcula la derivada antes del
+        recorte. El recuadro no es el dominio operativo de 0–10 km costeros.
+      faltantes: >
+        CHL no positiva, NaN, LAND o flag desconocido permanece null. No se
+        interpola, rellena, promedia ni combina fechas.
+
+  derivada_gradiente_clorofila_olci_v1:
+    descripcion: >
+      Gradiente centrado sobre el mismo campo OLCI; es una derivada regional
+      experimental, no una clasificación de frente ni una señal pesquera.
+    aplica_a_hoy: ["chlorophyll_front"]
+    reglas:
+      fuente: "chlorophyll_olci; misma adquisición y fecha nominal"
+      algoritmo: "chlorophyll_central_haversine_v1"
+      formula: "sqrt((dCHL/dx)^2 + (dCHL/dy)^2)"
+      unidades: "milligram m-3 km-1"
+      soporte: "centro y cuatro vecinos cardinales válidos; sin diferencias unilaterales"
+      incertidumbre: >
+        Se expone el máximo porcentual del soporte como diagnóstico; no es
+        incertidumbre propagada del gradiente, probabilidad ni precisión.
+      interpretacion: "Sin umbral, ranking, favorabilidad ni scoring."
 
   derivada_gradiente_termico_ostia_v1:
     descripcion: >
@@ -752,9 +794,9 @@ variables:
         l4_gapfree_multi_4km: "cobertura temporal 100.0%"
       fuente_unica: true
       nota_fuente_unica: >
-        El catálogo oficial no expone ninguna alternativa global activa de
-        mayor resolución que cubra Pucusana. Este módulo consulta un solo
-        producto: no hay segunda fuente ni conmutación entre productos.
+        Este módulo sigue consultando un solo producto L4 para continuidad.
+        La capa OLCI L3 de mayor resolución existe por separado y es opcional;
+        no se usa como respaldo automático ni sustituye silenciosamente al L4.
     semantica_temporal:
       referencia: "23:59:59 de la fecha local solicitada en America/Lima"
       ventana: "retrospectiva, cubre la antigüedad permitida y la cadencia diaria"
@@ -954,18 +996,51 @@ variables:
       - "Validación por especie y temporada antes de cualquier interpretación pesquera"
 
   chlorophyll_front:
-    descripcion: "Frente/gradiente de clorofila"
+    descripcion: "Gradiente regional de clorofila OLCI (experimental)"
     intended_role: A
-    implementation_status: no_implementada
+    implementation_status: implementada_validada_tecnicamente
     scoring_status: inactiva
     predictively_valid: null
-    profile: pendiente_de_definir
-    modulo_previsto: "derive_chlorophyll_front.py"
+    profile: derivada_gradiente_clorofila_olci_v1
+    modulo: "derivation/chlorophyll_gradient.py"
+    tests: "tests/test_chlorophyll_gradient.py"
     tipo: "variable DERIVADA sobre campo espacial, no fetcher puntual"
+    fuente: "chlorophyll_olci; mismo campo y fecha nominal"
+    algoritmo_version: "chlorophyll_central_haversine_v1"
+    units: "milligram m-3 km-1"
+    umbral_de_frente: null
     nota: >
-      Se evaluará si existe en el catálogo oficial un producto o variable de
-      gradiente de clorofila adecuado. Identificador, resolución y
-      disponibilidad pendientes de verificación.
+      Exige centro y cuatro vecinos cardinales válidos y usa Haversine entre
+      centros. No rellena, no mezcla fechas y no afirma presencia de peces.
+    validacion_ejecutada:
+      - "Suite sintética del gradiente centrado, máscaras, halo e incertidumbre"
+      - "NetCDF real Pucusana 2026-08-19 a 2026-08-28: 1433, 5 y 58 gradientes calculables en los días 19, 24 y 28; cero en los demás"
+
+  chlorophyll_olci:
+    descripcion: "Campo regional opcional de clorofila-a OLCI L3"
+    intended_role: A
+    implementation_status: implementada_validada_tecnicamente
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: fetcher_campo_oceancolour_l3_olci_300m_p1d
+    modulo: "ingestion/fetch_chlorophyll_field.py"
+    tests: "tests/test_fetch_chlorophyll_field.py"
+    product_id: "OCEANCOLOUR_GLO_BGC_L3_NRT_009_101"
+    dataset_id: "cmems_obs-oc_glo_bgc-plankton_nrt_l3-olci-300m_P1D"
+    dataset_version: "202207"
+    dataset_part: "default"
+    variables: ["CHL", "CHL_uncertainty", "flags"]
+    units: "milligram m-3"
+    activacion: "opcional mediante ChlorophyllOptions; desactivada por defecto"
+    max_nominal_age_hours_default: 72.0
+    halo_cells: 2
+    disponibilidad_historica: "no verificada a partir de la fecha nominal"
+    nota: >
+      Capa complementaria a la referencia L4. No es medición in situ,
+      detección de cardumen, dominio operativo ni variable validada para score.
+    validacion_ejecutada:
+      - "Suite sintética de tiempo, grilla, LAND, faltantes, versión y fallos de API"
+      - "NetCDF real Pucusana 2026-08-19 a 2026-08-28: conteos CHL diarios 1610, 0, 0, 0, 8, 24, 0, 0, 0, 114"
 
   temperature_10m:
     descripcion: "Temperatura a ~10 m de profundidad"

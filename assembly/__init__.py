@@ -14,6 +14,7 @@ from .environmental_assembler import (
     VariableResult,
     assemble_environmental_snapshot,
 )
+from ingestion.fetch_chlorophyll_field import ChlorophyllOptions
 
 __all__ = [
     "AssemblyRequest",
@@ -28,4 +29,5 @@ __all__ = [
     "VariableGovernance",
     "VariableResult",
     "assemble_environmental_snapshot",
+    "ChlorophyllOptions",
 ]

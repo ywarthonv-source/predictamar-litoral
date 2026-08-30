@@ -4,6 +4,8 @@ from pathlib import Path
 
 import yaml
 
+import ingestion.fetch_chlorophyll_field as cf
+
 SPEC = Path(__file__).resolve().parents[1] / "config" / "variables_spec.yaml"
 
 
@@ -38,7 +40,7 @@ def load_spec():
 
 def test_1_especificacion_no_contiene_claves_duplicadas():
     data = load_spec()
-    assert len(data["variables"]) == 25
+    assert len(data["variables"]) == 26
     assert list(data["variables"]).count("surface_currents") == 1
 
 
@@ -63,6 +65,28 @@ def test_3_ninguna_variable_afirma_validez_predictiva():
     variables = load_spec()["variables"]
     assert not [name for name, cfg in variables.items() if cfg.get("predictively_valid") is True]
     assert all(variables[name]["scoring_status"] == "inactiva" for name in ("sst_observed_ostia", "thermal_front"))
+
+
+def test_3b_capa_olci_es_opcional_versionada_y_fuera_del_scoring():
+    data = load_spec()
+    source = data["variables"]["chlorophyll_olci"]
+    front = data["variables"]["chlorophyll_front"]
+    assert source["dataset_version"] == "202207"
+    assert source["dataset_part"] == "default"
+    assert source["activacion"].startswith("opcional")
+    assert source["max_nominal_age_hours_default"] == 72.0
+    assert source["halo_cells"] == 2
+    assert front["fuente"].startswith("chlorophyll_olci")
+    assert front["umbral_de_frente"] is None
+    assert source["scoring_status"] == front["scoring_status"] == "inactiva"
+    assert source["predictively_valid"] is front["predictively_valid"] is None
+    assert source["product_id"] == cf.PRODUCT_ID
+    assert source["dataset_id"] == cf.DATASET_ID
+    assert source["dataset_version"] == cf.DATASET_VERSION
+    assert source["dataset_part"] == cf.DATASET_PART
+    assert tuple(source["variables"]) == cf.VARIABLES
+    assert source["max_nominal_age_hours_default"] == cf.DEFAULT_MAX_NOMINAL_AGE_HOURS
+    assert source["halo_cells"] == cf.HALO_CELLS
 
 
 def test_4_par_termico_vertical_declara_coherencia_y_nivel_nativo_real():

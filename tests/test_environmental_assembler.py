@@ -56,6 +56,27 @@ class BadReading:
     status: str
 
 
+@dataclass(frozen=True)
+class FakeChlorophyllGrid:
+    chlorophyll_mg_m3: tuple[tuple[float | None, ...], ...] = ((1.0,),)
+    uncertainty_pct: tuple[tuple[float | None, ...], ...] = ((50.0,),)
+
+
+@dataclass(frozen=True)
+class FakeChlorophyllField:
+    status: str = "valida_en_fecha_nominal"
+    grid: FakeChlorophyllGrid = FakeChlorophyllGrid()
+    dataset_id: str = "synthetic_olci"
+
+
+@dataclass(frozen=True)
+class FakeChlorophyllGradient:
+    status: str = "valido"
+    gradient_mg_m3_per_km: tuple[tuple[float | None, ...], ...] = ((0.1,),)
+    eastward_gradient_mg_m3_per_km: tuple[tuple[float | None, ...], ...] = ((0.1,),)
+    northward_gradient_mg_m3_per_km: tuple[tuple[float | None, ...], ...] = ((0.0,),)
+
+
 VALID_STATUSES = {
     "sst": "valida_en_ventana",
     "oleaje": "bajo_umbral_regional",
@@ -179,6 +200,105 @@ def test_1_ensambla_diez_variables_con_ocho_adquisiciones_y_una_derivacion():
     assert [name for name, _ in calls].count("sst_observed_ostia") == 1
     assert [name for name, _ in calls].count("vertical") == 1
     assert [name for name, _ in calls].count("thermal_front") == 1
+
+
+def _providers_with_olci(*, source=None, gradient=None, source_raises=False):
+    providers, calls = make_providers()
+    source = source or FakeChlorophyllField()
+    gradient = gradient or FakeChlorophyllGradient()
+    holder = {}
+
+    def fetch(*args, **kwargs):
+        calls.append(("chlorophyll_olci", (*args, kwargs)))
+        if source_raises:
+            raise RuntimeError("synthetic OLCI failure")
+        holder["source"] = source
+        return source
+
+    def derive(value):
+        calls.append(("chlorophyll_front", (value,)))
+        assert value is holder["source"]
+        return gradient
+
+    return replace(
+        providers,
+        fetch_chlorophyll_field=fetch,
+        derive_chlorophyll_gradient=derive,
+    ), calls
+
+
+def test_1b_olci_desactivado_no_llama_proveedor_y_json_base_no_cambia():
+    providers, calls = _providers_with_olci(source_raises=True)
+    snapshot = ea.assemble_environmental_snapshot(make_request(), providers=providers)
+    assert len(snapshot.variables) == 10
+    assert "chlorophyll_olci" not in [name for name, _ in calls]
+    document = snapshot.to_dict()
+    assert "optional_layers" not in document
+    assert set(document) == {
+        "schema_version", "request", "spatial_context", "status",
+        "counts", "safety", "variables",
+    }
+    assert snapshot.schema_version == ea.SCHEMA_VERSION
+
+
+def test_1c_olci_activado_anade_dos_campos_desde_una_adquisicion():
+    providers, calls = _providers_with_olci()
+    options = ea.ChlorophyllOptions(datetime(2026, 8, 29, tzinfo=timezone.utc))
+    snapshot = ea.assemble_environmental_snapshot(
+        make_request(), providers=providers, chlorophyll_options=options)
+    assert tuple(v.variable_id for v in snapshot.variables[-2:]) == ea.OPTIONAL_VARIABLE_ORDER
+    assert snapshot.available_count == 12
+    assert snapshot.schema_version == ea.OLCI_SCHEMA_VERSION
+    assert snapshot.get("chlorophyll_olci").spatial_scope is ea.SpatialScope.REGIONAL_FIELD
+    assert snapshot.get("chlorophyll_front").shared_operation == "chlorophyll_olci_field"
+    assert [name for name, _ in calls].count("chlorophyll_olci") == 1
+    assert [name for name, _ in calls].count("chlorophyll_front") == 1
+    assert snapshot.to_dict()["optional_layers"]["chlorophyll_olci"]["as_of_utc"].endswith("+00:00")
+    assert "chlorophyll_olci" in snapshot.spatial_context.field_purpose
+
+
+def test_1d_fallo_de_adquisicion_olci_se_aisla_y_no_deriva():
+    providers, calls = _providers_with_olci(source_raises=True)
+    options = ea.ChlorophyllOptions(datetime(2026, 8, 29, tzinfo=timezone.utc))
+    snapshot = ea.assemble_environmental_snapshot(
+        make_request(), providers=providers, chlorophyll_options=options)
+    assert snapshot.available_count == 10
+    assert snapshot.error_count == 2
+    assert snapshot.get("chlorophyll_olci").error_code == "provider_exception"
+    assert snapshot.get("chlorophyll_front").error_code == "provider_exception"
+    assert "chlorophyll_front" not in [name for name, _ in calls]
+
+
+def test_1e_sin_datos_olci_no_es_error_y_se_propaga_a_derivada():
+    providers, _ = _providers_with_olci(
+        source=FakeChlorophyllField(status="sin_datos"),
+        gradient=FakeChlorophyllGradient(status="fuente_sin_datos"),
+    )
+    options = ea.ChlorophyllOptions(datetime(2026, 8, 29, tzinfo=timezone.utc))
+    snapshot = ea.assemble_environmental_snapshot(
+        make_request(), providers=providers, chlorophyll_options=options)
+    assert snapshot.no_data_count == 2
+    assert snapshot.error_count == 0
+
+
+def test_1f_error_estructurado_de_fuente_no_se_disfraza_de_estado_desconocido():
+    providers, _ = _providers_with_olci(
+        source=FakeChlorophyllField(status="error"),
+        gradient=FakeChlorophyllGradient(status="fuente_error"),
+    )
+    options = ea.ChlorophyllOptions(datetime(2026, 8, 29, tzinfo=timezone.utc))
+    snapshot = ea.assemble_environmental_snapshot(
+        make_request(), providers=providers, chlorophyll_options=options)
+    assert snapshot.get("chlorophyll_olci").error_code == "source_error"
+    assert snapshot.get("chlorophyll_front").error_code == "source_error"
+
+
+def test_1g_opcion_olci_invalida_se_rechaza_antes_de_invocar_fuentes():
+    providers, calls = _providers_with_olci()
+    with pytest.raises(TypeError, match="ChlorophyllOptions"):
+        ea.assemble_environmental_snapshot(
+            make_request(), providers=providers, chlorophyll_options="enabled")
+    assert calls == []
 
 
 def test_2_campo_ostia_usa_caja_explicita_y_alimenta_la_derivacion():
@@ -442,7 +562,7 @@ def test_19_si_todos_los_proveedores_fallan_el_estado_global_es_failed():
     assert snapshot.safety.reason == "provider_error"
 
 
-def test_20_proveedores_predeterminados_exponen_nueve_callables():
+def test_20_proveedores_predeterminados_exponen_base_y_capa_opcional():
     providers = ea.AssemblerProviders()
 
     assert all(
@@ -457,6 +577,8 @@ def test_20_proveedores_predeterminados_exponen_nueve_callables():
             "fetch_vertical_thermal_pair",
             "fetch_currents",
             "fetch_bathymetry",
+            "fetch_chlorophyll_field",
+            "derive_chlorophyll_gradient",
         )
     )
 

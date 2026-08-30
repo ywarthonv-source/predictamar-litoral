@@ -19,12 +19,15 @@ de la auditoría de agosto de 2026 como contratos verificables.
    cobertura completa, 28 pares nativos únicos y cero fallbacks
 7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
-8. 🟡 **Ensamblador y aplicación** — contrato ambiental v1 implementado y
-   cubierto sintéticamente; aplicación web pendiente
-9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
+8. ✅ **Clorofila OLCI opcional** — campo L3, incertidumbre y gradiente centrado
+   implementados; el archivo real de Pucusana reprodujo 114 celdas CHL y 58
+   gradientes válidos el 28/08/2026
+9. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
+   cubierto sintéticamente; aplicaciones web y móvil pendientes
+10. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **260 pruebas**.
+Regresión sintética actual: **296 pruebas**.
 
 ## Estado del ensamblador ambiental
 
@@ -81,6 +84,44 @@ request = AssemblyRequest(
 snapshot = assemble_environmental_snapshot(request)
 print(snapshot.to_json())
 ```
+
+### Capa OLCI opcional
+
+La referencia `clorofila` L4 permanece en las diez variables base. OLCI se
+activa de manera explícita y añade `chlorophyll_olci` y `chlorophyll_front`:
+
+```python
+from datetime import datetime, timezone
+
+from assembly import ChlorophyllOptions
+
+snapshot = assemble_environmental_snapshot(
+    request,
+    chlorophyll_options=ChlorophyllOptions(
+        as_of_utc=datetime.now(timezone.utc),
+    ),
+)
+```
+
+Con la opción desactivada no se ejecuta ninguna consulta OLCI y el JSON base
+permanece bajo `environmental_snapshot_v1`. Activada, una sola consulta
+versionada (`202207`, parte `default`) alimenta el campo y su derivada bajo
+`environmental_snapshot_v1_olci_v1`; no hay dos descargas ni fechas distintas.
+
+La selección admite únicamente un día nominal UTC ya completado y con edad
+máxima provisional de 72 horas respecto de `as_of_utc`. Conserva `LAND`,
+huecos e incertidumbre como tales, consulta dos celdas de halo, calcula la
+diferencia centrada antes del recorte y exige centro más cuatro vecinos
+cardinales válidos. No interpola ni aplica diferencias unilaterales.
+
+La etiqueta comercial de 300 m no se presenta como resolución efectiva. En
+el archivo real proporcionado para Pucusana, el paso fue aproximadamente
+0.603 × 0.618 km y el soporte centrado cerca de 1.21 × 1.24 km. Para el
+28/08/2026 hubo 114 celdas CHL válidas de 1,642 marinas (6.94 %) y 58
+gradientes calculables. Esto verifica la implementación y la disponibilidad
+en esa imagen; no valida un umbral de frente, presencia de cardumen ni utilidad
+predictiva. La hora histórica exacta de publicación tampoco puede inferirse
+de la fecha nominal del producto.
 
 Los archivos IMARPE no se leen ni se incorporan por esta ruta. Permanecen como
 fuente restringida de validación independiente y requieren un contrato de
@@ -164,7 +205,7 @@ productos; tampoco es un gradiente en grados por metro ni demuestra por sí
 sola una termoclina. Ambas variables tienen rol `B`: describen la condición
 térmica regional del día y no prometen discriminación fina entre puntos. La
 suite sintética del fetcher y el diagnosticador suma 40 pruebas; la regresión
-completa alcanza 228.
+completa actual se informa al inicio de este documento.
 
 Para ejecutar siete días reales completos alrededor de Pucusana sin guardar
 muestras crudas:
