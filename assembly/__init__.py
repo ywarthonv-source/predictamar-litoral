@@ -15,6 +15,7 @@ from .environmental_assembler import (
     assemble_environmental_snapshot,
 )
 from ingestion.fetch_chlorophyll_field import ChlorophyllOptions
+from ingestion.fetch_mur import MurMode, MurOptions
 
 __all__ = [
     "AssemblyRequest",
@@ -30,4 +31,6 @@ __all__ = [
     "VariableResult",
     "assemble_environmental_snapshot",
     "ChlorophyllOptions",
+    "MurMode",
+    "MurOptions",
 ]

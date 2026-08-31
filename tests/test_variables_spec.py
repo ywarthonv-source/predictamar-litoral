@@ -5,6 +5,8 @@ from pathlib import Path
 import yaml
 
 import ingestion.fetch_chlorophyll_field as cf
+import ingestion.fetch_mur as mur
+from derivation.mur_gradient import ALGORITHM_VERSION
 
 SPEC = Path(__file__).resolve().parents[1] / "config" / "variables_spec.yaml"
 
@@ -40,7 +42,7 @@ def load_spec():
 
 def test_1_especificacion_no_contiene_claves_duplicadas():
     data = load_spec()
-    assert len(data["variables"]) == 26
+    assert len(data["variables"]) == 28
     assert list(data["variables"]).count("surface_currents") == 1
 
 
@@ -87,6 +89,26 @@ def test_3b_capa_olci_es_opcional_versionada_y_fuera_del_scoring():
     assert tuple(source["variables"]) == cf.VARIABLES
     assert source["max_nominal_age_hours_default"] == cf.DEFAULT_MAX_NOMINAL_AGE_HOURS
     assert source["halo_cells"] == cf.HALO_CELLS
+
+
+def test_mur_opcional_contrato_y_constantes_sin_segunda_verdad():
+    variables = load_spec()["variables"]
+    source, gradient = variables["sst_mur"], variables["thermal_gradient_mur"]
+    assert source["dataset_id"] == mur.DATASET_ID
+    assert source["collection_id"] == mur.COLLECTION_ID
+    assert source["product_version"] == mur.PRODUCT_VERSION
+    assert tuple(source["variables"]) == mur.VARIABLES
+    assert source["native_grid_step_deg"] == mur.NATIVE_GRID_STEP_DEG
+    assert source["max_nominal_age_hours_default"] == mur.DEFAULT_MAX_NOMINAL_AGE_HOURS
+    assert source["halo_cells"] == mur.HALO_CELLS
+    assert source["modo_predeterminado"] == mur.MurMode.NRT_ONLY.value
+    assert source["availability_as_of_verified"] is False
+    assert source["operational_use_verified"] is False
+    assert source["activacion"].startswith("opcional")
+    assert source["scoring_status"] == gradient["scoring_status"] == "inactiva"
+    assert source["predictively_valid"] is gradient["predictively_valid"] is None
+    assert gradient["algorithm_version"] == ALGORITHM_VERSION
+    assert gradient["umbral_de_frente"] is None
 
 
 def test_4_par_termico_vertical_declara_coherencia_y_nivel_nativo_real():

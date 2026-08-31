@@ -25,7 +25,7 @@ schema_version: 2
 meta:
   proyecto: "PredictaMAR Litoral"
   area_operativa: "Pucusana (ver config/area.yaml)"
-  ultima_actualizacion: "2026-08-30"
+  ultima_actualizacion: "2026-08-31"
   nota: >
     Ninguna variable de este archivo tiene predictively_valid: true.
     No existe todavía validación predictiva independiente contra datos de
@@ -1041,6 +1041,96 @@ variables:
     validacion_ejecutada:
       - "Suite sintética de tiempo, grilla, LAND, faltantes, versión y fallos de API"
       - "NetCDF real Pucusana 2026-08-19 a 2026-08-28: conteos CHL diarios 1610, 0, 0, 0, 8, 24, 0, 0, 0, 114"
+
+  sst_mur:
+    descripcion: "Campo regional opcional de SST de fundación MUR L4"
+    intended_role: A
+    implementation_status: implementada_validada_tecnicamente
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: fetcher_campo_mur_l4_netcdf_001deg_p1d
+    modulo: "ingestion/fetch_mur.py"
+    tests: "tests/test_fetch_mur.py"
+    dataset_id: "MUR-JPL-L4-GLOB-v4.1"
+    collection_id: "C1996881146-POCLOUD"
+    product_version: "04.1"
+    variables: ["analysed_sst", "analysis_error", "mask", "dt_1km_data"]
+    standard_name: "sea_surface_foundation_temperature"
+    native_units: "kelvin"
+    units: "degree_Celsius"
+    conversion: "analysed_sst - 273.15; una sola vez después de decodificar CF"
+    native_grid_step_deg: 0.01
+    halo_cells: 2
+    max_nominal_age_hours_default: 72.0
+    politica_temporal: >
+      Edad desde la coordenada temporal nativa UTC hasta as_of explícito.
+      Máximo de 72 h provisional propio de MUR, no prueba de persistencia de
+      frentes. Un solo producto diario, sin mosaicos ni interpolación temporal.
+    activacion: "opcional mediante MurOptions; desactivada por defecto"
+    acceso: >
+      Recortes NetCDF locales obtenidos previamente por NASA Earthdata/Harmony.
+      Directorio explícito del proveedor o PREDICTAMAR_MUR_DATA_DIR. No abre
+      sesiones ni descarga datos dentro del ensamblador. Sin directorio: error
+      trazable solo en MUR. No se añaden credenciales al repositorio o al JSON.
+    seleccion: >
+      Último campo admisible con datos en el recuadro, no valores solo en halo.
+      Se rechazan duplicados de fecha en el directorio; no se elige una versión
+      por nombre de archivo. SST finita en tierra no se admite: se exige mask=1.
+    modo_predeterminado: "nrt_only"
+    modo_historico: >
+      historical_diagnostic es explícito. Admite productos finales para análisis
+      retrospectivo y los marca historica_final; no afirma que existieran a la
+      hora de faena. El texto 'replaced nrt' en history no convierte FINAL a NRT.
+    availability_as_of_verified: false
+    operational_use_verified: false
+    calidad: >
+      analysis_error se conserva en kelvin; no es probabilidad pesquera.
+      dt_1km_data se conserva con signo y ausencias, no se convierte a edad
+      positiva ni se usa para afirmar cobertura de todas las observaciones.
+      Sin calidad auxiliar, SST puede existir con calidad desconocida explícita.
+    nota: >
+      La grilla de 0.01° no garantiza resolución efectiva de 1 km. MUR es un
+      análisis L4 multifuente, no una observación independiente en cada píxel.
+      No reemplaza, promedia ni corrige OSTIA, tampoco thetao o el par vertical.
+      Dos análisis SST no son dos evidencias independientes para sumar pesos.
+    validacion_ejecutada:
+      - "Suite sintética y NetCDF CF: unidades, tiempo, máscara, duplicados, errores y procedencia por hash"
+      - "30 recortes FINALES de Pucusana, 2026-07-23 a 2026-08-21: 527 celdas marinas con SST por día"
+      - "Verificación real retrospectiva únicamente; acceso y latencia NRT no verificados"
+    pendiente:
+      - "Comprobar una descarga NRT reciente y su latencia antes de habilitar uso diario"
+      - "Validación independiente de utilidad pesquera y umbrales por especie"
+
+  thermal_gradient_mur:
+    descripcion: "Gradiente térmico regional opcional del mismo campo MUR L4"
+    intended_role: A
+    implementation_status: implementada_validada_tecnicamente
+    scoring_status: inactiva
+    predictively_valid: null
+    profile: derivada_centrada_haversine_mur_l4
+    modulo: "derivation/mur_gradient.py"
+    tests: "tests/test_mur_gradient.py"
+    fuente: "sst_mur; mismo objeto, fecha, máscara y procedencia"
+    activacion: "opcional junto con sst_mur; sin lectura adicional"
+    algorithm_version: "mur_central_haversine_v1"
+    units: "degree_Celsius km-1"
+    formula: "sqrt((dSST/dx)^2 + (dSST/dy)^2)"
+    soporte: "centro y cuatro vecinos cardinales válidos; deriva con halo antes del recorte"
+    umbral_de_frente: null
+    etiqueta_visualizacion: "Gradiente térmico MUR (experimental)"
+    calidad_local: >
+      El máximo de error SST en cinco celdas no es incertidumbre del gradiente:
+      falta covarianza. Se cuenta cuántas de las cinco tienen dt_1km_data y se
+      indican sus extremos con signo solo con soporte completo. Ni cobertura
+      regional IR ni cobertura SST L4 certifican cada gradiente local.
+    nota: >
+      No rellena, mezcla fechas, interpola ni usa diferencias unilaterales.
+      Un gradiente calculable no clasifica un frente ni detecta cardumen.
+      La falta o fallo de MUR no modifica OSTIA, OLCI o la compuerta de oleaje.
+    validacion_ejecutada:
+      - "Suite sintética: plano analítico, soporte centrado, máscaras, halo, signo y calidad local"
+      - "30 recortes FINALES de Pucusana: 492 gradientes calculables por día; máximo 0.23594265 degree_Celsius/km el 2026-07-31"
+      - "En el máximo del 2026-07-31 solo una de las cinco celdas tiene dt_1km_data; no se declara soporte IR completo"
 
   temperature_10m:
     descripcion: "Temperatura a ~10 m de profundidad"

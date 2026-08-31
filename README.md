@@ -22,12 +22,16 @@ de la auditoría de agosto de 2026 como contratos verificables.
 8. ✅ **Clorofila OLCI opcional** — campo L3, incertidumbre y gradiente centrado
    implementados; el archivo real de Pucusana reprodujo 114 celdas CHL y 58
    gradientes válidos el 28/08/2026
-9. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
+9. ✅ **SST MUR opcional** — lector de recortes NetCDF y gradiente centrado;
+   30 productos **finales históricos** verificados. Descarga/actualización NRT
+   automática y validación de su latencia pendientes; no sustituye OSTIA
+10. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
    cubierto sintéticamente; aplicaciones web y móvil pendientes
-10. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
+11. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **296 pruebas**.
+Regresión automática sin el paquete histórico: **391 passed, 1 skipped**.
+Con el paquete real MUR: **392 passed**, sin consultar proveedores externos.
 
 ## Estado del ensamblador ambiental
 
@@ -61,8 +65,9 @@ Cada variable queda envuelta con:
 - operación compartida, para demostrar que una fuente no se descargó dos
   veces.
 
-El estado global `complete` significa que las diez variables devolvieron algún
-dato admisible. No convierte un fallback o una cobertura parcial en cobertura
+En el contrato base, el estado global `complete` significa que las diez
+variables devolvieron algún dato admisible; con capas opcionales, también se
+incluyen las variables activadas. No convierte un fallback o cobertura parcial en cobertura
 perfecta: el `source_status` y el payload original permanecen visibles. Un
 fallo de fuente queda aislado como `error`; no borra las demás variables. La
 seguridad por oleaje viaja en un bloque separado: dato ausente, error o altura
@@ -126,6 +131,143 @@ de la fecha nominal del producto.
 Los archivos IMARPE no se leen ni se incorporan por esta ruta. Permanecen como
 fuente restringida de validación independiente y requieren un contrato de
 observaciones separado antes de cualquier emparejamiento.
+
+### Capa MUR opcional
+
+Se añaden `sst_mur` y `thermal_gradient_mur` solo cuando se pasa `MurOptions`.
+OSTIA, su gradiente, la SST de modelo, el par vertical y la seguridad por
+oleaje permanecen intactos. No se promedian productos ni se corrige el sesgo
+entre ellos; tampoco se cuentan como evidencias térmicas independientes. No se asignan
+pesos, probabilidades pesqueras o umbrales de frente.
+
+| Opciones activas | Variables | Contrato |
+| --- | ---: | --- |
+| Ninguna | 10 | `environmental_snapshot_v1` |
+| OLCI | 12 | `environmental_snapshot_v1_olci_v1` |
+| MUR | 12 | `environmental_snapshot_v1_mur_v1` |
+| OLCI + MUR | 14 | `environmental_snapshot_v1_olci_v1_mur_v1` |
+
+Sin MUR, las salidas base y OLCI son idénticas a las del commit `3cee21f` para
+las mismas entradas: dos pruebas golden fijan sus JSON completos. Al activar
+MUR, una sola lectura alimenta su campo y su derivada. Si falla, el error queda
+en esas dos variables y no borra las diez anteriores ni modifica la compuerta
+de oleaje.
+
+**Acceso implementado en este bloque:** lectura de un directorio configurado
+con recortes diarios `.nc`/`.nc4` de NASA Earthdata/Harmony, como los 30 archivos
+ya obtenidos. No hay descarga, login, planificador ni acceso automático a NASA
+dentro del ensamblador. El directorio se inyecta en el proveedor o se configura
+con `PREDICTAMAR_MUR_DATA_DIR`. Si falta, MUR devuelve `error` con motivo
+`mur_directory_not_configured`; nunca usa un archivo de ejemplo como dato real.
+
+El lector no recorre subdirectorios, no escribe ni elimina datos y rechaza
+enlaces simbólicos, archivos mayores de 32 MiB y directorios con más de 40
+NetCDF. Debe usarse un directorio dedicado, con un producto por día. Las grillas
+globales se rechazan antes de materializar sus matrices. Las descargas y la
+renovación del directorio serán un proceso separado; ese proceso todavía no
+está automatizado.
+
+Ejemplo **histórico explícito** con los archivos ya descargados:
+
+```python
+from datetime import date, datetime, timezone
+from functools import partial
+from pathlib import Path
+
+from assembly import AssemblyRequest, AssemblerProviders, MurMode, MurOptions
+from assembly import assemble_environmental_snapshot
+from ingestion.fetch_mur import fetch_mur_field
+
+mur_provider = partial(
+    fetch_mur_field,
+    data_directory=Path("diagnostics/mur_20260723_20260821"),
+)
+snapshot = assemble_environmental_snapshot(
+    AssemblyRequest(lat=-12.471, lon=-76.790, target_date=date(2026, 7, 31)),
+    providers=AssemblerProviders(fetch_mur_field=mur_provider),
+    mur_options=MurOptions(
+        as_of_utc=datetime(2026, 8, 1, 9, tzinfo=timezone.utc),
+        mode=MurMode.HISTORICAL_DIAGNOSTIC,
+    ),
+)
+print(snapshot.to_json())
+```
+
+Ese ejemplo consulta los otros proveedores habituales del ensamblador. Para
+usar únicamente MUR sin red, llamar a `mur_provider` con los límites del campo,
+la fecha y `options`, y pasar su resultado a
+`derivation.mur_gradient.derive_mur_gradient`.
+
+El modo predeterminado es `MurMode.NRT_ONLY`: exige que la etapa del archivo
+sea NRT y que su fecha de creación no sea posterior a `as_of_utc`. Los archivos
+finales requieren `HISTORICAL_DIAGNOSTIC`, se identifican como `historica_final`
+y pueden haber sido producidos después del instante histórico comparado.
+Ni la fecha nominal ni `date_created` prueban la publicación histórica:
+`availability_as_of_verified` y `operational_use_verified` siguen en `false`.
+Una mención a «replaced nrt» en la historia de un archivo final no lo convierte
+en NRT. Cada lectura local conserva versión, etapa, fecha de creación, hora
+de lectura, nombre y SHA-256 de **los mismos bytes** usados para sus valores.
+
+La edad se mide desde la coordenada temporal nativa UTC, no desde la medianoche
+en Lima. El máximo provisional es 72 horas, configurable hasta 168; no implica
+que un frente persista ese tiempo. Se selecciona el último campo admisible con
+datos en el recuadro, siempre una sola fecha. No se mezclan píxeles de días
+distintos y una duplicación de fecha produce error, no elección por nombre.
+
+SST se decodifica CF una sola vez y convierte de kelvin a °C. Solo `mask=1`
+entra como mar abierto sin otros bits: incluso la SST finita de una celda
+marcada como tierra queda ausente. La cobertura se calcula respecto de esas
+celdas marinas del recuadro técnico, no respecto del dominio de faena.
+
+El gradiente exige centro y cuatro vecinos cardinales válidos del mismo día,
+usa distancias Haversine en km y se calcula con dos celdas de halo antes de
+recortar. Sin un vecino no hay diferencia unilateral, relleno ni gradiente.
+El espaciamiento de aproximadamente 1.09 × 1.11 km en Pucusana y el soporte
+centrado de aproximadamente 2.17 × 2.22 km **no son resolución efectiva
+garantizada**.
+
+La calidad permanece local y explícita:
+
+- `analysis_error_kelvin` conserva la desviación estándar estimada de SST. Su
+  máximo en cinco celdas no es incertidumbre del gradiente: falta covarianza.
+- `dt_1km_hours` conserva valores negativos, positivos, cero y ausencias. No se
+  aplica valor absoluto para presentarlo como edad de observación.
+- El gradiente cuenta cuántas de sus cinco celdas tienen `dt_1km_data`; solo
+  informa extremos con signo cuando las cinco lo tienen. «Completo» no significa
+  «reciente» ni certifica otras fuentes de observación de MUR.
+- La falta de metadatos auxiliares deja su calidad desconocida; no fabrica un
+  error cero ni elimina automáticamente una SST admisible.
+
+**Verificación histórica reproducida con el código nuevo:** 30 productos
+finales del 23/07 al 21/08/2026; 527 celdas marinas con SST y 492 gradientes
+calculables por día. Hubo algún `dt_1km_data` válido en 13 fechas, sin interpretar
+ese conteo como adquisiciones independientes. En el máximo de gradiente del
+31/07 (~0.235943 °C/km), solo una de las cinco celdas tenía ese indicador:
+la salida no lo marca como soporte IR completo. Esto verifica el lector y la
+derivada retrospectivos, no la utilidad pesquera ni la disponibilidad NRT.
+
+Para ejecutar las pruebas (sin descargas de datos):
+
+```bash
+python -m pytest -q
+```
+
+La prueba histórica es adicional y opt-in; los archivos no se incorporan al
+repositorio. Con el paquete reproducible de la comparación disponible:
+
+```bash
+PREDICTAMAR_MUR_BUNDLE=/ruta/comparacion_mur_ostia_30d_reproducible.zip python -m pytest -q
+```
+
+Antes de habilitar MUR para el uso diario faltan una descarga NRT reciente,
+la comprobación de su etapa, máscara y latencia, y la actualización automática
+del directorio. No se habilita operacionalmente usando los archivos finales
+históricos ni ampliando su antigüedad para hacerlos parecer actuales.
+
+Referencia del producto: [NASA/PO.DAAC, MUR v4.1](https://podaac.jpl.nasa.gov/dataset/MUR-JPL-L4-GLOB-v4.1).
+La integración separa deliberadamente las versiones retrospectiva y NRT que
+declara ese catálogo. La vía de recorte autenticado usada en el diagnóstico es
+[NASA Harmony](https://harmony-py.readthedocs.io/en/latest/api.html).
 
 ## Fuentes y credenciales
 

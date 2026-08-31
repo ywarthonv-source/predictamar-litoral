@@ -8,9 +8,11 @@ comparten de forma explícita:
 * un único campo OSTIA alimenta ``sst_observed_ostia`` y ``thermal_front``;
 * un único par térmico alimenta ``temperature_10m`` y ``delta_sst_t10``.
 
-Opcionalmente, una única adquisición OLCI añade su campo y el gradiente
-centrado derivado del mismo objeto. Sin ``ChlorophyllOptions``, el contrato
-base de diez variables y su JSON permanecen sin cambios.
+Opcionalmente, ``ChlorophyllOptions`` añade el campo OLCI y el gradiente
+centrado derivado del mismo objeto. ``MurOptions`` añade independientemente
+SST MUR y su gradiente, desde recortes NetCDF configurados. Sin ninguna opción,
+el contrato base de diez variables y su JSON permanecen sin cambios; sin
+``MurOptions`` no se leen archivos MUR ni cambia el contrato base/OLCI.
 
 Los fallos de una fuente no impiden recuperar las demás. Un error de uso en la
 solicitud se rechaza antes de invocar proveedores; un fallo posterior queda
@@ -39,11 +41,13 @@ from typing import Callable
 import yaml
 
 from derivation.chlorophyll_gradient import derive_chlorophyll_gradient
+from derivation.mur_gradient import derive_mur_gradient
 from derivation.thermal_front import derive_thermal_front
 from ingestion.fetch_bathymetry import fetch_bathymetry
 from ingestion.fetch_chlorophyll import fetch_chlorophyll
 from ingestion.fetch_chlorophyll_field import ChlorophyllOptions, fetch_chlorophyll_field
 from ingestion.fetch_currents import fetch_currents
+from ingestion.fetch_mur import MurOptions, fetch_mur_field
 from ingestion.fetch_ostia import fetch_ostia_field
 from ingestion.fetch_salinity import fetch_salinity
 from ingestion.fetch_temperature import fetch_sst
@@ -55,6 +59,8 @@ logger = logging.getLogger(__name__)
 
 SCHEMA_VERSION = "environmental_snapshot_v1"
 OLCI_SCHEMA_VERSION = "environmental_snapshot_v1_olci_v1"
+MUR_SCHEMA_VERSION = "environmental_snapshot_v1_mur_v1"
+OLCI_MUR_SCHEMA_VERSION = "environmental_snapshot_v1_olci_v1_mur_v1"
 DEFAULT_FIELD_HALF_WIDTH_DEG = 0.15
 DEFAULT_SPEC_PATH = Path(__file__).resolve().parents[1] / "config" / "variables_spec.yaml"
 DEFAULT_AREA_PATH = Path(__file__).resolve().parents[1] / "config" / "area.yaml"
@@ -82,6 +88,7 @@ VARIABLE_ORDER = (
 )
 
 OPTIONAL_VARIABLE_ORDER = ("chlorophyll_olci", "chlorophyll_front")
+MUR_VARIABLE_ORDER = ("sst_mur", "thermal_gradient_mur")
 
 VALUE_PATHS = {
     "sst": ("samples[].value_celsius",),
@@ -112,6 +119,12 @@ VALUE_PATHS = {
         "eastward_gradient_mg_m3_per_km[][]",
         "northward_gradient_mg_m3_per_km[][]",
     ),
+    "sst_mur": ("grid.sst_celsius[][]", "grid.analysis_error_kelvin[][]", "grid.dt_1km_hours[][]"),
+    "thermal_gradient_mur": (
+        "gradient_c_per_km[][]",
+        "eastward_gradient_c_per_km[][]",
+        "northward_gradient_c_per_km[][]",
+    ),
 }
 
 SHARED_OPERATION = {
@@ -127,6 +140,8 @@ SHARED_OPERATION = {
     "batimetria": "bathymetry",
     "chlorophyll_olci": "chlorophyll_olci_field",
     "chlorophyll_front": "chlorophyll_olci_field",
+    "sst_mur": "mur_field",
+    "thermal_gradient_mur": "mur_field",
 }
 
 AVAILABLE_SOURCE_STATUSES = {
@@ -142,6 +157,8 @@ AVAILABLE_SOURCE_STATUSES = {
     "batimetria": {"valida"},
     "chlorophyll_olci": {"valida_en_fecha_nominal", "valida_reciente"},
     "chlorophyll_front": {"valido"},
+    "sst_mur": {"valida_en_fecha_nominal", "valida_reciente", "historica_final"},
+    "thermal_gradient_mur": {"valido"},
 }
 
 NO_DATA_SOURCE_STATUSES = {
@@ -157,11 +174,15 @@ NO_DATA_SOURCE_STATUSES = {
     "batimetria": {"sin_datos"},
     "chlorophyll_olci": {"sin_datos"},
     "chlorophyll_front": {"sin_gradientes", "fuente_sin_datos"},
+    "sst_mur": {"sin_datos"},
+    "thermal_gradient_mur": {"sin_gradientes", "fuente_sin_datos"},
 }
 
 ERROR_SOURCE_STATUSES = {
     "chlorophyll_olci": {"error"},
     "chlorophyll_front": {"fuente_error"},
+    "sst_mur": {"error"},
+    "thermal_gradient_mur": {"fuente_error"},
 }
 
 
@@ -185,7 +206,7 @@ class SpatialScope(str, Enum):
 
 
 REGIONAL_FIELD_VARIABLES = frozenset(
-    {"sst_observed_ostia", "thermal_front", *OPTIONAL_VARIABLE_ORDER}
+    {"sst_observed_ostia", "thermal_front", *OPTIONAL_VARIABLE_ORDER, *MUR_VARIABLE_ORDER}
 )
 SPATIAL_SCOPE_BY_VARIABLE = {
     variable_id: (
@@ -195,7 +216,7 @@ SPATIAL_SCOPE_BY_VARIABLE = {
         if variable_id == "oleaje"
         else SpatialScope.POINT
     )
-    for variable_id in (*VARIABLE_ORDER, *OPTIONAL_VARIABLE_ORDER)
+    for variable_id in (*VARIABLE_ORDER, *OPTIONAL_VARIABLE_ORDER, *MUR_VARIABLE_ORDER)
 }
 
 
@@ -322,6 +343,7 @@ class EnvironmentalSnapshot:
     error_count: int
     safety: SafetySummary
     chlorophyll_options: ChlorophyllOptions | None = None
+    mur_options: MurOptions | None = None
 
     def get(self, variable_id: str) -> VariableResult:
         for result in self.variables:
@@ -348,10 +370,13 @@ class EnvironmentalSnapshot:
                 result.variable_id: _to_primitive(result) for result in self.variables
             },
         }
+        optional_layers = {}
         if self.chlorophyll_options is not None:
-            document["optional_layers"] = {
-                "chlorophyll_olci": _to_primitive(self.chlorophyll_options)
-            }
+            optional_layers["chlorophyll_olci"] = _to_primitive(self.chlorophyll_options)
+        if self.mur_options is not None:
+            optional_layers["sst_mur"] = _to_primitive(self.mur_options)
+        if optional_layers:
+            document["optional_layers"] = optional_layers
         return document
 
     def to_json(self, *, indent: int | None = 2) -> str:
@@ -376,6 +401,8 @@ class AssemblerProviders:
     fetch_bathymetry: Callable[..., object] = fetch_bathymetry
     fetch_chlorophyll_field: Callable[..., object] = fetch_chlorophyll_field
     derive_chlorophyll_gradient: Callable[[object], object] = derive_chlorophyll_gradient
+    fetch_mur_field: Callable[..., object] = fetch_mur_field
+    derive_mur_gradient: Callable[[object], object] = derive_mur_gradient
 
 
 class _UniqueKeyLoader(yaml.SafeLoader):
@@ -559,11 +586,16 @@ def _call_provider(
     variable_ids: tuple[str, ...],
     call: Callable[[], object],
     governance: dict[str, VariableGovernance],
+    *,
+    redact_exception: bool = False,
 ) -> tuple[object | None, list[VariableResult]]:
     try:
         return call(), []
     except Exception as exc:
-        logger.exception("Fallo aislado en la operación ambiental %s", operation)
+        if redact_exception:
+            logger.error("Fallo aislado en la operación ambiental %s (%s)", operation, type(exc).__name__)
+        else:
+            logger.exception("Fallo aislado en la operación ambiental %s", operation)
         return None, [
             _error_result(variable_id, governance[variable_id], "provider_exception", exc)
             for variable_id in variable_ids
@@ -585,8 +617,12 @@ def _overall_status(results: tuple[VariableResult, ...]) -> OverallAssemblyStatu
 def _spatial_context(
     request: AssemblyRequest,
     chlorophyll_enabled: bool = False,
+    mur_enabled: bool = False,
 ) -> SpatialContext:
     """Declara la relación semántica entre el recuadro y el alcance operativo."""
+    purpose = OLCI_REGIONAL_FIELD_PURPOSE if chlorophyll_enabled else REGIONAL_FIELD_PURPOSE
+    if mur_enabled:
+        purpose += "_and_mur_sst_gradient"
     return SpatialContext(
         operational_range_min_km=OPERATIONAL_RANGE_MIN_KM,
         operational_range_max_km=OPERATIONAL_RANGE_MAX_KM,
@@ -596,11 +632,7 @@ def _spatial_context(
         field_half_width_deg=float(request.field_half_width_deg),
         field_is_operational_domain=False,
         field_scope_relation=REGIONAL_FIELD_RELATION,
-        field_purpose=(
-            OLCI_REGIONAL_FIELD_PURPOSE
-            if chlorophyll_enabled
-            else REGIONAL_FIELD_PURPOSE
-        ),
+        field_purpose=purpose,
     )
 
 
@@ -640,12 +672,13 @@ def assemble_environmental_snapshot(
     providers: AssemblerProviders | None = None,
     spec_path: Path | str = DEFAULT_SPEC_PATH,
     chlorophyll_options: ChlorophyllOptions | None = None,
+    mur_options: MurOptions | None = None,
 ) -> EnvironmentalSnapshot:
     """Construye una instantánea ambiental trazable para punto, fecha y ventana.
 
     ``request`` se valida al construir ``AssemblyRequest``. No se calcula
     ningún promedio diario, favorabilidad, peso, score o ranking. La caja
-    regional soporta OSTIA y, si se activa, OLCI y sus gradientes; la caja
+    regional soporta OSTIA y, si se activan, OLCI, MUR y sus gradientes; la caja
     viaja explícita en la salida.
     Por defecto usa +/-0.15 grados y puede abarcar una extensión mayor que los
     0-10 km operativos. Esos 0-10 km se miden mar adentro desde el litoral, no
@@ -661,11 +694,13 @@ def assemble_environmental_snapshot(
         chlorophyll_options, ChlorophyllOptions
     ):
         raise TypeError("chlorophyll_options debe ser ChlorophyllOptions o None.")
-    result_order = (
-        (*VARIABLE_ORDER, *OPTIONAL_VARIABLE_ORDER)
-        if chlorophyll_options is not None
-        else VARIABLE_ORDER
-    )
+    if mur_options is not None and not isinstance(mur_options, MurOptions):
+        raise TypeError("mur_options debe ser MurOptions o None.")
+    result_order = VARIABLE_ORDER
+    if chlorophyll_options is not None:
+        result_order += OPTIONAL_VARIABLE_ORDER
+    if mur_options is not None:
+        result_order += MUR_VARIABLE_ORDER
     governance = _load_governance(Path(spec_path), result_order)
 
     results_by_id: dict[str, VariableResult] = {}
@@ -803,14 +838,50 @@ def assemble_environmental_snapshot(
                     )
                 )
 
+    if mur_options is not None:
+        mur_field, errors = _call_provider(
+            "mur_field", MUR_VARIABLE_ORDER,
+            lambda: providers.fetch_mur_field(
+                bounds.minimum_latitude, bounds.maximum_latitude,
+                bounds.minimum_longitude, bounds.maximum_longitude,
+                request.target_date, options=mur_options,
+            ),
+            governance, redact_exception=True,
+        )
+        if errors:
+            for result in errors:
+                results_by_id[result.variable_id] = result
+        else:
+            source_result = _variable_result("sst_mur", mur_field, governance["sst_mur"])
+            results_by_id["sst_mur"] = source_result
+            if source_result.error_code in {"invalid_provider_result", "unknown_source_status"}:
+                results_by_id["thermal_gradient_mur"] = _error_result(
+                    "thermal_gradient_mur", governance["thermal_gradient_mur"],
+                    "invalid_shared_source", TypeError("La fuente MUR no cumple el contrato."),
+                )
+            else:
+                mur_gradient, gradient_errors = _call_provider(
+                    "mur_gradient_derivation", ("thermal_gradient_mur",),
+                    lambda: providers.derive_mur_gradient(mur_field),
+                    governance, redact_exception=True,
+                )
+                results_by_id["thermal_gradient_mur"] = (
+                    gradient_errors[0] if gradient_errors
+                    else _variable_result("thermal_gradient_mur", mur_gradient, governance["thermal_gradient_mur"])
+                )
+
     results = tuple(results_by_id[variable_id] for variable_id in result_order)
     available_count = sum(result.state is AssemblyState.AVAILABLE for result in results)
     no_data_count = sum(result.state is AssemblyState.NO_DATA for result in results)
     error_count = sum(result.state is AssemblyState.ERROR for result in results)
     return EnvironmentalSnapshot(
-        schema_version=(OLCI_SCHEMA_VERSION if chlorophyll_options else SCHEMA_VERSION),
+        schema_version=(
+            OLCI_MUR_SCHEMA_VERSION if mur_options and chlorophyll_options
+            else MUR_SCHEMA_VERSION if mur_options
+            else OLCI_SCHEMA_VERSION if chlorophyll_options else SCHEMA_VERSION
+        ),
         request=request,
-        spatial_context=_spatial_context(request, chlorophyll_options is not None),
+        spatial_context=_spatial_context(request, chlorophyll_options is not None, mur_options is not None),
         status=_overall_status(results),
         variables=results,
         available_count=available_count,
@@ -818,4 +889,5 @@ def assemble_environmental_snapshot(
         error_count=error_count,
         safety=_safety_summary(results_by_id["oleaje"]),
         chlorophyll_options=chlorophyll_options,
+        mur_options=mur_options,
     )
