@@ -23,15 +23,17 @@ de la auditoría de agosto de 2026 como contratos verificables.
    implementados; el archivo real de Pucusana reprodujo 114 celdas CHL y 58
    gradientes válidos el 28/08/2026
 9. ✅ **SST MUR opcional** — lector de recortes NetCDF y gradiente centrado;
-   30 productos **finales históricos** verificados. Descarga/actualización NRT
-   automática y validación de su latencia pendientes; no sustituye OSTIA
+   30 productos **finales históricos** y una descarga **NRT 04.1nrt** real
+   verificados. El actualizador autenticado, idempotente y atómico está
+   implementado; falta conectarlo al planificador del futuro backend
 10. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
    cubierto sintéticamente; aplicaciones web y móvil pendientes
 11. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión automática sin el paquete histórico: **391 passed, 1 skipped**.
-Con el paquete real MUR: **392 passed**, sin consultar proveedores externos.
+Regresión automática sin el paquete histórico: **409 passed, 1 skipped**.
+La prueba con el paquete real MUR permanece opt-in y añade un caso cuando se
+configura el archivo reproducible, sin consultar proveedores externos.
 
 ## Estado del ensamblador ambiental
 
@@ -153,19 +155,43 @@ MUR, una sola lectura alimenta su campo y su derivada. Si falla, el error queda
 en esas dos variables y no borra las diez anteriores ni modifica la compuerta
 de oleaje.
 
-**Acceso implementado en este bloque:** lectura de un directorio configurado
-con recortes diarios `.nc`/`.nc4` de NASA Earthdata/Harmony, como los 30 archivos
-ya obtenidos. No hay descarga, login, planificador ni acceso automático a NASA
-dentro del ensamblador. El directorio se inyecta en el proveedor o se configura
-con `PREDICTAMAR_MUR_DATA_DIR`. Si falta, MUR devuelve `error` con motivo
+**Acceso del ensamblador:** lectura de un directorio configurado con recortes
+diarios `.nc`/`.nc4` de NASA Earthdata/Harmony. No hay descarga ni login dentro
+del ensamblador. El directorio se inyecta en el proveedor o se configura con
+`PREDICTAMAR_MUR_DATA_DIR`. Si falta, MUR devuelve `error` con motivo
 `mur_directory_not_configured`; nunca usa un archivo de ejemplo como dato real.
+
+**Actualización separada:** `ingestion/update_mur_nrt.py` consulta CMR, elige el
+último granulo admisible de la colección `C1996881146-POCLOUD`, solicita a
+Harmony un único recorte y lo valida con el lector anterior. Solo después lo
+publica con nombre estable, SHA-256 y manifiesto de adquisición. Repetir los
+mismos bytes es idempotente. Un producto anterior se mueve a `archive/`, sin
+borrarlo; un fallo de red, esquema, etapa, fecha, halo o publicación conserva
+el producto activo.
 
 El lector no recorre subdirectorios, no escribe ni elimina datos y rechaza
 enlaces simbólicos, archivos mayores de 32 MiB y directorios con más de 40
 NetCDF. Debe usarse un directorio dedicado, con un producto por día. Las grillas
-globales se rechazan antes de materializar sus matrices. Las descargas y la
-renovación del directorio serán un proceso separado; ese proceso todavía no
-está automatizado.
+globales se rechazan antes de materializar sus matrices.
+
+El actualizador no acepta usuario, contraseña ni token por la línea de comandos.
+Para una ejecución manual puede usarse `--auth-strategy interactive`. En una
+ejecución diaria, el entorno de despliegue debe inyectar `EARTHDATA_TOKEN` (o el
+par `EARTHDATA_USERNAME`/`EARTHDATA_PASSWORD`) desde su gestor de secretos y
+ejecutar, sobre un directorio dedicado, por ejemplo:
+
+```bash
+python -m ingestion.update_mur_nrt \
+  --data-directory /srv/predictamar/mur-nrt \
+  --min-lat -12.601 --max-lat -12.341 \
+  --min-lon -76.92 --max-lon -76.66
+```
+
+Ese recuadro es el **núcleo técnico** usado en la verificación de Pucusana; el
+actualizador añade dos celdas de halo por lado. No representa ni redefine el
+alcance artesanal de 0–10 km desde el litoral. El comando ya es programable,
+pero este repositorio todavía no declara dónde corre el backend: por eso no se
+finge un cron ni se almacena una credencial aquí.
 
 Ejemplo **histórico explícito** con los archivos ya descargados:
 
@@ -198,12 +224,16 @@ usar únicamente MUR sin red, llamar a `mur_provider` con los límites del campo
 la fecha y `options`, y pasar su resultado a
 `derivation.mur_gradient.derive_mur_gradient`.
 
-El modo predeterminado es `MurMode.NRT_ONLY`: exige que la etapa del archivo
-sea NRT y que su fecha de creación no sea posterior a `as_of_utc`. Los archivos
-finales requieren `HISTORICAL_DIAGNOSTIC`, se identifican como `historica_final`
-y pueden haber sido producidos después del instante histórico comparado.
-Ni la fecha nominal ni `date_created` prueban la publicación histórica:
-`availability_as_of_verified` y `operational_use_verified` siguen en `false`.
+El modo predeterminado es `MurMode.NRT_ONLY`: exige etapa NRT, versión
+`04.1nrt` y fecha de creación no posterior a `as_of_utc`. Los archivos finales
+usan versión `04.1`, requieren `HISTORICAL_DIAGNOSTIC`, se identifican como
+`historica_final` y pueden haber sido producidos después del instante histórico
+comparado. Ni la fecha nominal ni `date_created` prueban la publicación
+histórica. Un NetCDF aislado conserva `availability_as_of_verified=false`; un
+archivo NRT adquirido por el actualizador puede cambiarlo a `true` únicamente
+si su manifiesto coincide en identidad, tiempos, nombre y SHA-256, y la hora de
+recuperación no es posterior al `as_of` consultado. `operational_use_verified`
+permanece en `false` hasta desplegar y observar el planificador diario.
 Una mención a «replaced nrt» en la historia de un archivo final no lo convierte
 en NRT. Cada lectura local conserva versión, etapa, fecha de creación, hora
 de lectura, nombre y SHA-256 de **los mismos bytes** usados para sus valores.
@@ -246,6 +276,16 @@ ese conteo como adquisiciones independientes. En el máximo de gradiente del
 la salida no lo marca como soporte IR completo. Esto verifica el lector y la
 derivada retrospectivos, no la utilidad pesquera ni la disponibilidad NRT.
 
+**Verificación NRT real del 31/08/2026:** CMR encontró los granulos nominales
+del 29 y 30 de agosto. Se descargó por Harmony el más reciente, con tiempo
+nativo `2026-08-30T09:00:00Z`, `product_version=04.1nrt`, título
+`Interim near-real-time (nrt)`, creación `2026-08-31T09:05:19Z`, grilla regional
+35 × 35 y las cuatro variables requeridas. La consulta se realizó a
+`2026-08-31T21:31:55Z`: la edad nominal era 36.53 h, la creación ocurrió unas
+12.44 h antes de la consulta y la latencia entre tiempo nominal y creación fue
+aproximadamente 24.09 h. Esto verifica una adquisición y el contrato técnico;
+no valida utilidad pesquera ni continuidad futura del servicio.
+
 Para ejecutar las pruebas (sin descargas de datos):
 
 ```bash
@@ -259,10 +299,10 @@ repositorio. Con el paquete reproducible de la comparación disponible:
 PREDICTAMAR_MUR_BUNDLE=/ruta/comparacion_mur_ostia_30d_reproducible.zip python -m pytest -q
 ```
 
-Antes de habilitar MUR para el uso diario faltan una descarga NRT reciente,
-la comprobación de su etapa, máscara y latencia, y la actualización automática
-del directorio. No se habilita operacionalmente usando los archivos finales
-históricos ni ampliando su antigüedad para hacerlos parecer actuales.
+Antes de habilitar MUR de forma continua falta conectar el comando al
+planificador y al gestor de secretos del entorno donde se despliegue el backend,
+y observar sus alertas. No se habilita operacionalmente usando los archivos
+finales históricos ni ampliando su antigüedad para hacerlos parecer actuales.
 
 Referencia del producto: [NASA/PO.DAAC, MUR v4.1](https://podaac.jpl.nasa.gov/dataset/MUR-JPL-L4-GLOB-v4.1).
 La integración separa deliberadamente las versiones retrospectiva y NRT que

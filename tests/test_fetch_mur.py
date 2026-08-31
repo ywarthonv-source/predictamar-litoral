@@ -50,12 +50,43 @@ def test_conserva_unidades_mascara_halo_y_procedencia():
     assert 1.11 < field.median_meridional_spacing_km < 1.12
     assert field.time_utc == datetime(2026, 8, 28, 9, tzinfo=timezone.utc)
     assert field.nominal_age_hours == 24.0
-    assert field.provenance.product_version == "04.1"
+    assert field.provenance.product_version == "04.1nrt"
     assert field.provenance.product_stage is mur.MurProductStage.NRT
     assert not field.provenance.availability_as_of_verified
     assert not field.provenance.operational_use_verified
     assert field.provenance.read_at_utc is None  # transformación pura
     assert not field.field_is_operational_domain
+
+
+def test_contrato_metadatos_nrt_observado_en_descarga_real():
+    ds = dataset(
+        times=("2026-08-30T09:00:00",),
+        title="Daily MUR SST, Interim near-real-time (nrt) product",
+        product_version="04.1nrt",
+        date_created="20260831T090519Z",
+    )
+    field = parse(
+        ds,
+        target=date(2026, 8, 30),
+        as_of=datetime(2026, 8, 31, 21, 31, 55, tzinfo=timezone.utc),
+    )
+    assert field.status is mur.MurStatus.VALIDA_EN_FECHA_NOMINAL
+    assert field.time_utc == datetime(2026, 8, 30, 9, tzinfo=timezone.utc)
+    assert field.provenance.product_version == mur.NRT_PRODUCT_VERSION
+    assert field.provenance.product_stage is mur.MurProductStage.NRT
+    assert field.provenance.product_created_at_utc == datetime(
+        2026, 8, 31, 9, 5, 19, tzinfo=timezone.utc)
+
+
+@pytest.mark.parametrize(
+    "stage,product_version",
+    [("nrt", "04.1"), ("Final", "04.1nrt")],
+)
+def test_no_confunde_version_final_y_nrt(stage, product_version):
+    field = parse(dataset(stage=stage, product_version=product_version),
+                  mode=mur.MurMode.HISTORICAL_DIAGNOSTIC)
+    assert field.status is mur.MurStatus.ERROR
+    assert field.reason == "invalid_dataset"
 
 
 def test_tierra_con_sst_finita_y_bits_desconocidos_no_son_mar():

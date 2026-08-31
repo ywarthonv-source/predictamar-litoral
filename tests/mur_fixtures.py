@@ -13,7 +13,8 @@ AS_OF = datetime(2026, 8, 29, 9, tzinfo=timezone.utc)
 
 
 def dataset(*, sst=None, mask=None, error=None, dt=None, lats=None, lons=None,
-            times=("2026-08-28T09:00:00",), stage="nrt"):
+            times=("2026-08-28T09:00:00",), stage="nrt", product_version=None,
+            title=None, date_created="20260829T050000Z"):
     lats = np.asarray(lats if lats is not None else -12.50 + .01 * np.arange(7))
     lons = np.asarray(lons if lons is not None else -76.83 + .01 * np.arange(7))
     shape = (len(times), len(lats), len(lons))
@@ -29,9 +30,13 @@ def dataset(*, sst=None, mask=None, error=None, dt=None, lats=None, lons=None,
             "flag_meanings": mur.MASK_MEANINGS}),
         "dt_1km_data": (dims, values(dt, -7), {"units": "hours"}),
     }, coords={"time": np.asarray(times, dtype="datetime64[ns]"), "lat": lats, "lon": lons},
-        attrs={"id": "MUR-JPL-L4-GLOB-v04.1", "product_version": "04.1",
-               "processing_level": "L4", "title": f"Daily MUR SST, {stage} product",
-               "date_created": "20260829T050000Z"})
+        attrs={"id": "MUR-JPL-L4-GLOB-v04.1",
+               "product_version": product_version or (
+                   mur.PRODUCT_VERSION if stage.casefold() == "final"
+                   else mur.NRT_PRODUCT_VERSION),
+               "processing_level": "L4",
+               "title": title or f"Daily MUR SST, {stage} product",
+               "date_created": date_created})
 
 
 def bounds(ds, first=2, last=4):

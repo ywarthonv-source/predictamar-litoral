@@ -1054,6 +1054,7 @@ variables:
     dataset_id: "MUR-JPL-L4-GLOB-v4.1"
     collection_id: "C1996881146-POCLOUD"
     product_version: "04.1"
+    nrt_product_version: "04.1nrt"
     variables: ["analysed_sst", "analysis_error", "mask", "dt_1km_data"]
     standard_name: "sea_surface_foundation_temperature"
     native_units: "kelvin"
@@ -1068,10 +1069,12 @@ variables:
       frentes. Un solo producto diario, sin mosaicos ni interpolación temporal.
     activacion: "opcional mediante MurOptions; desactivada por defecto"
     acceso: >
-      Recortes NetCDF locales obtenidos previamente por NASA Earthdata/Harmony.
-      Directorio explícito del proveedor o PREDICTAMAR_MUR_DATA_DIR. No abre
-      sesiones ni descarga datos dentro del ensamblador. Sin directorio: error
-      trazable solo en MUR. No se añaden credenciales al repositorio o al JSON.
+      El ensamblador solo lee recortes NetCDF locales desde un directorio
+      explícito o PREDICTAMAR_MUR_DATA_DIR: nunca inicia sesión. El proceso
+      separado ingestion/update_mur_nrt.py busca en Earthdata, recorta con
+      Harmony, valida con el mismo lector y publica atómicamente. Solo admite
+      autenticación interactiva manual o secretos de entorno; no recibe ni
+      serializa credenciales.
     seleccion: >
       Último campo admisible con datos en el recuadro, no valores solo en halo.
       Se rechazan duplicados de fecha en el directorio; no se elige una versión
@@ -1082,6 +1085,11 @@ variables:
       retrospectivo y los marca historica_final; no afirma que existieran a la
       hora de faena. El texto 'replaced nrt' en history no convierte FINAL a NRT.
     availability_as_of_verified: false
+    availability_policy: >
+      False por defecto para NetCDF aislados e históricos. Puede ser true por
+      archivo NRT si el manifiesto de adquisición Earthdata/Harmony coincide
+      en identidad, tiempos, nombre y SHA-256, y retrieved_at no es posterior
+      al as_of solicitado.
     operational_use_verified: false
     calidad: >
       analysis_error se conserva en kelvin; no es probabilidad pesquera.
@@ -1096,9 +1104,10 @@ variables:
     validacion_ejecutada:
       - "Suite sintética y NetCDF CF: unidades, tiempo, máscara, duplicados, errores y procedencia por hash"
       - "30 recortes FINALES de Pucusana, 2026-07-23 a 2026-08-21: 527 celdas marinas con SST por día"
-      - "Verificación real retrospectiva únicamente; acceso y latencia NRT no verificados"
+      - "Descarga real NRT: granulo nominal 2026-08-30T09:00Z, versión 04.1nrt, creado 2026-08-31T09:05:19Z y consultado 2026-08-31T21:31:55Z"
+      - "Actualizador probado: selección CMR, recorte Harmony, hash/manifiesto, idempotencia, archivo recuperable y fallo sin sustitución"
     pendiente:
-      - "Comprobar una descarga NRT reciente y su latencia antes de habilitar uso diario"
+      - "Conectar el comando diario y EARTHDATA_TOKEN al entorno donde se despliegue el backend; no existe todavía ese planificador"
       - "Validación independiente de utilidad pesquera y umbrales por especie"
 
   thermal_gradient_mur:

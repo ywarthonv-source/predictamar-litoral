@@ -14,6 +14,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 import hashlib
 from io import BytesIO
+import json
 import logging
 from math import asin, cos, radians, sin, sqrt
 from numbers import Real
@@ -31,6 +32,9 @@ logger = logging.getLogger(__name__)
 DATASET_ID = "MUR-JPL-L4-GLOB-v4.1"
 COLLECTION_ID = "C1996881146-POCLOUD"
 PRODUCT_VERSION = "04.1"
+NRT_PRODUCT_VERSION = "04.1nrt"
+FINAL_PRODUCT_VERSIONS = frozenset({"04.1", "4.1"})
+NRT_PRODUCT_VERSIONS = frozenset({"04.1nrt", "4.1nrt"})
 STANDARD_NAME = "sea_surface_foundation_temperature"
 VARIABLES = ("analysed_sst", "analysis_error", "mask", "dt_1km_data")
 QUALITY_VARIABLES = ("analysis_error", "dt_1km_data")
@@ -44,7 +48,14 @@ MAX_ALLOWED_AGE_HOURS = 168.0
 MAX_FIELD_SPAN_DEG = 2.0
 MAX_LOCAL_FILES = 40
 MAX_FILE_BYTES = 32 * 1024 * 1024
+MAX_MANIFEST_BYTES = 16 * 1024
 DATA_DIRECTORY_ENV = "PREDICTAMAR_MUR_DATA_DIR"
+ACQUISITION_MANIFEST_SUFFIX = ".provenance.json"
+ACQUISITION_SCHEMA_VERSION = "predictamar_mur_nrt_acquisition_v1"
+GRANULE_UR_PATTERN = re.compile(
+    r"^(?P<stamp>\d{14})-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02\.0-fv04\.1$"
+)
+GRANULE_CONCEPT_PATTERN = re.compile(r"^G\d+-POCLOUD$")
 MASK_MEANINGS = (
     "open_sea land open_lake open_sea_with_ice_in_the_grid "
     "open_lake_with_ice_in_the_grid"
@@ -59,7 +70,10 @@ SCOPE_WARNING = (
     "ni como cobertura de todas las observaciones. analysis_error es el error "
     "estimado del análisis SST, no probabilidad pesquera. El campo técnico "
     "no delimita los 0–10 km desde el litoral. No reemplaza ni promedia OSTIA. "
-    "La disponibilidad a as_of y la operación NRT no han sido verificadas."
+    "La disponibilidad a as_of solo se verifica por archivo cuando existe un "
+    "manifiesto Earthdata/Harmony cuyo SHA-256 coincide; un NetCDF aislado no "
+    "la demuestra. La operación diaria continua todavía requiere un "
+    "planificador en el entorno de despliegue."
 )
 
 Matrix = tuple[tuple[float | None, ...], ...]
@@ -266,7 +280,8 @@ def _metadata(ds):
     if attrs.get("id") not in {DATASET_ID, "MUR-JPL-L4-GLOB-v04.1"}:
         raise ValueError("El archivo no identifica MUR v4.1.")
     version = str(attrs.get("product_version", ""))
-    if version not in {"04.1", "4.1"} or attrs.get("processing_level") != "L4":
+    if (version not in FINAL_PRODUCT_VERSIONS | NRT_PRODUCT_VERSIONS
+            or attrs.get("processing_level") != "L4"):
         raise ValueError("Versión o nivel de procesamiento MUR incompatible.")
     # La historia del FINAL menciona el NRT sustituido. No se busca 'nrt' ahí.
     title = str(attrs.get("title", "")).casefold()
@@ -276,6 +291,10 @@ def _metadata(ds):
         raise ValueError("El título declara etapas de producto contradictorias.")
     stage = (MurProductStage.FINAL if final else MurProductStage.NRT if nrt
              else MurProductStage.UNKNOWN)
+    if stage is MurProductStage.NRT and version not in NRT_PRODUCT_VERSIONS:
+        raise ValueError("La versión MUR final no puede presentarse como producto NRT.")
+    if stage is MurProductStage.FINAL and version not in FINAL_PRODUCT_VERSIONS:
+        raise ValueError("La versión MUR NRT no puede presentarse como producto final.")
     created = None
     if attrs.get("date_created"):
         stamp = pd.Timestamp(attrs["date_created"])
@@ -284,6 +303,91 @@ def _metadata(ds):
         stamp = stamp.tz_localize("UTC") if stamp.tzinfo is None else stamp.tz_convert("UTC")
         created = stamp.to_pydatetime()
     return version, stage, created
+
+
+def _manifest_time(value, name):
+    if not isinstance(value, str):
+        raise ValueError(f"{name} debe ser una fecha UTC ISO 8601.")
+    stamp = pd.Timestamp(value)
+    if pd.isna(stamp) or stamp.tzinfo is None:
+        raise ValueError(f"{name} debe incluir zona horaria UTC.")
+    return stamp.tz_convert("UTC").to_pydatetime()
+
+
+def _verify_acquisition_manifest(result, path, source_sha256):
+    """Vincula la disponibilidad a una adquisición cuyo hash coincide.
+
+    La ausencia del manifiesto conserva el comportamiento histórico sin
+    afirmar disponibilidad. Si existe pero es inconsistente, se falla cerrado.
+    """
+    manifest_path = Path(f"{path}{ACQUISITION_MANIFEST_SUFFIX}")
+    if not manifest_path.exists():
+        return result
+    if (manifest_path.is_symlink() or not manifest_path.is_file()
+            or not 0 < manifest_path.stat().st_size <= MAX_MANIFEST_BYTES):
+        raise ValueError("El manifiesto de adquisición MUR es inválido.")
+    raw = manifest_path.read_bytes()
+    if not 0 < len(raw) <= MAX_MANIFEST_BYTES:
+        raise ValueError("El manifiesto de adquisición MUR excede el límite.")
+    try:
+        manifest = json.loads(raw)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("El manifiesto de adquisición MUR no es JSON válido.") from exc
+    if not isinstance(manifest, dict):
+        raise ValueError("El manifiesto de adquisición MUR debe ser un objeto.")
+    expected = {
+        "schema_version": ACQUISITION_SCHEMA_VERSION,
+        "dataset_id": DATASET_ID,
+        "collection_id": COLLECTION_ID,
+        "product_version": NRT_PRODUCT_VERSION,
+        "source_access": "nasa_earthdata_harmony",
+        "source_file_name": path.name,
+        "source_file_sha256": source_sha256,
+    }
+    if any(manifest.get(key) != value for key, value in expected.items()):
+        raise ValueError("El manifiesto no corresponde a los bytes MUR leídos.")
+    native_time = _manifest_time(manifest.get("native_time_utc"), "native_time_utc")
+    created = _manifest_time(
+        manifest.get("product_created_at_utc"), "product_created_at_utc")
+    retrieved = _manifest_time(manifest.get("retrieved_at_utc"), "retrieved_at_utc")
+    granule_concept_id = manifest.get("granule_concept_id")
+    granule_ur = manifest.get("granule_ur")
+    granule_match = (GRANULE_UR_PATTERN.fullmatch(granule_ur)
+                     if isinstance(granule_ur, str) else None)
+    if (not isinstance(granule_concept_id, str)
+            or not GRANULE_CONCEPT_PATTERN.fullmatch(granule_concept_id)
+            or granule_match is None
+            or datetime.strptime(
+                granule_match.group("stamp"), "%Y%m%d%H%M%S"
+            ).replace(tzinfo=timezone.utc) != native_time):
+        raise ValueError("La identidad del granulo MUR es incompatible.")
+    bbox = manifest.get("query_bbox")
+    expected_bbox = {
+        "west": result.query_bounds.minimum_longitude,
+        "south": result.query_bounds.minimum_latitude,
+        "east": result.query_bounds.maximum_longitude,
+        "north": result.query_bounds.maximum_latitude,
+    }
+    if (not isinstance(bbox, dict)
+            or any(not isinstance(bbox.get(key), Real)
+                   or isinstance(bbox.get(key), bool)
+                   or not np.isclose(float(bbox[key]), value, rtol=0, atol=1e-9)
+                   for key, value in expected_bbox.items())):
+        raise ValueError("El recuadro del manifiesto MUR no coincide.")
+    if (result.time_utc != native_time
+            or result.provenance.product_created_at_utc != created
+            or result.provenance.product_stage is not MurProductStage.NRT
+            or result.provenance.product_version != NRT_PRODUCT_VERSION
+            or not native_time <= created <= retrieved):
+        raise ValueError("El manifiesto temporal no coincide con el producto MUR.")
+    verified = retrieved <= result.options.as_of_utc
+    basis = ("earthdata_harmony_manifest_sha256"
+             if verified else "retrieved_after_requested_as_of")
+    return replace(result, provenance=replace(
+        result.provenance,
+        availability_as_of_verified=verified,
+        availability_basis=basis,
+    ))
 
 
 def _validated_arrays(ds):
@@ -498,6 +602,8 @@ def fetch_mur_field(
                 source_file_sha256=hashlib.sha256(raw).hexdigest(),
                 read_at_utc=datetime.now(timezone.utc),
             ))
+            result = _verify_acquisition_manifest(
+                result, path, result.provenance.source_file_sha256)
             candidates.append(result)
         # Las fechas fuera de ventana no se presentan como el último dato utilizable.
         eligible = [r for r in candidates if r.reason != "outside_nominal_age_window"]

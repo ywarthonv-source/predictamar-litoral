@@ -97,6 +97,7 @@ def test_mur_opcional_contrato_y_constantes_sin_segunda_verdad():
     assert source["dataset_id"] == mur.DATASET_ID
     assert source["collection_id"] == mur.COLLECTION_ID
     assert source["product_version"] == mur.PRODUCT_VERSION
+    assert source["nrt_product_version"] == mur.NRT_PRODUCT_VERSION
     assert tuple(source["variables"]) == mur.VARIABLES
     assert source["native_grid_step_deg"] == mur.NATIVE_GRID_STEP_DEG
     assert source["max_nominal_age_hours_default"] == mur.DEFAULT_MAX_NOMINAL_AGE_HOURS
