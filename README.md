@@ -26,12 +26,15 @@ de la auditoría de agosto de 2026 como contratos verificables.
    30 productos **finales históricos** y una descarga **NRT 04.1nrt** real
    verificados. El actualizador autenticado, idempotente y atómico está
    implementado; falta conectarlo al planificador del futuro backend
-10. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
+10. 🟡 **Diagnóstico ambiental de 30 días** — agregador seguro implementado y
+    cubierto sintéticamente para las 14 variables; falta ejecutar la ventana
+    real homogénea y revisar humanamente la clasificación de cada capa
+11. 🟡 **Ensamblador y aplicación** — contrato ambiental implementado y
    cubierto sintéticamente; aplicaciones web y móvil pendientes
-11. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
+12. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión automática sin el paquete histórico: **409 passed, 1 skipped**.
+Regresión automática sin el paquete histórico: **428 passed, 1 skipped**.
 La prueba con el paquete real MUR permanece opt-in y añade un caso cuando se
 configura el archivo reproducible, sin consultar proveedores externos.
 
@@ -308,6 +311,50 @@ Referencia del producto: [NASA/PO.DAAC, MUR v4.1](https://podaac.jpl.nasa.gov/da
 La integración separa deliberadamente las versiones retrospectiva y NRT que
 declara ese catálogo. La vía de recorte autenticado usada en el diagnóstico es
 [NASA Harmony](https://harmony-py.readthedocs.io/en/latest/api.html).
+
+## Diagnóstico ambiental consolidado de 30 días
+
+`diagnostics/diagnose_environmental_30d_pucusana.py` recorre el ensamblador
+para una misma referencia y periodo. Por defecto incluye las diez variables
+base, OLCI, su gradiente, MUR y su gradiente: catorce variables que representan
+diez operaciones de fuente independientes. Las derivadas conservan la
+operación compartida y no aumentan artificialmente ese conteo.
+
+El informe solo contiene estados, conteos, cobertura, procedencia y estadística
+agregada de las rutas de valor ya declaradas por el ensamblador. No contiene
+matrices ni muestras crudas. La dirección de corriente se resume mediante
+estadística circular; `tid_code` se conserva como categoría y nunca se
+promedia. La batimetría estática se obtiene una sola vez por punto durante la
+ejecución.
+
+Para repetir la ventana histórica usada por la comparación MUR, después de
+iniciar sesión en Copernicus y apuntar al directorio local dedicado con los
+recortes MUR:
+
+```bash
+PREDICTAMAR_MUR_DATA_DIR=/ruta/mur_20260723_20260821 \
+python -m diagnostics.diagnose_environmental_30d_pucusana \
+  --end-date 2026-08-21 --days 30
+```
+
+Se puede añadir `--json` para obtener el mismo informe estructurado. Las capas
+opcionales se omiten de forma explícita con `--no-olci` o `--no-mur`; nunca se
+silencian automáticamente. Para cada fecha histórica, OLCI y MUR usan un
+`as_of` de selección de hasta 48 horas posteriores, limitado por la hora real
+de ejecución. Ese corte permite inspeccionar productos históricos, pero **no**
+verifica cuándo fueron publicados ni los convierte en datos operativos
+retrospectivos.
+
+Los códigos de salida distinguen el resultado técnico: `0` sin huecos, `3` con
+algún `sin_datos`, `4` con al menos un error de fuente o contrato y `2` si no
+hubo ninguna variable disponible. Un `3` puede ser el resultado correcto de
+una capa óptica afectada por nubes; debe analizarse, no maquillarse como éxito
+ni tratarse automáticamente como evidencia pesquera.
+
+La clasificación `base operativa` / `opcional` / `solo diagnóstica` /
+`aplazada` queda deliberadamente en `pending_human_review` hasta revisar la
+ejecución real. El diagnóstico no cambia `predictively_valid`, no calcula
+pesos, score, favorabilidad o presencia de cardúmenes.
 
 ## Fuentes y credenciales
 
