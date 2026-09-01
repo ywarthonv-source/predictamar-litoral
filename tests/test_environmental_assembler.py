@@ -5,18 +5,25 @@ para comprobar orquestación, trazabilidad, fallos parciales y ausencia de
 scoring sin alterar los módulos fuente.
 """
 
+import json
 from dataclasses import dataclass, replace
 from datetime import date, datetime, timezone
-import json
+
 import pytest
 import yaml
 
 import assembly.environmental_assembler as ea
-
+from assembly import HistoricalChlorophyllOptions, OpticalMode
 
 LAT = -12.471
 LON = -76.790
 TARGET_DATE = date(2026, 8, 26)
+
+
+def test_historical_optical_contract_is_public() -> None:
+    options = HistoricalChlorophyllOptions(datetime(2026, 8, 27, tzinfo=timezone.utc))
+
+    assert options.mode is OpticalMode.HISTORICAL_DIAGNOSTIC
 
 
 @dataclass(frozen=True)
@@ -298,7 +305,41 @@ def test_1g_opcion_olci_invalida_se_rechaza_antes_de_invocar_fuentes():
     with pytest.raises(TypeError, match="ChlorophyllOptions"):
         ea.assemble_environmental_snapshot(
             make_request(), providers=providers, chlorophyll_options="enabled")
+    with pytest.raises(TypeError, match="OpticalMode"):
+        ea.assemble_environmental_snapshot(
+            make_request(), providers=providers, chlorophyll_mode="historical_diagnostic"
+        )
     assert calls == []
+
+
+def test_1h_modo_historico_se_pasa_solo_a_clorofila_base():
+    providers, calls = make_providers()
+
+    def fetch_historical(lat, lon, target_date, *, mode):
+        calls.append(("clorofila_historica", (lat, lon, target_date, mode)))
+        return FakeReading(status="valida_en_fecha_local")
+
+    providers = replace(providers, fetch_chlorophyll=fetch_historical)
+    snapshot = ea.assemble_environmental_snapshot(
+        make_request(),
+        providers=providers,
+        chlorophyll_mode=ea.OpticalMode.HISTORICAL_DIAGNOSTIC,
+    )
+
+    call = next(args for name, args in calls if name == "clorofila_historica")
+    assert call[:3] == (LAT, LON, TARGET_DATE)
+    assert call[3] is ea.OpticalMode.HISTORICAL_DIAGNOSTIC
+    assert snapshot.get("clorofila").state is ea.AssemblyState.AVAILABLE
+
+
+def test_1i_error_estructurado_de_clorofila_base_no_es_sin_datos():
+    providers, _ = make_providers(statuses={"clorofila": "error"})
+
+    snapshot = ea.assemble_environmental_snapshot(make_request(), providers=providers)
+
+    result = snapshot.get("clorofila")
+    assert result.state is ea.AssemblyState.ERROR
+    assert result.error_code == "source_error"
 
 
 def test_2_campo_ostia_usa_caja_explicita_y_alimenta_la_derivacion():

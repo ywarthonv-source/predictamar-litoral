@@ -1,13 +1,17 @@
 """Pruebas del gradiente OLCI puro, centrado y enmascarado."""
 
 from dataclasses import replace
-import numpy as np
 
+import numpy as np
+from test_fetch_chlorophyll_field import AS_OF, TARGET, bounds, dataset, parse
+
+import ingestion.fetch_chlorophyll_field as cf
 from derivation.chlorophyll_gradient import (
-    ChlorophyllGradientStatus, METHOD, derive_chlorophyll_gradient,
+    METHOD,
+    ChlorophyllGradientStatus,
+    derive_chlorophyll_gradient,
 )
 from ingestion.fetch_chlorophyll_field import ChlorophyllFieldStatus
-from test_fetch_chlorophyll_field import dataset, parse
 
 
 def test_campo_constante_produce_ceros_validos_no_faltantes():
@@ -82,3 +86,20 @@ def test_inconsistencia_entre_campo_y_halo_se_rechaza():
         assert "recorte" in str(exc)
     else:
         raise AssertionError("Se aceptó un campo distinto de su soporte")
+
+
+def test_gradiente_admite_identidad_historica_my_explicita():
+    ds = dataset()
+    field = cf.chlorophyll_field_from_dataset(
+        ds,
+        *bounds(ds),
+        TARGET,
+        options=cf.HistoricalChlorophyllOptions(AS_OF),
+    )
+
+    gradient = derive_chlorophyll_gradient(field)
+
+    assert field.dataset_id in cf.SUPPORTED_DATASET_IDS
+    assert "_my_" in field.dataset_id
+    assert gradient.source_dataset_id == field.dataset_id
+    assert gradient.status is ChlorophyllGradientStatus.VALIDO

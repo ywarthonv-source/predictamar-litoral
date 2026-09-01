@@ -103,7 +103,7 @@ activa de manera explícita y añade `chlorophyll_olci` y `chlorophyll_front`:
 ```python
 from datetime import datetime, timezone
 
-from assembly import ChlorophyllOptions
+from assembly import ChlorophyllOptions, HistoricalChlorophyllOptions
 
 snapshot = assemble_environmental_snapshot(
     request,
@@ -117,6 +117,11 @@ Con la opción desactivada no se ejecuta ninguna consulta OLCI y el JSON base
 permanece bajo `environmental_snapshot_v1`. Activada, una sola consulta
 versionada (`202207`, parte `default`) alimenta el campo y su derivada bajo
 `environmental_snapshot_v1_olci_v1`; no hay dos descargas ni fechas distintas.
+Ese es el modo operativo NRT predeterminado. Para una auditoría retrospectiva,
+`HistoricalChlorophyllOptions` usa explícitamente el producto MY
+`OCEANCOLOUR_GLO_BGC_L3_MY_009_103`, dataset
+`cmems_obs-oc_glo_bgc-plankton_my_l3-olci-300m_P1D`, versión `202211`.
+No existe conmutación automática entre NRT y MY.
 
 La selección admite únicamente un día nominal UTC ya completado y con edad
 máxima provisional de 72 horas respecto de `as_of_utc`. Conserva `LAND`,
@@ -320,12 +325,23 @@ base, OLCI, su gradiente, MUR y su gradiente: catorce variables que representan
 diez operaciones de fuente independientes. Las derivadas conservan la
 operación compartida y no aumentan artificialmente ese conteo.
 
+El contrato actual es `environmental_30d_diagnostic_v2`. Para el análisis
+histórico selecciona de forma explícita los productos ópticos MY: L4 gap-free
+`OCEANCOLOUR_GLO_BGC_L4_MY_009_104`/versión `202603` y OLCI L3
+`OCEANCOLOUR_GLO_BGC_L3_MY_009_103`/versión `202211`. El ensamblador general
+mantiene NRT como valor predeterminado; el diagnóstico no usa un producto NRT
+fuera de su extensión temporal y no mezcla ambos modos como fallback.
+
 El informe solo contiene estados, conteos, cobertura, procedencia y estadística
 agregada de las rutas de valor ya declaradas por el ensamblador. No contiene
-matrices ni muestras crudas. La dirección de corriente se resume mediante
-estadística circular; `tid_code` se conserva como categoría y nunca se
-promedia. La batimetría estática se obtiene una sola vez por punto durante la
-ejecución.
+matrices ni muestras crudas. Un mismo timestamp reutilizado por fallback cuenta
+como un registro fuente único y sus valores solo entran una vez en las métricas
+del periodo. Las derivadas heredan el fallback y la etapa histórica de su
+fuente. MUR conserva un manifiesto resumido de nombre base y SHA-256; también se
+registran revisión de código, hashes de configuración/requisitos y versiones
+de dependencias. La dirección de corriente se resume mediante estadística
+circular; `tid_code` se conserva como categoría y nunca se promedia. La
+batimetría estática se obtiene y pondera una sola vez por punto.
 
 Para repetir la ventana histórica usada por la comparación MUR, después de
 iniciar sesión en Copernicus y apuntar al directorio local dedicado con los
@@ -334,12 +350,16 @@ recortes MUR:
 ```bash
 PREDICTAMAR_MUR_DATA_DIR=/ruta/mur_20260723_20260821 \
 python -m diagnostics.diagnose_environmental_30d_pucusana \
-  --end-date 2026-08-21 --days 30
+  --end-date 2026-08-21 --days 30 --json \
+  > diagnostics/environmental_30d_20260723_20260821_v2.json
 ```
 
-Se puede añadir `--json` para obtener el mismo informe estructurado. Las capas
+El sufijo `_v2` es deliberado: conserva sin modificación el resultado v1 ya
+obtenido. Las capas
 opcionales se omiten de forma explícita con `--no-olci` o `--no-mur`; nunca se
-silencian automáticamente. Para cada fecha histórica, OLCI y MUR usan un
+silencian automáticamente. `--optical-mode nrt_operational` permite una
+comprobación NRT explícita, pero no es apropiado para pedir fechas retiradas de
+la ventana NRT. Para cada fecha histórica, OLCI y MUR usan un
 `as_of` de selección de hasta 48 horas posteriores, limitado por la hora real
 de ejecución. Ese corte permite inspeccionar productos históricos, pero **no**
 verifica cuándo fueron publicados ni los convierte en datos operativos

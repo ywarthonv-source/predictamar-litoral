@@ -5,28 +5,36 @@ antigüedad se mide desde su etiqueta diaria, no desde una hora de adquisición
 inventada. La disponibilidad histórica al instante as_of NO se presume.
 Los valores permanecen nativos; tierra, huecos y calidad desconocida no son
 ceros. El soporte de dos celdas se conserva para derivar antes de recortar.
+``ChlorophyllOptions`` conserva NRT; ``HistoricalChlorophyllOptions`` elige MY
+explícitamente para auditorías y nunca funciona como fallback automático.
 """
 
 from __future__ import annotations
 
+import logging
+import traceback
 from dataclasses import dataclass, replace
 from datetime import date, datetime, timedelta, timezone
 from enum import Enum
-import logging
 from math import asin, cos, radians, sin, sqrt
 from numbers import Real
-import traceback
+from typing import ClassVar
 
 import copernicusmarine
 import numpy as np
 import pandas as pd
 
+from ingestion.optical_sources import OpticalMode, olci_field_spec
 
 logger = logging.getLogger(__name__)
-PRODUCT_ID = "OCEANCOLOUR_GLO_BGC_L3_NRT_009_101"
-DATASET_ID = "cmems_obs-oc_glo_bgc-plankton_nrt_l3-olci-300m_P1D"
-DATASET_VERSION = "202207"
-DATASET_PART = "default"
+_DEFAULT_SPEC = olci_field_spec(OpticalMode.NRT_OPERATIONAL)
+PRODUCT_ID = _DEFAULT_SPEC.product_id
+DATASET_ID = _DEFAULT_SPEC.dataset_id
+DATASET_VERSION = _DEFAULT_SPEC.dataset_version
+DATASET_PART = _DEFAULT_SPEC.dataset_part
+SUPPORTED_DATASET_IDS = frozenset(
+    olci_field_spec(mode).dataset_id for mode in OpticalMode
+)
 VARIABLES = ("CHL", "CHL_uncertainty", "flags")
 STANDARD_NAME = "mass_concentration_of_chlorophyll_a_in_sea_water"
 UNITS = "milligram m-3"
@@ -80,6 +88,7 @@ class ChlorophyllOptions:
 
     as_of_utc: datetime
     max_nominal_age_hours: float = DEFAULT_MAX_NOMINAL_AGE_HOURS
+    mode: ClassVar[OpticalMode] = OpticalMode.NRT_OPERATIONAL
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "as_of_utc", _aware_utc(self.as_of_utc, "as_of_utc"))
@@ -90,6 +99,13 @@ class ChlorophyllOptions:
         ):
             raise ValueError("max_nominal_age_hours debe ser finito, > 0 y <= 168.")
         object.__setattr__(self, "max_nominal_age_hours", float(age))
+
+
+@dataclass(frozen=True)
+class HistoricalChlorophyllOptions(ChlorophyllOptions):
+    """Selección MY explícita para auditorías retrospectivas, nunca operativas."""
+
+    mode: ClassVar[OpticalMode] = OpticalMode.HISTORICAL_DIAGNOSTIC
 
 
 @dataclass(frozen=True)
@@ -183,6 +199,7 @@ def _bounds_and_query(min_lat, max_lat, min_lon, max_lon, target_date, options):
 
 
 def _empty_field(bounds, query, target_date, options, retrieved_at_utc=None):
+    spec = olci_field_spec(options.mode)
     grid = ChlorophyllGrid((), (), (), (), ())
     return ChlorophyllField(
         requested_date=target_date, requested_bounds=bounds, query_bounds=query,
@@ -195,8 +212,8 @@ def _empty_field(bounds, query, target_date, options, retrieved_at_utc=None):
         n_grid_cells=0, n_marine_cells=0, n_valid_cells=0, n_uncertainty_cells=0,
         coverage_fraction=None, coverage_denominator="marine_cells_in_requested_field",
         median_zonal_resolution_km=None, median_meridional_resolution_km=None,
-        product_id=PRODUCT_ID, dataset_id=DATASET_ID,
-        requested_dataset_version=DATASET_VERSION, dataset_version=None,
+        product_id=spec.product_id, dataset_id=spec.dataset_id,
+        requested_dataset_version=spec.dataset_version, dataset_version=None,
         dataset_part=None, version_basis="not_stored_in_provided_dataset",
         variables=VARIABLES, units=UNITS, uncertainty_units=UNCERTAINTY_UNITS,
         processing_level="L3", native_grid_step_deg=NATIVE_GRID_STEP_DEG,
@@ -214,6 +231,25 @@ def _failure(empty, exc, reason):
     logger.error("Fallo OLCI %s (%s); traza: %s", reason, type(exc).__name__, trace)
     return replace(empty, status=ChlorophyllFieldStatus.ERROR,
                    reason=reason, error_type=type(exc).__name__)
+
+
+_SOURCE_REASON_BY_ERROR_TYPE = {
+    "CoordinatesOutOfDatasetBounds": "coordinates_out_of_dataset_bounds",
+    "DatasetNotFound": "dataset_not_found",
+    "DatasetVersionNotFound": "dataset_version_not_found",
+    "DatasetVersionPartNotFound": "dataset_part_not_found",
+    "VariableDoesNotExistInTheDataset": "source_variable_not_found",
+    "CredentialsCannotBeNone": "source_authentication_required",
+    "InvalidUsernameOrPassword": "source_authentication_failed",
+    "CouldNotConnectToAuthenticationSystem": "source_authentication_unavailable",
+    "ServiceNotAvailable": "source_service_unavailable",
+    "NoServiceAvailable": "source_service_unavailable",
+}
+
+
+def _source_failure(empty, exc):
+    reason = _SOURCE_REASON_BY_ERROR_TYPE.get(type(exc).__name__, "source_failure")
+    return _failure(empty, exc, reason)
 
 
 def _canonicalise(da, name):
@@ -319,7 +355,10 @@ def crop_grid(grid, bounds):
 
 def _select_field(ds, empty):
     attrs = getattr(ds, "attrs", {})
-    for key, expected in (("cmems_product_id", PRODUCT_ID), ("title", DATASET_ID)):
+    for key, expected in (
+        ("cmems_product_id", empty.product_id),
+        ("title", empty.dataset_id),
+    ):
         if key in attrs and attrs[key] != expected:
             raise ValueError("El archivo declara una identidad de producto diferente.")
     arrays, stamps = _validated_arrays(ds)
@@ -407,8 +446,10 @@ def fetch_chlorophyll_field(
         minimum_latitude, maximum_latitude, minimum_longitude, maximum_longitude, target_date, options)
     empty = replace(
         _empty_field(bounds, query, target_date, options),
-        source_access="copernicus_query", dataset_version=DATASET_VERSION,
-        dataset_part=DATASET_PART, version_basis="explicit_version_and_part_in_query",
+        source_access="copernicus_query",
+        dataset_version=olci_field_spec(options.mode).dataset_version,
+        dataset_part=olci_field_spec(options.mode).dataset_part,
+        version_basis="explicit_version_and_part_in_query",
     )
     start = options.as_of_utc - timedelta(hours=options.max_nominal_age_hours)
     last_complete_day_end = options.as_of_utc.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -418,7 +459,9 @@ def fetch_chlorophyll_field(
         return replace(empty, reason="outside_age_window")
     try:
         with copernicusmarine.open_dataset(
-            dataset_id=DATASET_ID, dataset_version=DATASET_VERSION, dataset_part=DATASET_PART,
+            dataset_id=empty.dataset_id,
+            dataset_version=empty.requested_dataset_version,
+            dataset_part=empty.dataset_part,
             variables=list(VARIABLES),
             minimum_latitude=query.minimum_latitude, maximum_latitude=query.maximum_latitude,
             minimum_longitude=query.minimum_longitude, maximum_longitude=query.maximum_longitude,
@@ -428,4 +471,4 @@ def fetch_chlorophyll_field(
             empty = replace(empty, retrieved_at_utc=datetime.now(timezone.utc))
             return _select_field(ds, empty)
     except Exception as exc:
-        return _failure(empty, exc, "source_failure")
+        return _source_failure(empty, exc)

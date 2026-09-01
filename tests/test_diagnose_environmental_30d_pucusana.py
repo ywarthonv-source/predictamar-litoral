@@ -1,16 +1,15 @@
 """Pruebas sintéticas del diagnóstico ambiental; nunca consultan red."""
 
-from dataclasses import replace
-from datetime import date, datetime, timedelta, timezone
 import inspect
 import json
+from dataclasses import replace
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
 import assembly.environmental_assembler as ea
 import diagnostics.diagnose_environmental_30d_pucusana as diag
 from ingestion.fetch_mur import MurMode
-
 
 GENERATED = datetime(2026, 8, 13, 12, tzinfo=timezone.utc)
 
@@ -175,11 +174,16 @@ def payload(variable_id, target_date):
             "product_version": "2026",
         }
     if variable_id == "chlorophyll_olci":
+        source = (
+            datetime(2026, 8, 10, tzinfo=timezone.utc)
+            if target_date.day == 12
+            else stamp
+        )
         return {
             **common,
-            "time_utc": stamp.isoformat(),
-            "nominal_product_date": target_date.isoformat(),
-            "matches_requested_nominal_date": True,
+            "time_utc": source.isoformat(),
+            "nominal_product_date": source.date().isoformat(),
+            "matches_requested_nominal_date": source.date() == target_date,
             "coverage_fraction": 0.25,
             "availability_as_of_verified": False,
             "grid": {
@@ -188,10 +192,20 @@ def payload(variable_id, target_date):
             },
         }
     if variable_id == "chlorophyll_front":
+        source = (
+            datetime(2026, 8, 10, tzinfo=timezone.utc)
+            if target_date.day == 12
+            else stamp
+        )
         return {
             **common,
-            "source_time_utc": stamp.isoformat(),
-            "source_nominal_product_date": target_date.isoformat(),
+            "source_time_utc": source.isoformat(),
+            "source_nominal_product_date": source.date().isoformat(),
+            "source_status": (
+                "valida_reciente"
+                if source.date() != target_date
+                else "valida_en_fecha_nominal"
+            ),
             "availability_as_of_verified": False,
             "gradient_coverage_fraction": 0.1,
             "gradient_mg_m3_per_km": [[0.02]],
@@ -217,6 +231,8 @@ def payload(variable_id, target_date):
                 "dataset_id": "MUR-JPL-L4-GLOB-v4.1",
                 "collection_id": "C1996881146-POCLOUD",
                 "product_version": "04.1",
+                "source_file_name": "mur-20260810.nc4",
+                "source_file_sha256": "a" * 64,
                 "operational_use_verified": False,
             },
         }
@@ -224,6 +240,7 @@ def payload(variable_id, target_date):
         source = datetime(2026, 8, 10, 9, tzinfo=timezone.utc)
         return {
             **common,
+            "source_status": "historica_final",
             "source_time_utc": source.isoformat(),
             "source_nominal_product_date": source.date().isoformat(),
             "gradient_coverage_fraction": 0.8,
@@ -234,6 +251,8 @@ def payload(variable_id, target_date):
                 "dataset_id": "MUR-JPL-L4-GLOB-v4.1",
                 "collection_id": "C1996881146-POCLOUD",
                 "product_version": "04.1",
+                "source_file_name": "mur-20260810.nc4",
+                "source_file_sha256": "a" * 64,
                 "availability_as_of_verified": False,
                 "operational_use_verified": False,
             },
@@ -258,7 +277,12 @@ def make_snapshot(request, *, chlorophyll_options, mur_options):
             source_status = (
                 "sin_datos" if variable_id == "chlorophyll_olci" else "fuente_sin_datos"
             )
-            body = None
+            body = {
+                "reason": "no_admissible_time",
+                "source_reason": "no_admissible_time",
+            }
+        if request.target_date.day == 12 and variable_id == "chlorophyll_olci":
+            source_status = "valida_reciente"
         if request.target_date.day == 11 and variable_id == "salinidad":
             source_status = "valida_cercana_en_tiempo"
         if request.target_date.day == 12 and variable_id == "surface_currents":
@@ -278,6 +302,7 @@ def make_snapshot(request, *, chlorophyll_options, mur_options):
                 governance=governance(variable_id),
                 payload=body,
                 error_code=error_code,
+                error_type="RuntimeError" if error_code else None,
             )
         )
     available = sum(result.state is ea.AssemblyState.AVAILABLE for result in results)
@@ -386,11 +411,22 @@ def test_3_as_of_historico_es_explicito_acotado_y_mur_no_se_disfraza_de_nrt():
     )
     assert calls[-1][1]["chlorophyll_options"].as_of_utc == GENERATED
     assert all(
+        isinstance(call[1]["chlorophyll_options"], diag.HistoricalChlorophyllOptions)
+        for call in calls
+    )
+    assert all(
+        call[1]["chlorophyll_mode"] is diag.OpticalMode.HISTORICAL_DIAGNOSTIC
+        for call in calls
+    )
+    assert all(
         call[1]["mur_options"].mode is MurMode.HISTORICAL_DIAGNOSTIC for call in calls
     )
     assert report.mur_mode == "historical_diagnostic"
+    assert report.optical_mode == "historical_diagnostic"
     mur = by_id(report, "sst_mur")
+    mur_gradient = by_id(report, "thermal_gradient_mur")
     assert mur.days_historical_final == 3
+    assert mur_gradient.days_historical_final == 3
     assert mur.availability_verification_declared_days == 3
     assert mur.availability_verified_days == 0
     assert mur.operational_verified_days == 0
@@ -405,6 +441,9 @@ def test_4_agrega_disponibilidad_huecos_errores_y_fallback_sin_clasificar():
     assert (olci.days_available, olci.days_no_data, olci.days_error) == (2, 1, 0)
     assert olci.no_data_dates == (date(2026, 8, 11),)
     assert salinity.days_using_fallback == 1
+    assert olci.days_using_fallback == 1
+    assert by_id(report, "chlorophyll_front").days_using_fallback == 1
+    assert olci.source_reason_counts == (diag.StatusCount("no_admissible_time", 1),)
     assert currents.days_error == 1
     assert currents.error_dates == (date(2026, 8, 12),)
     assert all(
@@ -454,6 +493,7 @@ def test_6_direccion_se_resume_circularmente_y_tid_no_se_promedia():
     assert direction.mean is None and direction.span is None
     assert tid.aggregation == "categorical_values_not_averaged"
     assert tid.distinct_values == (10,)
+    assert tid.count == 1, "la fuente estática no debe ponderarse treinta veces"
     assert tid.mean is None
 
 
@@ -462,10 +502,16 @@ def test_7_detecta_reutilizacion_temporal_y_estabilidad_de_celda():
     mur = by_id(report, "sst_mur")
     sst = by_id(report, "sst")
 
-    assert mur.reused_source_observations > 0
-    assert mur.unique_source_observations < mur.source_observations_total
-    assert sst.reused_source_observations == 0
+    assert mur.reused_source_records > 0
+    assert mur.unique_source_records < mur.source_records_total
+    assert mur.metric_source_records == 1
+    assert mur.metrics[0].count == 2
+    assert sst.reused_source_records == 0
     assert sst.selected_cells_stable is True
+    assert by_id(report, "chlorophyll_olci").metric_source_records == 1
+    assert by_id(report, "chlorophyll_front").metric_source_records == 1
+    assert by_id(report, "batimetria").unique_source_records == 1
+    assert by_id(report, "batimetria").reused_source_records == 2
 
 
 def test_8_json_solo_contiene_resumen_y_no_payloads_o_matrices_crudas():
@@ -473,7 +519,7 @@ def test_8_json_solo_contiene_resumen_y_no_payloads_o_matrices_crudas():
     text = diag.report_to_json(report)
     document = json.loads(text)
 
-    assert document["schema_version"] == "environmental_30d_diagnostic_v1"
+    assert document["schema_version"] == "environmental_30d_diagnostic_v2"
     assert document["days_requested"] == 3
     assert "payload" not in text
     assert "sst_kelvin" not in text
@@ -489,13 +535,28 @@ def test_8_json_solo_contiene_resumen_y_no_payloads_o_matrices_crudas():
         "primary_value_count",
         "coverage_fraction",
         "fallback_used",
+        "historical_final_used",
         "source_time_keys",
+        "source_record_key",
         "selected_cell_keys",
+        "source_reasons",
+        "source_error_types",
         "availability_as_of_verified",
         "operational_use_verified",
         "metrics",
         "error_code",
+        "error_type",
     }
+    assert document["provenance"]["implementation_version"] == (
+        "environmental_30d_diagnostic_v2"
+    )
+    assert len(document["provenance"]["variables_spec_sha256"]) == 64
+    mur_files = next(
+        item["source_identity"]["source_files"]
+        for item in document["variables"]
+        if item["variable_id"] == "sst_mur"
+    )
+    assert mur_files == [{"file_name": "mur-20260810.nc4", "sha256": "a" * 64}]
 
 
 def test_9_formato_humano_declara_limites_y_fechas_problematicas():

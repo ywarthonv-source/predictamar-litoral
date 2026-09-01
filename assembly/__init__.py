@@ -1,9 +1,16 @@
 """Ensamblado trazable de las señales ambientales de PredictaMAR Litoral."""
 
+from ingestion.fetch_chlorophyll_field import (
+    ChlorophyllOptions,
+    HistoricalChlorophyllOptions,
+)
+from ingestion.fetch_mur import MurMode, MurOptions
+from ingestion.optical_sources import OpticalMode
+
 from .environmental_assembler import (
+    AssemblerProviders,
     AssemblyRequest,
     AssemblyState,
-    AssemblerProviders,
     EnvironmentalSnapshot,
     FieldBounds,
     OverallAssemblyStatus,
@@ -14,8 +21,6 @@ from .environmental_assembler import (
     VariableResult,
     assemble_environmental_snapshot,
 )
-from ingestion.fetch_chlorophyll_field import ChlorophyllOptions
-from ingestion.fetch_mur import MurMode, MurOptions
 
 __all__ = [
     "AssemblyRequest",
@@ -31,6 +36,8 @@ __all__ = [
     "VariableResult",
     "assemble_environmental_snapshot",
     "ChlorophyllOptions",
+    "HistoricalChlorophyllOptions",
     "MurMode",
     "MurOptions",
+    "OpticalMode",
 ]

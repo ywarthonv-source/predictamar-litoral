@@ -8,7 +8,6 @@ import xarray as xr
 
 import ingestion.fetch_chlorophyll_field as cf
 
-
 STEP = cf.NATIVE_GRID_STEP_DEG
 TARGET = date(2026, 8, 28)
 AS_OF = datetime(2026, 8, 29, tzinfo=timezone.utc)
@@ -196,3 +195,54 @@ def test_fallo_de_api_produce_error_trazable(monkeypatch):
     assert result.status is cf.ChlorophyllFieldStatus.ERROR
     assert result.reason == "source_failure"
     assert result.error_type == "RuntimeError"
+
+
+def test_modo_historico_fija_producto_my_version_y_parte(monkeypatch):
+    ds = dataset()
+    captured = {}
+
+    class Context:
+        def __enter__(self):
+            return ds
+
+        def __exit__(self, *_args):
+            return None
+
+    def fake_open(**kwargs):
+        captured.update(kwargs)
+        return Context()
+
+    monkeypatch.setattr(cf.copernicusmarine, "open_dataset", fake_open)
+    options = cf.HistoricalChlorophyllOptions(AS_OF)
+    result = cf.fetch_chlorophyll_field(*bounds(ds), TARGET, options=options)
+
+    assert options.mode is cf.OpticalMode.HISTORICAL_DIAGNOSTIC
+    assert captured["dataset_id"] == (
+        "cmems_obs-oc_glo_bgc-plankton_my_l3-olci-300m_P1D"
+    )
+    assert captured["dataset_version"] == "202211"
+    assert captured["dataset_part"] == "default"
+    assert result.product_id == "OCEANCOLOUR_GLO_BGC_L3_MY_009_103"
+    assert result.dataset_id == captured["dataset_id"]
+    assert result.status is cf.ChlorophyllFieldStatus.VALIDA_EN_FECHA_NOMINAL
+
+
+def test_error_de_limites_expone_causa_estructurada_sin_mensaje(monkeypatch, caplog):
+    class CoordinatesOutOfDatasetBounds(Exception):
+        pass
+
+    def fail(**_kwargs):
+        raise CoordinatesOutOfDatasetBounds("signed-url-secret")
+
+    monkeypatch.setattr(cf.copernicusmarine, "open_dataset", fail)
+    ds = dataset()
+    result = cf.fetch_chlorophyll_field(
+        *bounds(ds),
+        TARGET,
+        options=cf.HistoricalChlorophyllOptions(AS_OF),
+    )
+
+    assert result.status is cf.ChlorophyllFieldStatus.ERROR
+    assert result.reason == "coordinates_out_of_dataset_bounds"
+    assert result.error_type == "CoordinatesOutOfDatasetBounds"
+    assert "signed-url-secret" not in caplog.text

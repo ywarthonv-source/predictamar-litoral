@@ -1,10 +1,12 @@
 """
 Ingesta de clorofila-a — PredictaMAR Litoral (Pucusana)
 
-FUENTE ÚNICA: cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D
-(producto OCEANCOLOUR_GLO_BGC_L4_NRT_009_102, versión 202311, parte default),
-variable CHL, unidades nativas 'milligram m-3', cadencia diaria (P1D) con
-timestamps nativos a las 00:00 UTC.
+FUENTE ÚNICA POR MODO: la aplicación usa por defecto el L4 gap-free NRT
+(OCEANCOLOUR_GLO_BGC_L4_NRT_009_102, versión 202311). Un diagnóstico
+retrospectivo puede pedir explícitamente el producto MY equivalente
+(OCEANCOLOUR_GLO_BGC_L4_MY_009_104, versión 202603). Nunca hay fallback
+silencioso entre ambos. Los dos usan CHL en 'milligram m-3', cadencia diaria
+(P1D) y parte default.
 
 POR QUÉ UNA SOLA FUENTE (decidido ago 2026, tras auditoría del catálogo):
 el catálogo oficial no ofrece actualmente ninguna fuente global activa de
@@ -43,11 +45,11 @@ longitud. No se toma máximo espacial ni promedio: la clorofila es una
 lectura ambiental puntual de referencia, no una compuerta de seguridad.
 
 DISEÑO FAIL-SAFE:
-Los fallos de red, de datos o de programación se registran con
-logger.exception y producen SIN_DATOS, nunca un valor por defecto. Los
-errores de USO (argumentos inválidos) se propagan como ValueError y no se
-convierten en ausencia de datos. Una lectura SIN_DATOS conserva toda la
-procedencia estática: dataset, variable, unidades, alcance y advertencia.
+Una ausencia legítima produce SIN_DATOS. Un fallo de red, autenticación,
+catálogo, límites o contrato produce ERROR con causa y tipo estructurados, sin
+copiar el texto potencialmente sensible de la excepción. Los errores de USO
+se propagan y no se convierten en ausencia de datos. Una lectura SIN_DATOS
+conserva dataset, variable, unidades, alcance y advertencia.
 
 SIN umbrales pesqueros, sin clasificación favorable, sin ranking, sin
 kill_switch y sin conversión de unidades. A la fecha esta variable NO está
@@ -64,9 +66,18 @@ from zoneinfo import ZoneInfo
 import copernicusmarine
 import pandas as pd
 
+from ingestion.optical_sources import (
+    OpticalMode,
+    chlorophyll_reference_spec,
+)
+
 logger = logging.getLogger(__name__)
 
-DATASET_ID = "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D"
+_DEFAULT_SPEC = chlorophyll_reference_spec(OpticalMode.NRT_OPERATIONAL)
+PRODUCT_ID = _DEFAULT_SPEC.product_id
+DATASET_ID = _DEFAULT_SPEC.dataset_id
+DATASET_VERSION = _DEFAULT_SPEC.dataset_version
+DATASET_PART = _DEFAULT_SPEC.dataset_part
 VARIABLE = "CHL"
 UNITS = "milligram m-3"
 STANDARD_NAME = "mass_concentration_of_chlorophyll_a_in_sea_water"
@@ -116,6 +127,7 @@ class ChlorophyllStatus(str, Enum):
     VALIDA_EN_FECHA_LOCAL = "valida_en_fecha_local"
     VALIDA_RECIENTE = "valida_reciente"
     SIN_DATOS = "sin_datos"
+    ERROR = "error"
 
 
 @dataclass
@@ -137,6 +149,27 @@ class ChlorophyllReading:
     data_scope: str
     scope_warning: str
     status: ChlorophyllStatus
+
+
+@dataclass
+class TraceableChlorophyllReading(ChlorophyllReading):
+    """Extensión usada por el modo histórico y por fallos estructurados.
+
+    La lectura NRT válida conserva el contrato anterior. El diagnóstico
+    histórico incorpora identidad versionada y los fallos dejan de parecer
+    ausencias legítimas de datos.
+    """
+
+    product_id: str
+    requested_dataset_version: str
+    dataset_version: str
+    dataset_part: str
+    source_mode: OpticalMode
+    availability_as_of_verified: bool
+    availability_basis: str
+    operational_use_verified: bool
+    reason: str | None
+    error_type: str | None
 
 
 def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -178,7 +211,9 @@ def _local_end_and_window(target_date: date) -> tuple[datetime, datetime, dateti
     return local_end, end_utc, start_utc
 
 
-def _empty_reading(lat: float, lon: float, target_date: date) -> ChlorophyllReading:
+def _empty_reading(
+    lat: float, lon: float, target_date: date, *, dataset_id: str = DATASET_ID
+) -> ChlorophyllReading:
     """SIN_DATOS: sin valores ni celda, pero con toda la procedencia estática."""
     return ChlorophyllReading(
         lat=lat,
@@ -192,12 +227,91 @@ def _empty_reading(lat: float, lon: float, target_date: date) -> ChlorophyllRead
         cell_lat=None,
         cell_lon=None,
         distance_km=None,
-        dataset_id=DATASET_ID,
+        dataset_id=dataset_id,
         variable=VARIABLE,
         units=UNITS,
         data_scope=DATA_SCOPE,
         scope_warning=DATA_SCOPE_WARNING,
         status=ChlorophyllStatus.SIN_DATOS,
+    )
+
+
+def _traceable(
+    reading: ChlorophyllReading,
+    *,
+    mode: OpticalMode,
+    product_id: str,
+    dataset_version: str,
+    dataset_part: str,
+    reason: str | None,
+    error_type: str | None = None,
+) -> TraceableChlorophyllReading:
+    return TraceableChlorophyllReading(
+        **reading.__dict__,
+        product_id=product_id,
+        requested_dataset_version=dataset_version,
+        dataset_version=dataset_version,
+        dataset_part=dataset_part,
+        source_mode=mode,
+        availability_as_of_verified=False,
+        availability_basis=(
+            "source_query_failed"
+            if error_type is not None
+            else "historical_availability_not_verified"
+        ),
+        operational_use_verified=False,
+        reason=reason,
+        error_type=error_type,
+    )
+
+
+_SOURCE_REASON_BY_ERROR_TYPE = {
+    "CoordinatesOutOfDatasetBounds": "coordinates_out_of_dataset_bounds",
+    "DatasetNotFound": "dataset_not_found",
+    "DatasetVersionNotFound": "dataset_version_not_found",
+    "DatasetVersionPartNotFound": "dataset_part_not_found",
+    "VariableDoesNotExistInTheDataset": "source_variable_not_found",
+    "CredentialsCannotBeNone": "source_authentication_required",
+    "InvalidUsernameOrPassword": "source_authentication_failed",
+    "CouldNotConnectToAuthenticationSystem": "source_authentication_unavailable",
+    "ServiceNotAvailable": "source_service_unavailable",
+    "NoServiceAvailable": "source_service_unavailable",
+}
+
+
+def _source_failure(
+    lat: float,
+    lon: float,
+    target_date: date,
+    *,
+    mode: OpticalMode,
+    product_id: str,
+    dataset_id: str,
+    dataset_version: str,
+    dataset_part: str,
+    exc: Exception,
+) -> TraceableChlorophyllReading:
+    error_type = type(exc).__name__
+    reason = _SOURCE_REASON_BY_ERROR_TYPE.get(error_type, "source_failure")
+    logger.error(
+        "Fallo de fuente de clorofila para (%s, %s) %s [%s] (%s: %s)",
+        lat,
+        lon,
+        target_date,
+        dataset_id,
+        reason,
+        error_type,
+    )
+    empty = _empty_reading(lat, lon, target_date, dataset_id=dataset_id)
+    empty.status = ChlorophyllStatus.ERROR
+    return _traceable(
+        empty,
+        mode=mode,
+        product_id=product_id,
+        dataset_version=dataset_version,
+        dataset_part=dataset_part,
+        reason=reason,
+        error_type=error_type,
     )
 
 
@@ -228,7 +342,13 @@ def _nearest_valid_cell(da, t_naive, lat: float, lon: float):
     return candidatos[0]
 
 
-def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllReading:
+def fetch_chlorophyll(
+    lat: float,
+    lon: float,
+    target_date: date,
+    *,
+    mode: OpticalMode = OpticalMode.NRT_OPERATIONAL,
+) -> ChlorophyllReading:
     """
     Devuelve la lectura de clorofila-a de referencia para el punto y la fecha
     LOCAL solicitados.
@@ -248,11 +368,14 @@ def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllR
     Lanza ValueError si los argumentos son inválidos.
     """
     _validate(lat, lon, target_date)
-    local_end, end_utc, start_utc = _local_end_and_window(target_date)
+    spec = chlorophyll_reference_spec(mode)
+    _local_end, end_utc, start_utc = _local_end_and_window(target_date)
 
     try:
         ds = copernicusmarine.open_dataset(
-            dataset_id=DATASET_ID,
+            dataset_id=spec.dataset_id,
+            dataset_version=spec.dataset_version,
+            dataset_part=spec.dataset_part,
             variables=[VARIABLE],
             minimum_longitude=lon - 0.05,
             maximum_longitude=lon + 0.05,
@@ -268,9 +391,21 @@ def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllR
         if da.sizes.get("time", 0) == 0:
             logger.warning(
                 "Sin instantes devueltos para (%s, %s) %s [%s]",
-                lat, lon, target_date, DATASET_ID,
+                lat, lon, target_date, spec.dataset_id,
             )
-            return _empty_reading(lat, lon, target_date)
+            empty = _empty_reading(
+                lat, lon, target_date, dataset_id=spec.dataset_id
+            )
+            if mode is OpticalMode.HISTORICAL_DIAGNOSTIC:
+                return _traceable(
+                    empty,
+                    mode=mode,
+                    product_id=spec.product_id,
+                    dataset_version=spec.dataset_version,
+                    dataset_part=spec.dataset_part,
+                    reason="no_times_in_query",
+                )
+            return empty
 
         instantes = []
         for t in da.time.values:
@@ -291,7 +426,7 @@ def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllR
             dist, cell_lat, cell_lon, valor = celda
             t_local = t_utc.astimezone(TZ_PUCUSANA)
             misma_fecha = t_local.date() == target_date
-            return ChlorophyllReading(
+            reading = ChlorophyllReading(
                 lat=lat,
                 lon=lon,
                 date=target_date,
@@ -303,7 +438,7 @@ def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllR
                 cell_lat=cell_lat,
                 cell_lon=cell_lon,
                 distance_km=dist,
-                dataset_id=DATASET_ID,
+                dataset_id=spec.dataset_id,
                 variable=VARIABLE,
                 units=UNITS,
                 data_scope=DATA_SCOPE,
@@ -314,19 +449,42 @@ def fetch_chlorophyll(lat: float, lon: float, target_date: date) -> ChlorophyllR
                     else ChlorophyllStatus.VALIDA_RECIENTE
                 ),
             )
+            if mode is OpticalMode.HISTORICAL_DIAGNOSTIC:
+                return _traceable(
+                    reading,
+                    mode=mode,
+                    product_id=spec.product_id,
+                    dataset_version=spec.dataset_version,
+                    dataset_part=spec.dataset_part,
+                    reason=None,
+                )
+            return reading
 
         logger.warning(
             "Sin instante admisible para (%s, %s) %s (limite %.1f h, %.1f km)",
             lat, lon, target_date, MAX_TEMPORAL_AGE_HOURS, MAX_VALID_CELL_DISTANCE_KM,
         )
-        return _empty_reading(lat, lon, target_date)
+        empty = _empty_reading(lat, lon, target_date, dataset_id=spec.dataset_id)
+        if mode is OpticalMode.HISTORICAL_DIAGNOSTIC:
+            return _traceable(
+                empty,
+                mode=mode,
+                product_id=spec.product_id,
+                dataset_version=spec.dataset_version,
+                dataset_part=spec.dataset_part,
+                reason="no_admissible_value",
+            )
+        return empty
 
-    except Exception:
-        # Fallo de red, de datos o de programación. Se registra con traza para
-        # que no quede indistinguible de una ausencia legítima de datos; no se
-        # registran credenciales ni información sensible.
-        logger.exception(
-            "Fallo al obtener clorofila para (%s, %s) %s [%s]",
-            lat, lon, target_date, DATASET_ID,
+    except Exception as exc:
+        return _source_failure(
+            lat,
+            lon,
+            target_date,
+            mode=mode,
+            product_id=spec.product_id,
+            dataset_id=spec.dataset_id,
+            dataset_version=spec.dataset_version,
+            dataset_part=spec.dataset_part,
+            exc=exc,
         )
-        return _empty_reading(lat, lon, target_date)

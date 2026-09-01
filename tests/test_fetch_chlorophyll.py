@@ -105,6 +105,8 @@ def test_1_ventana_retrospectiva_y_parametros_de_consulta(patch_open_dataset):
     assert len(calls) == 1
     kw = calls[0]
     assert kw["dataset_id"] == fc.DATASET_ID
+    assert kw["dataset_version"] == fc.DATASET_VERSION
+    assert kw["dataset_part"] == fc.DATASET_PART
     assert kw["variables"] == [fc.VARIABLE]
     assert kw["minimum_longitude"] == pytest.approx(LON - 0.05)
     assert kw["maximum_longitude"] == pytest.approx(LON + 0.05)
@@ -369,18 +371,21 @@ def test_14_sin_timestamps(patch_open_dataset):
 
 
 # --------------------------------------------------------------------------
-# 15. Excepción de open_dataset: registrada con traza y convertida en SIN_DATOS.
+# 15. Excepción de open_dataset: ERROR estructurado, nunca SIN_DATOS.
 # --------------------------------------------------------------------------
-def test_15_excepcion_registrada_y_sin_datos(patch_open_dataset, caplog):
+def test_15_excepcion_registrada_como_error_estructurado(patch_open_dataset, caplog):
     patch_open_dataset(error=RuntimeError("fallo simulado de red/credenciales"))
 
     with caplog.at_level(logging.ERROR, logger=fc.logger.name):
         r = fc.fetch_chlorophyll(LAT, LON, TARGET_DATE)
 
-    assert r.status == fc.ChlorophyllStatus.SIN_DATOS
+    assert r.status == fc.ChlorophyllStatus.ERROR
     assert r.value_mg_m3 is None
+    assert r.reason == "source_failure"
+    assert r.error_type == "RuntimeError"
+    assert r.availability_basis == "source_query_failed"
     assert any(rec.levelno == logging.ERROR for rec in caplog.records), "debe registrarse el fallo"
-    assert any(rec.exc_info for rec in caplog.records), "debe registrarse con traza (logger.exception)"
+    assert "credenciales" not in caplog.text
 
 
 # --------------------------------------------------------------------------
@@ -393,6 +398,8 @@ def test_16_argumentos_invalidos_propagan_valueerror():
         fc.fetch_chlorophyll(LAT, 500.0, TARGET_DATE)
     with pytest.raises(ValueError):
         fc.fetch_chlorophyll(LAT, LON, "2026-08-12")
+    with pytest.raises(ValueError, match="OpticalMode"):
+        fc.fetch_chlorophyll(LAT, LON, TARGET_DATE, mode="historical_diagnostic")
 
 
 # --------------------------------------------------------------------------
@@ -478,6 +485,55 @@ def test_18_sin_residuos_de_arquitectura_hibrida():
         ("VALIDA_EN_FECHA_LOCAL", "valida_en_fecha_local"),
         ("VALIDA_RECIENTE", "valida_reciente"),
         ("SIN_DATOS", "sin_datos"),
+        ("ERROR", "error"),
     ]
     assert fc.MAX_VALID_CELL_DISTANCE_KM == 6.5
     assert fc.MAX_TEMPORAL_AGE_HOURS == 72.0
+
+
+def test_19_modo_historico_usa_producto_my_versionado(patch_open_dataset):
+    ds = build_dataset([T_HOY], [LON_NEAR], {LON_NEAR: [0.5]})
+    calls = patch_open_dataset(ds)
+
+    result = fc.fetch_chlorophyll(
+        LAT,
+        LON,
+        TARGET_DATE,
+        mode=fc.OpticalMode.HISTORICAL_DIAGNOSTIC,
+    )
+
+    call = calls[0]
+    assert call["dataset_id"] == (
+        "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D"
+    )
+    assert call["dataset_version"] == "202603"
+    assert call["dataset_part"] == "default"
+    assert result.status is fc.ChlorophyllStatus.VALIDA_EN_FECHA_LOCAL
+    assert result.source_mode is fc.OpticalMode.HISTORICAL_DIAGNOSTIC
+    assert result.product_id == "OCEANCOLOUR_GLO_BGC_L4_MY_009_104"
+    assert result.availability_as_of_verified is False
+
+
+def test_20_error_de_limites_conserva_causa_sin_texto_sensible(
+    patch_open_dataset, caplog
+):
+    class CoordinatesOutOfDatasetBounds(Exception):
+        pass
+
+    patch_open_dataset(
+        error=CoordinatesOutOfDatasetBounds("SIGNED_URL=secret")
+    )
+    with caplog.at_level(logging.ERROR, logger=fc.logger.name):
+        result = fc.fetch_chlorophyll(
+            LAT,
+            LON,
+            TARGET_DATE,
+            mode=fc.OpticalMode.HISTORICAL_DIAGNOSTIC,
+        )
+
+    assert result.status is fc.ChlorophyllStatus.ERROR
+    assert result.reason == "coordinates_out_of_dataset_bounds"
+    assert result.error_type == "CoordinatesOutOfDatasetBounds"
+    assert result.availability_basis == "source_query_failed"
+    assert "SIGNED_URL" not in caplog.text
+    assert "secret" not in caplog.text

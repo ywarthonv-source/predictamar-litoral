@@ -28,14 +28,14 @@ litoral y no un radio alrededor del punto pedido.
 
 from __future__ import annotations
 
+import json
+import logging
 from dataclasses import dataclass, fields, is_dataclass
 from datetime import date, datetime
 from enum import Enum
-import json
-import logging
 from math import isfinite
-from pathlib import Path
 from numbers import Real
+from pathlib import Path
 from typing import Callable
 
 import yaml
@@ -45,7 +45,10 @@ from derivation.mur_gradient import derive_mur_gradient
 from derivation.thermal_front import derive_thermal_front
 from ingestion.fetch_bathymetry import fetch_bathymetry
 from ingestion.fetch_chlorophyll import fetch_chlorophyll
-from ingestion.fetch_chlorophyll_field import ChlorophyllOptions, fetch_chlorophyll_field
+from ingestion.fetch_chlorophyll_field import (
+    ChlorophyllOptions,
+    fetch_chlorophyll_field,
+)
 from ingestion.fetch_currents import fetch_currents
 from ingestion.fetch_mur import MurOptions, fetch_mur_field
 from ingestion.fetch_ostia import fetch_ostia_field
@@ -53,7 +56,7 @@ from ingestion.fetch_salinity import fetch_salinity
 from ingestion.fetch_temperature import fetch_sst
 from ingestion.fetch_vertical_temperature import fetch_vertical_thermal_pair
 from ingestion.fetch_waves import NOT_AN_AUTHORIZATION_NOTICE, get_wave_status
-
+from ingestion.optical_sources import OpticalMode
 
 logger = logging.getLogger(__name__)
 
@@ -179,6 +182,7 @@ NO_DATA_SOURCE_STATUSES = {
 }
 
 ERROR_SOURCE_STATUSES = {
+    "clorofila": {"error"},
     "chlorophyll_olci": {"error"},
     "chlorophyll_front": {"fuente_error"},
     "sst_mur": {"error"},
@@ -673,6 +677,7 @@ def assemble_environmental_snapshot(
     spec_path: Path | str = DEFAULT_SPEC_PATH,
     chlorophyll_options: ChlorophyllOptions | None = None,
     mur_options: MurOptions | None = None,
+    chlorophyll_mode: OpticalMode = OpticalMode.NRT_OPERATIONAL,
 ) -> EnvironmentalSnapshot:
     """Construye una instantánea ambiental trazable para punto, fecha y ventana.
 
@@ -696,6 +701,8 @@ def assemble_environmental_snapshot(
         raise TypeError("chlorophyll_options debe ser ChlorophyllOptions o None.")
     if mur_options is not None and not isinstance(mur_options, MurOptions):
         raise TypeError("mur_options debe ser MurOptions o None.")
+    if not isinstance(chlorophyll_mode, OpticalMode):
+        raise TypeError("chlorophyll_mode debe ser OpticalMode.")
     result_order = VARIABLE_ORDER
     if chlorophyll_options is not None:
         result_order += OPTIONAL_VARIABLE_ORDER
@@ -712,13 +719,20 @@ def assemble_environmental_snapshot(
         request.hour_end_local,
     )
 
+    def fetch_chlorophyll_reference():
+        if chlorophyll_mode is OpticalMode.NRT_OPERATIONAL:
+            return providers.fetch_chlorophyll(*point_args[:3])
+        return providers.fetch_chlorophyll(
+            *point_args[:3], mode=chlorophyll_mode
+        )
+
     point_operations = (
         ("sst_model", "sst", lambda: providers.fetch_sst(*point_args)),
         ("waves", "oleaje", lambda: providers.get_wave_status(*point_args)),
         (
             "chlorophyll",
             "clorofila",
-            lambda: providers.fetch_chlorophyll(*point_args[:3]),
+            fetch_chlorophyll_reference,
         ),
         ("salinity", "salinidad", lambda: providers.fetch_salinity(*point_args)),
     )

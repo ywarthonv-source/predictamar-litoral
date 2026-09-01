@@ -4,21 +4,26 @@ Recorre el ensamblador ambiental ya auditado y conserva únicamente resúmenes
 técnicos. No guarda matrices ni muestras crudas, no mezcla fuentes térmicas,
 no calcula favorabilidad, pesos, score o presencia de cardúmenes.
 
-Las capas OLCI y MUR son explícitas. En el diagnóstico histórico se fija para
-cada fecha un ``as_of`` de selección acotado; eso permite comprobar archivos
-históricos sin afirmar que estuvieran disponibles operacionalmente en aquel
-instante. Los indicadores de disponibilidad verificada que entrega cada
-fuente se conservan y nunca se promueven por este módulo.
+Las capas ópticas y MUR son explícitas. El modo histórico usa productos MY para
+clorofila L4/OLCI y fija para cada fecha un ``as_of`` acotado; no consulta NRT
+fuera de su extensión ni afirma disponibilidad operacional retrospectiva. La
+agregación pondera cada registro fuente válido una sola vez, incluso cuando un
+fallback reutiliza el mismo campo. Los indicadores de disponibilidad que
+entrega cada fuente se conservan y nunca se promueven por este módulo.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
+import re
+import subprocess
 from collections import Counter
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass, replace
 from datetime import date, datetime, time, timedelta, timezone
-import json
+from importlib import metadata as package_metadata
 from math import atan2, degrees, hypot, isfinite, radians
 from numbers import Real
 from pathlib import Path
@@ -38,12 +43,16 @@ from assembly.environmental_assembler import (
     VariableResult,
     assemble_environmental_snapshot,
 )
-from ingestion.fetch_chlorophyll_field import ChlorophyllOptions
+from ingestion.fetch_chlorophyll_field import (
+    ChlorophyllOptions,
+    HistoricalChlorophyllOptions,
+)
 from ingestion.fetch_mur import MurMode, MurOptions
 from ingestion.fetch_temperature import TZ_PUCUSANA
+from ingestion.optical_sources import OpticalMode
 
-
-SCHEMA_VERSION = "environmental_30d_diagnostic_v1"
+SCHEMA_VERSION = "environmental_30d_diagnostic_v2"
+IMPLEMENTATION_VERSION = "environmental_30d_diagnostic_v2"
 DEFAULT_DAYS = 30
 MAX_DAYS = 31
 DEFAULT_FIELD_HALF_WIDTH_DEG = 0.15
@@ -97,11 +106,34 @@ class StatusCount:
 
 
 @dataclass(frozen=True)
+class SourceFileIdentity:
+    file_name: str
+    sha256: str
+
+
+@dataclass(frozen=True)
 class SourceIdentitySummary:
     dataset_ids: tuple[str, ...]
     product_ids: tuple[str, ...]
     collection_ids: tuple[str, ...]
     versions: tuple[str, ...]
+    modes: tuple[str, ...]
+    source_files: tuple[SourceFileIdentity, ...]
+
+
+@dataclass(frozen=True)
+class DependencyVersion:
+    package: str
+    version: str | None
+
+
+@dataclass(frozen=True)
+class ReportProvenance:
+    implementation_version: str
+    code_revision: str | None
+    variables_spec_sha256: str
+    requirements_sha256: str | None
+    dependencies: tuple[DependencyVersion, ...]
 
 
 @dataclass(frozen=True)
@@ -115,12 +147,17 @@ class DailyVariableDiagnostic:
     primary_value_count: int
     coverage_fraction: float | None
     fallback_used: bool
+    historical_final_used: bool
     source_time_keys: tuple[str, ...]
+    source_record_key: str | None
     selected_cell_keys: tuple[str, ...]
+    source_reasons: tuple[str, ...]
+    source_error_types: tuple[str, ...]
     availability_as_of_verified: bool | None
     operational_use_verified: bool | None
     metrics: tuple[MetricSummary, ...]
     error_code: str | None
+    error_type: str | None
 
 
 @dataclass(frozen=True)
@@ -160,13 +197,17 @@ class VariablePeriodDiagnostic:
     days_using_fallback: int
     days_historical_final: int
     source_status_counts: tuple[StatusCount, ...]
-    source_observations_total: int
-    unique_source_observations: int
-    reused_source_observations: int
+    source_records_total: int
+    unique_source_records: int
+    reused_source_records: int
+    metric_source_records: int
+    metric_weighting: str
     selected_cells_stable: bool | None
     coverage_fraction: MetricSummary
     metrics: tuple[MetricSummary, ...]
     source_identity: SourceIdentitySummary
+    source_reason_counts: tuple[StatusCount, ...]
+    source_error_type_counts: tuple[StatusCount, ...]
     availability_verification_declared_days: int
     availability_verified_days: int
     operational_verification_declared_days: int
@@ -191,11 +232,13 @@ class EnvironmentalDiagnosticReport:
     field_half_width_deg: float
     includes_olci: bool
     includes_mur: bool
+    optical_mode: str
     mur_mode: str | None
     historical_selection_lag_hours: float
     variables_expected: tuple[str, ...]
     independent_source_operations: tuple[OperationMembership, ...]
     n_independent_source_operations: int
+    provenance: ReportProvenance
     days: tuple[DailySnapshotDiagnostic, ...]
     variables: tuple[VariablePeriodDiagnostic, ...]
     interpretation_warning: str
@@ -411,6 +454,63 @@ def _optional_boolean(payload: Mapping[str, object], key: str) -> bool | None:
     return all(booleans)
 
 
+def _structured_text_values(
+    payload: Mapping[str, object], keys: set[str], pattern: str
+) -> tuple[str, ...]:
+    compiled = re.compile(pattern)
+    return tuple(
+        sorted(
+            {
+                value
+                for value in _recursive_scalar_values(payload, keys)
+                if isinstance(value, str) and compiled.fullmatch(value)
+            }
+        )
+    )
+
+
+def _effective_source_statuses(
+    result: VariableResult, payload: Mapping[str, object]
+) -> tuple[str, ...]:
+    statuses = set(
+        _structured_text_values(
+            payload, {"source_status"}, r"[a-z][a-z0-9_]{0,127}"
+        )
+    )
+    if isinstance(result.source_status, str) and re.fullmatch(
+        r"[a-z][a-z0-9_]{0,127}", result.source_status
+    ):
+        statuses.add(result.source_status)
+    return tuple(sorted(statuses))
+
+
+def _source_files(
+    payloads: Sequence[Mapping[str, object]],
+) -> tuple[SourceFileIdentity, ...]:
+    found: set[tuple[str, str]] = set()
+
+    def visit(value: object) -> None:
+        if not isinstance(value, Mapping):
+            return
+        file_name = value.get("source_file_name")
+        sha256 = value.get("source_file_sha256")
+        if (
+            isinstance(file_name, str)
+            and file_name == Path(file_name).name
+            and file_name not in {"", ".", ".."}
+            and isinstance(sha256, str)
+            and re.fullmatch(r"[0-9a-f]{64}", sha256)
+        ):
+            found.add((file_name, sha256))
+        for nested in value.values():
+            if isinstance(nested, Mapping):
+                visit(nested)
+
+    for payload in payloads:
+        visit(payload)
+    return tuple(SourceFileIdentity(*identity) for identity in sorted(found))
+
+
 def _source_identity(payloads: Sequence[Mapping[str, object]]) -> SourceIdentitySummary:
     def values(keys: set[str]) -> tuple[str, ...]:
         found = {
@@ -434,7 +534,81 @@ def _source_identity(payloads: Sequence[Mapping[str, object]]) -> SourceIdentity
                 "expected_product_version",
             }
         ),
+        modes=values({"source_mode", "mode"}),
+        source_files=_source_files(payloads),
     )
+
+
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _code_revision(repository_root: Path) -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repository_root,
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=2,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    revision = result.stdout.strip().lower()
+    return revision if re.fullmatch(r"[0-9a-f]{40}", revision) else None
+
+
+def _dependency_versions() -> tuple[DependencyVersion, ...]:
+    packages = (
+        "copernicusmarine",
+        "numpy",
+        "xarray",
+        "pandas",
+        "PyYAML",
+        "h5netcdf",
+        "earthaccess",
+        "harmony-py",
+    )
+    versions = []
+    for package in packages:
+        try:
+            version = package_metadata.version(package)
+        except package_metadata.PackageNotFoundError:
+            version = None
+        versions.append(DependencyVersion(package, version))
+    return tuple(versions)
+
+
+def _report_provenance(spec_path: Path) -> ReportProvenance:
+    repository_root = Path(__file__).resolve().parents[1]
+    requirements_path = repository_root / "requirements.txt"
+    return ReportProvenance(
+        implementation_version=IMPLEMENTATION_VERSION,
+        code_revision=_code_revision(repository_root),
+        variables_spec_sha256=_sha256_file(spec_path),
+        requirements_sha256=(
+            _sha256_file(requirements_path) if requirements_path.is_file() else None
+        ),
+        dependencies=_dependency_versions(),
+    )
+
+
+def _source_record_key(
+    variable_id: str,
+    requested_date: date,
+    state: str,
+    primary_value_count: int,
+    source_time_keys: tuple[str, ...],
+    selected_cell_keys: tuple[str, ...],
+) -> str | None:
+    if state != AssemblyState.AVAILABLE.value or primary_value_count <= 0:
+        return None
+    if source_time_keys:
+        return "time:" + "|".join(source_time_keys)
+    if variable_id in STATIC_VARIABLES and selected_cell_keys:
+        return "static-cell:" + "|".join(selected_cell_keys)
+    return f"requested-date:{requested_date.isoformat()}"
 
 
 def _daily_variable(
@@ -445,6 +619,26 @@ def _daily_variable(
         _metric_summary(path, _extract_path(payload, path))
         for path in result.value_paths
     )
+    primary_value_count = metrics[0].count if metrics else 0
+    source_time_keys = _source_time_keys(payload)
+    selected_cell_keys = _selected_cell_keys(payload)
+    effective_statuses = _effective_source_statuses(result, payload)
+    source_reasons = _structured_text_values(
+        payload,
+        {"reason", "source_reason"},
+        r"[a-z][a-z0-9_]{0,127}",
+    )
+    source_error_types = set(
+        _structured_text_values(
+            payload,
+            {"error_type", "source_error_type"},
+            r"[A-Za-z][A-Za-z0-9_.]{0,127}",
+        )
+    )
+    if isinstance(result.error_type, str) and re.fullmatch(
+        r"[A-Za-z][A-Za-z0-9_.]{0,127}", result.error_type
+    ):
+        source_error_types.add(result.error_type)
     return DailyVariableDiagnostic(
         requested_date=requested_date,
         variable_id=result.variable_id,
@@ -452,17 +646,29 @@ def _daily_variable(
         source_status=result.source_status,
         shared_operation=result.shared_operation,
         spatial_scope=result.spatial_scope.value,
-        primary_value_count=metrics[0].count if metrics else 0,
+        primary_value_count=primary_value_count,
         coverage_fraction=_coverage_fraction(payload),
-        fallback_used=result.source_status in FALLBACK_STATUSES,
-        source_time_keys=_source_time_keys(payload),
-        selected_cell_keys=_selected_cell_keys(payload),
+        fallback_used=any(status in FALLBACK_STATUSES for status in effective_statuses),
+        historical_final_used="historica_final" in effective_statuses,
+        source_time_keys=source_time_keys,
+        source_record_key=_source_record_key(
+            result.variable_id,
+            requested_date,
+            result.state.value,
+            primary_value_count,
+            source_time_keys,
+            selected_cell_keys,
+        ),
+        selected_cell_keys=selected_cell_keys,
+        source_reasons=source_reasons,
+        source_error_types=tuple(sorted(source_error_types)),
         availability_as_of_verified=_optional_boolean(
             payload, "availability_as_of_verified"
         ),
         operational_use_verified=_optional_boolean(payload, "operational_use_verified"),
         metrics=metrics,
         error_code=result.error_code,
+        error_type=result.error_type,
     )
 
 
@@ -525,19 +731,42 @@ def _period_variable(
     payloads = [
         result.payload for result in results if isinstance(result.payload, Mapping)
     ]
+    metric_payloads: list[Mapping[str, object]] = []
+    metric_record_keys: set[str] = set()
+    for result, item in zip(results, daily_results):
+        if (
+            item.source_record_key is None
+            or item.source_record_key in metric_record_keys
+            or not isinstance(result.payload, Mapping)
+        ):
+            continue
+        metric_record_keys.add(item.source_record_key)
+        metric_payloads.append(result.payload)
     metrics = tuple(
         _metric_summary(
             path,
             tuple(
-                value for payload in payloads for value in _extract_path(payload, path)
+                value
+                for payload in metric_payloads
+                for value in _extract_path(payload, path)
             ),
         )
         for path in template.value_paths
     )
     states = Counter(item.state for item in daily_results)
     statuses = Counter(item.source_status or "none" for item in daily_results)
-    source_keys = [key for item in daily_results for key in item.source_time_keys]
+    source_record_keys = [
+        item.source_record_key
+        for item in daily_results
+        if item.source_record_key is not None
+    ]
     cell_keys = [key for item in daily_results for key in item.selected_cell_keys]
+    reasons = Counter(
+        reason for item in daily_results for reason in item.source_reasons
+    )
+    error_types = Counter(
+        error_type for item in daily_results for error_type in item.source_error_types
+    )
     coverage_values = [
         item.coverage_fraction
         for item in daily_results
@@ -572,17 +801,28 @@ def _period_variable(
             item.primary_value_count > 0 for item in daily_results
         ),
         days_using_fallback=sum(item.fallback_used for item in daily_results),
-        days_historical_final=statuses["historica_final"],
+        days_historical_final=sum(
+            item.historical_final_used for item in daily_results
+        ),
         source_status_counts=tuple(
             StatusCount(status, count) for status, count in sorted(statuses.items())
         ),
-        source_observations_total=len(source_keys),
-        unique_source_observations=len(set(source_keys)),
-        reused_source_observations=len(source_keys) - len(set(source_keys)),
+        source_records_total=len(source_record_keys),
+        unique_source_records=len(set(source_record_keys)),
+        reused_source_records=len(source_record_keys) - len(set(source_record_keys)),
+        metric_source_records=len(metric_payloads),
+        metric_weighting="unique_valid_source_record",
         selected_cells_stable=(len(set(cell_keys)) <= 1 if cell_keys else None),
         coverage_fraction=_metric_summary("daily_coverage_fraction", coverage_values),
         metrics=metrics,
         source_identity=_source_identity(payloads),
+        source_reason_counts=tuple(
+            StatusCount(reason, count) for reason, count in sorted(reasons.items())
+        ),
+        source_error_type_counts=tuple(
+            StatusCount(error_type, count)
+            for error_type, count in sorted(error_types.items())
+        ),
         availability_verification_declared_days=len(availability_declared),
         availability_verified_days=sum(availability_declared),
         operational_verification_declared_days=len(operational_declared),
@@ -642,6 +882,7 @@ def run_diagnostic(
     field_half_width_deg: float = DEFAULT_FIELD_HALF_WIDTH_DEG,
     include_olci: bool = True,
     include_mur: bool = True,
+    optical_mode: OpticalMode = OpticalMode.HISTORICAL_DIAGNOSTIC,
     mur_mode: MurMode = MurMode.HISTORICAL_DIAGNOSTIC,
     generated_at_utc: datetime | None = None,
     providers: AssemblerProviders | None = None,
@@ -654,6 +895,8 @@ def run_diagnostic(
         raise ValueError("Debe cumplirse 0 <= hour_start <= hour_end <= 23.")
     if not isinstance(include_olci, bool) or not isinstance(include_mur, bool):
         raise TypeError("include_olci e include_mur deben ser booleanos explícitos.")
+    if not isinstance(optical_mode, OpticalMode):
+        raise TypeError("optical_mode debe ser OpticalMode.")
     if not isinstance(mur_mode, MurMode):
         raise TypeError("mur_mode debe ser MurMode.")
     generated = generated_at_utc or datetime.now(timezone.utc)
@@ -670,6 +913,7 @@ def run_diagnostic(
     base_providers = providers if providers is not None else AssemblerProviders()
     if not isinstance(base_providers, AssemblerProviders):
         raise TypeError("providers debe ser AssemblerProviders o None.")
+    spec_path = Path(spec_path)
     cached_providers = _cached_bathymetry(base_providers)
     expected = VARIABLE_ORDER
     if include_olci:
@@ -681,7 +925,14 @@ def run_diagnostic(
     daily: list[DailySnapshotDiagnostic] = []
     for target_date in dates:
         as_of = _selection_as_of(target_date, generated)
-        chlorophyll_options = ChlorophyllOptions(as_of) if include_olci else None
+        chlorophyll_options = None
+        if include_olci:
+            options_type = (
+                HistoricalChlorophyllOptions
+                if optical_mode is OpticalMode.HISTORICAL_DIAGNOSTIC
+                else ChlorophyllOptions
+            )
+            chlorophyll_options = options_type(as_of)
         mur_options = MurOptions(as_of, mode=mur_mode) if include_mur else None
         request = AssemblyRequest(
             lat=REFERENCE_LATITUDE,
@@ -697,6 +948,7 @@ def run_diagnostic(
             spec_path=spec_path,
             chlorophyll_options=chlorophyll_options,
             mur_options=mur_options,
+            chlorophyll_mode=optical_mode,
         )
         _validate_snapshot(snapshot, target_date, expected)
         snapshots.append(snapshot)
@@ -720,11 +972,13 @@ def run_diagnostic(
         field_half_width_deg=float(field_half_width_deg),
         includes_olci=include_olci,
         includes_mur=include_mur,
+        optical_mode=optical_mode.value,
         mur_mode=mur_mode.value if include_mur else None,
         historical_selection_lag_hours=HISTORICAL_SELECTION_LAG_HOURS,
         variables_expected=expected,
         independent_source_operations=operations,
         n_independent_source_operations=len(operations),
+        provenance=_report_provenance(spec_path),
         days=tuple(daily),
         variables=variables,
         interpretation_warning=INTERPRETATION_WARNING,
@@ -771,6 +1025,7 @@ def format_report(report: EnvironmentalDiagnosticReport) -> str:
             f"capas_opcionales: OLCI={'sí' if report.includes_olci else 'no'}, "
             f"MUR={'sí' if report.includes_mur else 'no'}"
         ),
+        f"modo_optico: {report.optical_mode}",
         (
             f"operaciones_fuente_independientes: "
             f"{report.n_independent_source_operations}"
@@ -799,9 +1054,10 @@ def format_report(report: EnvironmentalDiagnosticReport) -> str:
                 ),
                 f"  valor_principal[{primary.path}]: {_format_metric(primary)}",
                 (
-                    f"  fuente={variable.shared_operation}; observaciones="
-                    f"{variable.unique_source_observations} únicas/"
-                    f"{variable.reused_source_observations} reutilizadas; "
+                    f"  fuente={variable.shared_operation}; registros="
+                    f"{variable.unique_source_records} únicos/"
+                    f"{variable.reused_source_records} reutilizados; "
+                    f"métricas={variable.metric_weighting}; "
                     f"clasificación={variable.technical_classification}"
                 ),
             ]
@@ -815,6 +1071,14 @@ def format_report(report: EnvironmentalDiagnosticReport) -> str:
             lines.append(
                 "  fechas_error: "
                 + ", ".join(value.isoformat() for value in variable.error_dates)
+            )
+        if variable.source_reason_counts:
+            lines.append(
+                "  causas_fuente: "
+                + ", ".join(
+                    f"{item.status}={item.count}"
+                    for item in variable.source_reason_counts
+                )
             )
     lines.extend(
         [
@@ -877,6 +1141,15 @@ def _parser() -> argparse.ArgumentParser:
         help="Incluye MUR local y su gradiente; use --no-mur para omitirlos.",
     )
     parser.add_argument(
+        "--optical-mode",
+        choices=[mode.value for mode in OpticalMode],
+        default=OpticalMode.HISTORICAL_DIAGNOSTIC.value,
+        help=(
+            "Usa productos MY para diagnóstico histórico o NRT para una "
+            "comprobación operativa explícita."
+        ),
+    )
+    parser.add_argument(
         "--mur-mode",
         choices=[mode.value for mode in MurMode],
         default=MurMode.HISTORICAL_DIAGNOSTIC.value,
@@ -896,6 +1169,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         field_half_width_deg=args.field_half_width_deg,
         include_olci=args.olci,
         include_mur=args.mur,
+        optical_mode=OpticalMode(args.optical_mode),
         mur_mode=MurMode(args.mur_mode),
     )
     print(report_to_json(report) if args.json else format_report(report))

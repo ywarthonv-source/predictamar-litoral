@@ -9,12 +9,21 @@ from enum import Enum
 import numpy as np
 
 from ingestion.fetch_chlorophyll_field import (
-    DATASET_ID, MAX_CHL_MG_M3, MAX_UNCERTAINTY_PCT, NATIVE_GRID_STEP_DEG,
-    UNITS as SOURCE_UNITS,
-    ChlorophyllBounds, ChlorophyllField, ChlorophyllFieldStatus, ChlorophyllOptions,
-    Matrix, crop_grid, haversine_km,
+    MAX_CHL_MG_M3,
+    MAX_UNCERTAINTY_PCT,
+    NATIVE_GRID_STEP_DEG,
+    SUPPORTED_DATASET_IDS,
+    ChlorophyllBounds,
+    ChlorophyllField,
+    ChlorophyllFieldStatus,
+    ChlorophyllOptions,
+    Matrix,
+    crop_grid,
+    haversine_km,
 )
-
+from ingestion.fetch_chlorophyll_field import (
+    UNITS as SOURCE_UNITS,
+)
 
 ALGORITHM_VERSION = "chlorophyll_central_haversine_v1"
 UNITS = "milligram m-3 km-1"
@@ -99,7 +108,7 @@ def _array(matrix, rows, cols):
 
 
 def _validate_source(field):
-    if field.units != SOURCE_UNITS or field.dataset_id != DATASET_ID:
+    if field.units != SOURCE_UNITS or field.dataset_id not in SUPPORTED_DATASET_IDS:
         raise ValueError("La derivada requiere CHL OLCI en sus unidades nativas.")
     support = field.derivation_support
     for coordinates, limit in ((support.latitudes, 90), (support.longitudes, 180)):

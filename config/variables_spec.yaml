@@ -758,12 +758,19 @@ variables:
     predictively_valid: null
     profile: fetcher_puntual_oceancolour_l4_gapfree_4km_p1d
     modulo: "ingestion/fetch_chlorophyll.py"
-    tests: "tests/test_fetch_chlorophyll.py (18 casos sintéticos)"
+    tests: "tests/test_fetch_chlorophyll.py (incluye modo MY y fallos estructurados)"
     producto:
       product_id: "OCEANCOLOUR_GLO_BGC_L4_NRT_009_102"
       version: "202311"
       parte: "default"
+      modo: "nrt_operational; predeterminado en la aplicación"
     dataset_id: "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D"
+    producto_historico:
+      product_id: "OCEANCOLOUR_GLO_BGC_L4_MY_009_104"
+      dataset_id: "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D"
+      version: "202603"
+      parte: "default"
+      modo: "historical_diagnostic; selección explícita, nunca fallback"
     variable: "CHL"
     standard_name: "mass_concentration_of_chlorophyll_a_in_sea_water"
     units: "milligram m-3"
@@ -828,6 +835,8 @@ variables:
         serialized_value: "valida_reciente"
       - enum_name: "SIN_DATOS"
         serialized_value: "sin_datos"
+      - enum_name: "ERROR"
+        serialized_value: "error"
     enum_class: "ChlorophyllStatus"
     alcance: "Clorofila-a regional de referencia; NO es medición puntual ni in situ en Pucusana"
     validacion_ejecutada:
@@ -836,6 +845,7 @@ variables:
       - "Regresión conjunta 61/61 (10 temperatura + 15 salinidad + 18 oleaje + 18 clorofila), sin acceso a Copernicus"
       - "Diagnóstico real comparativo de tres candidatos (2026-08-07 a 2026-08-14): L3 multi 50.0%, L3 OLCI 16.7%, L4 gap-free 100.0%; unidades coincidentes; sin ERROR"
       - "Diagnóstico real del L4 seleccionado: 18 valores válidos y 18 NaN costeros en el recuadro; los NaN de tierra no se sustituyen; último dato observado 2026-08-12 19:00 local"
+      - "Regresión sintética de separación NRT/MY: versiones y partes fijas; un fallo de catálogo, autenticación o límites queda ERROR con causa estructurada"
     pendiente_para_scoring: "Paso 8 del protocolo: validación independiente de campo"
   salinidad:
     descripcion: "Salinidad en el nivel superficial disponible"
@@ -1012,6 +1022,8 @@ variables:
     nota: >
       Exige centro y cuatro vecinos cardinales válidos y usa Haversine entre
       centros. No rellena, no mezcla fechas y no afirma presencia de peces.
+      El diagnóstico propaga fallback, etapa histórica, causa y tipo de error
+      desde el campo fuente; una derivada válida no borra esa procedencia.
     validacion_ejecutada:
       - "Suite sintética del gradiente centrado, máscaras, halo e incertidumbre"
       - "NetCDF real Pucusana 2026-08-19 a 2026-08-28: 1433, 5 y 58 gradientes calculables en los días 19, 24 y 28; cero en los demás"
@@ -1029,9 +1041,17 @@ variables:
     dataset_id: "cmems_obs-oc_glo_bgc-plankton_nrt_l3-olci-300m_P1D"
     dataset_version: "202207"
     dataset_part: "default"
+    producto_historico:
+      product_id: "OCEANCOLOUR_GLO_BGC_L3_MY_009_103"
+      dataset_id: "cmems_obs-oc_glo_bgc-plankton_my_l3-olci-300m_P1D"
+      dataset_version: "202211"
+      dataset_part: "default"
+      activacion: "HistoricalChlorophyllOptions; nunca fallback de NRT"
     variables: ["CHL", "CHL_uncertainty", "flags"]
     units: "milligram m-3"
-    activacion: "opcional mediante ChlorophyllOptions; desactivada por defecto"
+    activacion: >
+      opcional mediante ChlorophyllOptions en NRT; desactivada por defecto.
+      HistoricalChlorophyllOptions selecciona MY explícitamente para auditoría.
     max_nominal_age_hours_default: 72.0
     halo_cells: 2
     disponibilidad_historica: "no verificada a partir de la fecha nominal"
