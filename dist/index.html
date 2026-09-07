@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es" data-snapshot-endpoint="./fixtures/environmental_snapshot.sample.json" data-data-mode="fixture">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071923" />
+    <meta
+      name="description"
+      content="Consulta trazable de condiciones ambientales marinas para el piloto de PredictaMAR Litoral en Pucusana."
+    />
+    <title>PredictaMAR Litoral</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+    <div id="offline-banner" class="offline-banner" role="status" hidden>
+      Sin conexión. Mostrando la última muestra guardada en este dispositivo.
+    </div>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./" aria-label="PredictaMAR Litoral, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img">
+              <path d="M7 28c6-8 12-8 18 0s12 8 16 1" />
+              <path d="M9 19c5-5 10-5 15 0s10 5 15 0" />
+            </svg>
+          </span>
+          <span>
+            <strong>PredictaMAR</strong>
+            <small>Litoral · Pucusana</small>
+          </span>
+        </a>
+
+        <div class="header-actions">
+          <span class="demo-badge"><span aria-hidden="true"></span> Datos simulados</span>
+          <button id="install-button" class="button button-quiet" type="button" hidden>
+            Instalar aplicación
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell">
+      <section class="query-panel" aria-labelledby="query-title">
+        <div class="query-copy">
+          <p class="eyebrow">Consulta ambiental</p>
+          <h1 id="query-title">Condiciones del mar</h1>
+          <p>
+            Revisa disponibilidad, alcance y vigencia de las diez variables ambientales.
+          </p>
+        </div>
+
+        <form id="snapshot-form" class="query-form">
+          <div class="field">
+            <label for="location">Zona piloto</label>
+            <select id="location" name="location">
+              <option value="pucusana" selected>Caleta Pucusana</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="target-date">Fecha</label>
+            <input id="target-date" name="target-date" type="date" value="2026-08-26" required />
+          </div>
+
+          <button class="button button-primary" type="submit">
+            Consultar condiciones
+          </button>
+        </form>
+
+        <p class="fixture-note">
+          <strong>Vista de demostración:</strong> usa una muestra sintética del contrato
+          <code>environmental_snapshot_v1</code>; no consulta fuentes en vivo.
+        </p>
+      </section>
+
+      <div id="app-status" class="app-status" role="status" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        Cargando la muestra ambiental…
+      </div>
+
+      <section id="empty-state" class="empty-state" aria-labelledby="empty-title" hidden>
+        <span class="empty-icon" aria-hidden="true">∿</span>
+        <h2 id="empty-title">No hay una muestra para esa fecha</h2>
+        <p id="empty-copy">Esta versión de demostración solo contiene datos del 26 de agosto de 2026.</p>
+        <button id="restore-date" class="button button-secondary" type="button">
+          Volver a la fecha disponible
+        </button>
+      </section>
+
+      <section id="dashboard" aria-label="Resultado ambiental" hidden>
+        <div class="overview-grid">
+          <article id="safety-card" class="safety-card" aria-labelledby="safety-title">
+            <div class="panel-heading">
+              <span id="safety-icon" class="status-icon" aria-hidden="true"></span>
+              <div>
+                <p class="panel-kicker">Compuerta de oleaje</p>
+                <h2 id="safety-title">Evaluando…</h2>
+              </div>
+            </div>
+            <p id="safety-copy"></p>
+            <p id="safety-notice" class="safety-notice"></p>
+          </article>
+
+          <article class="health-card" aria-labelledby="health-title">
+            <div class="panel-heading">
+              <span class="health-symbol" aria-hidden="true">10</span>
+              <div>
+                <p class="panel-kicker">Cobertura de la consulta</p>
+                <h2 id="health-title">Estado de los datos</h2>
+              </div>
+            </div>
+            <div class="counts" aria-label="Conteo de variables">
+              <div><strong id="available-count">—</strong><span>Disponibles</span></div>
+              <div><strong id="no-data-count">—</strong><span>Sin dato</span></div>
+              <div><strong id="error-count">—</strong><span>Con error</span></div>
+            </div>
+            <p id="snapshot-status" class="snapshot-status"></p>
+          </article>
+        </div>
+
+        <section class="scope-panel" aria-labelledby="scope-title">
+          <div>
+            <p class="eyebrow">Alcance espacial</p>
+            <h2 id="scope-title">Dos escalas, una salida trazable</h2>
+          </div>
+          <div class="scope-facts">
+            <div>
+              <span>Faena artesanal</span>
+              <strong id="operational-range">0–10 km</strong>
+              <small>Distancia mar adentro desde el litoral</small>
+            </div>
+            <div>
+              <span>Campo OSTIA</span>
+              <strong id="field-width">±0,15°</strong>
+              <small>Contexto regional; no representa el área exacta de faena</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="variables-section" aria-labelledby="variables-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Lecturas disponibles</p>
+              <h2 id="variables-title">Variables ambientales</h2>
+            </div>
+            <p id="query-stamp" class="query-stamp"></p>
+          </div>
+          <div id="variable-groups"></div>
+        </section>
+
+        <details class="scope-legend">
+          <summary>Cómo interpretar el alcance de cada dato</summary>
+          <dl>
+            <div><dt>Puntual</dt><dd>Lectura asociada a la celda o punto solicitado.</dd></div>
+            <div><dt>Máximo regional</dt><dd>Mayor oleaje del recuadro usado por el módulo.</dd></div>
+            <div><dt>Campo regional</dt><dd>Matriz espacial usada para SST OSTIA y frente térmico.</dd></div>
+          </dl>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Herramienta experimental de apoyo. No detecta cardúmenes, no calcula probabilidad de pesca
+        y no sustituye avisos oficiales ni decisiones del patrón de la embarcación.
+      </p>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

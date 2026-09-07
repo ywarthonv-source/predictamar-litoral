@@ -19,12 +19,39 @@ de la auditoría de agosto de 2026 como contratos verificables.
    cobertura completa, 28 pares nativos únicos y cero fallbacks
 7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
    reales restringidos no se almacenan ni se abren en Codespaces
-8. 🟡 **Ensamblador y aplicación** — contrato ambiental v1 implementado y
-   cubierto sintéticamente; aplicación web pendiente
+8. ✅ **Ensamblador y base de aplicación** — contrato ambiental v1 y PWA
+   responsive implementados y cubiertos sintéticamente; la interfaz usa una
+   muestra declaradamente simulada hasta conectar el backend operativo
 9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
    independiente; ninguna variable tiene `predictively_valid: true`
 
-Regresión sintética actual: **260 pruebas**.
+Regresión sintética actual: **266 pruebas**.
+
+## Aplicación web v1
+
+`dist/` contiene una PWA estática, responsive e instalable que consume el
+contrato `environmental_snapshot_v1`. La primera pantalla permite elegir la
+zona piloto y la fecha, presenta la compuerta de oleaje, el estado de cobertura,
+la diferencia entre alcance operativo y campo OSTIA y las diez variables con
+su fuente y tipo espacial.
+
+Esta primera versión usa únicamente
+`dist/fixtures/environmental_snapshot.sample.json`, una muestra sintética visible
+como tal en toda la interfaz. Si se elige otra fecha, muestra un estado vacío;
+no reutiliza silenciosamente la fecha disponible. Tampoco calcula ni presenta
+probabilidad de pesca, score, ranking o recomendación de punto. El cambio desde
+la muestra local hacia un endpoint se realizará después de cerrar el contrato
+del backend, sin modificar la forma de `environmental_snapshot_v1`.
+
+Para verla localmente:
+
+```bash
+python -m http.server 8000 --directory dist
+```
+
+Luego abrir `http://localhost:8000`. La aplicación registra un service worker
+para conservar su estructura y la muestra de demostración sin conexión después
+de la primera carga.
 
 ## Estado del ensamblador ambiental
 

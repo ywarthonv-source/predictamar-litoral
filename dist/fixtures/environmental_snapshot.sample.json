@@ -1,0 +1,367 @@
+{
+  "schema_version": "environmental_snapshot_v1",
+  "request": {
+    "lat": -12.471,
+    "lon": -76.79,
+    "target_date": "2026-08-26",
+    "hour_start_local": 0,
+    "hour_end_local": 23,
+    "field_half_width_deg": 0.15,
+    "field_bounds": {
+      "minimum_latitude": -12.621,
+      "maximum_latitude": -12.321,
+      "minimum_longitude": -76.94,
+      "maximum_longitude": -76.64
+    }
+  },
+  "spatial_context": {
+    "operational_range_min_km": 0.0,
+    "operational_range_max_km": 10.0,
+    "operational_range_basis": "distance_offshore_from_coastline",
+    "operational_range_is_radius_from_request_point": false,
+    "operational_bounding_box_defined": false,
+    "field_half_width_deg": 0.15,
+    "field_is_operational_domain": false,
+    "field_scope_relation": "regional_context_not_operational_domain",
+    "field_purpose": "regional_context_for_ostia_and_thermal_front"
+  },
+  "status": "complete",
+  "counts": {
+    "available": 10,
+    "no_data": 0,
+    "error": 0,
+    "total": 10
+  },
+  "safety": {
+    "blocked": false,
+    "source_variable": "oleaje",
+    "source_status": "bajo_umbral_regional",
+    "reason": "below_provisional_regional_threshold",
+    "not_authorization_notice": "El resultado bajo el umbral regional no constituye autorización operativa de salida a faenar. Las reglas de seguridad son provisionales y requieren validación oceanográfica."
+  },
+  "variables": {
+    "sst": {
+      "variable_id": "sst",
+      "state": "available",
+      "source_status": "valida_en_ventana",
+      "source_type": "TemperatureReading",
+      "shared_operation": "sst_model",
+      "spatial_scope": "point",
+      "value_paths": ["samples[].value_celsius"],
+      "governance": {
+        "description": "Temperatura superficial del modelo Copernicus.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "point_time_series",
+        "module": "ingestion/fetch_temperature.py"
+      },
+      "payload": {
+        "status": "valida_en_ventana",
+        "dataset_id": "synthetic_cmems_thetao",
+        "variable": "thetao",
+        "data_scope": "synthetic_point_sample",
+        "scope_warning": "Muestra sintética para validar la interfaz; no representa una observación real.",
+        "samples": [
+          {
+            "time_utc": "2026-08-26T12:00:00+00:00",
+            "value_celsius": 20.4
+          }
+        ]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "oleaje": {
+      "variable_id": "oleaje",
+      "state": "available",
+      "source_status": "bajo_umbral_regional",
+      "source_type": "WaveReading",
+      "shared_operation": "waves",
+      "spatial_scope": "regional_maximum",
+      "value_paths": ["significant_wave_height_m"],
+      "governance": {
+        "description": "Altura significativa máxima del recuadro regional.",
+        "intended_role": "safety_gate",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "fuera_del_ranking",
+        "predictively_valid": "N/A",
+        "profile": "regional_maximum",
+        "module": "ingestion/fetch_waves.py"
+      },
+      "payload": {
+        "status": "bajo_umbral_regional",
+        "dataset_id": "synthetic_cmems_vhm0",
+        "variable": "VHM0",
+        "data_scope": "synthetic_regional_maximum",
+        "scope_warning": "Muestra sintética; no es medición puntual ni autorización de navegación.",
+        "significant_wave_height_m": 1.1
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "clorofila": {
+      "variable_id": "clorofila",
+      "state": "available",
+      "source_status": "valida_en_fecha_local",
+      "source_type": "ChlorophyllReading",
+      "shared_operation": "chlorophyll",
+      "spatial_scope": "point",
+      "value_paths": ["value_mg_m3"],
+      "governance": {
+        "description": "Concentración de clorofila-a.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "point_daily",
+        "module": "ingestion/fetch_chlorophyll.py"
+      },
+      "payload": {
+        "status": "valida_en_fecha_local",
+        "dataset_id": "synthetic_cmems_chl",
+        "variable": "CHL",
+        "data_scope": "synthetic_point_sample",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "value_mg_m3": 2.4
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "salinidad": {
+      "variable_id": "salinidad",
+      "state": "available",
+      "source_status": "valida_en_ventana",
+      "source_type": "SalinityReading",
+      "shared_operation": "salinity",
+      "spatial_scope": "point",
+      "value_paths": ["samples[].value_salinity"],
+      "governance": {
+        "description": "Salinidad superficial del modelo Copernicus.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "point_time_series",
+        "module": "ingestion/fetch_salinity.py"
+      },
+      "payload": {
+        "status": "valida_en_ventana",
+        "dataset_id": "synthetic_cmems_so",
+        "variable": "so",
+        "data_scope": "synthetic_point_sample",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "samples": [
+          {
+            "time_utc": "2026-08-26T12:00:00+00:00",
+            "value_salinity": 34.9
+          }
+        ]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "sst_observed_ostia": {
+      "variable_id": "sst_observed_ostia",
+      "state": "available",
+      "source_status": "valida_en_fecha_nominal",
+      "source_type": "OstiaField",
+      "shared_operation": "ostia_field",
+      "spatial_scope": "regional_field",
+      "value_paths": ["sst_celsius[][]", "analysis_error_kelvin[][]"],
+      "governance": {
+        "description": "Campo regional diario de SST observada OSTIA.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_sinteticamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "regional_field",
+        "module": "ingestion/fetch_ostia.py"
+      },
+      "payload": {
+        "status": "valida_en_fecha_nominal",
+        "dataset_id": "synthetic_ostia_l4",
+        "variable": "analysed_sst",
+        "data_scope": "synthetic_regional_field",
+        "scope_warning": "Campo sintético de interfaz; no representa el dominio operativo.",
+        "sst_celsius": [[20.2, 20.3], [20.4, 20.5]],
+        "analysis_error_kelvin": [[0.2, 0.2], [0.3, 0.2]]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "thermal_front": {
+      "variable_id": "thermal_front",
+      "state": "available",
+      "source_status": "valido",
+      "source_type": "ThermalFrontField",
+      "shared_operation": "ostia_field",
+      "spatial_scope": "regional_field",
+      "value_paths": [
+        "gradient_c_per_km[][]",
+        "eastward_gradient_c_per_km[][]",
+        "northward_gradient_c_per_km[][]"
+      ],
+      "governance": {
+        "description": "Gradiente térmico regional experimental derivado de OSTIA.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_sinteticamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "derived_regional_field",
+        "module": "derivation/thermal_front.py"
+      },
+      "payload": {
+        "status": "valido",
+        "source_dataset": "synthetic_ostia_l4",
+        "data_scope": "synthetic_derived_regional_field",
+        "scope_warning": "Derivación sintética de interfaz; no demuestra un frente pesquero.",
+        "gradient_c_per_km": [[0.03, 0.04], [0.02, 0.03]],
+        "eastward_gradient_c_per_km": [[0.02, 0.03], [0.01, 0.02]],
+        "northward_gradient_c_per_km": [[0.02, 0.02], [0.01, 0.02]]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "temperature_10m": {
+      "variable_id": "temperature_10m",
+      "state": "available",
+      "source_status": "valida_en_ventana",
+      "source_type": "VerticalThermalPair",
+      "shared_operation": "vertical_thermal_pair",
+      "spatial_scope": "point",
+      "value_paths": ["samples[].temperature_10m_celsius"],
+      "governance": {
+        "description": "Temperatura del nivel nativo más próximo a 10 m.",
+        "intended_role": "B",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "paired_vertical_levels",
+        "module": "ingestion/fetch_vertical_temperature.py"
+      },
+      "payload": {
+        "status": "valida_en_ventana",
+        "dataset_id": "synthetic_cmems_thetao_pt6h",
+        "variable": "thetao",
+        "data_scope": "synthetic_paired_vertical_levels",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "samples": [
+          {
+            "time_utc": "2026-08-26T12:00:00+00:00",
+            "temperature_10m_celsius": 19.8,
+            "delta_sst_t10_celsius": 0.6
+          }
+        ]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "delta_sst_t10": {
+      "variable_id": "delta_sst_t10",
+      "state": "available",
+      "source_status": "valida_en_ventana",
+      "source_type": "VerticalThermalPair",
+      "shared_operation": "vertical_thermal_pair",
+      "spatial_scope": "point",
+      "value_paths": ["samples[].delta_sst_t10_celsius"],
+      "governance": {
+        "description": "Diferencia térmica del par vertical emparejado.",
+        "intended_role": "B",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "paired_vertical_levels",
+        "module": "ingestion/fetch_vertical_temperature.py"
+      },
+      "payload": {
+        "status": "valida_en_ventana",
+        "dataset_id": "synthetic_cmems_thetao_pt6h",
+        "variable": "thetao",
+        "data_scope": "synthetic_paired_vertical_levels",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "samples": [
+          {
+            "time_utc": "2026-08-26T12:00:00+00:00",
+            "temperature_10m_celsius": 19.8,
+            "delta_sst_t10_celsius": 0.6
+          }
+        ]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "surface_currents": {
+      "variable_id": "surface_currents",
+      "state": "available",
+      "source_status": "valida_en_ventana",
+      "source_type": "CurrentReading",
+      "shared_operation": "surface_currents",
+      "spatial_scope": "point",
+      "value_paths": [
+        "measurements[].uo_m_s",
+        "measurements[].vo_m_s",
+        "measurements[].speed_m_s",
+        "measurements[].direction_toward_deg"
+      ],
+      "governance": {
+        "description": "Componentes y velocidad de la corriente superficial.",
+        "intended_role": "A",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "point_time_series",
+        "module": "ingestion/fetch_currents.py"
+      },
+      "payload": {
+        "status": "valida_en_ventana",
+        "dataset_id": "synthetic_cmems_currents",
+        "variable": "uo_vo",
+        "data_scope": "synthetic_point_sample",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "measurements": [
+          {
+            "time_utc": "2026-08-26T12:00:00+00:00",
+            "uo_m_s": 0.18,
+            "vo_m_s": 0.21,
+            "speed_m_s": 0.28,
+            "direction_toward_deg": 40.6
+          }
+        ]
+      },
+      "error_code": null,
+      "error_type": null
+    },
+    "batimetria": {
+      "variable_id": "batimetria",
+      "state": "available",
+      "source_status": "valida",
+      "source_type": "BathymetryReading",
+      "shared_operation": "bathymetry",
+      "spatial_scope": "point",
+      "value_paths": ["depth_m", "slope_deg", "tid_code"],
+      "governance": {
+        "description": "Profundidad y pendiente de la celda GEBCO.",
+        "intended_role": "structural_support",
+        "implementation_status": "implementada_validada_tecnicamente",
+        "scoring_status": "inactiva",
+        "predictively_valid": null,
+        "profile": "static_point",
+        "module": "ingestion/fetch_bathymetry.py"
+      },
+      "payload": {
+        "status": "valida",
+        "dataset_id": "synthetic_gebco_2026",
+        "variable": "elevation",
+        "data_scope": "synthetic_static_point",
+        "scope_warning": "Muestra sintética para validar la interfaz.",
+        "depth_m": 28.4,
+        "slope_deg": 2.1,
+        "tid_code": 10
+      },
+      "error_code": null,
+      "error_type": null
+    }
+  }
+}
