@@ -1,0 +1,17 @@
+# Plantilla: copiar fuera del repositorio o renombrar cuando los sectores sean
+# aprobados. El diagnóstico rechaza este archivo mientras siga pendiente.
+
+schema_version: operational_points_v1
+geometry_status: pending_approval
+distance_basis: distance_offshore_from_coastline
+area: Pucusana
+source: null
+points: []
+
+# Cada punto aprobado deberá declarar, como mínimo:
+# points:
+#   - id: sector_01
+#     lat: -12.0000
+#     lon: -77.0000
+#     distance_offshore_km: 0.0
+#     geometry_source: "levantamiento o cálculo aprobado"

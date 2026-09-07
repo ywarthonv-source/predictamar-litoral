@@ -18,13 +18,20 @@ de la auditoría de agosto de 2026 como contratos verificables.
    `delta_sst_t10` implementadas; el diagnóstico real confirmó siete días de
    cobertura completa, 28 pares nativos únicos y cero fallbacks
 7. 🟡 **Validación** — inspector seguro de esquema IMARPE disponible; los datos
-   reales restringidos no se almacenan ni se abren en Codespaces
-8. 🟡 **Ensamblador y aplicación** — contrato ambiental v1 implementado y
-   cubierto sintéticamente; aplicación web pendiente
-9. 🔲 **Motor de puntaje** — deliberadamente inactivo hasta validación
-   independiente; ninguna variable tiene `predictively_valid: true`
+   reales restringidos permanecen como validación independiente
+8. ✅ **Ensamblador ambiental** — contrato v1 implementado y cubierto
+   sintéticamente; no agrega ni puntúa
+9. ✅ **Auditoría por especie** — tabla histórica congelada, diez etiquetas
+   confirmadas y nueve taxa canónicos; `CHAUCHILLA` es alias de `BONITO`
+10. 🟡 **Matriz objetivo** — pesos fijos por taxón y combinador estricto
+    implementados para investigación; curvas y validación de campo pendientes
+11. 🟡 **Backend diario** — bundle versionado y diagnóstico multípunto
+    implementados; ejecución real pendiente de geometría aprobada y acceso a
+    proveedores
+12. 🔲 **Aplicación** — pendiente; no se conectará a datos estáticos ni se
+    mostrará scoring mientras no se superen las compuertas anteriores
 
-Regresión sintética actual: **260 pruebas**.
+Regresión sintética actual: **291 pruebas**.
 
 ## Estado del ensamblador ambiental
 
@@ -86,6 +93,62 @@ Los archivos IMARPE no se leen ni se incorporan por esta ruta. Permanecen como
 fuente restringida de validación independiente y requieren un contrato de
 observaciones separado antes de cualquier emparejamiento.
 
+## Estado de especies y ponderación
+
+La auditoría completa está en `docs/species_weighting_audit_v1.md`. El archivo
+`config/legacy_species_rules_v0.yaml` conserva la tabla anterior únicamente
+como evidencia: sus pesos no sumaban 1, el código los normalizaba de forma
+silenciosa y los faltantes se sustituían con medianas o ceros.
+
+`config/species_weighting_v1.yaml` contiene la nueva matriz objetivo. Cada fila
+canónica suma exactamente 10.000 puntos base y declara evidencia, dominio y
+predictores faltantes. La literatura respalda la inclusión de variables, pero
+no estima esos valores numéricos: siguen siendo un prior explícito que debe
+calibrarse con capturas o CPUE independientes.
+
+`scoring/species_index.py` combina únicamente factores ya transformados a
+`[0,1]`. No transforma datos crudos, no imputa, no redistribuye pesos, no crea
+semaforización y rechaza el uso operativo. Cuando falta un factor, devuelve
+`index_value: null`, cobertura e intervalo diagnóstico; no produce un ranking
+parcial. El índice completo de investigación tampoco es probabilidad de
+captura.
+
+## Diagnóstico espacial y backend diario
+
+La geometría 0–10 km significa distancia mar adentro desde el litoral, no un
+círculo alrededor de la caleta. Por eso el repositorio incluye solo
+`config/operational_points.template.yaml`: no inventa coordenadas. Tras aprobar
+al menos dos puntos y declarar su fuente, el diagnóstico real se ejecuta con:
+
+```bash
+python -m diagnostics.diagnose_spatial_discrimination \
+  --points /ruta/operational_points.yaml \
+  --date 2026-09-07 \
+  --json
+```
+
+El reporte cuenta, por cada variable, celdas y valores distintos. OSTIA y su
+gradiente quedan clasificados como contexto regional; oleaje, como compuerta
+de seguridad. Solo una variable puntual con cobertura total y al menos dos
+firmas de valor puede superar esta comprobación técnica. Eso no demuestra
+validez pesquera.
+
+El backend diario usa los mismos puntos aprobados y el mismo ensamblador:
+
+```bash
+python -m backend.daily_environmental_bundle \
+  --points /ruta/operational_points.yaml \
+  --date 2026-09-07 \
+  --output-directory /ruta/fuera/del/repositorio
+```
+
+Cada bundle incluye `schema_version`, `run_id`, `generated_at_utc`, fecha
+objetivo y `content_sha256`. Se escribe como archivo nuevo de forma atómica y
+no se sobrescribe una corrida. `validate_daily_bundle()` es el contrato que la
+futura aplicación deberá aplicar para rechazar esquema, fecha, ids o contenido
+inconsistentes. El bloque `scoring` permanece explícitamente en
+`not_generated`.
+
 ## Fuentes y credenciales
 
 1. **Copernicus Marine Service** — https://data.marine.copernicus.eu
@@ -113,9 +176,9 @@ opcionales, son la razón de ser de este pipeline nuevo:
   disfrazado de lectura real.
 - **Trazabilidad de fuente real** — cada lectura y derivada conserva dataset,
   variable, timestamp, celda o campo, unidades, método y limitación de alcance.
-- **Sin redistribución automática de pesos** — pendiente de implementar en
-  `scoring/`, pero ya documentado como regla: si falla una capa dinámica, no
-  se transfiere su peso en silencio a las capas estáticas.
+- **Sin redistribución automática de pesos** — implementado en
+  `scoring/species_index.py`: si falta un factor, el índice queda ausente y su
+  peso aparece como cobertura faltante.
 - **Separación entre verificación técnica y validez predictiva** — que un
   módulo pase sus pruebas no demuestra que encuentre pesca. La admisión al
   scoring exige validación independiente y control de circularidad.
@@ -164,7 +227,7 @@ productos; tampoco es un gradiente en grados por metro ni demuestra por sí
 sola una termoclina. Ambas variables tienen rol `B`: describen la condición
 térmica regional del día y no prometen discriminación fina entre puntos. La
 suite sintética del fetcher y el diagnosticador suma 40 pruebas; la regresión
-completa alcanza 228.
+completa actual alcanza 291.
 
 Para ejecutar siete días reales completos alrededor de Pucusana sin guardar
 muestras crudas:

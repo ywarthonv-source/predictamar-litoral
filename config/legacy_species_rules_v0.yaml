@@ -1,0 +1,169 @@
+# Copia de auditoría del contrato histórico de PredictaMAR general.
+# Nunca debe cargarse desde producción ni usarse para puntuar.
+
+schema_version: legacy_species_rules_v0
+status: audit_only_rejected_for_runtime
+source:
+  application: "predictamar-app/app.py"
+  table: "SPECIES_RULES"
+  recovered_at: "2026-09-07"
+
+audit_contract:
+  runtime_use_forbidden: true
+  hidden_normalization_in_historic_code: "score = weighted_sum / sum(weights)"
+  reason_rejected:
+    - "Los pesos declarados no sumaban 1.0."
+    - "El código cambiaba su magnitud mediante normalización silenciosa."
+    - "Se imputaban faltantes con medianas o ceros."
+    - "Algunos umbrales dependían del subconjunto de la consulta."
+    - "La escala espacial de varias capas no permitía resolver 0-10 km."
+    - "CHAUCHILLA duplicaba el taxón de BONITO como si fuera otra especie."
+
+columns:
+  - sst_min_c
+  - sst_max_c
+  - sal_min
+  - sal_max
+  - curr_ok_max_ms
+  - chl_min
+  - chl_max
+  - chl_percentile_high
+  - w_chl
+  - w_sst
+  - w_grad
+  - w_stability
+  - w_curr
+  - w_sal
+  - w_gchl
+
+rules:
+  ANCHOVETA:
+    sst_min_c: 14.0
+    sst_max_c: 22.0
+    sal_min: 34.7
+    sal_max: 35.2
+    curr_ok_max_ms: 0.60
+    chl_min: 1.0
+    chl_max: 8.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.35, sst: 0.24, grad: 0.08, stability: 0.07, curr: 0.10, sal: 0.05, gchl: 0.04}
+    declared_weight_sum: 0.93
+    hidden_scale_factor: 1.075269
+    note: "Planctófaga directa. IMARPE 2022: SST 14-22 C"
+  CHAUCHILLA:
+    sst_min_c: 15.0
+    sst_max_c: 22.0
+    sal_min: 34.5
+    sal_max: 35.5
+    curr_ok_max_ms: 0.60
+    chl_min: 0.8
+    chl_max: 7.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.30, sst: 0.18, grad: 0.10, stability: 0.05, curr: 0.12, sal: 0.05, gchl: 0.05}
+    declared_weight_sum: 0.85
+    hidden_scale_factor: 1.176471
+    note: "Clupéido costero planctófago [clasificación histórica incorrecta]"
+  PEJERREY:
+    sst_min_c: 17.5
+    sst_max_c: 22.0
+    sal_min: 34.5
+    sal_max: 35.5
+    curr_ok_max_ms: 0.50
+    chl_min: 0.8
+    chl_max: 6.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.30, sst: 0.18, grad: 0.05, stability: 0.07, curr: 0.10, sal: 0.08, gchl: 0.05}
+    declared_weight_sum: 0.83
+    hidden_scale_factor: 1.204819
+    note: "Zooplanctófago costero. SST 17.5-21.7 C IMARPE"
+  BONITO:
+    sst_min_c: 18.0
+    sst_max_c: 24.0
+    sal_min: 34.5
+    sal_max: 35.8
+    curr_ok_max_ms: 0.70
+    chl_min: 0.3
+    chl_max: 4.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.26, sst: 0.24, grad: 0.13, stability: 0.05, curr: 0.10, sal: 0.05, gchl: 0.0}
+    declared_weight_sum: 0.83
+    hidden_scale_factor: 1.204819
+    note: "Epipelágico. SST 15-22 C. Sigue anchoveta hacia frentes [nota y rango inconsistentes]"
+  JUREL:
+    sst_min_c: 14.0
+    sst_max_c: 20.0
+    sal_min: 34.5
+    sal_max: 35.5
+    curr_ok_max_ms: 0.65
+    chl_min: 0.5
+    chl_max: 5.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.18, sst: 0.20, grad: 0.15, stability: 0.06, curr: 0.13, sal: 0.07, gchl: 0.0}
+    declared_weight_sum: 0.79
+    hidden_scale_factor: 1.265823
+    note: "Transzonal HCS. Zona mezcla ACF-ASS. Dioses 2013"
+  CABALLA:
+    sst_min_c: 14.0
+    sst_max_c: 21.0
+    sal_min: 34.9
+    sal_max: 35.3
+    curr_ok_max_ms: 0.65
+    chl_min: 0.4
+    chl_max: 5.0
+    chl_percentile_high: 0.70
+    weights: {chl: 0.20, sst: 0.22, grad: 0.12, stability: 0.05, curr: 0.11, sal: 0.07, gchl: 0.0}
+    declared_weight_sum: 0.77
+    hidden_scale_factor: 1.298701
+    note: "Pelágica nerítica. SST 14-23 C. Mendo 1984"
+  POTA:
+    sst_min_c: 16.0
+    sst_max_c: 24.0
+    sal_min: 34.5
+    sal_max: 36.0
+    curr_ok_max_ms: 0.90
+    chl_min: 0.2
+    chl_max: 4.0
+    chl_percentile_high: 0.65
+    weights: {chl: 0.12, sst: 0.20, grad: 0.15, stability: 0.05, curr: 0.09, sal: 0.07, gchl: 0.0}
+    declared_weight_sum: 0.68
+    hidden_scale_factor: 1.470588
+    note: "Mesopelágica. Frentes mesoscálicos. Csirke 2018"
+  MERLUZA:
+    sst_min_c: 12.0
+    sst_max_c: 18.0
+    sal_min: 34.8
+    sal_max: 35.4
+    curr_ok_max_ms: 0.40
+    chl_min: 0.2
+    chl_max: 3.0
+    chl_percentile_high: 0.60
+    weights: {chl: 0.08, sst: 0.13, grad: 0.08, stability: 0.04, curr: 0.08, sal: 0.09, gchl: 0.0}
+    declared_weight_sum: 0.50
+    hidden_scale_factor: 2.0
+    note: "Demersal estricta. Plataforma norte Perú. IMARPE 2018"
+  LORNA:
+    sst_min_c: 15.0
+    sst_max_c: 22.0
+    sal_min: 34.5
+    sal_max: 35.6
+    curr_ok_max_ms: 0.50
+    chl_min: 0.4
+    chl_max: 5.0
+    chl_percentile_high: 0.65
+    weights: {chl: 0.16, sst: 0.18, grad: 0.10, stability: 0.05, curr: 0.11, sal: 0.08, gchl: 0.07}
+    declared_weight_sum: 0.75
+    hidden_scale_factor: 1.333333
+    note: "Demerso-costera. Fondos blandos. Ictiófaga"
+  CABINZA:
+    sst_min_c: 15.0
+    sst_max_c: 22.0
+    sal_min: 34.5
+    sal_max: 35.6
+    curr_ok_max_ms: 0.50
+    chl_min: 0.4
+    chl_max: 5.0
+    chl_percentile_high: 0.65
+    weights: {chl: 0.12, sst: 0.15, grad: 0.08, stability: 0.04, curr: 0.11, sal: 0.08, gchl: 0.10}
+    declared_weight_sum: 0.68
+    hidden_scale_factor: 1.470588
+    note: "Bentónica. Sustrato duro. Zona sublitoral superficial"

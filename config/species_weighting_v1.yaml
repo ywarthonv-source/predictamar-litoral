@@ -1,0 +1,387 @@
+# =====================================================================
+# Matriz objetivo por especie — PredictaMAR Litoral
+# =====================================================================
+#
+# Este archivo NO contiene una probabilidad de captura ni un modelo validado.
+# Contiene una hipótesis cuantitativa auditable para organizar el backtesting.
+# La literatura respalda la selección de algunos predictores, pero NO prueba
+# estos pesos numéricos. Los pesos son un prior de ingeniería explícito.
+# =====================================================================
+
+schema_version: species_weighting_v1
+model_id: predictamar_litoral_species_prior_v1
+updated_at: "2026-09-07"
+status: research_only_not_predictively_validated
+
+index_contract:
+  output_name: experimental_habitat_compatibility_index
+  label_es: "Índice experimental de compatibilidad ambiental"
+  probability: false
+  catch_prediction: false
+  operational_ranking_enabled: false
+  traffic_light_thresholds: null
+  value_range: [0.0, 1.0]
+  formula: "I_s = sum_f(weight_bp[s,f] / 10000 * factor_score[s,f])"
+  weights:
+    unit: basis_points
+    required_total_bp: 10000
+    runtime_normalization: forbidden
+    derivation: provisional_expert_prior
+    scientific_limitation: >
+      Las fuentes sustentan inclusión, exclusión o necesidad de predictores;
+      no estiman estos pesos. Los valores deben recalibrarse con capturas o
+      CPUE independientes y validación espacio-temporal fuera de muestra.
+  factor_scores:
+    required_range: [0.0, 1.0]
+    raw_to_score_transform_status: pending_species_calibration
+    note: >
+      Los rangos observados en literatura no se convierten automáticamente en
+      curvas de favorabilidad. Un factor_score solo será admisible cuando su
+      transformación cruda-a-score tenga versión, fuente y calibración.
+  missing_data:
+    imputation: forbidden
+    default_zero: forbidden
+    weight_redistribution: forbidden
+    point_estimate_when_incomplete: forbidden
+    diagnostic_bounds: >
+      Con faltantes se informa coverage_weight, lower_bound suponiendo cero
+      para el aporte desconocido y upper_bound suponiendo uno. Esos límites no
+      son un índice y no pueden usarse para ordenar puntos.
+  duplicate_signal_controls:
+    - inputs: [sst, sst_observed_ostia]
+      factor: surface_temperature
+      rule: "Una sola señal térmica; OSTIA puede actuar como contraste de calidad, nunca como segundo peso."
+    - inputs: [temperature_10m, delta_sst_t10]
+      factor: vertical_thermal_0_10m
+      rule: "Un solo factor emparejado; delta_sst_t10 no es una termoclina ni un gradiente por metro."
+    - inputs: [sst_observed_ostia, thermal_front]
+      rule: "Se admite SST y su derivada como factores distintos solo tras medir colinealidad en el backtest."
+  safety:
+    oleaje:
+      weight_bp: 0
+      role: safety_gate_only
+      rule: "Nunca participa del índice pesquero ni autoriza navegación."
+
+factor_registry:
+  surface_temperature:
+    label_es: "Condición térmica superficial"
+    current_assembler_variables: [sst, sst_observed_ostia]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Una transformación por especie sobre una señal térmica reconciliada; sin sumar dos SST."
+  chlorophyll_a:
+    label_es: "Clorofila-a superficial"
+    current_assembler_variables: [clorofila]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Transformación absoluta y estable entre consultas; se prohíben percentiles calculados sobre el radio pedido."
+  thermal_front:
+    label_es: "Gradiente térmico regional"
+    current_assembler_variables: [thermal_front]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Transformación de magnitud del gradiente OSTIA; no representa por sí sola el área exacta de faena."
+  surface_salinity:
+    label_es: "Salinidad superficial"
+    current_assembler_variables: [salinidad]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Curva por especie pendiente de calibración; no se reutilizan automáticamente los rangos históricos."
+  surface_transport:
+    label_es: "Transporte superficial"
+    current_assembler_variables: [surface_currents]
+    availability: implemented_but_derived_features_missing
+    formula_contract: "Debe usar vector, persistencia o convergencia; la rapidez sola no es un sustituto validado."
+  vertical_thermal_0_10m:
+    label_es: "Estructura térmica 0-10 m"
+    current_assembler_variables: [temperature_10m, delta_sst_t10]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Factor conjunto del par emparejado; no se duplica la contribución de sus dos salidas."
+  bathymetry:
+    label_es: "Profundidad y relieve"
+    current_assembler_variables: [batimetria]
+    availability: implemented_but_transform_unvalidated
+    formula_contract: "Curva por especie sobre depth_m/slope_deg; TID no se interpreta como tipo de sustrato."
+  surface_dissolved_oxygen:
+    label_es: "Oxígeno disuelto superficial"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  midwater_dissolved_oxygen:
+    label_es: "Oxígeno disuelto subsuperficial"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  bottom_temperature:
+    label_es: "Temperatura de fondo"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  bottom_dissolved_oxygen:
+    label_es: "Oxígeno disuelto de fondo"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  bottom_salinity:
+    label_es: "Salinidad de fondo"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  seabed_substrate:
+    label_es: "Tipo de sustrato del fondo"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  sea_level_anomaly:
+    label_es: "Anomalía/altura del nivel del mar"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  net_primary_productivity:
+    label_es: "Productividad primaria neta"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  temperature_50m:
+    label_es: "Temperatura a 50 m"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  subsurface_transport:
+    label_es: "Transporte/corriente subsuperficial"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+  prey_field:
+    label_es: "Disponibilidad o distribución de presas"
+    current_assembler_variables: []
+    availability: missing
+    formula_contract: pending
+
+evidence_registry:
+  anchoveta_ranges_imarpe:
+    type: primary_official
+    title: "Rangos preferenciales de temperatura y salinidad de la anchoveta peruana"
+    url: "https://repositorio.imarpe.gob.pe/items/d174722e-3a4c-41d9-949e-9242695dee37"
+  anchoveta_optimum_castillo_2022:
+    type: primary_peer_reviewed
+    title: "Characteristics of anchoveta schools in optimum and physiological stress zones"
+    doi: "10.1111/fog.12601"
+    url: "https://onlinelibrary.wiley.com/doi/10.1111/fog.12601"
+  jurel_dioses_2013:
+    type: primary_peer_reviewed
+    title: "Patrones de distribución y abundancia del jurel Trachurus murphyi en el Perú"
+    url: "https://www.scielo.org.pe/scielo.php?pid=S1727-99332013000100010&script=sci_arttext"
+  caballa_torrejon_2021:
+    type: primary_peer_reviewed
+    title: "Modeling the Pacific chub mackerel ecological niche in the northern Peruvian Current System"
+    doi: "10.1016/j.pocean.2021.102672"
+    url: "https://doi.org/10.1016/j.pocean.2021.102672"
+  bonito_imarpe_2025:
+    type: primary_official
+    title: "Informe sobre bonito Sarda chiliensis chiliensis"
+    url: "https://www.gob.pe/institucion/imarpe/informes-publicaciones/7266743-informe-correspondiente-al-oficio-n-1712-2025-imarpe-pe"
+  bonito_chauchilla_alias_imarpe:
+    type: primary_official
+    title: "Desembarques demersales y costeros de pesca artesanal: Bonito, chauchilla bajo Sarda chiliensis chiliensis"
+    url: "https://repositorio.imarpe.gob.pe/bitstreams/3435fdd5-f34a-4be4-a865-4dc1e5c0e446/download"
+  pota_yu_2019:
+    type: primary_peer_reviewed
+    title: "Seasonal habitat patterns of jumbo flying squid Dosidicus gigas off Peruvian waters"
+    doi: "10.1016/j.jmarsys.2019.02.011"
+    url: "https://doi.org/10.1016/j.jmarsys.2019.02.011"
+  pota_imarpe_2018:
+    type: primary_official
+    title: "Distribución y concentración de Dosidicus gigas en el mar peruano"
+    url: "https://revistas.imarpe.gob.pe/index.php/boletin/article/view/40"
+  merluza_oceanografia_imarpe:
+    type: primary_official
+    title: "Importancia de características oceanográficas sobre la estructura poblacional de merluza"
+    url: "https://repositorio.imarpe.gob.pe/items/349fb341-cee6-405f-bd11-b71c19d0b951"
+  merluza_sur_imarpe:
+    type: primary_official
+    title: "Distribución de merluza frente al litoral sur durante El Niño 2015-2017"
+    url: "https://repositorio.imarpe.gob.pe/items/77d83ba2-c658-4b79-b3a6-a3b9308ef922"
+  lorna_atoche_2024:
+    type: primary_peer_reviewed
+    title: "Alimentación de Sciaena deliciosa: análisis estacional en el norte-centro de Perú"
+    url: "https://www.scielo.cl/scielo.php?pid=S0718-19572024000300216&script=sci_arttext"
+  cabinza_imarpe:
+    type: primary_official
+    title: "Biología, pesquería y estado poblacional de la cabinza en el litoral peruano"
+    url: "https://repositorio.imarpe.gob.pe/items/b28f2c0d-ca40-4c3c-b5f1-ef7bb537e16a"
+  pejerrey_carquín:
+    type: primary_thesis
+    title: "Impacto de la calidad de aguas y su efecto en el pejerrey de bahía de Carquín"
+    url: "https://repositorio.unjfsc.edu.pe/handle/20.500.14067/4809"
+
+ui_order:
+  - anchoveta
+  - jurel
+  - caballa
+  - bonito
+  - pota
+  - merluza
+  - lorna
+  - cabinza
+  - chauchilla
+  - pejerrey
+
+aliases:
+  chauchilla:
+    ui_label: CHAUCHILLA
+    canonical_id: bonito
+    scientific_name: "Sarda chiliensis chiliensis"
+    independent_weights: false
+    inheritance: exact
+    evidence: [bonito_chauchilla_alias_imarpe]
+
+species_models:
+  anchoveta:
+    ui_label: ANCHOVETA
+    scientific_name: "Engraulis ringens"
+    operational_enabled: false
+    research_status: target_matrix_complete_transforms_and_field_validation_pending
+    domain_0_10km: plausible_requires_local_validation
+    blocking_gaps: [surface_dissolved_oxygen]
+    evidence: [anchoveta_ranges_imarpe, anchoveta_optimum_castillo_2022]
+    weights_bp:
+      surface_temperature: 2200
+      surface_salinity: 2300
+      chlorophyll_a: 1800
+      surface_dissolved_oxygen: 1200
+      vertical_thermal_0_10m: 800
+      thermal_front: 700
+      surface_transport: 500
+      bathymetry: 500
+  jurel:
+    ui_label: JUREL
+    scientific_name: "Trachurus murphyi"
+    operational_enabled: false
+    research_status: blocked_by_domain_and_missing_midwater_predictors
+    domain_0_10km: generally_mismatched_with_offshore_front_evidence
+    blocking_gaps: [midwater_dissolved_oxygen, temperature_50m, sea_level_anomaly]
+    evidence: [jurel_dioses_2013]
+    weights_bp:
+      surface_temperature: 1800
+      surface_salinity: 1500
+      thermal_front: 2200
+      midwater_dissolved_oxygen: 1500
+      temperature_50m: 1200
+      sea_level_anomaly: 1000
+      surface_transport: 800
+  caballa:
+    ui_label: CABALLA
+    scientific_name: "Scomber japonicus"
+    operational_enabled: false
+    research_status: blocked_by_missing_predictors_and_local_scale_validation
+    domain_0_10km: conditional_transzonal
+    blocking_gaps: [net_primary_productivity, sea_level_anomaly]
+    evidence: [caballa_torrejon_2021]
+    weights_bp:
+      surface_temperature: 2200
+      net_primary_productivity: 2200
+      sea_level_anomaly: 2000
+      surface_salinity: 1000
+      thermal_front: 700
+      chlorophyll_a: 500
+      surface_transport: 500
+      vertical_thermal_0_10m: 500
+      bathymetry: 400
+  bonito:
+    ui_label: BONITO
+    scientific_name: "Sarda chiliensis chiliensis"
+    operational_enabled: false
+    research_status: blocked_by_missing_prey_field_and_insufficient_local_model
+    domain_0_10km: conditional_transzonal
+    blocking_gaps: [prey_field, sea_level_anomaly]
+    evidence: [bonito_imarpe_2025, bonito_chauchilla_alias_imarpe]
+    weights_bp:
+      surface_temperature: 2200
+      prey_field: 2200
+      thermal_front: 1500
+      surface_transport: 1000
+      surface_salinity: 800
+      chlorophyll_a: 700
+      vertical_thermal_0_10m: 600
+      bathymetry: 500
+      sea_level_anomaly: 500
+  pota:
+    ui_label: POTA
+    scientific_name: "Dosidicus gigas"
+    operational_enabled: false
+    research_status: blocked_by_offshore_domain_and_missing_predictors
+    domain_0_10km: generally_mismatched_with_fishery_scale
+    blocking_gaps: [net_primary_productivity, sea_level_anomaly, temperature_50m, midwater_dissolved_oxygen, prey_field]
+    evidence: [pota_yu_2019, pota_imarpe_2018]
+    weights_bp:
+      surface_temperature: 1700
+      net_primary_productivity: 1800
+      sea_level_anomaly: 1800
+      temperature_50m: 1600
+      midwater_dissolved_oxygen: 1600
+      thermal_front: 700
+      surface_transport: 500
+      prey_field: 300
+  merluza:
+    ui_label: MERLUZA
+    scientific_name: "Merluccius gayi peruanus"
+    operational_enabled: false
+    research_status: blocked_by_benthic_predictors_and_normal_latitudinal_domain
+    domain_0_10km: generally_outside_normal_distribution_near_pucusana
+    blocking_gaps: [bottom_temperature, bottom_dissolved_oxygen, bottom_salinity, seabed_substrate, subsurface_transport]
+    evidence: [merluza_oceanografia_imarpe, merluza_sur_imarpe]
+    weights_bp:
+      bottom_temperature: 2500
+      bottom_dissolved_oxygen: 3000
+      bathymetry: 2000
+      bottom_salinity: 1000
+      seabed_substrate: 800
+      subsurface_transport: 700
+  lorna:
+    ui_label: LORNA
+    scientific_name: "Sciaena deliciosa"
+    operational_enabled: false
+    research_status: blocked_by_benthic_predictors_and_local_calibration
+    domain_0_10km: plausible_coastal
+    blocking_gaps: [seabed_substrate, bottom_dissolved_oxygen, bottom_temperature, prey_field]
+    evidence: [lorna_atoche_2024]
+    weights_bp:
+      bathymetry: 2500
+      seabed_substrate: 2200
+      bottom_dissolved_oxygen: 1400
+      bottom_temperature: 1200
+      prey_field: 800
+      surface_temperature: 700
+      surface_salinity: 700
+      surface_transport: 500
+  cabinza:
+    ui_label: CABINZA
+    scientific_name: "Isacia conceptionis"
+    operational_enabled: false
+    research_status: blocked_by_substrate_and_benthic_predictors
+    domain_0_10km: plausible_coastal
+    blocking_gaps: [seabed_substrate, bottom_dissolved_oxygen, bottom_temperature, prey_field]
+    evidence: [cabinza_imarpe]
+    weights_bp:
+      bathymetry: 2300
+      seabed_substrate: 3000
+      bottom_dissolved_oxygen: 1000
+      bottom_temperature: 900
+      prey_field: 900
+      surface_temperature: 700
+      surface_salinity: 700
+      surface_transport: 500
+  pejerrey:
+    ui_label: PEJERREY
+    scientific_name: "Odontesthes regia"
+    operational_enabled: false
+    research_status: blocked_by_oxygen_prey_and_local_calibration
+    domain_0_10km: plausible_coastal
+    blocking_gaps: [surface_dissolved_oxygen, prey_field]
+    evidence: [pejerrey_carquín]
+    weights_bp:
+      surface_temperature: 2200
+      surface_dissolved_oxygen: 2200
+      surface_salinity: 1200
+      prey_field: 1200
+      chlorophyll_a: 1000
+      bathymetry: 900
+      surface_transport: 700
+      thermal_front: 600

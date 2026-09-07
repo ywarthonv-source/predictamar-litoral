@@ -59,12 +59,43 @@ bounding_box:
 # ESPECIES OBJETIVO
 # ---------------------------------------------------------------------
 species:
-  estado: "pendiente_de_confirmacion"
-  lista: null
+  estado: "confirmada_por_la_responsable_del_proyecto_2026-09-07"
+  lista_interfaz:
+    - ANCHOVETA
+    - JUREL
+    - CABALLA
+    - BONITO
+    - POTA
+    - MERLUZA
+    - LORNA
+    - CABINZA
+    - CHAUCHILLA
+    - PEJERREY
+  taxa_canonicos:
+    anchoveta: "Engraulis ringens"
+    jurel: "Trachurus murphyi"
+    caballa: "Scomber japonicus"
+    bonito: "Sarda chiliensis chiliensis"
+    pota: "Dosidicus gigas"
+    merluza: "Merluccius gayi peruanus"
+    lorna: "Sciaena deliciosa"
+    cabinza: "Isacia conceptionis"
+    pejerrey: "Odontesthes regia"
+  aliases:
+    CHAUCHILLA:
+      canonical_id: bonito
+      scientific_name: "Sarda chiliensis chiliensis"
+      regla: >
+        Se conserva como etiqueta de interfaz por continuidad con el modelo
+        histórico, pero no constituye una décima especie ni recibe pesos
+        independientes. Fuentes oficiales de IMARPE registran "Bonito,
+        chauchilla" bajo el mismo taxón.
   nota: >
-    No existe en este repositorio una lista de especies autorizada para el
-    alcance litoral. No se reutiliza la del proyecto anterior ni se registra
-    ninguna especie hasta que la lista sea confirmada explícitamente.
+    La lista conserva las diez etiquetas del modelo histórico confirmadas para
+    revisión. Corresponde a nueve taxa canónicos porque CHAUCHILLA es alias de
+    BONITO. La confirmación de la lista NO activa un índice: aplicabilidad,
+    pesos, faltantes y evidencia se gobiernan por
+    config/species_weighting_v1.yaml.
 
 # ---------------------------------------------------------------------
 # TRAZABILIDAD
