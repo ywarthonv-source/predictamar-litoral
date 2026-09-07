@@ -116,13 +116,19 @@ def test_1_detecta_diferenciacion_solo_en_variables_puntuales_admisibles():
     )
     by_id = {item["variable_id"]: item for item in report["variables"]}
 
-    assert by_id["sst"]["classification"] == "observed_point_differentiation"
-    assert by_id["batimetria"]["classification"] == "observed_point_differentiation"
-    assert by_id["clorofila"]["classification"] == "no_observed_point_differentiation"
+    assert by_id["sst"]["classification"] == "observed_numeric_variation"
+    assert by_id["batimetria"]["classification"] == "observed_numeric_variation"
+    assert by_id["clorofila"]["classification"] == "no_observed_numeric_variation"
     assert by_id["oleaje"]["classification"] == "safety_gate_not_ranking"
-    assert by_id["sst_observed_ostia"]["classification"] == "regional_context_not_point_discriminator"
-    assert by_id["thermal_front"]["eligible_to_rank_points"] is False
-    assert report["ranking_variables_with_observed_differentiation"] == ["sst", "batimetria"]
+    assert (
+        by_id["sst_observed_ostia"]["classification"]
+        == "regional_context_not_point_discriminator"
+    )
+    assert by_id["thermal_front"]["observed_numeric_variation"] is True
+    assert by_id["thermal_front"]["eligible_for_spatial_backtest"] is False
+    assert by_id["oleaje"]["observed_numeric_variation"] is True
+    assert by_id["oleaje"]["eligible_for_spatial_backtest"] is False
+    assert report["variables_eligible_for_spatial_backtest"] == ["sst", "batimetria"]
 
 
 def test_2_cobertura_incompleta_no_se_declara_diferenciacion():
@@ -137,7 +143,7 @@ def test_2_cobertura_incompleta_no_se_declara_diferenciacion():
     )
     sst = next(item for item in report["variables"] if item["variable_id"] == "sst")
     assert sst["classification"] == "insufficient_coverage"
-    assert sst["eligible_to_rank_points"] is False
+    assert sst["eligible_for_spatial_backtest"] is False
 
 
 def test_3_rechaza_plantilla_no_aprobada(tmp_path: Path):
@@ -170,3 +176,63 @@ points:
     )
     with pytest.raises(ValueError, match="fuera del alcance"):
         load_candidate_points(path)
+
+
+def test_5_una_diferencia_solo_de_timestamp_no_es_variacion_espacial():
+    def timestamp_only(request):
+        snapshot = fake_assembler(request).to_dict()
+        sample = snapshot["variables"]["sst"]["payload"]["samples"][0]
+        sample["value_celsius"] = 18.0
+        sample["time_utc"] = (
+            "2026-09-07T06:00:00Z"
+            if request.lon > -76.85
+            else "2026-09-07T12:00:00Z"
+        )
+        return FakeSnapshot(snapshot)
+
+    report = diagnose_spatial_discrimination(
+        points(), date(2026, 9, 7), assembler=timestamp_only
+    )
+    sst = next(item for item in report["variables"] if item["variable_id"] == "sst")
+    assert sst["classification"] == "insufficient_temporal_alignment"
+    assert sst["common_timestamp_count"] == 0
+    assert sst["distinct_value_groups"] == 0
+    assert sst["observed_numeric_variation"] is False
+    assert sst["eligible_for_spatial_backtest"] is False
+
+
+def test_6_diferencia_menor_que_tolerancia_no_habilita_backtest():
+    def numerical_noise(request):
+        snapshot = fake_assembler(request).to_dict()
+        sample = snapshot["variables"]["sst"]["payload"]["samples"][0]
+        sample["value_celsius"] = 18.0 if request.lon > -76.85 else 18.005
+        return FakeSnapshot(snapshot)
+
+    report = diagnose_spatial_discrimination(
+        points(), date(2026, 9, 7), assembler=numerical_noise
+    )
+    sst = next(item for item in report["variables"] if item["variable_id"] == "sst")
+    assert sst["classification"] == "no_observed_numeric_variation"
+    assert sst["comparison_abs_tolerance"] == pytest.approx(0.01)
+    assert sst["max_pairwise_abs_difference"] == pytest.approx(0.005)
+    assert sst["distinct_value_groups"] == 1
+    assert sst["eligible_for_spatial_backtest"] is False
+
+
+def test_7_diferencia_superior_a_tolerancia_admite_solo_backtest():
+    def actual_difference(request):
+        snapshot = fake_assembler(request).to_dict()
+        sample = snapshot["variables"]["sst"]["payload"]["samples"][0]
+        sample["value_celsius"] = 18.0 if request.lon > -76.85 else 18.02
+        return FakeSnapshot(snapshot)
+
+    report = diagnose_spatial_discrimination(
+        points(), date(2026, 9, 7), assembler=actual_difference
+    )
+    sst = next(item for item in report["variables"] if item["variable_id"] == "sst")
+    assert sst["classification"] == "observed_numeric_variation"
+    assert sst["common_timestamp_count"] == 1
+    assert sst["distinct_value_groups"] == 2
+    assert sst["observed_numeric_variation"] is True
+    assert sst["eligible_for_spatial_backtest"] is True
+    assert "ranking" not in report

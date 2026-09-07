@@ -1,7 +1,7 @@
 # Auditoría y rediseño de ponderación por especie — v1
 
-Fecha de corte: 2026-09-07  
-Rama: `feat/species-weighting-v1`  
+Fecha de corte: 2026-09-07
+Rama: `feat/species-weighting-v1`
 Estado: matriz objetivo de investigación; **no validada predictivamente y no operativa**
 
 ## Decisión
@@ -15,6 +15,24 @@ modelo vigente. La copia inmutable para auditoría está en
 La salida futura se denomina **Índice experimental de compatibilidad
 ambiental**. No es probabilidad de encontrar o capturar pescado, no incluye
 semaforización y no puede ordenar puntos con datos incompletos.
+
+## Correcciones de la segunda auditoría
+
+La revisión adversarial posterior no cambió las especies ni sus pesos
+provisionales. Cerró cuatro huecos de contrato antes de cualquier fusión:
+
+1. El validador fija el estado de investigación, `catch_prediction: false`,
+   las prohibiciones de faltantes y el peso cero del oleaje.
+2. Ningún `factor_score` escalar o autodeclarado es admisible. Cada entrada
+   necesita transformación, versión, calibración y versión de fuente que
+   coincidan con un registro aprobado. El registro real permanece vacío y
+   pendiente, por lo que todavía no puede existir un índice completo.
+3. El bundle diario incluye todos sus metadatos críticos en la huella y
+   recalcula rango, conteos, bloqueo de scoring, fecha y coordenadas internas.
+   La interfaz podrá exigir fecha esperada y edad máxima de generación.
+4. El diagnóstico espacial alinea timestamps comunes y compara solo valores
+   numéricos con tolerancias explícitas. Su salida admite variables únicamente
+   a backtesting; nunca declara que puedan ordenar puntos.
 
 ## Por qué la aplicación histórica no rotaba los datos
 
@@ -133,7 +151,7 @@ captura o CPUE y validación espacio-temporal fuera de muestra.
 ## Fórmula y tratamiento de faltantes
 
 Para una especie `s` y factores ya transformados a `[0,1]` mediante curvas
-versionadas y calibradas:
+versionadas, calibradas y registradas:
 
 ```text
 I_s = Σ_f (weight_bp[s,f] / 10000) × factor_score[s,f]
@@ -141,6 +159,11 @@ I_s = Σ_f (weight_bp[s,f] / 10000) × factor_score[s,f]
 
 Reglas obligatorias:
 
+- Cada entrada contiene `value`, `transform_id`, `transform_version`,
+  `calibration_id` y `source_data_version`; los cuatro metadatos deben coincidir
+  con `transform_registry.approved_transforms`.
+- Mientras `transform_registry.status` sea `pending_species_calibration`, se
+  rechaza cualquier valor no nulo y no puede emitirse un índice completo.
 - El motor no divide por la suma observada ni modifica pesos en ejecución.
 - Si falta un factor con peso positivo, `index_value = null` y el estado es
   `insufficient_data`.
@@ -169,9 +192,11 @@ Antes de consultar datos reales, la resolución declarada ya anticipa el límite
 | Oleaje | ~8,9 km | Solo seguridad regional; no ranking |
 
 Por ello, “el producto entrega datos” no basta. El diagnóstico real debe
-reportar por variable cuántas celdas y valores distintos aparecen en los
-puntos operativos aprobados. Si una variable no distingue puntos, podrá
-describir el día, pero no ordenar zonas dentro de 0–10 km.
+reportar por variable cuántas celdas y grupos numéricos aparecen en los puntos
+operativos aprobados, sobre timestamps comunes y por encima de una tolerancia
+declarada. Si una variable no muestra variación comparable, podrá describir el
+día, pero no avanzará al backtesting espacial. Incluso si muestra variación,
+este diagnóstico no la autoriza a ordenar zonas dentro de 0–10 km.
 
 ## Fuentes primarias usadas para estructurar la hipótesis
 

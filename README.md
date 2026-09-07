@@ -107,11 +107,12 @@ no estima esos valores numéricos: siguen siendo un prior explícito que debe
 calibrarse con capturas o CPUE independientes.
 
 `scoring/species_index.py` combina únicamente factores ya transformados a
-`[0,1]`. No transforma datos crudos, no imputa, no redistribuye pesos, no crea
-semaforización y rechaza el uso operativo. Cuando falta un factor, devuelve
-`index_value: null`, cobertura e intervalo diagnóstico; no produce un ranking
-parcial. El índice completo de investigación tampoco es probabilidad de
-captura.
+`[0,1]`. Cada entrada debe declarar `transform_id`, versión, calibración y
+versión de los datos fuente, y todo debe coincidir con el registro aprobado del
+YAML. Ese registro está deliberadamente vacío y en estado pendiente: con la
+configuración real v1 ningún valor arbitrario puede producir un índice
+completo. El módulo no transforma datos crudos, no imputa, no redistribuye
+pesos, no crea semaforización y rechaza el uso operativo.
 
 ## Diagnóstico espacial y backend diario
 
@@ -127,11 +128,14 @@ python -m diagnostics.diagnose_spatial_discrimination \
   --json
 ```
 
-El reporte cuenta, por cada variable, celdas y valores distintos. OSTIA y su
-gradiente quedan clasificados como contexto regional; oleaje, como compuerta
-de seguridad. Solo una variable puntual con cobertura total y al menos dos
-firmas de valor puede superar esta comprobación técnica. Eso no demuestra
-validez pesquera.
+El reporte alinea las series por timestamps comunes y compara únicamente sus
+valores numéricos con tolerancias explícitas por variable. Informa celdas,
+grupos de valores, diferencia máxima y soporte temporal. Una diferencia de hora
+sin diferencia numérica nunca se presenta como variación espacial. OSTIA y su
+gradiente quedan como contexto regional; oleaje, como compuerta de seguridad.
+Una variable puntual solo puede pasar a **backtesting espacial** con cobertura
+total, soporte temporal comparable y variación superior a la tolerancia. El
+diagnóstico nunca habilita ranking ni demuestra validez pesquera.
 
 El backend diario usa los mismos puntos aprobados y el mismo ensamblador:
 
@@ -143,11 +147,13 @@ python -m backend.daily_environmental_bundle \
 ```
 
 Cada bundle incluye `schema_version`, `run_id`, `generated_at_utc`, fecha
-objetivo y `content_sha256`. Se escribe como archivo nuevo de forma atómica y
-no se sobrescribe una corrida. `validate_daily_bundle()` es el contrato que la
-futura aplicación deberá aplicar para rechazar esquema, fecha, ids o contenido
-inconsistentes. El bloque `scoring` permanece explícitamente en
-`not_generated`.
+objetivo y `content_sha256`. La huella cubre también el contrato operativo, los
+conteos, el bloqueo de scoring, los puntos y los snapshots. El validador
+recalcula conteos y comprueba fecha/coordenadas internas, rango 0–10 km y
+metadatos exactos. La futura aplicación deberá pasar además la fecha esperada y
+`max_generation_age` para rechazar una corrida vencida. El archivo se escribe
+de forma atómica, nunca se sobrescribe y el bloque `scoring` permanece
+exactamente en `not_generated`.
 
 ## Fuentes y credenciales
 

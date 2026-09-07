@@ -34,6 +34,12 @@ index_contract:
   factor_scores:
     required_range: [0.0, 1.0]
     raw_to_score_transform_status: pending_species_calibration
+    complete_index_requires_registry_status: validated_versioned
+    required_provenance_fields:
+      - transform_id
+      - transform_version
+      - calibration_id
+      - source_data_version
     note: >
       Los rangos observados en literatura no se convierten automáticamente en
       curvas de favorabilidad. Un factor_score solo será admisible cuando su
@@ -61,6 +67,13 @@ index_contract:
       weight_bp: 0
       role: safety_gate_only
       rule: "Nunca participa del índice pesquero ni autoriza navegación."
+
+# Registro vacío de forma deliberada. Un factor_score solo puede entrar al
+# combinador cuando exista aquí una transformación validada y su procedencia
+# coincida exactamente con la declarada por el valor de entrada.
+transform_registry:
+  status: pending_species_calibration
+  approved_transforms: {}
 
 factor_registry:
   surface_temperature:

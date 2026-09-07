@@ -2,8 +2,10 @@
 
 El programa no crea puntos de faena. Exige un YAML aprobado que declare la
 distancia mar adentro desde el litoral y consulta el ensamblador en cada punto.
-La salida conserva solo conteos y huellas, nunca matrices oceanográficas
-crudas ni un score pesquero.
+La salida conserva solo conteos, tolerancias y diferencias máximas, nunca
+matrices oceanográficas crudas ni un score pesquero. Las series se comparan
+solo sobre timestamps comunes; una diferencia horaria no es una diferencia
+espacial.
 
 Ejemplo:
 
@@ -19,6 +21,7 @@ from datetime import date
 from hashlib import sha256
 import json
 from math import isfinite
+from numbers import Real
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
@@ -37,7 +40,25 @@ MIN_DISTANCE_KM = 0.0
 MAX_DISTANCE_KM = 10.0
 
 REGIONAL_CONTEXT_VARIABLES = {"sst_observed_ostia", "thermal_front"}
-NON_RANKING_VARIABLES = REGIONAL_CONTEXT_VARIABLES | {"oleaje"}
+TEMPORAL_VALUE_KEYS = {
+    "sst": "value_celsius",
+    "salinidad": "value_salinity",
+    "temperature_10m": "temperature_10m_celsius",
+    "delta_sst_t10": "delta_sst_t10_celsius",
+}
+COMPARISON_ABS_TOLERANCE = {
+    "sst": 0.01,
+    "oleaje": 0.01,
+    "clorofila": 0.001,
+    "salinidad": 0.001,
+    "sst_observed_ostia": 0.01,
+    "thermal_front": 0.001,
+    "temperature_10m": 0.01,
+    "delta_sst_t10": 0.01,
+    "surface_currents": 0.001,
+    "batimetria": 0.01,
+}
+_INVALID = object()
 
 
 @dataclass(frozen=True)
@@ -55,10 +76,16 @@ class VariableDiscrimination:
     spatial_scope: str
     available_points: int
     total_points: int
-    distinct_value_signatures: int
+    comparable_points: int
+    distinct_value_groups: int
     distinct_source_cell_signatures: int
+    temporal_alignment_status: str
+    common_timestamp_count: int | None
+    comparison_abs_tolerance: float
+    max_pairwise_abs_difference: float | None
     classification: str
-    eligible_to_rank_points: bool
+    observed_numeric_variation: bool
+    eligible_for_spatial_backtest: bool
 
 
 def load_candidate_points(path: str | Path) -> tuple[CandidatePoint, ...]:
@@ -128,46 +155,109 @@ def _stable_signature(value: Any) -> str:
     return sha256(encoded).hexdigest()[:16]
 
 
-def _sample_values(payload: Mapping[str, Any], key: str) -> list[tuple[Any, Any]]:
-    return [
-        (sample.get("time_utc"), sample.get(key))
-        for sample in payload.get("samples", ())
-        if isinstance(sample, Mapping) and sample.get(key) is not None
-    ]
+def _numeric_projection(value: Any) -> Any:
+    if isinstance(value, Real) and not isinstance(value, bool):
+        numeric = float(value)
+        return numeric if isfinite(numeric) else _INVALID
+    if isinstance(value, (list, tuple)):
+        converted = tuple(_numeric_projection(item) for item in value)
+        return _INVALID if any(item is _INVALID for item in converted) else converted
+    return _INVALID
 
 
-def _measurement_values(payload: Mapping[str, Any]) -> list[tuple[Any, ...]]:
-    return [
-        (
-            measurement.get("time_utc"),
-            measurement.get("uo_m_s"),
-            measurement.get("vo_m_s"),
-            measurement.get("speed_m_s"),
-            measurement.get("direction_toward_deg"),
+def _sample_series(payload: Mapping[str, Any], key: str) -> dict[str, Any]:
+    series: dict[str, Any] = {}
+    for sample in payload.get("samples", ()):
+        if not isinstance(sample, Mapping):
+            continue
+        timestamp = sample.get("time_utc")
+        value = _numeric_projection(sample.get(key))
+        if isinstance(timestamp, str) and timestamp and value is not _INVALID:
+            series[timestamp] = value
+    return series
+
+
+def _measurement_series(payload: Mapping[str, Any]) -> dict[str, Any]:
+    series: dict[str, Any] = {}
+    for measurement in payload.get("measurements", ()):
+        if not isinstance(measurement, Mapping):
+            continue
+        timestamp = measurement.get("time_utc")
+        value = _numeric_projection(
+            (measurement.get("uo_m_s"), measurement.get("vo_m_s"))
         )
-        for measurement in payload.get("measurements", ())
-        if isinstance(measurement, Mapping)
-    ]
+        if isinstance(timestamp, str) and timestamp and value is not _INVALID:
+            series[timestamp] = value
+    return series
 
 
-def _value_projection(variable_id: str, payload: Mapping[str, Any]) -> Any:
-    projections: dict[str, Callable[[Mapping[str, Any]], Any]] = {
-        "sst": lambda item: _sample_values(item, "value_celsius"),
+def _temporal_projection(
+    variable_id: str, payload: Mapping[str, Any]
+) -> dict[str, Any] | None:
+    if variable_id in TEMPORAL_VALUE_KEYS:
+        return _sample_series(payload, TEMPORAL_VALUE_KEYS[variable_id])
+    if variable_id == "surface_currents":
+        return _measurement_series(payload)
+    return None
+
+
+def _static_projection(variable_id: str, payload: Mapping[str, Any]) -> Any:
+    raw_projections: dict[str, Callable[[Mapping[str, Any]], Any]] = {
         "oleaje": lambda item: item.get("significant_wave_height_m"),
         "clorofila": lambda item: item.get("value_mg_m3"),
-        "salinidad": lambda item: _sample_values(item, "value_salinity"),
         "sst_observed_ostia": lambda item: item.get("sst_celsius"),
         "thermal_front": lambda item: item.get("gradient_c_per_km"),
-        "temperature_10m": lambda item: _sample_values(
-            item, "temperature_10m_celsius"
-        ),
-        "delta_sst_t10": lambda item: _sample_values(
-            item, "delta_sst_t10_celsius"
-        ),
-        "surface_currents": _measurement_values,
         "batimetria": lambda item: (item.get("depth_m"), item.get("slope_deg")),
     }
-    return projections[variable_id](payload)
+    if variable_id not in raw_projections:
+        return _INVALID
+    return _numeric_projection(raw_projections[variable_id](payload))
+
+
+def _projections_close(left: Any, right: Any, tolerance: float) -> bool:
+    if isinstance(left, float) and isinstance(right, float):
+        return abs(left - right) <= tolerance
+    if isinstance(left, tuple) and isinstance(right, tuple):
+        return len(left) == len(right) and all(
+            _projections_close(a, b, tolerance) for a, b in zip(left, right)
+        )
+    return False
+
+
+def _projection_abs_difference(left: Any, right: Any) -> float | None:
+    if isinstance(left, float) and isinstance(right, float):
+        return abs(left - right)
+    if isinstance(left, tuple) and isinstance(right, tuple) and len(left) == len(right):
+        differences = [
+            _projection_abs_difference(a, b) for a, b in zip(left, right)
+        ]
+        if any(value is None for value in differences):
+            return None
+        return max((value for value in differences if value is not None), default=0.0)
+    return None
+
+
+def _distinct_groups(projections: Sequence[Any], tolerance: float) -> int:
+    representatives: list[Any] = []
+    for projection in projections:
+        if not any(
+            _projections_close(projection, representative, tolerance)
+            for representative in representatives
+        ):
+            representatives.append(projection)
+    return len(representatives)
+
+
+def _max_pairwise_difference(projections: Sequence[Any]) -> float | None:
+    if len(projections) < 2:
+        return None
+    differences = [
+        _projection_abs_difference(projections[left], projections[right])
+        for left in range(len(projections))
+        for right in range(left + 1, len(projections))
+    ]
+    finite_differences = [value for value in differences if value is not None]
+    return max(finite_differences) if finite_differences else None
 
 
 def _cell_projection(variable_id: str, payload: Mapping[str, Any]) -> Any:
@@ -188,7 +278,9 @@ def _classify(
     variable_id: str,
     available_points: int,
     total_points: int,
+    comparable_points: int,
     distinct_values: int,
+    temporal_alignment_status: str,
 ) -> tuple[str, bool]:
     if variable_id == "oleaje":
         return "safety_gate_not_ranking", False
@@ -196,9 +288,13 @@ def _classify(
         return "regional_context_not_point_discriminator", False
     if available_points < total_points:
         return "insufficient_coverage", False
+    if temporal_alignment_status == "no_common_timestamps":
+        return "insufficient_temporal_alignment", False
+    if comparable_points < total_points:
+        return "insufficient_comparable_values", False
     if distinct_values >= 2:
-        return "observed_point_differentiation", True
-    return "no_observed_point_differentiation", False
+        return "observed_numeric_variation", True
+    return "no_observed_numeric_variation", False
 
 
 def diagnose_spatial_discrimination(
@@ -226,7 +322,8 @@ def diagnose_spatial_discrimination(
 
     results: list[VariableDiscrimination] = []
     for variable_id in VARIABLE_ORDER:
-        values: set[str] = set()
+        static_projections: list[Any] = []
+        temporal_series: list[dict[str, Any]] = []
         cells: set[str] = set()
         available = 0
         spatial_scope = "unknown"
@@ -241,10 +338,48 @@ def diagnose_spatial_discrimination(
             if not isinstance(payload, Mapping):
                 continue
             available += 1
-            values.add(_stable_signature(_value_projection(variable_id, payload)))
+            temporal = _temporal_projection(variable_id, payload)
+            if temporal is not None:
+                if temporal:
+                    temporal_series.append(temporal)
+            else:
+                projection = _static_projection(variable_id, payload)
+                if projection is not _INVALID:
+                    static_projections.append(projection)
             cells.add(_stable_signature(_cell_projection(variable_id, payload)))
+
+        common_timestamp_count: int | None = None
+        temporal_alignment_status = "not_applicable"
+        projections = static_projections
+        if variable_id in TEMPORAL_VALUE_KEYS or variable_id == "surface_currents":
+            common_timestamps: set[str] = set()
+            if temporal_series and len(temporal_series) == available:
+                common_timestamps = set(temporal_series[0])
+                for series in temporal_series[1:]:
+                    common_timestamps &= set(series)
+            common_timestamp_count = len(common_timestamps)
+            if common_timestamps:
+                ordered_timestamps = sorted(common_timestamps)
+                projections = [
+                    tuple(series[timestamp] for timestamp in ordered_timestamps)
+                    for series in temporal_series
+                ]
+                temporal_alignment_status = "aligned_on_common_timestamps"
+            else:
+                projections = []
+                temporal_alignment_status = "no_common_timestamps"
+
+        tolerance = COMPARISON_ABS_TOLERANCE[variable_id]
+        distinct_values = _distinct_groups(projections, tolerance)
+        comparable_points = len(projections)
+        observed_variation = comparable_points >= 2 and distinct_values >= 2
         classification, eligible = _classify(
-            variable_id, available, len(points), len(values)
+            variable_id,
+            available,
+            len(points),
+            comparable_points,
+            distinct_values,
+            temporal_alignment_status,
         )
         results.append(
             VariableDiscrimination(
@@ -252,15 +387,21 @@ def diagnose_spatial_discrimination(
                 spatial_scope=spatial_scope,
                 available_points=available,
                 total_points=len(points),
-                distinct_value_signatures=len(values),
+                comparable_points=comparable_points,
+                distinct_value_groups=distinct_values,
                 distinct_source_cell_signatures=len(cells),
+                temporal_alignment_status=temporal_alignment_status,
+                common_timestamp_count=common_timestamp_count,
+                comparison_abs_tolerance=tolerance,
+                max_pairwise_abs_difference=_max_pairwise_difference(projections),
                 classification=classification,
-                eligible_to_rank_points=eligible,
+                observed_numeric_variation=observed_variation,
+                eligible_for_spatial_backtest=eligible,
             )
         )
 
     return {
-        "schema_version": "spatial_discrimination_report_v1",
+        "schema_version": "spatial_discrimination_report_v2",
         "target_date": target_date.isoformat(),
         "operational_range_km": [MIN_DISTANCE_KM, MAX_DISTANCE_KM],
         "distance_basis": DISTANCE_BASIS,
@@ -274,12 +415,15 @@ def diagnose_spatial_discrimination(
             for point, snapshot in snapshots
         ],
         "variables": [asdict(result) for result in results],
-        "ranking_variables_with_observed_differentiation": [
-            result.variable_id for result in results if result.eligible_to_rank_points
+        "variables_eligible_for_spatial_backtest": [
+            result.variable_id
+            for result in results
+            if result.eligible_for_spatial_backtest
         ],
         "interpretation": (
-            "Diagnóstico técnico de diferenciación; no valida captura, no calcula "
-            "favorabilidad y no autoriza navegación."
+            "Diagnóstico técnico con alineación temporal y tolerancias; solo admite "
+            "variables a backtesting espacial. No ordena puntos, no valida captura, "
+            "no calcula favorabilidad y no autoriza navegación."
         ),
     }
 
@@ -303,7 +447,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         for item in report["variables"]:
             print(
                 f"{item['variable_id']}: {item['classification']} | "
-                f"valores={item['distinct_value_signatures']} | "
+                f"grupos={item['distinct_value_groups']} | "
                 f"celdas={item['distinct_source_cell_signatures']}"
             )
         print(report["interpretation"])

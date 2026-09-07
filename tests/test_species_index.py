@@ -31,8 +31,50 @@ def config():
     return load_weighting_config()
 
 
-def complete_scores(model):
-    return {factor_id: 0.5 for factor_id in model["weights_bp"]}
+def validated_transform_config(config):
+    candidate = deepcopy(config)
+    candidate["index_contract"]["factor_scores"][
+        "raw_to_score_transform_status"
+    ] = "validated_versioned"
+    candidate["transform_registry"]["status"] = "validated_versioned"
+    transforms = candidate["transform_registry"]["approved_transforms"]
+    for species_id, model in candidate["species_models"].items():
+        for factor_id in model["weights_bp"]:
+            transform_id = f"{species_id}.{factor_id}.test_v1"
+            transforms[transform_id] = {
+                "species_id": species_id,
+                "factor_id": factor_id,
+                "status": "validated_for_research_combination",
+                "version": "test_v1",
+                "calibration_id": f"calibration-{species_id}-test-v1",
+                "source_data_version": "synthetic-test-data-v1",
+            }
+    validate_weighting_config(candidate)
+    return candidate
+
+
+@pytest.fixture(scope="module")
+def calibrated_config(config):
+    return validated_transform_config(config)
+
+
+def traceable_score(config, species_id, factor_id, value):
+    transform_id = f"{species_id}.{factor_id}.test_v1"
+    transform = config["transform_registry"]["approved_transforms"][transform_id]
+    return {
+        "value": value,
+        "transform_id": transform_id,
+        "transform_version": transform["version"],
+        "calibration_id": transform["calibration_id"],
+        "source_data_version": transform["source_data_version"],
+    }
+
+
+def complete_scores(config, species_id, value=0.5):
+    return {
+        factor_id: traceable_score(config, species_id, factor_id, value)
+        for factor_id in config["species_models"][species_id]["weights_bp"]
+    }
 
 
 def test_1_configuracion_real_es_valida_y_todas_las_filas_suman_10000(config):
@@ -44,13 +86,15 @@ def test_1_configuracion_real_es_valida_y_todas_las_filas_suman_10000(config):
         assert model["operational_enabled"] is False
 
 
-def test_2_chauchilla_es_alias_exacto_de_bonito(config):
+def test_2_chauchilla_es_alias_exacto_de_bonito(config, calibrated_config):
     requested, canonical = resolve_species_id("CHAUCHILLA", config)
     assert (requested, canonical) == ("chauchilla", "bonito")
     assert "weights_bp" not in config["aliases"]["chauchilla"]
 
     result = combine_factor_scores(
-        "chauchilla", complete_scores(config["species_models"]["bonito"]), config=config
+        "chauchilla",
+        complete_scores(calibrated_config, "bonito"),
+        config=calibrated_config,
     )
     assert result.canonical_species_id == "bonito"
     assert result.ui_label == "CHAUCHILLA"
@@ -72,11 +116,10 @@ def test_4_variables_del_ensamblador_referenciadas_existen(config):
         assert set(factor["current_assembler_variables"]) <= implemented
 
 
-def test_5_formula_completa_usa_pesos_fijos_sin_normalizacion(config):
-    model = config["species_models"]["anchoveta"]
-    scores = {factor_id: 1.0 for factor_id in model["weights_bp"]}
+def test_5_formula_completa_usa_pesos_fijos_sin_normalizacion(calibrated_config):
+    scores = complete_scores(calibrated_config, "anchoveta", value=1.0)
 
-    result = combine_factor_scores("ANCHOVETA", scores, config=config)
+    result = combine_factor_scores("ANCHOVETA", scores, config=calibrated_config)
 
     assert result.status is IndexStatus.COMPLETE_RESEARCH_INDEX
     assert result.index_value == pytest.approx(1.0)
@@ -87,10 +130,15 @@ def test_5_formula_completa_usa_pesos_fijos_sin_normalizacion(config):
     assert result.operational_enabled is False
 
 
-def test_6_un_factor_faltante_elimina_indice_y_no_redistribuye(config):
-    scores = {"surface_temperature": 1.0, "surface_salinity": 1.0}
+def test_6_un_factor_faltante_elimina_indice_y_no_redistribuye(calibrated_config):
+    scores = {
+        factor_id: traceable_score(
+            calibrated_config, "anchoveta", factor_id, 1.0
+        )
+        for factor_id in ("surface_temperature", "surface_salinity")
+    }
 
-    result = combine_factor_scores("anchoveta", scores, config=config)
+    result = combine_factor_scores("anchoveta", scores, config=calibrated_config)
 
     assert result.status is IndexStatus.INSUFFICIENT_DATA
     assert result.index_value is None
@@ -101,11 +149,10 @@ def test_6_un_factor_faltante_elimina_indice_y_no_redistribuye(config):
     assert any("no se imputan" in item for item in result.warnings)
 
 
-def test_7_ceros_explicitos_son_datos_y_no_faltantes(config):
-    model = config["species_models"]["pejerrey"]
-    scores = {factor_id: 0.0 for factor_id in model["weights_bp"]}
+def test_7_ceros_explicitos_son_datos_y_no_faltantes(calibrated_config):
+    scores = complete_scores(calibrated_config, "pejerrey", value=0.0)
 
-    result = combine_factor_scores("PEJERREY", scores, config=config)
+    result = combine_factor_scores("PEJERREY", scores, config=calibrated_config)
 
     assert result.status is IndexStatus.COMPLETE_RESEARCH_INDEX
     assert result.index_value == pytest.approx(0.0)
@@ -113,16 +160,30 @@ def test_7_ceros_explicitos_son_datos_y_no_faltantes(config):
 
 
 @pytest.mark.parametrize("value", [-0.01, 1.01, float("inf")])
-def test_8_rechaza_factor_fuera_de_rango(value, config):
+def test_8_rechaza_factor_fuera_de_rango(value, calibrated_config):
+    score = traceable_score(
+        calibrated_config, "anchoveta", "surface_temperature", value
+    )
     with pytest.raises(ValueError, match="entre 0 y 1"):
-        combine_factor_scores("anchoveta", {"surface_temperature": value}, config=config)
+        combine_factor_scores(
+            "anchoveta",
+            {"surface_temperature": score},
+            config=calibrated_config,
+        )
 
 
-def test_9_rechaza_nan(config):
+def test_9_rechaza_nan(calibrated_config):
     value = float("nan")
     assert isnan(value)
+    score = traceable_score(
+        calibrated_config, "anchoveta", "surface_temperature", value
+    )
     with pytest.raises(ValueError, match="entre 0 y 1"):
-        combine_factor_scores("anchoveta", {"surface_temperature": value}, config=config)
+        combine_factor_scores(
+            "anchoveta",
+            {"surface_temperature": score},
+            config=calibrated_config,
+        )
 
 
 def test_10_rechaza_factor_desconocido(config):
@@ -201,3 +262,92 @@ def test_19_merluza_historica_duplicaba_sus_pesos_por_normalizacion():
     merluza = legacy["rules"]["MERLUZA"]
     assert merluza["declared_weight_sum"] == pytest.approx(0.5)
     assert merluza["hidden_scale_factor"] == pytest.approx(2.0)
+
+
+@pytest.mark.parametrize(
+    ("path", "value", "match"),
+    [
+        (("status",), "operational", "status debe permanecer"),
+        (
+            ("index_contract", "catch_prediction"),
+            True,
+            "catch_prediction debe ser false",
+        ),
+        (
+            ("index_contract", "missing_data", "imputation"),
+            "median",
+            "imputation debe permanecer en forbidden",
+        ),
+        (
+            (
+                "index_contract",
+                "factor_scores",
+                "raw_to_score_transform_status",
+            ),
+            "validated",
+            "raw_to_score_transform_status",
+        ),
+        (
+            ("index_contract", "safety", "oleaje", "weight_bp"),
+            1000,
+            "oleaje.weight_bp",
+        ),
+    ],
+)
+def test_20_rechaza_mutaciones_que_activarían_un_contrato_prohibido(
+    config, path, value, match
+):
+    broken = deepcopy(config)
+    target = broken
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    with pytest.raises(SpeciesWeightingConfigError, match=match):
+        validate_weighting_config(broken)
+
+
+def test_21_configuracion_real_no_admite_scores_sin_transformacion_registrada(config):
+    with pytest.raises(TypeError, match="mapping trazable"):
+        combine_factor_scores(
+            "anchoveta", {"surface_temperature": 0.5}, config=config
+        )
+
+    self_declared = {
+        "value": 0.5,
+        "transform_id": "inventada",
+        "transform_version": "v1",
+        "calibration_id": "sin-calibracion",
+        "source_data_version": "sin-fuente",
+    }
+    with pytest.raises(SpeciesWeightingConfigError, match="siguen pendientes"):
+        combine_factor_scores(
+            "anchoveta", {"surface_temperature": self_declared}, config=config
+        )
+
+
+def test_22_contribucion_conserva_procedencia_y_rechaza_discrepancias(
+    calibrated_config,
+):
+    scores = complete_scores(calibrated_config, "anchoveta")
+    result = combine_factor_scores(
+        "anchoveta", scores, config=calibrated_config
+    )
+    contribution = result.contributions[0]
+    assert contribution.transform_id.startswith("anchoveta.")
+    assert contribution.transform_version == "test_v1"
+    assert contribution.calibration_id == "calibration-anchoveta-test-v1"
+    assert contribution.source_data_version == "synthetic-test-data-v1"
+
+    broken_scores = deepcopy(scores)
+    broken_scores["surface_temperature"]["transform_version"] = "otra-version"
+    with pytest.raises(ValueError, match="procedencia no coincide"):
+        combine_factor_scores(
+            "anchoveta", broken_scores, config=calibrated_config
+        )
+
+
+def test_23_registro_de_transformaciones_pendiente_debe_permanecer_vacio(config):
+    broken = deepcopy(config)
+    broken["transform_registry"]["approved_transforms"]["inventada"] = {}
+    with pytest.raises(SpeciesWeightingConfigError, match="registro esté pendiente"):
+        validate_weighting_config(broken)
