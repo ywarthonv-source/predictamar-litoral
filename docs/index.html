@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PredictaMAR · Pucusana</title>
+<meta name="theme-color" content="#06121b">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+/* =====================================================================
+   PredictaMAR — pantalla del pescador
+
+   Se usa entre las 4 y 7 de la manana o las 4 y 7 de la tarde, a oscuras,
+   para copiar coordenadas a un GPS. Eso manda sobre todo lo demas:
+   oscuro por defecto, la coordenada es lo mas grande, sin fuentes ni
+   imagenes externas porque en la caleta no hay senal.
+   ===================================================================== */
+:root{
+  --agua-honda:#06121b; --agua:#0d2333; --agua-clara:#16384d;
+  --espuma:#e8f1f5; --bruma:#8fa9b8;
+  --fosforo:#3fd9b0; --alarma:#ff9a52;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--agua-honda);color:var(--espuma);
+  font-family:"Segoe UI",Roboto,-apple-system,system-ui,sans-serif;
+  font-size:17px;line-height:1.5;max-width:36rem;margin-inline:auto;
+  padding:0 1.1rem 3rem;
+}
+h1,h2{line-height:1.22;margin:0}
+button{font-family:inherit}
+.oculto{display:none !important}
+
+/* acceso */
+#acceso{min-height:82vh;display:flex;flex-direction:column;justify-content:center}
+.logo{font-size:1.75rem;font-weight:700;margin-bottom:.25rem}
+.bajada{color:var(--bruma);font-size:.98rem;margin:0 0 2.2rem}
+label{display:block;font-size:.88rem;color:var(--bruma);margin:0 0 .35rem}
+input,select{
+  width:100%;background:var(--agua);color:var(--espuma);
+  border:1px solid var(--agua-clara);border-radius:.45rem;
+  padding:.78rem .8rem;font-size:1.02rem;font-family:inherit;margin-bottom:1rem;
+}
+input:focus,select:focus{outline:2px solid var(--fosforo);outline-offset:1px}
+.principal{
+  width:100%;background:var(--fosforo);color:var(--agua-honda);border:0;
+  border-radius:.45rem;padding:.85rem;font-size:1.05rem;font-weight:700;cursor:pointer;
+}
+.error{color:var(--alarma);font-size:.92rem;margin:.2rem 0 1rem;min-height:1.2rem}
+
+/* encabezado */
+header{padding:1.5rem 0 .4rem;display:flex;justify-content:space-between;align-items:baseline}
+.marca{font-size:1.02rem;font-weight:600}
+.caleta{color:var(--bruma);font-weight:400}
+.salir{background:none;border:0;color:var(--bruma);font-size:.85rem;cursor:pointer;padding:.3rem}
+.dato{
+  margin:.7rem 0 1.4rem;padding:.65rem .8rem;background:var(--agua);
+  border-radius:.5rem;border-left:3px solid var(--fosforo);font-size:.9rem;color:var(--bruma);
+}
+.dato strong{color:var(--espuma)}
+.dato.viejo{border-left-color:var(--alarma);background:#2a1a0f}
+.dato.viejo strong{color:var(--alarma)}
+
+/* controles */
+.panel{background:var(--agua);border:1px solid var(--agua-clara);
+       border-radius:.65rem;padding:1rem;margin-bottom:1.6rem}
+.panel h2{font-size:1rem;margin-bottom:.9rem}
+.par{display:flex;gap:.7rem}
+.par>div{flex:1}
+.nota{color:var(--bruma);font-size:.82rem;margin:-.6rem 0 1rem}
+
+/* zonas */
+.encabeza{margin:1.9rem 0 .3rem;font-size:1.3rem;font-weight:600}
+.aclara{margin:0 0 1.3rem;color:var(--bruma);font-size:.94rem}
+.zona{background:var(--agua);border:1px solid var(--agua-clara);
+      border-radius:.65rem;padding:1rem;margin-bottom:.8rem}
+.rotulo{display:flex;justify-content:space-between;align-items:baseline;
+        color:var(--bruma);font-size:.87rem;margin-bottom:.5rem}
+.letra{color:var(--fosforo);font-weight:700;font-size:1rem}
+.coord{
+  font-family:"Cascadia Mono",Consolas,"SF Mono",ui-monospace,monospace;
+  font-variant-numeric:tabular-nums;font-size:1.4rem;font-weight:600;
+  color:var(--espuma);line-height:1.34;margin:0;
+}
+.deriva{margin:.75rem 0 0;padding:.6rem .7rem;border-radius:.4rem;
+        background:#10293a;border-left:3px solid var(--fosforo);
+        font-size:.86rem;color:var(--bruma);line-height:1.45}
+.deriva strong{color:var(--espuma)}
+.deriva.dudosa{border-left-color:var(--alarma);background:#2a1a0f}
+.vars{width:100%;border-collapse:collapse;margin-top:.8rem;font-size:.87rem}
+.vars td{padding:.32rem 0;border-top:1px solid var(--agua-clara);color:var(--bruma)}
+.vars td:nth-child(2){text-align:right;color:var(--espuma);
+  font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;padding-right:.6rem}
+.vars td:nth-child(3){text-align:right;width:5.4rem;font-weight:600}
+.alta{color:var(--fosforo)} .media{color:var(--espuma)} .baja{color:var(--alarma)}
+.significa{display:block;font-size:.76rem;color:var(--bruma);margin-top:.05rem}
+.vars td:nth-child(3){width:6.8rem}
+.nivel{margin:.1rem 0 .55rem;font-size:.9rem;color:var(--espuma);font-weight:600}
+.nivel.top{color:var(--fosforo)}
+.nivel.bajo{color:var(--alarma)}
+.nivel.regular{color:var(--bruma)}
+.aviso-dia{margin:1.4rem 0 0;padding:.8rem .9rem;border-radius:.55rem;
+  background:#2a1a0f;border-left:3px solid var(--alarma);
+  font-size:.92rem;color:var(--bruma);line-height:1.45}
+.aviso-dia strong{color:var(--alarma)}
+.nivel{font-size:1rem}
+.copiar{margin-top:.8rem;width:100%;background:transparent;color:var(--fosforo);
+        border:1px solid var(--agua-clara);border-radius:.45rem;padding:.6rem;
+        font-size:.95rem;font-weight:600;cursor:pointer}
+.copiar.listo{color:var(--agua-honda);background:var(--fosforo);border-color:var(--fosforo)}
+.aviso{margin-top:1.4rem;padding:1rem;border-radius:.6rem;
+       background:var(--agua);border:1px solid var(--agua-clara)}
+.aviso h2{margin-bottom:.4rem;font-size:1.02rem}
+.aviso p{margin:0;color:var(--bruma);font-size:.93rem}
+</style>
+</head>
+<body>
+
+<section id="acceso">
+  <div class="logo">PredictaMAR</div>
+  <p class="bajada">Zonas con mejores condiciones para la pesca · Pucusana</p>
+  <label for="u">Usuario</label>
+  <input id="u" type="text" autocomplete="username" autocapitalize="none" spellcheck="false">
+  <label for="c">Contraseña</label>
+  <input id="c" type="password" autocomplete="current-password">
+  <p class="error" id="err"></p>
+  <button class="principal" id="entrar" type="button">Entrar</button>
+</section>
+
+<div id="app" class="oculto">
+  <header>
+    <span class="marca">PredictaMAR <span class="caleta">· <span id="quien"></span></span></span>
+    <button class="salir" id="salir" type="button">Salir</button>
+  </header>
+
+  <div id="dato" class="dato">Cargando…</div>
+
+  <section class="panel">
+    <h2>Desde dónde sales</h2>
+
+    <label for="partida">Punto de partida</label>
+    <select id="partida">
+      <option value="puerto">Puerto de Pucusana</option>
+      <option value="propio">Otras coordenadas</option>
+    </select>
+
+    <div class="par oculto" id="caja-coords">
+      <div><label for="plat">Latitud</label>
+           <input id="plat" type="text" placeholder="-12.47720"></div>
+      <div><label for="plon">Longitud</label>
+           <input id="plon" type="text" placeholder="-76.79530"></div>
+    </div>
+    <p class="nota oculto" id="nota-coords">En grados decimales y dentro de 80 km de Pucusana.</p>
+
+    <div class="par">
+      <div>
+        <label for="dist">Cuánto vas a navegar</label>
+        <select id="dist">
+          <option value="10">Hasta 10 km</option>
+          <option value="20">Hasta 20 km</option>
+          <option value="30">Hasta 30 km</option>
+          <option value="50">Hasta 50 km</option>
+          <option value="80" selected>Hasta 80 km</option>
+        </select>
+      </div>
+      <div>
+        <label for="n">Cuántas zonas</label>
+        <select id="n">
+          <option>3</option><option selected>4</option><option>5</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="hora">Hora del primer lance</label>
+    <select id="hora">
+      <option value="">No corregir por corriente</option>
+      <option value="5">05:00</option><option value="6">06:00</option>
+      <option value="7">07:00</option><option value="8">08:00</option>
+      <option value="9">09:00</option><option value="10">10:00</option>
+      <option value="16">16:00</option><option value="17">17:00</option>
+      <option value="18">18:00</option><option value="19">19:00</option>
+    </select>
+    <p class="nota">El agua se mueve. Con la corriente de cada zona se calcula
+      dónde estará ese parche a la hora de tu lance.</p>
+
+    <button class="principal" id="buscar" type="button">Ver zonas</button>
+  </section>
+
+  <main id="cuerpo"></main>
+</div>
+
+<script>
+/* Control de acceso, NO seguridad: las credenciales se pueden leer en el
+   codigo. Da entrada formal y permite saber quien usa la app. */
+/* Se guarda la HUELLA de cada contrasena, no la contrasena. El sitio es
+   publico: con la contrasena escrita aqui, cualquiera que abriera el
+   repositorio la leeria, y quedaria en el historial para siempre.
+   Huella = SHA-256 de "usuario:contrasena", en minusculas.
+
+   Esto evita que la contrasena se pueda leer. NO vuelve segura la app:
+   quien sepa programar puede saltarse esta pantalla editando la pagina.
+   Es control de acceso, no seguridad.
+
+   PARA AGREGAR UN PESCADOR, en PowerShell:
+     $s="usuario:contrasena"
+     [BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes($s))).Replace("-","").ToLower()
+   y se agrega aqui una linea  usuario:"huella",                        */
+const USUARIOS = {
+  randy:    "49e3cbdace0268089193e958a81f10b7620d9a5976058b85b146dde2569d1848",
+  maik:     "0380fee3a531675dac94801536acf0b65ed896eaf93d1c7acc5d7a114947478b",
+  samantha: "273c693b0bfb368eead34c6d8804ea993057459b84c1e21178f5120f60a3260f",
+};
+
+async function huella(texto){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(texto));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,"0")).join("");
+}
+const CLAVE_SESION = "predictamar_sesion";
+
+const PUERTO = {lat:-12.4772, lon:-76.7953};
+const ALCANCE_KM = 80;
+const RUTA = new URLSearchParams(location.search).get("datos")
+          || "publicado/ranking_actual.json";
+const LETRAS = ["A","B","C","D","E","F"];
+
+/* Mas alla de este tiempo la proyeccion por corriente acumula demasiado
+   error: la corriente es media diaria de un modelo a 9 km, sin marea ni
+   viento. En vez de mover el punto y callarlo, se avisa. */
+const TOPE_DERIVA_H = 12;
+
+let DATOS = null;
+const $ = id => document.getElementById(id);
+const rad = g => g * Math.PI / 180;
+
+function distanciaKm(a, b, c, d){
+  const s = Math.sin(rad(c-a)/2)**2
+          + Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(rad(d-b)/2)**2;
+  return 2*6371.0088*Math.asin(Math.min(1, Math.sqrt(s)));
+}
+function rumboCardinal(a, b, c, d){
+  const y = Math.sin(rad(d-b))*Math.cos(rad(c));
+  const x = Math.cos(rad(a))*Math.sin(rad(c))
+          - Math.sin(rad(a))*Math.cos(rad(c))*Math.cos(rad(d-b));
+  const g = (Math.atan2(y,x)*180/Math.PI + 360) % 360;
+  return ["norte","noreste","este","sureste","sur","suroeste","oeste","noroeste"][Math.round(g/45) % 8];
+}
+function grados(v, esLat){
+  const h = esLat ? (v<0?"S":"N") : (v<0?"O":"E");
+  const a = Math.abs(v), g = Math.floor(a);
+  return `${g}° ${((a-g)*60).toFixed(3)}' ${h}`;
+}
+function fechaLegible(iso){
+  const [,m,d] = iso.split("-").map(Number);
+  return `${d} de ${["enero","febrero","marzo","abril","mayo","junio","julio",
+    "agosto","setiembre","octubre","noviembre","diciembre"][m-1]}`;
+}
+
+/* ---------------- deriva ---------------- */
+/* Horas entre el momento que representa el dato y el lance.
+   El dato diario representa el mediodia UTC (07:00 en Lima). El lance es
+   la PROXIMA vez que llegue esa hora en Lima: si ya paso hoy, es manana. */
+function horasHastaLance(fechaDatos, horaLance){
+  const [a,m,d] = fechaDatos.split("-").map(Number);
+  const tDato = Date.UTC(a, m-1, d, 12, 0, 0);
+  const ahora = new Date();
+  const limaAhora = new Date(ahora.getTime() - 5*3600*1000);   // UTC-5, sin horario de verano
+  let lance = Date.UTC(limaAhora.getUTCFullYear(), limaAhora.getUTCMonth(),
+                       limaAhora.getUTCDate(), horaLance + 5, 0, 0);
+  if(lance <= ahora.getTime()) lance += 24*3600*1000;
+  return (lance - tDato) / 3600000;
+}
+function desplazar(p, horas){
+  if(p.corriente_u == null || p.corriente_v == null) return null;
+  const dx = p.corriente_u * horas * 3.6;     // km al este
+  const dy = p.corriente_v * horas * 3.6;     // km al norte
+  const lat = p.lat + dy / 111.32;
+  const lon = p.lon + dx / (111.32 * Math.cos(rad(p.lat)));
+  return {lat, lon, km: Math.hypot(dx, dy), rumbo: rumboCardinal(p.lat, p.lon, lat, lon)};
+}
+
+/* ---------------- variables ---------------- */
+const NOMBRES = {
+  sst_ostia:["Temperatura","°C",1], salinidad:["Salinidad","UPS",2],
+  clorofila:["Clorofila","mg/m³",2], nivel_mar:["Nivel del mar","m",2],
+  prod_primaria:["Productividad","mg C/m³",0]
+};
+/* Una sola definicion. La version anterior tenia dos con distinta firma, la
+   segunda pisaba a la primera y todas las variables salian como "bajo". */
+/* "bajo" confundia: "Salinidad 35,18 bajo" se leia como salinidad baja,
+   cuando 35,18 es salinidad ALTA de agua oceanica. Lo que se juzga es si el
+   valor FAVORECE al pescado, no si el numero es grande o chico. */
+function juicio(f){
+  if(f >= 0.66) return ["alta","favorable"];
+  if(f >= 0.33) return ["media","regular"];
+  return ["baja","desfavorable"];
+}
+function calificar(puntaje){
+  const p = puntaje || 0;
+  if(p >= 66) return ["Muy buena", "top"];
+  if(p >= 50) return ["Buena", ""];
+  if(p >= 33) return ["Regular", "regular"];
+  return ["Mala", "bajo"];
+}
+
+/* Que significa cada valor, en palabras de pescador. Solo donde la
+   direccion esta medida; el nivel del mar no se traduce porque no hay una
+   lectura fisica simple que se pueda afirmar con seguridad. */
+const SIGNIFICA = {
+  sst_ostia:    {alta:"agua fría",      media:"agua templada",       baja:"agua cálida"},
+  salinidad:    {alta:"agua costera",   media:"agua de mezcla",      baja:"agua oceánica"},
+  clorofila:    {alta:"mucho alimento", media:"alimento moderado",   baja:"poco alimento"},
+  prod_primaria:{alta:"mar productivo", media:"productividad media", baja:"mar poco productivo"}
+};
+function tablaVariables(detalle){
+  if(!detalle) return null;
+  const t = document.createElement("table");
+  t.className = "vars";
+  for(const k of Object.keys(NOMBRES)){
+    const d = detalle[k];
+    if(!d) continue;
+    const [nom, uni, dec] = NOMBRES[k];
+    const [cls, txt] = juicio(d.favorabilidad);
+    const tr = t.insertRow();
+    const nc = tr.insertCell();
+    nc.textContent = nom;
+    const sig = SIGNIFICA[k] && SIGNIFICA[k][cls];
+    if(sig){
+      const e = document.createElement("span");
+      e.className = "significa"; e.textContent = sig;
+      nc.appendChild(e);
+    }
+    tr.insertCell().textContent = `${Number(d.valor).toFixed(dec)} ${uni}`;
+    const c = tr.insertCell(); c.className = cls; c.textContent = txt;
+  }
+  return t;
+}
+
+/* ---------------- acceso ---------------- */
+async function entrar(){
+  const u = $("u").value.trim().toLowerCase();
+  const ok = USUARIOS[u] && USUARIOS[u] === await huella(u + ":" + $("c").value);
+  if(!ok){
+    $("err").textContent = "Usuario o contraseña incorrectos.";
+    return;
+  }
+  $("err").textContent = "";
+  try{ sessionStorage.setItem(CLAVE_SESION, u); }catch(e){}
+  abrirApp(u);
+}
+function abrirApp(u){
+  $("acceso").classList.add("oculto");
+  $("app").classList.remove("oculto");
+  $("quien").textContent = u.charAt(0).toUpperCase() + u.slice(1);
+  window.scrollTo(0, 0);
+  cargar();
+}
+$("entrar").addEventListener("click", entrar);
+$("c").addEventListener("keydown", e => { if(e.key === "Enter") entrar(); });
+$("salir").addEventListener("click", () => {
+  try{ sessionStorage.removeItem(CLAVE_SESION); }catch(e){}
+  location.reload();
+});
+
+/* ---------------- controles ---------------- */
+$("partida").addEventListener("change", e => {
+  const propio = e.target.value === "propio";
+  $("caja-coords").classList.toggle("oculto", !propio);
+  $("nota-coords").classList.toggle("oculto", !propio);
+  mostrar();
+});
+for(const id of ["buscar"]) $(id).addEventListener("click", mostrar);
+for(const id of ["dist","n","hora"]) $(id).addEventListener("change", mostrar);
+
+/* ---------------- datos ---------------- */
+async function cargar(){
+  try{
+    const res = await fetch(RUTA, {cache:"no-store"});
+    if(!res.ok) throw new Error(res.status);
+    DATOS = await res.json();
+    if(!DATOS.puntos || !DATOS.puntos.length) throw new Error("vacio");
+    /* La antiguedad se calcula contra la fecha de HOY en Lima. El valor
+       guardado en el archivo se congela el dia que corrio el motor: el 20
+       decia "hace 2 dias" y el 21 seguia diciendo lo mismo. */
+    const [ya, ym, yd] = DATOS.fecha_datos.split("-").map(Number);
+    const lima = new Date(Date.now() - 5*3600*1000);
+    const hoy = Date.UTC(lima.getUTCFullYear(), lima.getUTCMonth(), lima.getUTCDate());
+    const dias = Math.round((hoy - Date.UTC(ya, ym-1, yd)) / 86400000);
+    const viejo = dias > 4;
+    $("dato").className = "dato" + (viejo ? " viejo" : "");
+    /* La etiqueta dice para CUANDO sirve y de donde sale, no solo la fecha
+       del dato. "Mar del 19" leido el 21 sonaba a informacion vieja, cuando
+       en realidad es lo mas reciente que existe: el satelite tarda ~2 dias
+       en publicar y la clorofila se promedia sobre 5 dias por diseno.
+       No se adelanta a "hoy" usando el modelo: en invierno su clorofila
+       invierte el patron (correlacion -0,78 a -0,90 contra lo medido) y
+       mandaria al pescador justo al lugar equivocado. */
+    if(viejo){
+      $("dato").innerHTML = `<strong>Datos atrasados.</strong> Lo último que se
+        pudo calcular es del ${fechaLegible(DATOS.fecha_datos)}. El mar ya cambió:
+        úsalo solo como referencia.`;
+    }else{
+      $("dato").innerHTML = `<strong>Condiciones para hoy</strong> · satélite de los
+        últimos días, hasta el ${fechaLegible(DATOS.fecha_datos)}.`;
+    }
+    mostrar();
+  }catch(e){
+    $("dato").className = "dato viejo";
+    $("dato").innerHTML = "<strong>Sin datos.</strong>";
+    $("cuerpo").innerHTML = `<div class="aviso"><h2>No se pudo cargar</h2><p>No hay
+      conexión y tampoco un resultado guardado en este teléfono.</p></div>`;
+  }
+}
+
+function origen(){
+  if($("partida").value === "puerto") return PUERTO;
+  const la = parseFloat($("plat").value.replace(",", "."));
+  const lo = parseFloat($("plon").value.replace(",", "."));
+  if(!isFinite(la) || !isFinite(lo)) return {error:"Escribe las dos coordenadas en grados decimales."};
+  const d = distanciaKm(PUERTO.lat, PUERTO.lon, la, lo);
+  if(d > ALCANCE_KM) return {error:`Ese punto está a ${d.toFixed(0)} km de Pucusana. El sistema solo cubre ${ALCANCE_KM} km.`};
+  return {lat:la, lon:lo};
+}
+
+function mostrar(){
+  const cuerpo = $("cuerpo");
+  cuerpo.innerHTML = "";
+  if(!DATOS) return;
+
+  const o = origen();
+  if(o.error){
+    cuerpo.innerHTML = `<div class="aviso"><h2>Revisa el punto de partida</h2><p>${o.error}</p></div>`;
+    return;
+  }
+
+  const alcance = parseFloat($("dist").value);
+  const cuantas = parseInt($("n").value, 10);
+  const horaTxt = $("hora").value;
+  const horas = horaTxt === "" ? null : horasHastaLance(DATOS.fecha_datos, parseInt(horaTxt, 10));
+  const corregir = horas !== null && horas <= TOPE_DERIVA_H;
+
+  /* TODOS los candidatos del mar, no solo los 5 mejores globales: asi se
+     encuentran las mejores DENTRO del radio del pescador. Un archivo viejo
+     sin "candidatos" sigue funcionando con "puntos". */
+  const fuente = (DATOS.candidatos && DATOS.candidatos.length) ? DATOS.candidatos : DATOS.puntos;
+  const lista = fuente.map(p => {
+    const d = corregir ? desplazar(p, horas) : null;
+    const lat = d ? d.lat : p.lat, lon = d ? d.lon : p.lon;
+    return {p, d, lat, lon,
+            desde_ti: distanciaKm(o.lat, o.lon, lat, lon),
+            rumbo: rumboCardinal(o.lat, o.lon, lat, lon)};
+  });
+
+  /* ANTES se ordenaba por distancia: la primera era la mas cercana, no la
+     mejor. Ahora se filtra por su radio y se ordena por condiciones. */
+  /* Zonas separadas al menos una celda de clorofila (4 km). Cerca de la
+     caleta los candidatos quedan a ~1,7 km entre si: caian en la misma celda
+     de satelite y salian tres tarjetas identicas para un solo lugar. Se
+     recorren de mejor a peor y se descarta la que queda encima de otra ya
+     elegida. */
+  const MIN_SEP_KM = 4;
+  const dentro = [];
+  for(const z of lista.filter(z => z.desde_ti <= alcance)
+                      .sort((a,b) => (b.p.puntaje || 0) - (a.p.puntaje || 0))){
+    if(dentro.every(e => distanciaKm(e.lat, e.lon, z.lat, z.lon) >= MIN_SEP_KM))
+      dentro.push(z);
+    if(dentro.length >= cuantas) break;
+  }
+  lista.sort((a,b) => a.desde_ti - b.desde_ti);
+
+  if(!dentro.length){
+    const c = lista[0];
+    cuerpo.innerHTML = `<div class="aviso"><h2>Nada dentro de ${alcance} km</h2>
+      <p>La zona más cercana está a <strong>${c.desde_ti.toFixed(0)} km</strong> hacia
+      el <strong>${c.rumbo}</strong>. Amplía la distancia o cambia tu punto de partida.</p></div>`;
+    return;
+  }
+
+  /* Si el orden significa algo se decide sobre las zonas que EL ve. Si entre
+     la mejor y la peor de su lista hay al menos una desviacion tipica del
+     mar de ese dia, el orden dice algo; si no, son equivalentes. */
+  const desv = (DATOS.reparto_puntajes && DATOS.reparto_puntajes.desviacion) || 5;
+  const ps = dentro.map(z => z.p.puntaje || 0);
+  const ordenado = ps.length > 1 && (Math.max(...ps) - Math.min(...ps)) >= desv;
+  /* Si ni la mejor zona de TODO el mar llega a "Buena", se dice de frente.
+     Esconderlo detras de un ranking seria vender la menos mala como buena. */
+  const mejorDelMar = (DATOS.reparto_puntajes && DATOS.reparto_puntajes.mejor)
+                   || Math.max(...lista.map(z => z.p.puntaje || 0));
+  if(mejorDelMar < 50){
+    const av = document.createElement("div");
+    av.className = "aviso-dia";
+    av.innerHTML = `<strong>Hoy el mar está ${calificar(mejorDelMar)[0].toLowerCase()} en toda la zona.</strong>
+      Estas son las mejores opciones disponibles, pero ninguna tiene condiciones
+      realmente buenas.`;
+    cuerpo.appendChild(av);
+  }
+
+  const h = document.createElement("h1");
+  h.className = "encabeza";
+  h.textContent = ordenado ? "Zonas con mejores condiciones"
+                           : `${dentro.length} zonas con condiciones parecidas`;
+  cuerpo.appendChild(h);
+  const nota = document.createElement("p");
+  nota.className = "aclara";
+  nota.textContent = ordenado
+    ? "Ordenadas de mejor a peor dentro de tu distancia."
+    : "Dentro de tu distancia estas zonas tienen condiciones muy parecidas. "
+    + "Elige por distancia, combustible o por lo que ya conoces de la zona.";
+  cuerpo.appendChild(nota);
+
+  dentro.forEach((z, i) => {
+    const caja = document.createElement("section");
+    caja.className = "zona";
+
+    const rot = document.createElement("div");
+    rot.className = "rotulo";
+    const a = document.createElement("span");
+    a.className = "letra";
+    a.textContent = ordenado ? String(i+1) : LETRAS[i];
+    const b = document.createElement("span");
+    b.textContent = `${z.desde_ti.toFixed(0)} km al ${z.rumbo}`;
+    rot.append(a, b);
+
+    /* Comparacion contra el mar del dia, no probabilidad: dice que la zona
+       esta entre las mejores, sin prometer que haya pescado. */
+    caja.appendChild(rot);
+    /* Calificacion por el PUNTAJE REAL, no por la posicion del dia.
+       La version anterior comparaba contra el resto del mar: en un dia flojo
+       las menos malas salian "Muy buena" aunque su propia tarjeta dijera
+       agua oceanica y poco alimento. Se contradecia sola.
+       Los cortes usan la misma escala que cada variable (favorable desde
+       0,66, regular desde 0,33), asi la zona y sus variables hablan igual. */
+    const nv = document.createElement("p");
+    const [t0, cls] = calificar(z.p.puntaje);
+    nv.className = "nivel " + cls;
+    nv.textContent = (ordenado && i === 0) ? t0 + " · la mejor de tu zona" : t0;
+    caja.appendChild(nv);
+
+    const co = document.createElement("p");
+    co.className = "coord";
+    co.innerHTML = `${grados(z.lat,true)}<br>${grados(z.lon,false)}`;
+    caja.appendChild(co);
+
+    if(horas !== null){
+      const dv = document.createElement("div");
+      if(corregir && z.d){
+        dv.className = "deriva";
+        dv.innerHTML = `El agua de esta zona va al <strong>${z.d.rumbo}</strong>.
+          Coordenada corregida <strong>${z.d.km.toFixed(1)} km</strong> para tu lance.`;
+      }else{
+        dv.className = "deriva dudosa";
+        dv.innerHTML = `Entre el dato y tu lance pasan <strong>${Math.round(horas)} horas</strong>.
+          Con tanto tiempo la corrección por corriente ya no es confiable y no se aplicó.`;
+      }
+      caja.appendChild(dv);
+    }
+
+    const tv = tablaVariables(z.p.detalle);
+    if(tv) caja.appendChild(tv);
+
+    const btn = document.createElement("button");
+    btn.className = "copiar";
+    btn.type = "button";
+    const plano = `${z.lat.toFixed(5)}, ${z.lon.toFixed(5)}`;
+    btn.textContent = "Copiar coordenadas";
+    btn.addEventListener("click", async () => {
+      try{ await navigator.clipboard.writeText(plano); }
+      catch(e){
+        const t = document.createElement("textarea");
+        t.value = plano; document.body.appendChild(t);
+        t.select(); document.execCommand("copy"); t.remove();
+      }
+      btn.textContent = "Copiado: " + plano;
+      btn.classList.add("listo");
+      setTimeout(() => { btn.textContent = "Copiar coordenadas"; btn.classList.remove("listo"); }, 2600);
+    });
+    caja.appendChild(btn);
+    cuerpo.appendChild(caja);
+  });
+}
+
+try{
+  const u = sessionStorage.getItem(CLAVE_SESION);
+  if(u && USUARIOS[u]) abrirApp(u);
+}catch(e){}
+</script>
+</body>
+</html>

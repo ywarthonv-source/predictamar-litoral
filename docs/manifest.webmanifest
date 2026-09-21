@@ -1,0 +1,12 @@
+{
+  "name": "PredictaMAR Pucusana",
+  "short_name": "PredictaMAR",
+  "description": "Zonas con mejores condiciones ambientales para la pesca artesanal en Pucusana.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06121b",
+  "theme_color": "#06121b",
+  "lang": "es-PE"
+}
