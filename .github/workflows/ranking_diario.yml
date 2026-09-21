@@ -1,0 +1,67 @@
+# =====================================================================
+# PredictaMAR Litoral — corrida diaria en la nube
+#
+# Reemplaza a las tareas programadas de la laptop. Corre en servidores de
+# GitHub, asi que funciona aunque la computadora este apagada.
+#
+# Horarios (Peru es UTC-5 todo el ano, sin horario de verano):
+#   07:00 UTC = 02:00 en Lima   -> salida de madrugada
+#   19:00 UTC = 14:00 en Lima   -> salida de tarde
+#
+# Credenciales: se leen de los "secrets" del repositorio. NUNCA se escriben
+# en este archivo ni en el codigo.
+# =====================================================================
+
+name: Ranking diario
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ranking-diario
+  cancel-in-progress: false
+
+jobs:
+  ranking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Traer el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install copernicusmarine numpy tzdata
+
+      - name: Calcular el ranking
+        continue-on-error: true
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.COPERNICUSMARINE_SERVICE_USERNAME }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.COPERNICUSMARINE_SERVICE_PASSWORD }}
+        run: python scoring/corrida_diaria.py --salida docs/publicado
+
+      - name: Publicar el resultado
+        if: always()
+        run: |
+          git config user.name  "predictamar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in docs/publicado/ranking_actual.json docs/publicado/estado.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          if git diff --staged --quiet; then
+            echo "Sin cambios: la fecha vigente ya estaba publicada."
+          else
+            git commit -m "Ranking $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
