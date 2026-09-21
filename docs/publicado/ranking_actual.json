@@ -1,0 +1,7493 @@
+{
+ "schema_version": "ranking_v1",
+ "generado": "2026-09-21T21:51:27.792803+00:00",
+ "fecha_datos": "2026-09-20",
+ "zona": "Pucusana",
+ "etiqueta_taxonomica": "BIOMASA_PELAGICA_TOTAL",
+ "calibracion_id": "banda_centro_2602-04_v1",
+ "titulo": "Zonas con mejores condiciones ambientales",
+ "orden_significativo": false,
+ "nota_empate": "Los puntos entregados estan dentro del margen de ruido entre si: tratelos como equivalentes, no como un ranking.",
+ "reparto_puntajes": {
+  "n": 190,
+  "mejor": 48.8,
+  "p90": 47.1,
+  "mediana": 44.1,
+  "p10": 39.0,
+  "peor": 33.5,
+  "rango": 15.3,
+  "desviacion": 3.1,
+  "mar_diferenciado": true
+ },
+ "candidatos": [
+  {
+   "lat": -12.48968,
+   "lon": -76.86787,
+   "puntaje": 48.8,
+   "percentil": 0.989,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.47468,
+   "lon": -76.86894,
+   "puntaje": 48.8,
+   "percentil": 0.989,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.45979,
+   "lon": -76.86679,
+   "puntaje": 48.8,
+   "percentil": 0.989,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.57861,
+   "lon": -76.83312,
+   "puntaje": 48.7,
+   "percentil": 0.984,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.03,
+     "favorabilidad": 0.395
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.6194,
+     "favorabilidad": 0.298
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.54481,
+   "lon": -76.82051,
+   "puntaje": 48.5,
+   "percentil": 0.979,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.6194,
+     "favorabilidad": 0.298
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.35092,
+   "lon": -77.06009,
+   "puntaje": 48.2,
+   "percentil": 0.974,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06394447386264801,
+   "corriente_v": -0.021443018689751625,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.17,
+     "favorabilidad": 0.371
+    },
+    "nivel_mar": {
+     "valor": 0.2705,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2187,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7653,
+     "favorabilidad": 0.304
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.45107,
+   "lon": -76.90253,
+   "puntaje": 48.0,
+   "percentil": 0.968,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.3109,
+     "favorabilidad": 0.247
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.44565,
+   "lon": -76.86152,
+   "puntaje": 47.9,
+   "percentil": 0.958,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11596249788999557,
+   "corriente_v": -0.15867097675800323,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2705,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1881,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.401,
+     "favorabilidad": 0.262
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.4329,
+   "lon": -76.85336,
+   "puntaje": 47.9,
+   "percentil": 0.958,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11596249788999557,
+   "corriente_v": -0.15867097675800323,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2705,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1881,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.401,
+     "favorabilidad": 0.262
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.42987,
+   "lon": -76.89462,
+   "puntaje": 47.6,
+   "percentil": 0.947,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.3109,
+     "favorabilidad": 0.247
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.41409,
+   "lon": -76.92772,
+   "puntaje": 47.6,
+   "percentil": 0.947,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.2294,
+     "favorabilidad": 0.234
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.41074,
+   "lon": -76.88238,
+   "puntaje": 47.5,
+   "percentil": 0.937,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.3075,
+     "favorabilidad": 0.247
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.38859,
+   "lon": -76.91139,
+   "puntaje": 47.5,
+   "percentil": 0.937,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.3075,
+     "favorabilidad": 0.247
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.49592,
+   "lon": -76.90416,
+   "puntaje": 47.4,
+   "percentil": 0.921,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1116,
+     "favorabilidad": 0.214
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.47341,
+   "lon": -76.90576,
+   "puntaje": 47.4,
+   "percentil": 0.921,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1116,
+     "favorabilidad": 0.214
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.36643,
+   "lon": -76.9404,
+   "puntaje": 47.4,
+   "percentil": 0.921,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09531266987323761,
+   "corriente_v": -0.06211541220545769,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2711,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1963,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.2852,
+     "favorabilidad": 0.243
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.61241,
+   "lon": -76.84573,
+   "puntaje": 47.1,
+   "percentil": 0.899,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0263,
+     "favorabilidad": 0.2
+    },
+    "prod_primaria": {
+     "valor": 100.1891,
+     "favorabilidad": 0.827
+    }
+   }
+  },
+  {
+   "lat": -12.47214,
+   "lon": -76.94258,
+   "puntaje": 47.1,
+   "percentil": 0.899,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0134,
+     "favorabilidad": 0.198
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.47086,
+   "lon": -76.9794,
+   "puntaje": 47.1,
+   "percentil": 0.899,
+   "estado": "COMPLETO",
+   "corriente_u": 0.1155618280172348,
+   "corriente_v": -0.028654346242547035,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2572,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.21,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9696,
+     "favorabilidad": 0.191
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.32209,
+   "lon": -76.99841,
+   "puntaje": 47.1,
+   "percentil": 0.899,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08101428300142288,
+   "corriente_v": 0.026734277606010437,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.16,
+     "favorabilidad": 0.373
+    },
+    "nivel_mar": {
+     "valor": 0.2707,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2115,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.2751,
+     "favorabilidad": 0.241
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.59922,
+   "lon": -76.87343,
+   "puntaje": 47.0,
+   "percentil": 0.894,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.0,
+     "favorabilidad": 0.401
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0263,
+     "favorabilidad": 0.2
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.51742,
+   "lon": -76.8564,
+   "puntaje": 46.9,
+   "percentil": 0.873,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0303,
+     "favorabilidad": 0.201
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.50414,
+   "lon": -76.86363,
+   "puntaje": 46.9,
+   "percentil": 0.873,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0303,
+     "favorabilidad": 0.201
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.64621,
+   "lon": -76.85835,
+   "puntaje": 46.9,
+   "percentil": 0.873,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09197554737329483,
+   "corriente_v": -0.17124135792255402,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2485,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1943,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9577,
+     "favorabilidad": 0.189
+    },
+    "prod_primaria": {
+     "valor": 100.1891,
+     "favorabilidad": 0.827
+    }
+   }
+  },
+  {
+   "lat": -12.36672,
+   "lon": -77.027,
+   "puntaje": 46.9,
+   "percentil": 0.873,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08101428300142288,
+   "corriente_v": 0.026734277606010437,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.1,
+     "favorabilidad": 0.38
+    },
+    "nivel_mar": {
+     "valor": 0.2707,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2115,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1709,
+     "favorabilidad": 0.224
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.53107,
+   "lon": -76.93197,
+   "puntaje": 46.8,
+   "percentil": 0.852,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9326,
+     "favorabilidad": 0.184
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.50215,
+   "lon": -76.94045,
+   "puntaje": 46.8,
+   "percentil": 0.852,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9326,
+     "favorabilidad": 0.184
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.44235,
+   "lon": -76.93828,
+   "puntaje": 46.8,
+   "percentil": 0.852,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11078120023012161,
+   "corriente_v": -0.1106477603316307,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2666,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2047,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9952,
+     "favorabilidad": 0.195
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.68001,
+   "lon": -76.87097,
+   "puntaje": 46.8,
+   "percentil": 0.852,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09197554737329483,
+   "corriente_v": -0.17124135792255402,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2485,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1943,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8774,
+     "favorabilidad": 0.175
+    },
+    "prod_primaria": {
+     "valor": 100.1891,
+     "favorabilidad": 0.827
+    }
+   }
+  },
+  {
+   "lat": -12.53821,
+   "lon": -76.83436,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0303,
+     "favorabilidad": 0.201
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.52895,
+   "lon": -76.8465,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0303,
+     "favorabilidad": 0.201
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.3983,
+   "lon": -76.96082,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10971388965845108,
+   "corriente_v": -0.015653980895876884,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2649,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2135,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0425,
+     "favorabilidad": 0.203
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.46958,
+   "lon": -77.01622,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.1155618280172348,
+   "corriente_v": -0.028654346242547035,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2572,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.21,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8721,
+     "favorabilidad": 0.174
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.38251,
+   "lon": -76.99391,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10971388965845108,
+   "corriente_v": -0.015653980895876884,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2649,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2135,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0425,
+     "favorabilidad": 0.203
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.34426,
+   "lon": -76.96941,
+   "puntaje": 46.7,
+   "percentil": 0.82,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08101428300142288,
+   "corriente_v": 0.026734277606010437,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.16,
+     "favorabilidad": 0.373
+    },
+    "nivel_mar": {
+     "valor": 0.2707,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2115,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1433,
+     "favorabilidad": 0.219
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.50837,
+   "lon": -76.97674,
+   "puntaje": 46.6,
+   "percentil": 0.804,
+   "estado": "COMPLETO",
+   "corriente_u": 0.1155618280172348,
+   "corriente_v": -0.028654346242547035,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2572,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.21,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8414,
+     "favorabilidad": 0.169
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.43363,
+   "lon": -76.97401,
+   "puntaje": 46.6,
+   "percentil": 0.804,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10971388965845108,
+   "corriente_v": -0.015653980895876884,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.0,
+     "favorabilidad": 0.401
+    },
+    "nivel_mar": {
+     "valor": 0.2649,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2135,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9066,
+     "favorabilidad": 0.18
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.41617,
+   "lon": -77.04548,
+   "puntaje": 46.6,
+   "percentil": 0.804,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10038430243730545,
+   "corriente_v": -0.024017738178372383,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2642,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2218,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9418,
+     "favorabilidad": 0.186
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.53753,
+   "lon": -76.88695,
+   "puntaje": 46.5,
+   "percentil": 0.794,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8837,
+     "favorabilidad": 0.176
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.51761,
+   "lon": -76.8978,
+   "puntaje": 46.5,
+   "percentil": 0.794,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11985611170530319,
+   "corriente_v": -0.1109938994050026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2596,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2035,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8837,
+     "favorabilidad": 0.176
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.56871,
+   "lon": -76.85389,
+   "puntaje": 46.4,
+   "percentil": 0.767,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.0,
+     "favorabilidad": 0.401
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8452,
+     "favorabilidad": 0.17
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.55482,
+   "lon": -76.8721,
+   "puntaje": 46.4,
+   "percentil": 0.767,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.0,
+     "favorabilidad": 0.401
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8452,
+     "favorabilidad": 0.17
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.60655,
+   "lon": -76.92333,
+   "puntaje": 46.4,
+   "percentil": 0.767,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09362669289112091,
+   "corriente_v": -0.06190676987171173,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2514,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1933,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.794,
+     "favorabilidad": 0.161
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.4249,
+   "lon": -77.00975,
+   "puntaje": 46.4,
+   "percentil": 0.767,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10971388965845108,
+   "corriente_v": -0.015653980895876884,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2649,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2135,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.884,
+     "favorabilidad": 0.176
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.40743,
+   "lon": -77.08121,
+   "puntaje": 46.4,
+   "percentil": 0.767,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10038430243730545,
+   "corriente_v": -0.024017738178372383,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2642,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2218,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9418,
+     "favorabilidad": 0.186
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.58069,
+   "lon": -76.89771,
+   "puntaje": 46.3,
+   "percentil": 0.762,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09362669289112091,
+   "corriente_v": -0.06190676987171173,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.0,
+     "favorabilidad": 0.401
+    },
+    "nivel_mar": {
+     "valor": 0.2514,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1933,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.7987,
+     "favorabilidad": 0.162
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.51459,
+   "lon": -77.01303,
+   "puntaje": 46.2,
+   "percentil": 0.757,
+   "estado": "COMPLETO",
+   "corriente_u": 0.1155618280172348,
+   "corriente_v": -0.028654346242547035,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2572,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.21,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6855,
+     "favorabilidad": 0.143
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.467,
+   "lon": -77.08985,
+   "puntaje": 46.1,
+   "percentil": 0.746,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09721337258815765,
+   "corriente_v": -0.002464744495227933,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2571,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2211,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.718,
+     "favorabilidad": 0.149
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.33511,
+   "lon": -77.09317,
+   "puntaje": 46.1,
+   "percentil": 0.746,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06394447386264801,
+   "corriente_v": -0.021443018689751625,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.28,
+     "favorabilidad": 0.358
+    },
+    "nivel_mar": {
+     "valor": 0.2705,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2187,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1803,
+     "favorabilidad": 0.225
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.54452,
+   "lon": -76.96615,
+   "puntaje": 46.0,
+   "percentil": 0.73,
+   "estado": "COMPLETO",
+   "corriente_u": 0.055089738219976425,
+   "corriente_v": 0.008460873737931252,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2499,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2016,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6352,
+     "favorabilidad": 0.135
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.59783,
+   "lon": -76.97865,
+   "puntaje": 46.0,
+   "percentil": 0.73,
+   "estado": "COMPLETO",
+   "corriente_u": 0.055089738219976425,
+   "corriente_v": 0.008460873737931252,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.96,
+     "favorabilidad": 0.409
+    },
+    "nivel_mar": {
+     "valor": 0.2499,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2016,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6416,
+     "favorabilidad": 0.136
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.52081,
+   "lon": -77.04933,
+   "puntaje": 46.0,
+   "percentil": 0.73,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09721337258815765,
+   "corriente_v": -0.002464744495227933,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2571,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2211,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6353,
+     "favorabilidad": 0.135
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.55764,
+   "lon": -76.91751,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09362669289112091,
+   "corriente_v": -0.06190676987171173,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2514,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1933,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6436,
+     "favorabilidad": 0.137
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.57774,
+   "lon": -76.94808,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09362669289112091,
+   "corriente_v": -0.06190676987171173,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2514,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1933,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6436,
+     "favorabilidad": 0.137
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.66021,
+   "lon": -76.91253,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.021200351417064667,
+   "corriente_v": 0.00015791297482792288,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.96,
+     "favorabilidad": 0.409
+    },
+    "nivel_mar": {
+     "valor": 0.2449,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1953,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.7523,
+     "favorabilidad": 0.155
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.55798,
+   "lon": -77.00033,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.055089738219976425,
+   "corriente_v": 0.008460873737931252,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2499,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2016,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6286,
+     "favorabilidad": 0.134
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.57142,
+   "lon": -77.03451,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.055089738219976425,
+   "corriente_v": 0.008460873737931252,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2499,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2016,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6286,
+     "favorabilidad": 0.134
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.46829,
+   "lon": -77.05303,
+   "puntaje": 45.9,
+   "percentil": 0.698,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09721337258815765,
+   "corriente_v": -0.002464744495227933,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2571,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2211,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6747,
+     "favorabilidad": 0.142
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.62972,
+   "lon": -76.89298,
+   "puntaje": 45.8,
+   "percentil": 0.677,
+   "estado": "COMPLETO",
+   "corriente_u": 0.021200351417064667,
+   "corriente_v": 0.00015791297482792288,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2449,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1953,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.7523,
+     "favorabilidad": 0.155
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.52702,
+   "lon": -77.08562,
+   "puntaje": 45.8,
+   "percentil": 0.677,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09721337258815765,
+   "corriente_v": -0.002464744495227933,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.97,
+     "favorabilidad": 0.407
+    },
+    "nivel_mar": {
+     "valor": 0.2571,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2211,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6023,
+     "favorabilidad": 0.13
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.29992,
+   "lon": -77.0274,
+   "puntaje": 45.8,
+   "percentil": 0.677,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08101428300142288,
+   "corriente_v": 0.026734277606010437,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.26,
+     "favorabilidad": 0.36
+    },
+    "nivel_mar": {
+     "valor": 0.2707,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2115,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9765,
+     "favorabilidad": 0.192
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.78141,
+   "lon": -76.90884,
+   "puntaje": 45.8,
+   "percentil": 0.677,
+   "estado": "COMPLETO",
+   "corriente_u": -0.061753250658512115,
+   "corriente_v": 0.04081139713525772,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.9,
+     "favorabilidad": 0.422
+    },
+    "nivel_mar": {
+     "valor": 0.2424,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2042,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6191,
+     "favorabilidad": 0.132
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.63242,
+   "lon": -76.94895,
+   "puntaje": 45.6,
+   "percentil": 0.661,
+   "estado": "COMPLETO",
+   "corriente_u": 0.021200351417064667,
+   "corriente_v": 0.00015791297482792288,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2449,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1953,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6978,
+     "favorabilidad": 0.145
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.71381,
+   "lon": -76.88359,
+   "puntaje": 45.6,
+   "percentil": 0.661,
+   "estado": "COMPLETO",
+   "corriente_u": -0.061753250658512115,
+   "corriente_v": 0.04081139713525772,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.9,
+     "favorabilidad": 0.422
+    },
+    "nivel_mar": {
+     "valor": 0.2424,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2042,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5698,
+     "favorabilidad": 0.124
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.74761,
+   "lon": -76.89621,
+   "puntaje": 45.6,
+   "percentil": 0.661,
+   "estado": "COMPLETO",
+   "corriente_u": -0.061753250658512115,
+   "corriente_v": 0.04081139713525772,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.9,
+     "favorabilidad": 0.422
+    },
+    "nivel_mar": {
+     "valor": 0.2424,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2042,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5698,
+     "favorabilidad": 0.124
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.65828,
+   "lon": -76.97458,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01841619797050953,
+   "corriente_v": 0.05802258104085922,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2456,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2079,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6732,
+     "favorabilidad": 0.141
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.61793,
+   "lon": -77.00923,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": 0.055089738219976425,
+   "corriente_v": 0.008460873737931252,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2499,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2016,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5552,
+     "favorabilidad": 0.122
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.53322,
+   "lon": -77.12192,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": 0.09721337258815765,
+   "corriente_v": -0.002464744495227933,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.03,
+     "favorabilidad": 0.395
+    },
+    "nivel_mar": {
+     "valor": 0.2571,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2211,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6023,
+     "favorabilidad": 0.13
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.8152,
+   "lon": -76.92148,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": -0.1036841943860054,
+   "corriente_v": 0.05346033349633217,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.86,
+     "favorabilidad": 0.431
+    },
+    "nivel_mar": {
+     "valor": 0.2421,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2164,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4517,
+     "favorabilidad": 0.105
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.849,
+   "lon": -76.93411,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": -0.1036841943860054,
+   "corriente_v": 0.05346033349633217,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.86,
+     "favorabilidad": 0.431
+    },
+    "nivel_mar": {
+     "valor": 0.2421,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2164,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4555,
+     "favorabilidad": 0.105
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.14465,
+   "lon": -77.23024,
+   "puntaje": 45.5,
+   "percentil": 0.63,
+   "estado": "COMPLETO",
+   "corriente_u": 0.13275566697120667,
+   "corriente_v": -0.059217192232608795,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.41,
+     "favorabilidad": 0.342
+    },
+    "nivel_mar": {
+     "valor": 0.2773,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2219,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.1115,
+     "favorabilidad": 0.214
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.27775,
+   "lon": -77.05639,
+   "puntaje": 45.4,
+   "percentil": 0.624,
+   "estado": "COMPLETO",
+   "corriente_u": 0.043008703738451004,
+   "corriente_v": -0.032933857291936874,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.32,
+     "favorabilidad": 0.353
+    },
+    "nivel_mar": {
+     "valor": 0.2753,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.217,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9851,
+     "favorabilidad": 0.193
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.69071,
+   "lon": -76.93208,
+   "puntaje": 45.3,
+   "percentil": 0.603,
+   "estado": "COMPLETO",
+   "corriente_u": 0.021200351417064667,
+   "corriente_v": 0.00015791297482792288,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.96,
+     "favorabilidad": 0.409
+    },
+    "nivel_mar": {
+     "valor": 0.2449,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.1953,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5569,
+     "favorabilidad": 0.122
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.58487,
+   "lon": -77.0687,
+   "puntaje": 45.3,
+   "percentil": 0.603,
+   "estado": "COMPLETO",
+   "corriente_u": 0.02971278689801693,
+   "corriente_v": 0.052452269941568375,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2508,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2131,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4508,
+     "favorabilidad": 0.105
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.25558,
+   "lon": -77.08538,
+   "puntaje": 45.3,
+   "percentil": 0.603,
+   "estado": "COMPLETO",
+   "corriente_u": 0.043008703738451004,
+   "corriente_v": -0.032933857291936874,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.32,
+     "favorabilidad": 0.353
+    },
+    "nivel_mar": {
+     "valor": 0.2753,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.217,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.9572,
+     "favorabilidad": 0.188
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.18903,
+   "lon": -77.17231,
+   "puntaje": 45.3,
+   "percentil": 0.603,
+   "estado": "COMPLETO",
+   "corriente_u": 0.0482482872903347,
+   "corriente_v": -0.04034749045968056,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.42,
+     "favorabilidad": 0.34
+    },
+    "nivel_mar": {
+     "valor": 0.2789,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2246,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0362,
+     "favorabilidad": 0.202
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.72121,
+   "lon": -76.95164,
+   "puntaje": 45.1,
+   "percentil": 0.598,
+   "estado": "COMPLETO",
+   "corriente_u": -0.061753250658512115,
+   "corriente_v": 0.04081139713525772,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2424,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2042,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5286,
+     "favorabilidad": 0.117
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.63802,
+   "lon": -77.03981,
+   "puntaje": 45.0,
+   "percentil": 0.582,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01841619797050953,
+   "corriente_v": 0.05802258104085922,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.99,
+     "favorabilidad": 0.403
+    },
+    "nivel_mar": {
+     "valor": 0.2456,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2079,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5241,
+     "favorabilidad": 0.117
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.7517,
+   "lon": -76.9712,
+   "puntaje": 45.0,
+   "percentil": 0.582,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07638057321310043,
+   "corriente_v": 0.08008752018213272,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.93,
+     "favorabilidad": 0.416
+    },
+    "nivel_mar": {
+     "valor": 0.2441,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2172,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4302,
+     "favorabilidad": 0.101
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.7822,
+   "lon": -76.99077,
+   "puntaje": 45.0,
+   "percentil": 0.582,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07638057321310043,
+   "corriente_v": 0.08008752018213272,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.93,
+     "favorabilidad": 0.416
+    },
+    "nivel_mar": {
+     "valor": 0.2441,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2172,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4302,
+     "favorabilidad": 0.101
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.68414,
+   "lon": -77.00021,
+   "puntaje": 44.9,
+   "percentil": 0.566,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01841619797050953,
+   "corriente_v": 0.05802258104085922,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397
+    },
+    "nivel_mar": {
+     "valor": 0.2456,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2079,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5459,
+     "favorabilidad": 0.12
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.39869,
+   "lon": -77.11694,
+   "puntaje": 44.9,
+   "percentil": 0.566,
+   "estado": "COMPLETO",
+   "corriente_u": 0.10038430243730545,
+   "corriente_v": -0.024017738178372383,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.27,
+     "favorabilidad": 0.359
+    },
+    "nivel_mar": {
+     "valor": 0.2642,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2218,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.696,
+     "favorabilidad": 0.145
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.16684,
+   "lon": -77.20127,
+   "puntaje": 44.9,
+   "percentil": 0.566,
+   "estado": "COMPLETO",
+   "corriente_u": 0.0482482872903347,
+   "corriente_v": -0.04034749045968056,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.53,
+     "favorabilidad": 0.327
+    },
+    "nivel_mar": {
+     "valor": 0.2789,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2246,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 2.0362,
+     "favorabilidad": 0.202
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.59831,
+   "lon": -77.10289,
+   "puntaje": 44.7,
+   "percentil": 0.55,
+   "estado": "COMPLETO",
+   "corriente_u": 0.02971278689801693,
+   "corriente_v": 0.052452269941568375,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.04,
+     "favorabilidad": 0.393
+    },
+    "nivel_mar": {
+     "valor": 0.2508,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2131,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3638,
+     "favorabilidad": 0.09
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824
+    }
+   }
+  },
+  {
+   "lat": -12.2334,
+   "lon": -77.11436,
+   "puntaje": 44.7,
+   "percentil": 0.55,
+   "estado": "COMPLETO",
+   "corriente_u": 0.043008703738451004,
+   "corriente_v": -0.032933857291936874,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.42,
+     "favorabilidad": 0.34
+    },
+    "nivel_mar": {
+     "valor": 0.2753,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.217,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8668,
+     "favorabilidad": 0.173
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.21121,
+   "lon": -77.14334,
+   "puntaje": 44.7,
+   "percentil": 0.55,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05887903273105621,
+   "corriente_v": -0.03320647031068802,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.42,
+     "favorabilidad": 0.34
+    },
+    "nivel_mar": {
+     "valor": 0.2744,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2199,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8643,
+     "favorabilidad": 0.173
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.70999,
+   "lon": -77.02585,
+   "puntaje": 44.6,
+   "percentil": 0.54,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07638057321310043,
+   "corriente_v": 0.08008752018213272,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.03,
+     "favorabilidad": 0.395
+    },
+    "nivel_mar": {
+     "valor": 0.2441,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2172,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4653,
+     "favorabilidad": 0.107
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.3193,
+   "lon": -77.12624,
+   "puntaje": 44.6,
+   "percentil": 0.54,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05728786066174507,
+   "corriente_v": -0.04200947284698486,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.39,
+     "favorabilidad": 0.344
+    },
+    "nivel_mar": {
+     "valor": 0.2696,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2225,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8135,
+     "favorabilidad": 0.165
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.6581,
+   "lon": -77.07039,
+   "puntaje": 44.3,
+   "percentil": 0.519,
+   "estado": "COMPLETO",
+   "corriente_u": -0.033034905791282654,
+   "corriente_v": 0.09204791486263275,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2475,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.218,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3972,
+     "favorabilidad": 0.096
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.4657,
+   "lon": -77.12667,
+   "puntaje": 44.3,
+   "percentil": 0.519,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06556449830532074,
+   "corriente_v": 0.020130828022956848,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388
+    },
+    "nivel_mar": {
+     "valor": 0.2575,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2284,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5747,
+     "favorabilidad": 0.125
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.30349,
+   "lon": -77.15931,
+   "puntaje": 44.3,
+   "percentil": 0.519,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05728786066174507,
+   "corriente_v": -0.04200947284698486,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.51,
+     "favorabilidad": 0.329
+    },
+    "nivel_mar": {
+     "valor": 0.2696,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2225,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.8135,
+     "favorabilidad": 0.165
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.87367,
+   "lon": -77.0495,
+   "puntaje": 44.3,
+   "percentil": 0.519,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0983145534992218,
+   "corriente_v": 0.05715687945485115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.87,
+     "favorabilidad": 0.428
+    },
+    "nivel_mar": {
+     "valor": 0.2464,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2366,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1093,
+     "favorabilidad": 0.048
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.84318,
+   "lon": -77.02992,
+   "puntaje": 44.2,
+   "percentil": 0.513,
+   "estado": "COMPLETO",
+   "corriente_u": -0.10650234669446945,
+   "corriente_v": 0.061814699321985245,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2443,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2285,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2417,
+     "favorabilidad": 0.07
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.53942,
+   "lon": -77.15822,
+   "puntaje": 44.1,
+   "percentil": 0.497,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06556449830532074,
+   "corriente_v": 0.020130828022956848,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.11,
+     "favorabilidad": 0.379
+    },
+    "nivel_mar": {
+     "valor": 0.2575,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2284,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5858,
+     "favorabilidad": 0.127
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.8828,
+   "lon": -76.94675,
+   "puntaje": 44.1,
+   "percentil": 0.497,
+   "estado": "COMPLETO",
+   "corriente_u": -0.14751529693603516,
+   "corriente_v": 0.062928207218647,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.81,
+     "favorabilidad": 0.441
+    },
+    "nivel_mar": {
+     "valor": 0.2424,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2256,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4058,
+     "favorabilidad": 0.097
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.03365,
+   "lon": -77.37497,
+   "puntaje": 44.1,
+   "percentil": 0.497,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01178846973925829,
+   "corriente_v": 0.008163449354469776,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.27,
+     "favorabilidad": 0.359
+    },
+    "nivel_mar": {
+     "valor": 0.2848,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2233,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4768,
+     "favorabilidad": 0.109
+    },
+    "prod_primaria": {
+     "valor": 97.5216,
+     "favorabilidad": 0.816
+    }
+   }
+  },
+  {
+   "lat": -12.4644,
+   "lon": -77.16349,
+   "puntaje": 44.0,
+   "percentil": 0.492,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06556449830532074,
+   "corriente_v": 0.020130828022956848,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.14,
+     "favorabilidad": 0.375
+    },
+    "nivel_mar": {
+     "valor": 0.2575,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2284,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5747,
+     "favorabilidad": 0.125
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.81269,
+   "lon": -77.01034,
+   "puntaje": 43.9,
+   "percentil": 0.476,
+   "estado": "COMPLETO",
+   "corriente_u": -0.10650234669446945,
+   "corriente_v": 0.061814699321985245,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.98,
+     "favorabilidad": 0.405
+    },
+    "nivel_mar": {
+     "valor": 0.2443,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2285,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1552,
+     "favorabilidad": 0.056
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.12245,
+   "lon": -77.25919,
+   "puntaje": 43.9,
+   "percentil": 0.476,
+   "estado": "COMPLETO",
+   "corriente_u": 0.13275566697120667,
+   "corriente_v": -0.059217192232608795,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.49,
+     "favorabilidad": 0.332
+    },
+    "nivel_mar": {
+     "valor": 0.2773,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2219,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.595,
+     "favorabilidad": 0.128
+    },
+    "prod_primaria": {
+     "valor": 97.5216,
+     "favorabilidad": 0.816
+    }
+   }
+  },
+  {
+   "lat": -12.10026,
+   "lon": -77.28815,
+   "puntaje": 43.9,
+   "percentil": 0.476,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08898846060037613,
+   "corriente_v": -0.07435375452041626,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.49,
+     "favorabilidad": 0.332
+    },
+    "nivel_mar": {
+     "valor": 0.282,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2254,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.595,
+     "favorabilidad": 0.128
+    },
+    "prod_primaria": {
+     "valor": 97.5216,
+     "favorabilidad": 0.816
+    }
+   }
+  },
+  {
+   "lat": -12.07806,
+   "lon": -77.31709,
+   "puntaje": 43.8,
+   "percentil": 0.471,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08898846060037613,
+   "corriente_v": -0.07435375452041626,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.41,
+     "favorabilidad": 0.342
+    },
+    "nivel_mar": {
+     "valor": 0.282,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2254,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5117,
+     "favorabilidad": 0.115
+    },
+    "prod_primaria": {
+     "valor": 97.5216,
+     "favorabilidad": 0.816
+    }
+   }
+  },
+  {
+   "lat": -12.73585,
+   "lon": -77.05149,
+   "puntaje": 43.7,
+   "percentil": 0.455,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07076898217201233,
+   "corriente_v": 0.08345131576061249,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.1,
+     "favorabilidad": 0.38
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2249,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2828,
+     "favorabilidad": 0.077
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.91659,
+   "lon": -76.9594,
+   "puntaje": 43.7,
+   "percentil": 0.455,
+   "estado": "COMPLETO",
+   "corriente_u": -0.15496492385864258,
+   "corriente_v": 0.053064849227666855,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.84,
+     "favorabilidad": 0.435
+    },
+    "nivel_mar": {
+     "valor": 0.2448,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2344,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3174,
+     "favorabilidad": 0.082
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.90415,
+   "lon": -77.06909,
+   "puntaje": 43.7,
+   "percentil": 0.455,
+   "estado": "COMPLETO",
+   "corriente_u": -0.14240774512290955,
+   "corriente_v": 0.03181088715791702,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.88,
+     "favorabilidad": 0.426
+    },
+    "nivel_mar": {
+     "valor": 0.2466,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2421,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3846,
+     "favorabilidad": 0.094
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.38994,
+   "lon": -77.15267,
+   "puntaje": 43.5,
+   "percentil": 0.439,
+   "estado": "COMPLETO",
+   "corriente_u": 0.07837780565023422,
+   "corriente_v": -0.027762625366449356,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.38,
+     "favorabilidad": 0.345
+    },
+    "nivel_mar": {
+     "valor": 0.2633,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2251,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.6333,
+     "favorabilidad": 0.135
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.28768,
+   "lon": -77.19238,
+   "puntaje": 43.5,
+   "percentil": 0.439,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05887903273105621,
+   "corriente_v": -0.03320647031068802,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.53,
+     "favorabilidad": 0.327
+    },
+    "nivel_mar": {
+     "valor": 0.2744,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2199,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5671,
+     "favorabilidad": 0.124
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.05585,
+   "lon": -77.34603,
+   "puntaje": 43.5,
+   "percentil": 0.439,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08898846060037613,
+   "corriente_v": -0.07435375452041626,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.41,
+     "favorabilidad": 0.342
+    },
+    "nivel_mar": {
+     "valor": 0.282,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2254,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4169,
+     "favorabilidad": 0.099
+    },
+    "prod_primaria": {
+     "valor": 97.5216,
+     "favorabilidad": 0.816
+    }
+   }
+  },
+  {
+   "lat": -12.7617,
+   "lon": -77.07714,
+   "puntaje": 43.4,
+   "percentil": 0.429,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07076898217201233,
+   "corriente_v": 0.08345131576061249,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.18,
+     "favorabilidad": 0.37
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2249,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2505,
+     "favorabilidad": 0.071
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.95039,
+   "lon": -76.97204,
+   "puntaje": 43.4,
+   "percentil": 0.429,
+   "estado": "COMPLETO",
+   "corriente_u": -0.15496492385864258,
+   "corriente_v": 0.053064849227666855,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.9,
+     "favorabilidad": 0.422
+    },
+    "nivel_mar": {
+     "valor": 0.2448,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2344,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3014,
+     "favorabilidad": 0.08
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.46309,
+   "lon": -77.2003,
+   "puntaje": 43.3,
+   "percentil": 0.418,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06556449830532074,
+   "corriente_v": 0.020130828022956848,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.25,
+     "favorabilidad": 0.361
+    },
+    "nivel_mar": {
+     "valor": 0.2575,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2284,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4418,
+     "favorabilidad": 0.103
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.38119,
+   "lon": -77.18839,
+   "puntaje": 43.3,
+   "percentil": 0.418,
+   "estado": "COMPLETO",
+   "corriente_u": 0.07837780565023422,
+   "corriente_v": -0.027762625366449356,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.38,
+     "favorabilidad": 0.345
+    },
+    "nivel_mar": {
+     "valor": 0.2633,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2251,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.5643,
+     "favorabilidad": 0.123
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.67818,
+   "lon": -77.10098,
+   "puntaje": 43.1,
+   "percentil": 0.407,
+   "estado": "COMPLETO",
+   "corriente_u": -0.033034905791282654,
+   "corriente_v": 0.09204791486263275,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.11,
+     "favorabilidad": 0.379
+    },
+    "nivel_mar": {
+     "valor": 0.2475,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.218,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1079,
+     "favorabilidad": 0.048
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.61174,
+   "lon": -77.13708,
+   "puntaje": 43.1,
+   "percentil": 0.407,
+   "estado": "COMPLETO",
+   "corriente_u": 0.005447879433631897,
+   "corriente_v": 0.08003174513578415,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.07,
+     "favorabilidad": 0.386
+    },
+    "nivel_mar": {
+     "valor": 0.2523,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2264,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1999,
+     "favorabilidad": 0.063
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.37243,
+   "lon": -77.22411,
+   "puntaje": 43.0,
+   "percentil": 0.397,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06220752373337746,
+   "corriente_v": -0.042199648916721344,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.51,
+     "favorabilidad": 0.329
+    },
+    "nivel_mar": {
+     "valor": 0.2673,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2248,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4012,
+     "favorabilidad": 0.096
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.98418,
+   "lon": -76.98469,
+   "puntaje": 43.0,
+   "percentil": 0.397,
+   "estado": "COMPLETO",
+   "corriente_u": -0.2276936173439026,
+   "corriente_v": 0.05928323417901993,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.9,
+     "favorabilidad": 0.422
+    },
+    "nivel_mar": {
+     "valor": 0.2464,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2396,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1914,
+     "favorabilidad": 0.062
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.46178,
+   "lon": -77.23712,
+   "puntaje": 42.9,
+   "percentil": 0.386,
+   "estado": "COMPLETO",
+   "corriente_u": 0.036783166229724884,
+   "corriente_v": 0.021929269656538963,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.25,
+     "favorabilidad": 0.361
+    },
+    "nivel_mar": {
+     "valor": 0.2574,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2311,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3222,
+     "favorabilidad": 0.083
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.93464,
+   "lon": -77.08868,
+   "puntaje": 42.9,
+   "percentil": 0.386,
+   "estado": "COMPLETO",
+   "corriente_u": -0.14240774512290955,
+   "corriente_v": 0.03181088715791702,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.88,
+     "favorabilidad": 0.426
+    },
+    "nivel_mar": {
+     "valor": 0.2466,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2421,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1297,
+     "favorabilidad": 0.051
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.54562,
+   "lon": -77.19452,
+   "puntaje": 42.8,
+   "percentil": 0.37,
+   "estado": "COMPLETO",
+   "corriente_u": 0.005447879433631897,
+   "corriente_v": 0.08003174513578415,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.11,
+     "favorabilidad": 0.379
+    },
+    "nivel_mar": {
+     "valor": 0.2523,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2264,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1714,
+     "favorabilidad": 0.058
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.78754,
+   "lon": -77.10279,
+   "puntaje": 42.8,
+   "percentil": 0.37,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07076898217201233,
+   "corriente_v": 0.08345131576061249,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.24,
+     "favorabilidad": 0.363
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2249,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.1331,
+     "favorabilidad": 0.052
+    },
+    "prod_primaria": {
+     "valor": 91.3575,
+     "favorabilidad": 0.791
+    }
+   }
+  },
+  {
+   "lat": -12.27186,
+   "lon": -77.22545,
+   "puntaje": 42.8,
+   "percentil": 0.37,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12081299722194672,
+   "corriente_v": -0.041971415281295776,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.65,
+     "favorabilidad": 0.312
+    },
+    "nivel_mar": {
+     "valor": 0.2724,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2205,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4701,
+     "favorabilidad": 0.108
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.46046,
+   "lon": -77.27394,
+   "puntaje": 42.5,
+   "percentil": 0.36,
+   "estado": "COMPLETO",
+   "corriente_u": 0.036783166229724884,
+   "corriente_v": 0.021929269656538963,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.35,
+     "favorabilidad": 0.349
+    },
+    "nivel_mar": {
+     "valor": 0.2574,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2311,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3017,
+     "favorabilidad": 0.08
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.24021,
+   "lon": -77.29156,
+   "puntaje": 42.5,
+   "percentil": 0.36,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12081299722194672,
+   "corriente_v": -0.041971415281295776,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.71,
+     "favorabilidad": 0.304
+    },
+    "nivel_mar": {
+     "valor": 0.2724,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2205,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4252,
+     "favorabilidad": 0.1
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.36367,
+   "lon": -77.25983,
+   "puntaje": 42.4,
+   "percentil": 0.349,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06220752373337746,
+   "corriente_v": -0.042199648916721344,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.62,
+     "favorabilidad": 0.316
+    },
+    "nivel_mar": {
+     "valor": 0.2673,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2248,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.3106,
+     "favorabilidad": 0.081
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.25603,
+   "lon": -77.25851,
+   "puntaje": 42.4,
+   "percentil": 0.349,
+   "estado": "COMPLETO",
+   "corriente_u": 0.12081299722194672,
+   "corriente_v": -0.041971415281295776,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.75,
+     "favorabilidad": 0.3
+    },
+    "nivel_mar": {
+     "valor": 0.2724,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2205,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.433,
+     "favorabilidad": 0.102
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -13.01798,
+   "lon": -76.99734,
+   "puntaje": 42.3,
+   "percentil": 0.344,
+   "estado": "COMPLETO",
+   "corriente_u": -0.2276936173439026,
+   "corriente_v": 0.05928323417901993,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 20.95,
+     "favorabilidad": 0.412
+    },
+    "nivel_mar": {
+     "valor": 0.2464,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2396,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0318,
+     "favorabilidad": 0.035
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.55181,
+   "lon": -77.23082,
+   "puntaje": 42.2,
+   "percentil": 0.333,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0077512795105576515,
+   "corriente_v": 0.05817968025803566,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.21,
+     "favorabilidad": 0.366
+    },
+    "nivel_mar": {
+     "valor": 0.2532,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2346,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0596,
+     "favorabilidad": 0.04
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.22438,
+   "lon": -77.32461,
+   "puntaje": 42.2,
+   "percentil": 0.333,
+   "estado": "COMPLETO",
+   "corriente_u": 0.14550834894180298,
+   "corriente_v": -0.07303144037723541,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.78,
+     "favorabilidad": 0.296
+    },
+    "nivel_mar": {
+     "valor": 0.2691,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2239,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.4232,
+     "favorabilidad": 0.1
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.45914,
+   "lon": -77.31075,
+   "puntaje": 42.0,
+   "percentil": 0.328,
+   "estado": "COMPLETO",
+   "corriente_u": 0.021084755659103394,
+   "corriente_v": -0.005687483586370945,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.44,
+     "favorabilidad": 0.338
+    },
+    "nivel_mar": {
+     "valor": 0.2562,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2309,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2316,
+     "favorabilidad": 0.068
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.69826,
+   "lon": -77.13158,
+   "puntaje": 41.9,
+   "percentil": 0.317,
+   "estado": "COMPLETO",
+   "corriente_u": -0.039392005652189255,
+   "corriente_v": 0.08992062509059906,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.11,
+     "favorabilidad": 0.379
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2293,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0581,
+     "favorabilidad": 0.039
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.62517,
+   "lon": -77.17128,
+   "puntaje": 41.9,
+   "percentil": 0.317,
+   "estado": "COMPLETO",
+   "corriente_u": -0.039392005652189255,
+   "corriente_v": 0.08992062509059906,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.14,
+     "favorabilidad": 0.375
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2293,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0956,
+     "favorabilidad": 0.046
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.71834,
+   "lon": -77.16217,
+   "puntaje": 41.6,
+   "percentil": 0.296,
+   "estado": "COMPLETO",
+   "corriente_u": -0.06108355522155762,
+   "corriente_v": 0.06804671883583069,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.2,
+     "favorabilidad": 0.368
+    },
+    "nivel_mar": {
+     "valor": 0.2481,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2329,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0611,
+     "favorabilidad": 0.04
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.6386,
+   "lon": -77.20548,
+   "puntaje": 41.6,
+   "percentil": 0.296,
+   "estado": "COMPLETO",
+   "corriente_u": -0.039392005652189255,
+   "corriente_v": 0.08992062509059906,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.24,
+     "favorabilidad": 0.363
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2293,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0956,
+     "favorabilidad": 0.046
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -13.05177,
+   "lon": -77.01,
+   "puntaje": 41.6,
+   "percentil": 0.296,
+   "estado": "COMPLETO",
+   "corriente_u": -0.27497053146362305,
+   "corriente_v": 0.08705699443817139,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2554,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.9071,
+     "favorabilidad": 0.014
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.20854,
+   "lon": -77.35766,
+   "puntaje": 41.6,
+   "percentil": 0.296,
+   "estado": "COMPLETO",
+   "corriente_u": 0.14550834894180298,
+   "corriente_v": -0.07303144037723541,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.84,
+     "favorabilidad": 0.288
+    },
+    "nivel_mar": {
+     "valor": 0.2691,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2239,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2782,
+     "favorabilidad": 0.076
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.3549,
+   "lon": -77.29554,
+   "puntaje": 41.5,
+   "percentil": 0.286,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06495433300733566,
+   "corriente_v": -0.04429643601179123,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.62,
+     "favorabilidad": 0.316
+    },
+    "nivel_mar": {
+     "valor": 0.2641,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2257,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0239,
+     "favorabilidad": 0.034
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.96512,
+   "lon": -77.10828,
+   "puntaje": 41.5,
+   "percentil": 0.286,
+   "estado": "COMPLETO",
+   "corriente_u": -0.21456584334373474,
+   "corriente_v": 0.016635289415717125,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.08,
+     "favorabilidad": 0.384
+    },
+    "nivel_mar": {
+     "valor": 0.2478,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2451,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.007,
+     "favorabilidad": 0.031
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.45781,
+   "lon": -77.34757,
+   "puntaje": 41.4,
+   "percentil": 0.275,
+   "estado": "COMPLETO",
+   "corriente_u": 0.038035232573747635,
+   "corriente_v": -0.028092660009860992,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.44,
+     "favorabilidad": 0.338
+    },
+    "nivel_mar": {
+     "valor": 0.2601,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2281,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0287,
+     "favorabilidad": 0.035
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -13.08556,
+   "lon": -77.02266,
+   "puntaje": 41.4,
+   "percentil": 0.275,
+   "estado": "COMPLETO",
+   "corriente_u": -0.27497053146362305,
+   "corriente_v": 0.08705699443817139,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.01,
+     "favorabilidad": 0.399
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2554,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8553,
+     "favorabilidad": 0.006
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.65202,
+   "lon": -77.23968,
+   "puntaje": 41.3,
+   "percentil": 0.265,
+   "estado": "COMPLETO",
+   "corriente_u": -0.040020719170570374,
+   "corriente_v": 0.060326479375362396,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.26,
+     "favorabilidad": 0.36
+    },
+    "nivel_mar": {
+     "valor": 0.2503,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2397,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0361,
+     "favorabilidad": 0.036
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.558,
+   "lon": -77.26713,
+   "puntaje": 41.3,
+   "percentil": 0.265,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0077512795105576515,
+   "corriente_v": 0.05817968025803566,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.31,
+     "favorabilidad": 0.354
+    },
+    "nivel_mar": {
+     "valor": 0.2532,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2346,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8746,
+     "favorabilidad": 0.009
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -13.11936,
+   "lon": -77.03533,
+   "puntaje": 41.2,
+   "percentil": 0.259,
+   "estado": "COMPLETO",
+   "corriente_u": -0.27497053146362305,
+   "corriente_v": 0.08705699443817139,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.05,
+     "favorabilidad": 0.391
+    },
+    "nivel_mar": {
+     "valor": 0.2494,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2554,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8553,
+     "favorabilidad": 0.006
+    },
+    "prod_primaria": {
+     "valor": 65.735,
+     "favorabilidad": 0.684
+    }
+   }
+  },
+  {
+   "lat": -12.81339,
+   "lon": -77.12845,
+   "puntaje": 41.0,
+   "percentil": 0.249,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0836494117975235,
+   "corriente_v": 0.03723268583416939,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.27,
+     "favorabilidad": 0.359
+    },
+    "nivel_mar": {
+     "valor": 0.2477,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2408,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.94,
+     "favorabilidad": 0.02
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.73841,
+   "lon": -77.19278,
+   "puntaje": 41.0,
+   "percentil": 0.249,
+   "estado": "COMPLETO",
+   "corriente_u": -0.06108355522155762,
+   "corriente_v": 0.06804671883583069,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.2,
+     "favorabilidad": 0.368
+    },
+    "nivel_mar": {
+     "valor": 0.2481,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2329,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8723,
+     "favorabilidad": 0.009
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.56418,
+   "lon": -77.30344,
+   "puntaje": 40.8,
+   "percentil": 0.233,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0004081380902789533,
+   "corriente_v": 0.009291848167777061,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.41,
+     "favorabilidad": 0.342
+    },
+    "nivel_mar": {
+     "valor": 0.2527,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2345,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7081,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.57035,
+   "lon": -77.33975,
+   "puntaje": 40.8,
+   "percentil": 0.233,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0004081380902789533,
+   "corriente_v": 0.009291848167777061,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.41,
+     "favorabilidad": 0.342
+    },
+    "nivel_mar": {
+     "valor": 0.2527,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2345,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6051,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 82.6994,
+     "favorabilidad": 0.755
+    }
+   }
+  },
+  {
+   "lat": -12.34613,
+   "lon": -77.33126,
+   "puntaje": 40.8,
+   "percentil": 0.233,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06495433300733566,
+   "corriente_v": -0.04429643601179123,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.83,
+     "favorabilidad": 0.29
+    },
+    "nivel_mar": {
+     "valor": 0.2641,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2257,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0239,
+     "favorabilidad": 0.034
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.66544,
+   "lon": -77.27389,
+   "puntaje": 40.7,
+   "percentil": 0.228,
+   "estado": "COMPLETO",
+   "corriente_u": -0.040020719170570374,
+   "corriente_v": 0.060326479375362396,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.36,
+     "favorabilidad": 0.348
+    },
+    "nivel_mar": {
+     "valor": 0.2503,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2397,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.9414,
+     "favorabilidad": 0.02
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.83923,
+   "lon": -77.15411,
+   "puntaje": 40.6,
+   "percentil": 0.217,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0836494117975235,
+   "corriente_v": 0.03723268583416939,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.34,
+     "favorabilidad": 0.35
+    },
+    "nivel_mar": {
+     "valor": 0.2477,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2408,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8877,
+     "favorabilidad": 0.011
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.75848,
+   "lon": -77.22339,
+   "puntaje": 40.6,
+   "percentil": 0.217,
+   "estado": "COMPLETO",
+   "corriente_u": -0.05726805701851845,
+   "corriente_v": 0.03932447358965874,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.3,
+     "favorabilidad": 0.355
+    },
+    "nivel_mar": {
+     "valor": 0.2486,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.245,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8254,
+     "favorabilidad": 0.001
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.33736,
+   "lon": -77.36697,
+   "puntaje": 40.5,
+   "percentil": 0.212,
+   "estado": "COMPLETO",
+   "corriente_u": 0.06495433300733566,
+   "corriente_v": -0.04429643601179123,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.83,
+     "favorabilidad": 0.29
+    },
+    "nivel_mar": {
+     "valor": 0.2641,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2257,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.9183,
+     "favorabilidad": 0.016
+    },
+    "prod_primaria": {
+     "valor": 94.0891,
+     "favorabilidad": 0.802
+    }
+   }
+  },
+  {
+   "lat": -12.99561,
+   "lon": -77.12788,
+   "puntaje": 40.4,
+   "percentil": 0.201,
+   "estado": "COMPLETO",
+   "corriente_u": -0.18156641721725464,
+   "corriente_v": -0.022331608459353447,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.08,
+     "favorabilidad": 0.384
+    },
+    "nivel_mar": {
+     "valor": 0.2477,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2482,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8766,
+     "favorabilidad": 0.009
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.1927,
+   "lon": -77.39071,
+   "puntaje": 40.4,
+   "percentil": 0.201,
+   "estado": "COMPLETO",
+   "corriente_u": 0.14060834050178528,
+   "corriente_v": -0.03088575042784214,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.77,
+     "favorabilidad": 0.297
+    },
+    "nivel_mar": {
+     "valor": 0.2748,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2337,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2697,
+     "favorabilidad": 0.075
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.77855,
+   "lon": -77.254,
+   "puntaje": 40.3,
+   "percentil": 0.19,
+   "estado": "COMPLETO",
+   "corriente_u": -0.05726805701851845,
+   "corriente_v": 0.03932447358965874,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.38,
+     "favorabilidad": 0.345
+    },
+    "nivel_mar": {
+     "valor": 0.2486,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.245,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6556,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.79861,
+   "lon": -77.28462,
+   "puntaje": 40.3,
+   "percentil": 0.19,
+   "estado": "COMPLETO",
+   "corriente_u": -0.07432365417480469,
+   "corriente_v": 0.010220124386250973,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.38,
+     "favorabilidad": 0.345
+    },
+    "nivel_mar": {
+     "valor": 0.2474,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2531,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6274,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.86508,
+   "lon": -77.17978,
+   "puntaje": 40.2,
+   "percentil": 0.18,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0836494117975235,
+   "corriente_v": 0.03723268583416939,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.4,
+     "favorabilidad": 0.343
+    },
+    "nivel_mar": {
+     "valor": 0.2477,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2408,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7692,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -13.02609,
+   "lon": -77.14749,
+   "puntaje": 40.2,
+   "percentil": 0.18,
+   "estado": "COMPLETO",
+   "corriente_u": -0.18156641721725464,
+   "corriente_v": -0.022331608459353447,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.09,
+     "favorabilidad": 0.382
+    },
+    "nivel_mar": {
+     "valor": 0.2477,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2482,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7706,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.67885,
+   "lon": -77.3081,
+   "puntaje": 40.1,
+   "percentil": 0.169,
+   "estado": "COMPLETO",
+   "corriente_u": -0.02144450508058071,
+   "corriente_v": 0.005245048087090254,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.46,
+     "favorabilidad": 0.335
+    },
+    "nivel_mar": {
+     "valor": 0.25,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2398,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7141,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.69226,
+   "lon": -77.34232,
+   "puntaje": 40.1,
+   "percentil": 0.169,
+   "estado": "COMPLETO",
+   "corriente_u": -0.02144450508058071,
+   "corriente_v": 0.005245048087090254,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.46,
+     "favorabilidad": 0.335
+    },
+    "nivel_mar": {
+     "valor": 0.25,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2398,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6594,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.81867,
+   "lon": -77.31524,
+   "puntaje": 39.8,
+   "percentil": 0.159,
+   "estado": "COMPLETO",
+   "corriente_u": -0.05639765411615372,
+   "corriente_v": -0.026201456785202026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.55,
+     "favorabilidad": 0.324
+    },
+    "nivel_mar": {
+     "valor": 0.2454,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2506,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5348,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.83872,
+   "lon": -77.34587,
+   "puntaje": 39.8,
+   "percentil": 0.159,
+   "estado": "COMPLETO",
+   "corriente_u": -0.05639765411615372,
+   "corriente_v": -0.026201456785202026,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.55,
+     "favorabilidad": 0.324
+    },
+    "nivel_mar": {
+     "valor": 0.2454,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2506,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5032,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 71.5014,
+     "favorabilidad": 0.708
+    }
+   }
+  },
+  {
+   "lat": -12.57652,
+   "lon": -77.37606,
+   "puntaje": 39.5,
+   "percentil": 0.148,
+   "estado": "COMPLETO",
+   "corriente_u": 0.01877155341207981,
+   "corriente_v": -0.05833938717842102,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.51,
+     "favorabilidad": 0.329
+    },
+    "nivel_mar": {
+     "valor": 0.2506,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2328,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.67,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.45647,
+   "lon": -77.38438,
+   "puntaje": 39.5,
+   "percentil": 0.148,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05089553818106651,
+   "corriente_v": -0.06140797585248947,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.51,
+     "favorabilidad": 0.329
+    },
+    "nivel_mar": {
+     "valor": 0.2573,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.23,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8012,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.89091,
+   "lon": -77.20546,
+   "puntaje": 39.4,
+   "percentil": 0.132,
+   "estado": "COMPLETO",
+   "corriente_u": -0.11866512894630432,
+   "corriente_v": 0.0019070940325036645,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.42,
+     "favorabilidad": 0.34
+    },
+    "nivel_mar": {
+     "valor": 0.2472,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2457,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8728,
+     "favorabilidad": 0.009
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -13.05657,
+   "lon": -77.1671,
+   "puntaje": 39.4,
+   "percentil": 0.132,
+   "estado": "COMPLETO",
+   "corriente_u": -0.2327055186033249,
+   "corriente_v": -0.03145028278231621,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.37,
+     "favorabilidad": 0.347
+    },
+    "nivel_mar": {
+     "valor": 0.25,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2589,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5686,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -13.08705,
+   "lon": -77.18671,
+   "puntaje": 39.4,
+   "percentil": 0.132,
+   "estado": "COMPLETO",
+   "corriente_u": -0.2327055186033249,
+   "corriente_v": -0.03145028278231621,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.37,
+     "favorabilidad": 0.347
+    },
+    "nivel_mar": {
+     "valor": 0.25,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2589,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5516,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.58269,
+   "lon": -77.41237,
+   "puntaje": 39.2,
+   "percentil": 0.111,
+   "estado": "COMPLETO",
+   "corriente_u": 0.01877155341207981,
+   "corriente_v": -0.05833938717842102,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.6,
+     "favorabilidad": 0.318
+    },
+    "nivel_mar": {
+     "valor": 0.2506,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2328,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.67,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.45514,
+   "lon": -77.4212,
+   "puntaje": 39.2,
+   "percentil": 0.111,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05089553818106651,
+   "corriente_v": -0.06140797585248947,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.59,
+     "favorabilidad": 0.319
+    },
+    "nivel_mar": {
+     "valor": 0.2573,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.23,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7901,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.58885,
+   "lon": -77.44868,
+   "puntaje": 39.2,
+   "percentil": 0.111,
+   "estado": "COMPLETO",
+   "corriente_u": 0.01877155341207981,
+   "corriente_v": -0.05833938717842102,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.6,
+     "favorabilidad": 0.318
+    },
+    "nivel_mar": {
+     "valor": 0.2506,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2328,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.763,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.17686,
+   "lon": -77.42375,
+   "puntaje": 39.2,
+   "percentil": 0.111,
+   "estado": "COMPLETO",
+   "corriente_u": 0.14060834050178528,
+   "corriente_v": -0.03088575042784214,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.9,
+     "favorabilidad": 0.281
+    },
+    "nivel_mar": {
+     "valor": 0.2748,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2337,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.0359,
+     "favorabilidad": 0.036
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.60116,
+   "lon": -77.52131,
+   "puntaje": 39.1,
+   "percentil": 0.106,
+   "estado": "COMPLETO",
+   "corriente_u": 0.03421271964907646,
+   "corriente_v": -0.10810686647891998,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.65,
+     "favorabilidad": 0.312
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2341,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.4529,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.70566,
+   "lon": -77.37654,
+   "puntaje": 39.0,
+   "percentil": 0.085,
+   "estado": "COMPLETO",
+   "corriente_u": 0.0023338717874139547,
+   "corriente_v": -0.05637921020388603,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.55,
+     "favorabilidad": 0.324
+    },
+    "nivel_mar": {
+     "valor": 0.2475,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2348,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6309,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 57.3601,
+     "favorabilidad": 0.649
+    }
+   }
+  },
+  {
+   "lat": -12.32858,
+   "lon": -77.40268,
+   "puntaje": 39.0,
+   "percentil": 0.085,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08098454773426056,
+   "corriente_v": -0.048456110060214996,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.81,
+     "favorabilidad": 0.292
+    },
+    "nivel_mar": {
+     "valor": 0.2616,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2291,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8847,
+     "favorabilidad": 0.011
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.59501,
+   "lon": -77.485,
+   "puntaje": 39.0,
+   "percentil": 0.085,
+   "estado": "COMPLETO",
+   "corriente_u": 0.03421271964907646,
+   "corriente_v": -0.10810686647891998,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.66,
+     "favorabilidad": 0.311
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2341,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5444,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.74585,
+   "lon": -77.47922,
+   "puntaje": 39.0,
+   "percentil": 0.085,
+   "estado": "COMPLETO",
+   "corriente_u": -0.0013305366737768054,
+   "corriente_v": -0.12285959720611572,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.56,
+     "favorabilidad": 0.323
+    },
+    "nivel_mar": {
+     "valor": 0.2397,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2348,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.3318,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 57.3601,
+     "favorabilidad": 0.649
+    }
+   }
+  },
+  {
+   "lat": -12.71906,
+   "lon": -77.41076,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01662796549499035,
+   "corriente_v": -0.062046751379966736,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.59,
+     "favorabilidad": 0.319
+    },
+    "nivel_mar": {
+     "valor": 0.2446,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2366,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5852,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 57.3601,
+     "favorabilidad": 0.649
+    }
+   }
+  },
+  {
+   "lat": -12.45379,
+   "lon": -77.45801,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": 0.05089553818106651,
+   "corriente_v": -0.06140797585248947,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.7,
+     "favorabilidad": 0.306
+    },
+    "nivel_mar": {
+     "valor": 0.2573,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.23,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7901,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.73246,
+   "lon": -77.44499,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": -0.01662796549499035,
+   "corriente_v": -0.062046751379966736,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.59,
+     "favorabilidad": 0.319
+    },
+    "nivel_mar": {
+     "valor": 0.2446,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2366,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.4296,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 57.3601,
+     "favorabilidad": 0.649
+    }
+   }
+  },
+  {
+   "lat": -12.45245,
+   "lon": -77.49482,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08931959420442581,
+   "corriente_v": -0.09725595265626907,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.7,
+     "favorabilidad": 0.306
+    },
+    "nivel_mar": {
+     "valor": 0.2546,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2336,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7319,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.31101,
+   "lon": -77.47409,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11203457415103912,
+   "corriente_v": -0.08716920018196106,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.79,
+     "favorabilidad": 0.295
+    },
+    "nivel_mar": {
+     "valor": 0.26,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2367,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7515,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.16101,
+   "lon": -77.45678,
+   "puntaje": 38.9,
+   "percentil": 0.053,
+   "estado": "COMPLETO",
+   "corriente_u": 0.14060834050178528,
+   "corriente_v": -0.03088575042784214,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 22.2,
+     "favorabilidad": 0.244
+    },
+    "nivel_mar": {
+     "valor": 0.2748,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2337,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 1.2269,
+     "favorabilidad": 0.067
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.31979,
+   "lon": -77.43839,
+   "puntaje": 38.8,
+   "percentil": 0.042,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08098454773426056,
+   "corriente_v": -0.048456110060214996,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.81,
+     "favorabilidad": 0.292
+    },
+    "nivel_mar": {
+     "valor": 0.2616,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2291,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.8006,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.30221,
+   "lon": -77.50979,
+   "puntaje": 38.8,
+   "percentil": 0.042,
+   "estado": "COMPLETO",
+   "corriente_u": 0.11203457415103912,
+   "corriente_v": -0.08716920018196106,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.81,
+     "favorabilidad": 0.292
+    },
+    "nivel_mar": {
+     "valor": 0.26,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2367,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6916,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 67.9002,
+     "favorabilidad": 0.693
+    }
+   }
+  },
+  {
+   "lat": -12.45109,
+   "lon": -77.53164,
+   "puntaje": 38.7,
+   "percentil": 0.037,
+   "estado": "COMPLETO",
+   "corriente_u": 0.08931959420442581,
+   "corriente_v": -0.09725595265626907,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.78,
+     "favorabilidad": 0.296
+    },
+    "nivel_mar": {
+     "valor": 0.2546,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2336,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6298,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 63.6118,
+     "favorabilidad": 0.675
+    }
+   }
+  },
+  {
+   "lat": -12.91675,
+   "lon": -77.23113,
+   "puntaje": 38.6,
+   "percentil": 0.032,
+   "estado": "COMPLETO",
+   "corriente_u": -0.10193784534931183,
+   "corriente_v": -0.027776552364230156,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.61,
+     "favorabilidad": 0.317
+    },
+    "nivel_mar": {
+     "valor": 0.2464,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2589,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.6863,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.85877,
+   "lon": -77.37651,
+   "puntaje": 38.4,
+   "percentil": 0.026,
+   "estado": "COMPLETO",
+   "corriente_u": -0.03205857425928116,
+   "corriente_v": -0.07134371250867844,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.75,
+     "favorabilidad": 0.3
+    },
+    "nivel_mar": {
+     "valor": 0.242,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2371,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.4306,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 57.3601,
+     "favorabilidad": 0.649
+    }
+   }
+  },
+  {
+   "lat": -12.94258,
+   "lon": -77.25682,
+   "puntaje": 38.3,
+   "percentil": 0.021,
+   "estado": "COMPLETO",
+   "corriente_u": -0.10193784534931183,
+   "corriente_v": -0.027776552364230156,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.73,
+     "favorabilidad": 0.302
+    },
+    "nivel_mar": {
+     "valor": 0.2464,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2589,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5514,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.87882,
+   "lon": -77.40714,
+   "puntaje": 37.9,
+   "percentil": 0.016,
+   "estado": "COMPLETO",
+   "corriente_u": -0.055804092437028885,
+   "corriente_v": -0.08716746419668198,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.83,
+     "favorabilidad": 0.29
+    },
+    "nivel_mar": {
+     "valor": 0.2397,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2384,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.4315,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 52.8679,
+     "favorabilidad": 0.63
+    }
+   }
+  },
+  {
+   "lat": -12.99424,
+   "lon": -77.3082,
+   "puntaje": 37.7,
+   "percentil": 0.011,
+   "estado": "COMPLETO",
+   "corriente_u": -0.129294291138649,
+   "corriente_v": -0.09542547911405563,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.93,
+     "favorabilidad": 0.277
+    },
+    "nivel_mar": {
+     "valor": 0.2431,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2696,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.4565,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -12.96842,
+   "lon": -77.28251,
+   "puntaje": 37.4,
+   "percentil": 0.005,
+   "estado": "COMPLETO",
+   "corriente_u": -0.15050184726715088,
+   "corriente_v": -0.0595795176923275,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 22.01,
+     "favorabilidad": 0.267
+    },
+    "nivel_mar": {
+     "valor": 0.2463,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2603,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.5172,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 53.6074,
+     "favorabilidad": 0.633
+    }
+   }
+  },
+  {
+   "lat": -13.15315,
+   "lon": -77.04799,
+   "puntaje": 33.5,
+   "percentil": 0.0,
+   "estado": "COMPLETO",
+   "corriente_u": -0.25890836119651794,
+   "corriente_v": 0.040906187146902084,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.14,
+     "favorabilidad": 0.375
+    },
+    "nivel_mar": {
+     "valor": 0.2544,
+     "favorabilidad": 1.0
+    },
+    "salinidad": {
+     "valor": 35.2788,
+     "favorabilidad": 0.0
+    },
+    "clorofila": {
+     "valor": 0.7581,
+     "favorabilidad": 0.0
+    },
+    "prod_primaria": {
+     "valor": 38.4229,
+     "favorabilidad": 0.14
+    }
+   }
+  }
+ ],
+ "malla": [
+  {
+   "lat": -12.48968,
+   "lon": -76.86787,
+   "dist_caleta_km": 8.0,
+   "puntaje": 48.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.47468,
+   "lon": -76.86894,
+   "dist_caleta_km": 8.0,
+   "puntaje": 48.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45979,
+   "lon": -76.86679,
+   "dist_caleta_km": 8.0,
+   "puntaje": 48.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.57861,
+   "lon": -76.83312,
+   "dist_caleta_km": 12.0,
+   "puntaje": 48.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.54481,
+   "lon": -76.82051,
+   "dist_caleta_km": 8.0,
+   "puntaje": 48.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.35092,
+   "lon": -77.06009,
+   "dist_caleta_km": 32.0,
+   "puntaje": 48.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45107,
+   "lon": -76.90253,
+   "dist_caleta_km": 12.0,
+   "puntaje": 48.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.44565,
+   "lon": -76.86152,
+   "dist_caleta_km": 8.0,
+   "puntaje": 47.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.4329,
+   "lon": -76.85336,
+   "dist_caleta_km": 8.0,
+   "puntaje": 47.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.42987,
+   "lon": -76.89462,
+   "dist_caleta_km": 12.0,
+   "puntaje": 47.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.41409,
+   "lon": -76.92772,
+   "dist_caleta_km": 16.0,
+   "puntaje": 47.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.41074,
+   "lon": -76.88238,
+   "dist_caleta_km": 12.0,
+   "puntaje": 47.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.38859,
+   "lon": -76.91139,
+   "dist_caleta_km": 16.0,
+   "puntaje": 47.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.49592,
+   "lon": -76.90416,
+   "dist_caleta_km": 12.0,
+   "puntaje": 47.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.47341,
+   "lon": -76.90576,
+   "dist_caleta_km": 12.0,
+   "puntaje": 47.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.36643,
+   "lon": -76.9404,
+   "dist_caleta_km": 20.0,
+   "puntaje": 47.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.61241,
+   "lon": -76.84573,
+   "dist_caleta_km": 16.0,
+   "puntaje": 47.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.47214,
+   "lon": -76.94258,
+   "dist_caleta_km": 16.0,
+   "puntaje": 47.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.47086,
+   "lon": -76.9794,
+   "dist_caleta_km": 20.0,
+   "puntaje": 47.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.32209,
+   "lon": -76.99841,
+   "dist_caleta_km": 28.0,
+   "puntaje": 47.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.59922,
+   "lon": -76.87343,
+   "dist_caleta_km": 16.0,
+   "puntaje": 47.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.51742,
+   "lon": -76.8564,
+   "dist_caleta_km": 8.0,
+   "puntaje": 46.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.50414,
+   "lon": -76.86363,
+   "dist_caleta_km": 8.0,
+   "puntaje": 46.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.64621,
+   "lon": -76.85835,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.36672,
+   "lon": -77.027,
+   "dist_caleta_km": 28.0,
+   "puntaje": 46.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.53107,
+   "lon": -76.93197,
+   "dist_caleta_km": 16.0,
+   "puntaje": 46.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.50215,
+   "lon": -76.94045,
+   "dist_caleta_km": 16.0,
+   "puntaje": 46.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.44235,
+   "lon": -76.93828,
+   "dist_caleta_km": 16.0,
+   "puntaje": 46.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.68001,
+   "lon": -76.87097,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.53821,
+   "lon": -76.83436,
+   "dist_caleta_km": 8.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.52895,
+   "lon": -76.8465,
+   "dist_caleta_km": 8.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.3983,
+   "lon": -76.96082,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.46958,
+   "lon": -77.01622,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.38251,
+   "lon": -76.99391,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.34426,
+   "lon": -76.96941,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.50837,
+   "lon": -76.97674,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.43363,
+   "lon": -76.97401,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.41617,
+   "lon": -77.04548,
+   "dist_caleta_km": 28.0,
+   "puntaje": 46.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.53753,
+   "lon": -76.88695,
+   "dist_caleta_km": 12.0,
+   "puntaje": 46.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.51761,
+   "lon": -76.8978,
+   "dist_caleta_km": 12.0,
+   "puntaje": 46.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.56871,
+   "lon": -76.85389,
+   "dist_caleta_km": 12.0,
+   "puntaje": 46.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.55482,
+   "lon": -76.8721,
+   "dist_caleta_km": 12.0,
+   "puntaje": 46.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.60655,
+   "lon": -76.92333,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.4249,
+   "lon": -77.00975,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.40743,
+   "lon": -77.08121,
+   "dist_caleta_km": 32.0,
+   "puntaje": 46.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.58069,
+   "lon": -76.89771,
+   "dist_caleta_km": 16.0,
+   "puntaje": 46.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.51459,
+   "lon": -77.01303,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.467,
+   "lon": -77.08985,
+   "dist_caleta_km": 32.0,
+   "puntaje": 46.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.33511,
+   "lon": -77.09317,
+   "dist_caleta_km": 36.0,
+   "puntaje": 46.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.54452,
+   "lon": -76.96615,
+   "dist_caleta_km": 20.0,
+   "puntaje": 46.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.59783,
+   "lon": -76.97865,
+   "dist_caleta_km": 24.0,
+   "puntaje": 46.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.52081,
+   "lon": -77.04933,
+   "dist_caleta_km": 28.0,
+   "puntaje": 46.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.55764,
+   "lon": -76.91751,
+   "dist_caleta_km": 16.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.57774,
+   "lon": -76.94808,
+   "dist_caleta_km": 20.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.66021,
+   "lon": -76.91253,
+   "dist_caleta_km": 24.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.55798,
+   "lon": -77.00033,
+   "dist_caleta_km": 24.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.57142,
+   "lon": -77.03451,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.46829,
+   "lon": -77.05303,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.62972,
+   "lon": -76.89298,
+   "dist_caleta_km": 20.0,
+   "puntaje": 45.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.52702,
+   "lon": -77.08562,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.29992,
+   "lon": -77.0274,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.78141,
+   "lon": -76.90884,
+   "dist_caleta_km": 36.0,
+   "puntaje": 45.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.63242,
+   "lon": -76.94895,
+   "dist_caleta_km": 24.0,
+   "puntaje": 45.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.71381,
+   "lon": -76.88359,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.74761,
+   "lon": -76.89621,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.65828,
+   "lon": -76.97458,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.61793,
+   "lon": -77.00923,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.53322,
+   "lon": -77.12192,
+   "dist_caleta_km": 36.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.8152,
+   "lon": -76.92148,
+   "dist_caleta_km": 40.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.849,
+   "lon": -76.93411,
+   "dist_caleta_km": 44.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.14465,
+   "lon": -77.23024,
+   "dist_caleta_km": 60.0,
+   "puntaje": 45.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.27775,
+   "lon": -77.05639,
+   "dist_caleta_km": 36.0,
+   "puntaje": 45.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.69071,
+   "lon": -76.93208,
+   "dist_caleta_km": 28.0,
+   "puntaje": 45.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.58487,
+   "lon": -77.0687,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.25558,
+   "lon": -77.08538,
+   "dist_caleta_km": 40.0,
+   "puntaje": 45.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.18903,
+   "lon": -77.17231,
+   "dist_caleta_km": 52.0,
+   "puntaje": 45.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.72121,
+   "lon": -76.95164,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.63802,
+   "lon": -77.03981,
+   "dist_caleta_km": 32.0,
+   "puntaje": 45.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.7517,
+   "lon": -76.9712,
+   "dist_caleta_km": 36.0,
+   "puntaje": 45.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.7822,
+   "lon": -76.99077,
+   "dist_caleta_km": 40.0,
+   "puntaje": 45.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.68414,
+   "lon": -77.00021,
+   "dist_caleta_km": 32.0,
+   "puntaje": 44.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.39869,
+   "lon": -77.11694,
+   "dist_caleta_km": 36.0,
+   "puntaje": 44.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.16684,
+   "lon": -77.20127,
+   "dist_caleta_km": 56.0,
+   "puntaje": 44.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.59831,
+   "lon": -77.10289,
+   "dist_caleta_km": 36.0,
+   "puntaje": 44.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.2334,
+   "lon": -77.11436,
+   "dist_caleta_km": 44.0,
+   "puntaje": 44.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.21121,
+   "lon": -77.14334,
+   "dist_caleta_km": 48.0,
+   "puntaje": 44.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.70999,
+   "lon": -77.02585,
+   "dist_caleta_km": 36.0,
+   "puntaje": 44.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.3193,
+   "lon": -77.12624,
+   "dist_caleta_km": 40.0,
+   "puntaje": 44.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.6581,
+   "lon": -77.07039,
+   "dist_caleta_km": 36.0,
+   "puntaje": 44.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.4657,
+   "lon": -77.12667,
+   "dist_caleta_km": 36.0,
+   "puntaje": 44.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.30349,
+   "lon": -77.15931,
+   "dist_caleta_km": 44.0,
+   "puntaje": 44.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.87367,
+   "lon": -77.0495,
+   "dist_caleta_km": 52.0,
+   "puntaje": 44.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.84318,
+   "lon": -77.02992,
+   "dist_caleta_km": 48.0,
+   "puntaje": 44.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.53942,
+   "lon": -77.15822,
+   "dist_caleta_km": 40.0,
+   "puntaje": 44.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.8828,
+   "lon": -76.94675,
+   "dist_caleta_km": 48.0,
+   "puntaje": 44.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.03365,
+   "lon": -77.37497,
+   "dist_caleta_km": 80.0,
+   "puntaje": 44.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.4644,
+   "lon": -77.16349,
+   "dist_caleta_km": 40.0,
+   "puntaje": 44.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.81269,
+   "lon": -77.01034,
+   "dist_caleta_km": 44.0,
+   "puntaje": 43.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.12245,
+   "lon": -77.25919,
+   "dist_caleta_km": 64.0,
+   "puntaje": 43.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.10026,
+   "lon": -77.28815,
+   "dist_caleta_km": 68.0,
+   "puntaje": 43.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.07806,
+   "lon": -77.31709,
+   "dist_caleta_km": 72.0,
+   "puntaje": 43.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.73585,
+   "lon": -77.05149,
+   "dist_caleta_km": 40.0,
+   "puntaje": 43.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.91659,
+   "lon": -76.9594,
+   "dist_caleta_km": 52.0,
+   "puntaje": 43.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.90415,
+   "lon": -77.06909,
+   "dist_caleta_km": 56.0,
+   "puntaje": 43.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.38994,
+   "lon": -77.15267,
+   "dist_caleta_km": 40.0,
+   "puntaje": 43.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.28768,
+   "lon": -77.19238,
+   "dist_caleta_km": 48.0,
+   "puntaje": 43.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.05585,
+   "lon": -77.34603,
+   "dist_caleta_km": 76.0,
+   "puntaje": 43.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.7617,
+   "lon": -77.07714,
+   "dist_caleta_km": 44.0,
+   "puntaje": 43.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.95039,
+   "lon": -76.97204,
+   "dist_caleta_km": 56.0,
+   "puntaje": 43.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.46309,
+   "lon": -77.2003,
+   "dist_caleta_km": 44.0,
+   "puntaje": 43.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.38119,
+   "lon": -77.18839,
+   "dist_caleta_km": 44.0,
+   "puntaje": 43.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.67818,
+   "lon": -77.10098,
+   "dist_caleta_km": 40.0,
+   "puntaje": 43.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.61174,
+   "lon": -77.13708,
+   "dist_caleta_km": 40.0,
+   "puntaje": 43.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.37243,
+   "lon": -77.22411,
+   "dist_caleta_km": 48.0,
+   "puntaje": 43.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.98418,
+   "lon": -76.98469,
+   "dist_caleta_km": 60.0,
+   "puntaje": 43.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.46178,
+   "lon": -77.23712,
+   "dist_caleta_km": 48.0,
+   "puntaje": 42.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.93464,
+   "lon": -77.08868,
+   "dist_caleta_km": 60.0,
+   "puntaje": 42.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.54562,
+   "lon": -77.19452,
+   "dist_caleta_km": 44.0,
+   "puntaje": 42.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.78754,
+   "lon": -77.10279,
+   "dist_caleta_km": 48.0,
+   "puntaje": 42.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.27186,
+   "lon": -77.22545,
+   "dist_caleta_km": 52.0,
+   "puntaje": 42.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.46046,
+   "lon": -77.27394,
+   "dist_caleta_km": 52.0,
+   "puntaje": 42.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.24021,
+   "lon": -77.29156,
+   "dist_caleta_km": 60.0,
+   "puntaje": 42.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.36367,
+   "lon": -77.25983,
+   "dist_caleta_km": 52.0,
+   "puntaje": 42.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.25603,
+   "lon": -77.25851,
+   "dist_caleta_km": 56.0,
+   "puntaje": 42.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.01798,
+   "lon": -76.99734,
+   "dist_caleta_km": 64.0,
+   "puntaje": 42.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.55181,
+   "lon": -77.23082,
+   "dist_caleta_km": 48.0,
+   "puntaje": 42.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.22438,
+   "lon": -77.32461,
+   "dist_caleta_km": 64.0,
+   "puntaje": 42.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45914,
+   "lon": -77.31075,
+   "dist_caleta_km": 56.0,
+   "puntaje": 42.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.69826,
+   "lon": -77.13158,
+   "dist_caleta_km": 44.0,
+   "puntaje": 41.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.62517,
+   "lon": -77.17128,
+   "dist_caleta_km": 44.0,
+   "puntaje": 41.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.71834,
+   "lon": -77.16217,
+   "dist_caleta_km": 48.0,
+   "puntaje": 41.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.6386,
+   "lon": -77.20548,
+   "dist_caleta_km": 48.0,
+   "puntaje": 41.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.05177,
+   "lon": -77.01,
+   "dist_caleta_km": 68.0,
+   "puntaje": 41.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.20854,
+   "lon": -77.35766,
+   "dist_caleta_km": 68.0,
+   "puntaje": 41.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.3549,
+   "lon": -77.29554,
+   "dist_caleta_km": 56.0,
+   "puntaje": 41.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.96512,
+   "lon": -77.10828,
+   "dist_caleta_km": 64.0,
+   "puntaje": 41.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45781,
+   "lon": -77.34757,
+   "dist_caleta_km": 60.0,
+   "puntaje": 41.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.08556,
+   "lon": -77.02266,
+   "dist_caleta_km": 72.0,
+   "puntaje": 41.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.65202,
+   "lon": -77.23968,
+   "dist_caleta_km": 52.0,
+   "puntaje": 41.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.558,
+   "lon": -77.26713,
+   "dist_caleta_km": 52.0,
+   "puntaje": 41.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.11936,
+   "lon": -77.03533,
+   "dist_caleta_km": 76.0,
+   "puntaje": 41.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.81339,
+   "lon": -77.12845,
+   "dist_caleta_km": 52.0,
+   "puntaje": 41.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.73841,
+   "lon": -77.19278,
+   "dist_caleta_km": 52.0,
+   "puntaje": 41.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.56418,
+   "lon": -77.30344,
+   "dist_caleta_km": 56.0,
+   "puntaje": 40.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.57035,
+   "lon": -77.33975,
+   "dist_caleta_km": 60.0,
+   "puntaje": 40.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.34613,
+   "lon": -77.33126,
+   "dist_caleta_km": 60.0,
+   "puntaje": 40.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.66544,
+   "lon": -77.27389,
+   "dist_caleta_km": 56.0,
+   "puntaje": 40.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.83923,
+   "lon": -77.15411,
+   "dist_caleta_km": 56.0,
+   "puntaje": 40.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.75848,
+   "lon": -77.22339,
+   "dist_caleta_km": 56.0,
+   "puntaje": 40.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.33736,
+   "lon": -77.36697,
+   "dist_caleta_km": 64.0,
+   "puntaje": 40.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.99561,
+   "lon": -77.12788,
+   "dist_caleta_km": 68.0,
+   "puntaje": 40.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.1927,
+   "lon": -77.39071,
+   "dist_caleta_km": 72.0,
+   "puntaje": 40.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.77855,
+   "lon": -77.254,
+   "dist_caleta_km": 60.0,
+   "puntaje": 40.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.79861,
+   "lon": -77.28462,
+   "dist_caleta_km": 64.0,
+   "puntaje": 40.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.86508,
+   "lon": -77.17978,
+   "dist_caleta_km": 60.0,
+   "puntaje": 40.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.02609,
+   "lon": -77.14749,
+   "dist_caleta_km": 72.0,
+   "puntaje": 40.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.67885,
+   "lon": -77.3081,
+   "dist_caleta_km": 60.0,
+   "puntaje": 40.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.69226,
+   "lon": -77.34232,
+   "dist_caleta_km": 64.0,
+   "puntaje": 40.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.81867,
+   "lon": -77.31524,
+   "dist_caleta_km": 68.0,
+   "puntaje": 39.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.83872,
+   "lon": -77.34587,
+   "dist_caleta_km": 72.0,
+   "puntaje": 39.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.57652,
+   "lon": -77.37606,
+   "dist_caleta_km": 64.0,
+   "puntaje": 39.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45647,
+   "lon": -77.38438,
+   "dist_caleta_km": 64.0,
+   "puntaje": 39.5,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.89091,
+   "lon": -77.20546,
+   "dist_caleta_km": 64.0,
+   "puntaje": 39.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.05657,
+   "lon": -77.1671,
+   "dist_caleta_km": 76.0,
+   "puntaje": 39.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.08705,
+   "lon": -77.18671,
+   "dist_caleta_km": 80.0,
+   "puntaje": 39.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.58269,
+   "lon": -77.41237,
+   "dist_caleta_km": 68.0,
+   "puntaje": 39.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45514,
+   "lon": -77.4212,
+   "dist_caleta_km": 68.0,
+   "puntaje": 39.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.58885,
+   "lon": -77.44868,
+   "dist_caleta_km": 72.0,
+   "puntaje": 39.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.17686,
+   "lon": -77.42375,
+   "dist_caleta_km": 76.0,
+   "puntaje": 39.2,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.60116,
+   "lon": -77.52131,
+   "dist_caleta_km": 80.0,
+   "puntaje": 39.1,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.70566,
+   "lon": -77.37654,
+   "dist_caleta_km": 68.0,
+   "puntaje": 39.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.32858,
+   "lon": -77.40268,
+   "dist_caleta_km": 68.0,
+   "puntaje": 39.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.59501,
+   "lon": -77.485,
+   "dist_caleta_km": 76.0,
+   "puntaje": 39.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.74585,
+   "lon": -77.47922,
+   "dist_caleta_km": 80.0,
+   "puntaje": 39.0,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.71906,
+   "lon": -77.41076,
+   "dist_caleta_km": 72.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45379,
+   "lon": -77.45801,
+   "dist_caleta_km": 72.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.73246,
+   "lon": -77.44499,
+   "dist_caleta_km": 76.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45245,
+   "lon": -77.49482,
+   "dist_caleta_km": 76.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.31101,
+   "lon": -77.47409,
+   "dist_caleta_km": 76.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.16101,
+   "lon": -77.45678,
+   "dist_caleta_km": 80.0,
+   "puntaje": 38.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.31979,
+   "lon": -77.43839,
+   "dist_caleta_km": 72.0,
+   "puntaje": 38.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.30221,
+   "lon": -77.50979,
+   "dist_caleta_km": 80.0,
+   "puntaje": 38.8,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.45109,
+   "lon": -77.53164,
+   "dist_caleta_km": 80.0,
+   "puntaje": 38.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.91675,
+   "lon": -77.23113,
+   "dist_caleta_km": 68.0,
+   "puntaje": 38.6,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.85877,
+   "lon": -77.37651,
+   "dist_caleta_km": 76.0,
+   "puntaje": 38.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.94258,
+   "lon": -77.25682,
+   "dist_caleta_km": 72.0,
+   "puntaje": 38.3,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.87882,
+   "lon": -77.40714,
+   "dist_caleta_km": 80.0,
+   "puntaje": 37.9,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.99424,
+   "lon": -77.3082,
+   "dist_caleta_km": 80.0,
+   "puntaje": 37.7,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -12.96842,
+   "lon": -77.28251,
+   "dist_caleta_km": 76.0,
+   "puntaje": 37.4,
+   "cobertura_pct": 100.0
+  },
+  {
+   "lat": -13.15315,
+   "lon": -77.04799,
+   "dist_caleta_km": 80.0,
+   "puntaje": 33.5,
+   "cobertura_pct": 100.0
+  }
+ ],
+ "candidatos_evaluados": 190,
+ "candidatos_generados": 190,
+ "descartados": {},
+ "puntos": [
+  {
+   "orden": 1,
+   "lat": -12.48968,
+   "lon": -76.86787,
+   "distancia_km": 8.0,
+   "puntaje": 48.8,
+   "estado": "COMPLETO",
+   "cobertura_pct": 100.0,
+   "faltantes": [],
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397,
+     "peso": 24.2,
+     "aporta": 9.6
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0,
+     "peso": 22.6,
+     "aporta": 22.6
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0,
+     "peso": 21.0,
+     "aporta": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302,
+     "peso": 19.0,
+     "aporta": 5.74
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824,
+     "peso": 13.2,
+     "aporta": 10.87
+    }
+   }
+  },
+  {
+   "orden": 2,
+   "lat": -12.47468,
+   "lon": -76.86894,
+   "distancia_km": 8.0,
+   "puntaje": 48.8,
+   "estado": "COMPLETO",
+   "cobertura_pct": 100.0,
+   "faltantes": [],
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397,
+     "peso": 24.2,
+     "aporta": 9.6
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0,
+     "peso": 22.6,
+     "aporta": 22.6
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0,
+     "peso": 21.0,
+     "aporta": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302,
+     "peso": 19.0,
+     "aporta": 5.74
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824,
+     "peso": 13.2,
+     "aporta": 10.87
+    }
+   }
+  },
+  {
+   "orden": 3,
+   "lat": -12.45979,
+   "lon": -76.86679,
+   "distancia_km": 8.0,
+   "puntaje": 48.8,
+   "estado": "COMPLETO",
+   "cobertura_pct": 100.0,
+   "faltantes": [],
+   "corriente_u": 0.12184661626815796,
+   "corriente_v": -0.24894151091575623,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.02,
+     "favorabilidad": 0.397,
+     "peso": 24.2,
+     "aporta": 9.6
+    },
+    "nivel_mar": {
+     "valor": 0.2648,
+     "favorabilidad": 1.0,
+     "peso": 22.6,
+     "aporta": 22.6
+    },
+    "salinidad": {
+     "valor": 35.1924,
+     "favorabilidad": 0.0,
+     "peso": 21.0,
+     "aporta": 0.0
+    },
+    "clorofila": {
+     "valor": 2.7103,
+     "favorabilidad": 0.302,
+     "peso": 19.0,
+     "aporta": 5.74
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824,
+     "peso": 13.2,
+     "aporta": 10.87
+    }
+   }
+  },
+  {
+   "orden": 4,
+   "lat": -12.57861,
+   "lon": -76.83312,
+   "distancia_km": 12.0,
+   "puntaje": 48.7,
+   "estado": "COMPLETO",
+   "cobertura_pct": 100.0,
+   "faltantes": [],
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.03,
+     "favorabilidad": 0.395,
+     "peso": 24.2,
+     "aporta": 9.55
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0,
+     "peso": 22.6,
+     "aporta": 22.6
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0,
+     "peso": 21.0,
+     "aporta": 0.0
+    },
+    "clorofila": {
+     "valor": 2.6194,
+     "favorabilidad": 0.298,
+     "peso": 19.0,
+     "aporta": 5.67
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824,
+     "peso": 13.2,
+     "aporta": 10.87
+    }
+   }
+  },
+  {
+   "orden": 5,
+   "lat": -12.54481,
+   "lon": -76.82051,
+   "distancia_km": 8.0,
+   "puntaje": 48.5,
+   "estado": "COMPLETO",
+   "cobertura_pct": 100.0,
+   "faltantes": [],
+   "corriente_u": 0.12214337289333344,
+   "corriente_v": -0.26766738295555115,
+   "detalle": {
+    "sst_ostia": {
+     "valor": 21.06,
+     "favorabilidad": 0.388,
+     "peso": 24.2,
+     "aporta": 9.4
+    },
+    "nivel_mar": {
+     "valor": 0.2561,
+     "favorabilidad": 1.0,
+     "peso": 22.6,
+     "aporta": 22.6
+    },
+    "salinidad": {
+     "valor": 35.1959,
+     "favorabilidad": 0.0,
+     "peso": 21.0,
+     "aporta": 0.0
+    },
+    "clorofila": {
+     "valor": 2.6194,
+     "favorabilidad": 0.298,
+     "peso": 19.0,
+     "aporta": 5.67
+    },
+    "prod_primaria": {
+     "valor": 99.2706,
+     "favorabilidad": 0.824,
+     "peso": 13.2,
+     "aporta": 10.87
+    }
+   }
+  }
+ ],
+ "ventana_por_variable": {
+  "sst_ostia": 1,
+  "nivel_mar": 1,
+  "salinidad": 1,
+  "clorofila": 5,
+  "prod_primaria": 1
+ },
+ "nota_ventana": "La clorofila se promedia sobre 5 dias retrospectivos porque su variacion entre dias supera a la variacion entre puntos (3.68 contra 1.63 medido sobre los intervalos NASC). El resto usa el dia pedido.",
+ "deriva": {
+  "hora_referencia_utc": 12,
+  "tope_horas_confiable": 12,
+  "explicacion": "corriente_u y corriente_v vienen en m/s en cada punto. El agua recorre velocidad por tiempo: en la franja de Pucusana la mediana es 0,215 m/s, o sea unos 4,6 km en 6 horas, comparable al tamano de una celda de clorofila (4 km). La masa de agua senalada se desplaza, asi que la coordenada calculada deja de corresponder a ese parche a medida que pasan las horas.",
+  "limitacion": "La corriente es media diaria de un modelo a 9 km: no incluye marea ni deriva por viento. Mas alla de unas 12 horas la proyeccion acumula error y deja de ser confiable. Ademas parte de la senal (el afloramiento) esta anclada al fondo y NO se desplaza con el agua, de modo que la correccion es una aproximacion, no una posicion exacta."
+ },
+ "advertencias": [
+  "Indice experimental de compatibilidad ambiental. No es probabilidad de captura.",
+  "No distingue especie: el anexo NASC de calibracion no trae asignacion taxonomica. La biomasa detectada incluye munida, que comparte distribucion costera con la anchoveta y no es objetivo de pesca.",
+  "Capacidad predictiva medida (AUC fuera de region): 0.616. Es señal real por encima del azar, pero modesta.",
+  "La productividad primaria proviene del producto BGC a 0.25 grados. Ese mismo producto fallo la verificacion contra observacion para la oxiclina (correlacion 0.098). Pendiente de verificar."
+ ],
+ "generado_peru": "2026-09-21T16:51:27-05:00",
+ "antiguedad_dias": 1
+}
