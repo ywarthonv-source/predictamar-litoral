@@ -122,6 +122,172 @@ CURVAS = {
 # calcular hacia donde se desplaza el agua entre el dato y la hora de pesca.
 SOLO_DERIVA = ("corriente_u", "corriente_v")
 
+# =====================================================================
+# PERFILES POR ESPECIE
+#
+# Cada especie lee el MISMO mar con sus propias preferencias. No hay un
+# "modelo de El Nino": en agua calida el perico sale bien y la anchoveta
+# mal, y cuando vuelva el agua fria se invierte sola, sin tocar nada.
+#
+# Todas las especies aparecen en el selector (ninguna se oculta), pero
+# cada una declara en que estado esta. Solo las "listo" reciben zonas.
+#
+#   listo           se califica y se recomiendan zonas
+#   preparacion     el perfil existe pero sus curvas aun no estan hechas
+#   baja_confianza  el satelite no puede verla: vive cerca del fondo o
+#                   sube y baja en la columna de agua
+# =====================================================================
+PERFILES = {
+    "perico": {
+        "nombre": "Perico", "cientifico": "Coryphaena hippurus",
+        "estado": "listo", "metodo": "limitante",
+        "variables": ["sst_ostia", "salinidad"],
+        # Temperatura: limite de distribucion 20 C (Palko et al. 1982);
+        # captura maxima 22-25 C, pico 24 C (Farrell et al. 2014, Atlantico
+        # noroeste); rango en Peru 21-30 C (Solano et al. 2010; Gozzer 2015).
+        # Salinidad: el perico se asocia a las Aguas Subtropicales
+        # Superficiales (IMARPE), definidas por salinidad > 35,1
+        # (Zuta y Guillen 1970).
+        "curvas": {
+            "sst_ostia": [(20.0, 0.0), (22.0, 1.0), (27.0, 1.0), (31.0, 0.0)],
+            "salinidad": [(34.8, 0.0), (35.1, 1.0)],
+        },
+        # Una zona esta "en el limite" si 0,3 C de diferencia le cambiaria la
+        # calificacion. 0,3 C es la variacion diaria de temperatura MEDIDA en
+        # la franja de Pucusana. Marcar todo el tramo 20-22 C era demasiado:
+        # una zona a 21,9 C ya saca 95 y esta firme en Muy buena. Solo lo que
+        # cae cerca de un corte de calificacion es fragil de verdad.
+        "limite": {"variable": "sst_ostia", "margen": 0.3},
+        "fuente": ("Literatura: IMARPE (Solano 2010, Gozzer 2015), Zuta y Guillen 1970, "
+                   "Palko 1982, Farrell 2014. No validado todavia en Pucusana."),
+        "aviso": None,
+    },
+    "anchoveta": {
+        "nombre": "Anchoveta", "cientifico": "Engraulis ringens",
+        "estado": "listo", "metodo": "suma",
+        "variables": ["sst_ostia", "salinidad", "clorofila", "nivel_mar", "prod_primaria"],
+        "fuente": ("Calibrado con 10.759 detecciones acusticas NASC de IMARPE, "
+                   "crucero 2602-04 (febrero-marzo 2026)."),
+        "aviso": ("Mide biomasa pelagica total: incluye munida, que no es pesca. "
+                  "Durante El Nino la anchoveta se hunde y se pega a la costa, "
+                  "fuera de lo que el satelite puede ver."),
+    },
+    "bonito":   {"nombre": "Bonito",   "cientifico": "Sarda chiliensis chiliensis", "estado": "preparacion"},
+    "caballa":  {"nombre": "Caballa",  "cientifico": "Scomber japonicus",           "estado": "preparacion"},
+    "jurel":    {"nombre": "Jurel",    "cientifico": "Trachurus murphyi",           "estado": "preparacion"},
+    "pejerrey": {"nombre": "Pejerrey", "cientifico": "Odontesthes regia",           "estado": "preparacion"},
+    "pota":     {"nombre": "Pota",     "cientifico": "Dosidicus gigas",             "estado": "baja_confianza",
+                 "aviso": ("Sube y baja en el agua segun la hora del dia. El satelite solo "
+                           "ve la superficie, asi que no puede indicar donde esta.")},
+    "merluza":  {"nombre": "Merluza",  "cientifico": "Merluccius gayi peruanus",    "estado": "baja_confianza",
+                 "aviso": ("Vive cerca del fondo. El satelite solo ve la superficie, "
+                           "asi que no puede indicar donde esta.")},
+    "lorna":    {"nombre": "Lorna",    "cientifico": "Sciaena deliciosa",           "estado": "baja_confianza",
+                 "aviso": ("Vive cerca del fondo, en la costa. El satelite solo ve la "
+                           "superficie, asi que no puede indicar donde esta.")},
+    "cabinza":  {"nombre": "Cabinza",  "cientifico": "Isacia conceptionis",         "estado": "baja_confianza",
+                 "aviso": ("Vive sobre fondo rocoso. El satelite solo ve la superficie, "
+                           "asi que no puede indicar donde esta.")},
+}
+
+AVISO_PREPARACION = "Perfil en preparacion. Todavia no se pueden recomendar zonas para esta especie."
+
+
+def _interp(x: float, pts) -> float:
+    if x <= pts[0][0]:
+        return pts[0][1]
+    if x >= pts[-1][0]:
+        return pts[-1][1]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if x0 <= x <= x1:
+            return y0 + (x - x0) * (y1 - y0) / (x1 - x0) if x1 != x0 else y1
+    return pts[-1][1]
+
+
+def _calificar(p: float) -> str:
+    return "Muy buena" if p >= 66 else "Buena" if p >= 50 else "Regular" if p >= 33 else "Mala"
+
+
+def puntuar_perfil(clave: str, e: dict):
+    """Califica una zona para una especie. La anchoveta usa el puntaje medido;
+    las demas, sus curvas de literatura. Devuelve None si falta un dato."""
+    pf = PERFILES[clave]
+    if pf.get("estado") != "listo":
+        return None
+    if pf["metodo"] == "suma":
+        return {"puntaje": e["puntaje"], "en_limite": False}
+
+    det = e["detalle"]
+    if any(var not in det for var in pf["curvas"]):
+        return None
+    valores = {var: det[var]["valor"] for var in pf["curvas"]}
+
+    def _puntaje(vals):
+        fs = [_interp(vals[var], pts) for var, pts in pf["curvas"].items()]
+        if pf["metodo"] == "limitante":
+            # La variable limitante manda: con temperatura mala no hay perico,
+            # aunque la salinidad sea la correcta.
+            prod = 1.0
+            for f in fs:
+                prod *= f
+            return 100.0 * prod
+        return 100.0 * sum(fs) / len(fs)
+
+    punt = _puntaje(valores)
+
+    en_lim = False
+    lim = pf.get("limite")
+    if lim and lim["variable"] in valores:
+        base = _calificar(punt)
+        for delta in (-lim["margen"], lim["margen"]):
+            prueba = dict(valores)
+            prueba[lim["variable"]] = valores[lim["variable"]] + delta
+            if _calificar(_puntaje(prueba)) != base:
+                en_lim = True
+                break
+    return {"puntaje": round(punt, 1), "en_limite": en_lim}
+
+
+def especies_de(e: dict) -> dict:
+    out = {}
+    for k in PERFILES:
+        r = puntuar_perfil(k, e)
+        if r is not None:
+            out[k] = r
+    return out
+
+
+def catalogo_especies() -> list:
+    cat = []
+    for k, pf in PERFILES.items():
+        estado = pf.get("estado")
+        cat.append({
+            "id": k, "nombre": pf["nombre"], "cientifico": pf.get("cientifico"),
+            "estado": estado, "variables": pf.get("variables", []),
+            "metodo": pf.get("metodo"),
+            # Las curvas viajan a la pantalla para que el juicio de cada
+            # variable sea el de ESTA especie. Sin esto, la tabla del perico
+            # mostraba "salinidad desfavorable" con el criterio de la anchoveta,
+            # justo donde el perico esta mejor.
+            "curvas": {v: [list(pt) for pt in pts] for v, pts in pf.get("curvas", {}).items()},
+            "fuente": pf.get("fuente"),
+            "aviso": pf.get("aviso") or (AVISO_PREPARACION if estado == "preparacion" else None),
+        })
+    return cat
+
+
+def resumen_especies(evaluados: list) -> dict:
+    """Para el panel 'Hoy': la mejor zona de cada especie lista."""
+    res = {}
+    for k, pf in PERFILES.items():
+        if pf.get("estado") != "listo":
+            continue
+        ps = [r["puntaje"] for r in (puntuar_perfil(k, e) for e in evaluados) if r]
+        if ps:
+            m = max(ps)
+            res[k] = {"mejor": m, "calificacion": _calificar(m)}
+    return res
+
 DATASETS = {
     "corriente_u": dict(
         ids=("cmems_mod_glo_phy-cur_anfc_0.083deg_P1D-m",),
@@ -571,8 +737,11 @@ def ejecutar(zona: Zona, fecha: _dt.date, n_entregar: int = 5,
                 "corriente_v": e.get("corriente_v"),
                 "detalle": {k: {"valor": v["valor"], "favorabilidad": v["favorabilidad"]}
                             for k, v in e["detalle"].items()},
+                "especies": especies_de(e),
             } for e in evaluados
         ],
+        "catalogo_especies": catalogo_especies(),
+        "resumen_especies": resumen_especies(evaluados),
         # TODOS los candidatos, no solo los mejores. La aplicacion filtra desde
         # el punto de partida que elija el pescador y la distancia que este
         # dispuesto a navegar, sin volver a consultar Copernicus.
