@@ -1,6 +1,6 @@
 {
  "schema_version": "ranking_v1",
- "generado": "2026-09-21T21:51:27.792803+00:00",
+ "generado": "2026-09-22T03:49:35.031758+00:00",
  "fecha_datos": "2026-09-20",
  "zona": "Pucusana",
  "etiqueta_taxonomica": "BIOMASA_PELAGICA_TOTAL",
@@ -49,6 +49,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -79,6 +89,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.8,
+     "en_limite": false
     }
    }
   },
@@ -111,6 +131,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -141,6 +171,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.7,
+     "en_limite": false
     }
    }
   },
@@ -173,6 +213,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -203,6 +253,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 58.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.2,
+     "en_limite": false
     }
    }
   },
@@ -235,6 +295,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 48.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -265,6 +335,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.9,
+     "en_limite": false
     }
    }
   },
@@ -297,6 +377,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -327,6 +417,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.6,
+     "en_limite": false
     }
    }
   },
@@ -359,6 +459,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -389,6 +499,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.5,
+     "en_limite": false
     }
    }
   },
@@ -421,6 +541,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -451,6 +581,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.4,
+     "en_limite": false
     }
    }
   },
@@ -483,6 +623,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -513,6 +663,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.4,
+     "en_limite": false
     }
    }
   },
@@ -545,6 +705,16 @@
      "valor": 100.1891,
      "favorabilidad": 0.827
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -575,6 +745,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.1,
+     "en_limite": false
     }
    }
   },
@@ -607,6 +787,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -637,6 +827,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 58.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.1,
+     "en_limite": false
     }
    }
   },
@@ -669,6 +869,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 47.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -699,6 +909,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.9,
+     "en_limite": false
     }
    }
   },
@@ -731,6 +951,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -761,6 +991,16 @@
     "prod_primaria": {
      "valor": 100.1891,
      "favorabilidad": 0.827
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.9,
+     "en_limite": false
     }
    }
   },
@@ -793,6 +1033,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -823,6 +1073,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.8,
+     "en_limite": false
     }
    }
   },
@@ -855,6 +1115,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -885,6 +1155,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.8,
+     "en_limite": false
     }
    }
   },
@@ -917,6 +1197,16 @@
      "valor": 100.1891,
      "favorabilidad": 0.827
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -947,6 +1237,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
     }
    }
   },
@@ -979,6 +1279,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1009,6 +1319,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
     }
    }
   },
@@ -1041,6 +1361,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1071,6 +1401,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
     }
    }
   },
@@ -1103,6 +1443,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 58.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1133,6 +1483,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.6,
+     "en_limite": false
     }
    }
   },
@@ -1165,6 +1525,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1195,6 +1565,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.6,
+     "en_limite": false
     }
    }
   },
@@ -1227,6 +1607,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1257,6 +1647,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.5,
+     "en_limite": false
     }
    }
   },
@@ -1289,6 +1689,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1319,6 +1729,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.4,
+     "en_limite": false
     }
    }
   },
@@ -1351,6 +1771,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1381,6 +1811,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.4,
+     "en_limite": false
     }
    }
   },
@@ -1413,6 +1853,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1443,6 +1893,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.3,
+     "en_limite": false
     }
    }
   },
@@ -1475,6 +1935,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1505,6 +1975,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.1,
+     "en_limite": false
     }
    }
   },
@@ -1537,6 +2017,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 64.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1567,6 +2057,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.0,
+     "en_limite": false
     }
    }
   },
@@ -1599,6 +2099,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1629,6 +2139,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 46.0,
+     "en_limite": false
     }
    }
   },
@@ -1661,6 +2181,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1691,6 +2221,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
     }
    }
   },
@@ -1723,6 +2263,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1753,6 +2303,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
     }
    }
   },
@@ -1785,6 +2345,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1815,6 +2385,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.9,
+     "en_limite": false
     }
    }
   },
@@ -1847,6 +2427,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1877,6 +2467,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.8,
+     "en_limite": false
     }
    }
   },
@@ -1909,6 +2509,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 63.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -1939,6 +2549,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 45.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.8,
+     "en_limite": false
     }
    }
   },
@@ -1971,6 +2591,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2001,6 +2631,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 45.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.6,
+     "en_limite": false
     }
    }
   },
@@ -2033,6 +2673,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 45.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2063,6 +2713,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
     }
    }
   },
@@ -2095,6 +2755,16 @@
      "valor": 99.2706,
      "favorabilidad": 0.824
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2125,6 +2795,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
     }
    }
   },
@@ -2157,6 +2837,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 43.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2187,6 +2877,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 43.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
     }
    }
   },
@@ -2219,6 +2919,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2249,6 +2959,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 66.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.4,
+     "en_limite": false
     }
    }
   },
@@ -2281,6 +3001,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 48.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2311,6 +3041,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.3,
+     "en_limite": false
     }
    }
   },
@@ -2343,6 +3083,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 66.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2373,6 +3123,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 71.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.3,
+     "en_limite": false
     }
    }
   },
@@ -2405,6 +3165,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2435,6 +3205,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.0,
+     "en_limite": false
     }
    }
   },
@@ -2467,6 +3247,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 46.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2497,6 +3287,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 46.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 45.0,
+     "en_limite": false
     }
    }
   },
@@ -2529,6 +3329,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2559,6 +3369,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 63.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.9,
+     "en_limite": false
     }
    }
   },
@@ -2591,6 +3411,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 76.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2621,6 +3451,16 @@
     "prod_primaria": {
      "valor": 99.2706,
      "favorabilidad": 0.824
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 52.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.7,
+     "en_limite": false
     }
    }
   },
@@ -2653,6 +3493,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 71.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2683,6 +3533,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 71.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.7,
+     "en_limite": false
     }
    }
   },
@@ -2715,6 +3575,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 51.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2745,6 +3615,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 69.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.6,
+     "en_limite": false
     }
    }
   },
@@ -2777,6 +3657,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2807,6 +3697,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.3,
+     "en_limite": false
     }
    }
   },
@@ -2839,6 +3739,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 75.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2869,6 +3779,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 43.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.3,
+     "en_limite": false
     }
    }
   },
@@ -2901,6 +3821,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2931,6 +3861,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.1,
+     "en_limite": false
     }
    }
   },
@@ -2963,6 +3903,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 40.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -2993,6 +3943,16 @@
     "prod_primaria": {
      "valor": 97.5216,
      "favorabilidad": 0.816
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 63.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.1,
+     "en_limite": false
     }
    }
   },
@@ -3025,6 +3985,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 57.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 44.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3055,6 +4025,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 49.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.9,
+     "en_limite": false
     }
    }
   },
@@ -3087,6 +4067,16 @@
      "valor": 97.5216,
      "favorabilidad": 0.816
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 74.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3117,6 +4107,16 @@
     "prod_primaria": {
      "valor": 97.5216,
      "favorabilidad": 0.816
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 74.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.9,
+     "en_limite": false
     }
    }
   },
@@ -3149,6 +4149,16 @@
      "valor": 97.5216,
      "favorabilidad": 0.816
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3179,6 +4189,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.7,
+     "en_limite": false
     }
    }
   },
@@ -3211,6 +4231,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 42.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3241,6 +4271,16 @@
     "prod_primaria": {
      "valor": 65.735,
      "favorabilidad": 0.684
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 44.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.7,
+     "en_limite": false
     }
    }
   },
@@ -3273,6 +4313,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 69.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3303,6 +4353,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 76.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.5,
+     "en_limite": false
     }
    }
   },
@@ -3335,6 +4395,16 @@
      "valor": 97.5216,
      "favorabilidad": 0.816
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3365,6 +4435,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 59.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.4,
+     "en_limite": false
     }
    }
   },
@@ -3397,6 +4477,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 45.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3427,6 +4517,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 62.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.3,
+     "en_limite": false
     }
    }
   },
@@ -3459,6 +4559,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 69.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3489,6 +4599,16 @@
     "prod_primaria": {
      "valor": 91.3575,
      "favorabilidad": 0.791
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.1,
+     "en_limite": false
     }
    }
   },
@@ -3521,6 +4641,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 53.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3551,6 +4681,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 75.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.0,
+     "en_limite": false
     }
    }
   },
@@ -3583,6 +4723,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 45.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 43.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3613,6 +4763,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 62.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.9,
+     "en_limite": false
     }
    }
   },
@@ -3645,6 +4805,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 44.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3675,6 +4845,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.8,
+     "en_limite": false
     }
    }
   },
@@ -3707,6 +4887,16 @@
      "valor": 91.3575,
      "favorabilidad": 0.791
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 62.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3737,6 +4927,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 82.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 42.8,
+     "en_limite": false
     }
    }
   },
@@ -3769,6 +4969,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 67.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3799,6 +5009,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 85.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 42.5,
+     "en_limite": false
     }
    }
   },
@@ -3831,6 +5051,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 81.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 42.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3861,6 +5091,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 87.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 42.4,
+     "en_limite": false
     }
    }
   },
@@ -3893,6 +5133,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 47.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3923,6 +5173,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 60.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.2,
+     "en_limite": false
     }
    }
   },
@@ -3955,6 +5215,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 89.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 42.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -3985,6 +5255,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 72.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 42.0,
+     "en_limite": false
     }
    }
   },
@@ -4017,6 +5297,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 55.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4047,6 +5337,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 57.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.9,
+     "en_limite": false
     }
    }
   },
@@ -4079,6 +5379,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 60.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4109,6 +5419,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 62.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.6,
+     "en_limite": false
     }
    }
   },
@@ -4141,6 +5461,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4171,6 +5501,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 92.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 41.6,
+     "en_limite": false
     }
    }
   },
@@ -4203,6 +5543,16 @@
      "valor": 94.0891,
      "favorabilidad": 0.802
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 81.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 41.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4233,6 +5583,16 @@
     "prod_primaria": {
      "valor": 65.735,
      "favorabilidad": 0.684
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 54.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.5,
+     "en_limite": false
     }
    }
   },
@@ -4265,6 +5625,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 72.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4295,6 +5665,16 @@
     "prod_primaria": {
      "valor": 65.735,
      "favorabilidad": 0.684
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 50.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.4,
+     "en_limite": false
     }
    }
   },
@@ -4327,6 +5707,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 63.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4357,6 +5747,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 65.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.3,
+     "en_limite": false
     }
    }
   },
@@ -4389,6 +5789,16 @@
      "valor": 65.735,
      "favorabilidad": 0.684
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 52.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4419,6 +5829,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 63.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.0,
+     "en_limite": false
     }
    }
   },
@@ -4451,6 +5871,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 60.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 41.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4481,6 +5911,16 @@
     "prod_primaria": {
      "valor": 82.6994,
      "favorabilidad": 0.755
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.8,
+     "en_limite": false
     }
    }
   },
@@ -4513,6 +5953,16 @@
      "valor": 82.6994,
      "favorabilidad": 0.755
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4543,6 +5993,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 91.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 40.8,
+     "en_limite": false
     }
    }
   },
@@ -4575,6 +6035,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 68.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4605,6 +6075,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 67.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.6,
+     "en_limite": false
     }
    }
   },
@@ -4637,6 +6117,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 65.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.6,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4667,6 +6157,16 @@
     "prod_primaria": {
      "valor": 94.0891,
      "favorabilidad": 0.802
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 91.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 40.5,
+     "en_limite": false
     }
    }
   },
@@ -4699,6 +6199,16 @@
      "valor": 53.6074,
      "favorabilidad": 0.633
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 54.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4729,6 +6239,16 @@
     "prod_primaria": {
      "valor": 67.9002,
      "favorabilidad": 0.693
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 88.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 40.4,
+     "en_limite": false
     }
    }
   },
@@ -4761,6 +6281,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 69.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.3,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4791,6 +6321,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 69.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.3,
+     "en_limite": false
     }
    }
   },
@@ -4823,6 +6363,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 70.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4853,6 +6403,16 @@
     "prod_primaria": {
      "valor": 53.6074,
      "favorabilidad": 0.633
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 54.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.2,
+     "en_limite": false
     }
    }
   },
@@ -4885,6 +6445,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 73.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.1,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4915,6 +6485,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 73.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 40.1,
+     "en_limite": false
     }
    }
   },
@@ -4947,6 +6527,16 @@
      "valor": 71.5014,
      "favorabilidad": 0.708
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 77.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -4977,6 +6567,16 @@
     "prod_primaria": {
      "valor": 71.5014,
      "favorabilidad": 0.708
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 77.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.8,
+     "en_limite": false
     }
    }
   },
@@ -5009,6 +6609,16 @@
      "valor": 63.6118,
      "favorabilidad": 0.675
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 75.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.5,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5039,6 +6649,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 75.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.5,
+     "en_limite": false
     }
    }
   },
@@ -5071,6 +6691,16 @@
      "valor": 53.6074,
      "favorabilidad": 0.633
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 71.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5101,6 +6731,16 @@
     "prod_primaria": {
      "valor": 53.6074,
      "favorabilidad": 0.633
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 68.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.4,
+     "en_limite": false
     }
    }
   },
@@ -5133,6 +6773,16 @@
      "valor": 53.6074,
      "favorabilidad": 0.633
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 68.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5163,6 +6813,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 80.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.2,
+     "en_limite": false
     }
    }
   },
@@ -5195,6 +6855,16 @@
      "valor": 63.6118,
      "favorabilidad": 0.675
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 79.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5225,6 +6895,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 80.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.2,
+     "en_limite": false
     }
    }
   },
@@ -5257,6 +6937,16 @@
      "valor": 67.9002,
      "favorabilidad": 0.693
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 95.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 39.2,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5287,6 +6977,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 82.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 39.1,
+     "en_limite": false
     }
    }
   },
@@ -5319,6 +7019,16 @@
      "valor": 57.3601,
      "favorabilidad": 0.649
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 77.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5349,6 +7059,16 @@
     "prod_primaria": {
      "valor": 67.9002,
      "favorabilidad": 0.693
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 90.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 39.0,
+     "en_limite": false
     }
    }
   },
@@ -5381,6 +7101,16 @@
      "valor": 63.6118,
      "favorabilidad": 0.675
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 83.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 39.0,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5411,6 +7141,16 @@
     "prod_primaria": {
      "valor": 57.3601,
      "favorabilidad": 0.649
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 78.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 39.0,
+     "en_limite": false
     }
    }
   },
@@ -5443,6 +7183,16 @@
      "valor": 57.3601,
      "favorabilidad": 0.649
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 79.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5473,6 +7223,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 85.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
     }
    }
   },
@@ -5505,6 +7265,16 @@
      "valor": 57.3601,
      "favorabilidad": 0.649
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 79.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5535,6 +7305,16 @@
     "prod_primaria": {
      "valor": 63.6118,
      "favorabilidad": 0.675
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 85.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
     }
    }
   },
@@ -5567,6 +7347,16 @@
      "valor": 67.9002,
      "favorabilidad": 0.693
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 89.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5597,6 +7387,16 @@
     "prod_primaria": {
      "valor": 67.9002,
      "favorabilidad": 0.693
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 100.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.9,
+     "en_limite": false
     }
    }
   },
@@ -5629,6 +7429,16 @@
      "valor": 67.9002,
      "favorabilidad": 0.693
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 90.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.8,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5659,6 +7469,16 @@
     "prod_primaria": {
      "valor": 67.9002,
      "favorabilidad": 0.693
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 90.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.8,
+     "en_limite": false
     }
    }
   },
@@ -5691,6 +7511,16 @@
      "valor": 63.6118,
      "favorabilidad": 0.675
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 89.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.7,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5721,6 +7551,16 @@
     "prod_primaria": {
      "valor": 53.6074,
      "favorabilidad": 0.633
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 80.5,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 38.6,
+     "en_limite": false
     }
    }
   },
@@ -5753,6 +7593,16 @@
      "valor": 57.3601,
      "favorabilidad": 0.649
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 87.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5783,6 +7633,16 @@
     "prod_primaria": {
      "valor": 53.6074,
      "favorabilidad": 0.633
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 86.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 38.3,
+     "en_limite": false
     }
    }
   },
@@ -5815,6 +7675,16 @@
      "valor": 52.8679,
      "favorabilidad": 0.63
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 91.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 37.9,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5845,6 +7715,16 @@
     "prod_primaria": {
      "valor": 53.6074,
      "favorabilidad": 0.633
+    }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 96.5,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 37.7,
+     "en_limite": false
     }
    }
   },
@@ -5877,6 +7757,16 @@
      "valor": 53.6074,
      "favorabilidad": 0.633
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 100.0,
+     "en_limite": false
+    },
+    "anchoveta": {
+     "puntaje": 37.4,
+     "en_limite": false
+    }
    }
   },
   {
@@ -5908,9 +7798,179 @@
      "valor": 38.4229,
      "favorabilidad": 0.14
     }
+   },
+   "especies": {
+    "perico": {
+     "puntaje": 57.0,
+     "en_limite": true
+    },
+    "anchoveta": {
+     "puntaje": 33.5,
+     "en_limite": false
+    }
    }
   }
  ],
+ "catalogo_especies": [
+  {
+   "id": "perico",
+   "nombre": "Perico",
+   "cientifico": "Coryphaena hippurus",
+   "estado": "listo",
+   "variables": [
+    "sst_ostia",
+    "salinidad"
+   ],
+   "metodo": "limitante",
+   "curvas": {
+    "sst_ostia": [
+     [
+      20.0,
+      0.0
+     ],
+     [
+      22.0,
+      1.0
+     ],
+     [
+      27.0,
+      1.0
+     ],
+     [
+      31.0,
+      0.0
+     ]
+    ],
+    "salinidad": [
+     [
+      34.8,
+      0.0
+     ],
+     [
+      35.1,
+      1.0
+     ]
+    ]
+   },
+   "fuente": "Literatura: IMARPE (Solano 2010, Gozzer 2015), Zuta y Guillen 1970, Palko 1982, Farrell 2014. No validado todavia en Pucusana.",
+   "aviso": null
+  },
+  {
+   "id": "anchoveta",
+   "nombre": "Anchoveta",
+   "cientifico": "Engraulis ringens",
+   "estado": "listo",
+   "variables": [
+    "sst_ostia",
+    "salinidad",
+    "clorofila",
+    "nivel_mar",
+    "prod_primaria"
+   ],
+   "metodo": "suma",
+   "curvas": {},
+   "fuente": "Calibrado con 10.759 detecciones acusticas NASC de IMARPE, crucero 2602-04 (febrero-marzo 2026).",
+   "aviso": "Mide biomasa pelagica total: incluye munida, que no es pesca. Durante El Nino la anchoveta se hunde y se pega a la costa, fuera de lo que el satelite puede ver."
+  },
+  {
+   "id": "bonito",
+   "nombre": "Bonito",
+   "cientifico": "Sarda chiliensis chiliensis",
+   "estado": "preparacion",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Perfil en preparacion. Todavia no se pueden recomendar zonas para esta especie."
+  },
+  {
+   "id": "caballa",
+   "nombre": "Caballa",
+   "cientifico": "Scomber japonicus",
+   "estado": "preparacion",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Perfil en preparacion. Todavia no se pueden recomendar zonas para esta especie."
+  },
+  {
+   "id": "jurel",
+   "nombre": "Jurel",
+   "cientifico": "Trachurus murphyi",
+   "estado": "preparacion",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Perfil en preparacion. Todavia no se pueden recomendar zonas para esta especie."
+  },
+  {
+   "id": "pejerrey",
+   "nombre": "Pejerrey",
+   "cientifico": "Odontesthes regia",
+   "estado": "preparacion",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Perfil en preparacion. Todavia no se pueden recomendar zonas para esta especie."
+  },
+  {
+   "id": "pota",
+   "nombre": "Pota",
+   "cientifico": "Dosidicus gigas",
+   "estado": "baja_confianza",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Sube y baja en el agua segun la hora del dia. El satelite solo ve la superficie, asi que no puede indicar donde esta."
+  },
+  {
+   "id": "merluza",
+   "nombre": "Merluza",
+   "cientifico": "Merluccius gayi peruanus",
+   "estado": "baja_confianza",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Vive cerca del fondo. El satelite solo ve la superficie, asi que no puede indicar donde esta."
+  },
+  {
+   "id": "lorna",
+   "nombre": "Lorna",
+   "cientifico": "Sciaena deliciosa",
+   "estado": "baja_confianza",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Vive cerca del fondo, en la costa. El satelite solo ve la superficie, asi que no puede indicar donde esta."
+  },
+  {
+   "id": "cabinza",
+   "nombre": "Cabinza",
+   "cientifico": "Isacia conceptionis",
+   "estado": "baja_confianza",
+   "variables": [],
+   "metodo": null,
+   "curvas": {},
+   "fuente": null,
+   "aviso": "Vive sobre fondo rocoso. El satelite solo ve la superficie, asi que no puede indicar donde esta."
+  }
+ ],
+ "resumen_especies": {
+  "perico": {
+   "mejor": 100.0,
+   "calificacion": "Muy buena"
+  },
+  "anchoveta": {
+   "mejor": 48.8,
+   "calificacion": "Regular"
+  }
+ },
  "malla": [
   {
    "lat": -12.48968,
@@ -7488,6 +9548,7 @@
   "Capacidad predictiva medida (AUC fuera de region): 0.616. Es señal real por encima del azar, pero modesta.",
   "La productividad primaria proviene del producto BGC a 0.25 grados. Ese mismo producto fallo la verificacion contra observacion para la oxiclina (correlacion 0.098). Pendiente de verificar."
  ],
- "generado_peru": "2026-09-21T16:51:27-05:00",
+ "generado_peru": "2026-09-21T22:49:35-05:00",
+ "huella_motor": "169d425f9828e907",
  "antiguedad_dias": 1
 }
