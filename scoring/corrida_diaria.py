@@ -82,6 +82,27 @@ def fecha_mas_reciente_comun(zona) -> _dt.date | None:
     return tope
 
 
+def huella_motor() -> str:
+    """Huella de la configuracion del motor: pesos, curvas y perfiles de cada
+    especie. Si cambia cualquiera, cambia la huella.
+
+    Existe porque la regla "no recalcular si la fecha no cambio" dejaba el
+    resultado viejo cuando lo que cambiaba era el MOTOR: al agregar el perico,
+    la app no lo mostraba hasta que Copernicus publicara un dia nuevo. Lo
+    mismo pasaria con cada especie que se agregue."""
+    import hashlib
+    import scoring_engine as S
+
+    config = {
+        "pesos": getattr(S, "PESOS", {}),
+        "curvas": getattr(S, "CURVAS", {}),
+        "perfiles": getattr(S, "PERFILES", {}),
+        "ventanas": getattr(S, "VENTANA_DIAS", {}),
+    }
+    texto = json.dumps(config, sort_keys=True, default=str)
+    return hashlib.sha256(texto.encode("utf-8")).hexdigest()[:16]
+
+
 def correr(salida: Path, zona_key: str, n: int) -> int:
     import scoring_engine as S
 
@@ -108,7 +129,9 @@ def correr(salida: Path, zona_key: str, n: int) -> int:
                 previo = json.loads(actual.read_text(encoding="utf-8"))
             except Exception:  # noqa: BLE001
                 previo = None
-        if previo and previo.get("fecha_datos") == fecha.isoformat():
+        huella = huella_motor()
+        if (previo and previo.get("fecha_datos") == fecha.isoformat()
+                and previo.get("huella_motor") == huella):
             _log(salida, "la fecha vigente ya estaba calculada; no se redescarga")
             _escribir_estado(estado, "SIN_CAMBIOS", fecha, hoy, None)
             return 0
@@ -118,6 +141,7 @@ def correr(salida: Path, zona_key: str, n: int) -> int:
             raise RuntimeError("El motor no devolvio ningun punto evaluable.")
 
         r["generado_peru"] = _ahora_peru().isoformat(timespec="seconds")
+        r["huella_motor"] = huella
         r["antiguedad_dias"] = (hoy - fecha).days
 
         texto = json.dumps(r, ensure_ascii=False, indent=1)
