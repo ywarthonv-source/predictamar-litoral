@@ -1,8 +1,8 @@
 {
- "estado": "SIN_CAMBIOS",
- "ultima_corrida_peru": "2026-10-08T09:24:24-05:00",
- "fecha_datos_servida": "2026-10-06",
- "antiguedad_dias": 2,
+ "estado": "OK",
+ "ultima_corrida_peru": "2026-10-08T18:42:44-05:00",
+ "fecha_datos_servida": "2026-10-07",
+ "antiguedad_dias": 1,
  "antiguedad_maxima_aceptable": 4,
  "error": null
 }
