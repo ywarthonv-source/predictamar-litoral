@@ -9,6 +9,7 @@ import datetime as dt
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -56,7 +57,7 @@ def run(product, output, start, end):
                    minimum_latitude=-33.3, maximum_latitude=-32.8,
                    minimum_longitude=-72.1, maximum_longitude=-71.6,
                    start_datetime=start, end_datetime=end+"T23:59:59",
-                   coordinates_selection_method="strict-inside")
+                   coordinates_selection_method="inside")
     if vertical: request.update(minimum_depth=0, maximum_depth=300)
     report = {"schema_version":"chile_copernicus_availability_v1",
               "product":product, "request":request, "source_kind":kind,
@@ -96,8 +97,12 @@ def run(product, output, start, end):
         report["status"]="downloaded_complete_dates" if not len(missing) else "downloaded_partial_dates"
         code=0 if not len(missing) else 1
     except Exception as exc:
-        # Error class is sufficient here; provider error strings can contain signed URLs.
-        report.update(status="provider_error",error_type=type(exc).__name__)
+        # Keep useful bounds diagnostics while stripping URLs and credential values.
+        message = re.sub(r"https?://\S+", "[URL omitted]", str(exc))
+        for key in ["COPERNICUSMARINE_SERVICE_USERNAME", "COPERNICUSMARINE_SERVICE_PASSWORD"]:
+            secret = os.environ.get(key)
+            if secret: message = message.replace(secret, "[redacted]")
+        report.update(status="provider_error",error_type=type(exc).__name__,error_message=message[:1500])
         code=1
     (output/(product+".json")).write_text(json.dumps(report,indent=2,allow_nan=False)+"\n")
     print(json.dumps({"product":product,"status":report["status"]}))

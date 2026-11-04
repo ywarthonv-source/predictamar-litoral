@@ -4,7 +4,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'chile/**'
+      - 'chile/diagnose_copernicus.py'
+      - 'chile/requirements-research.txt'
       - '.github/workflows/chile_research_audit.yml'
   workflow_dispatch:
 
