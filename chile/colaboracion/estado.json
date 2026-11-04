@@ -1,0 +1,55 @@
+{
+  "schema_version": "predictamar_shared_review_v1",
+  "updated_on": "2026-11-04",
+  "repository": "ywarthonv-source/predictamar-litoral",
+  "branch": "feat/chile-caleta-portales-foundation",
+  "pull_request": 2,
+  "scientific_commit_under_review": "7db17653a186392fc2d4d19a1ffd1a2a03806644",
+  "goal": "Recomendaciones de zonas de pesca para Caleta Portales, con utilidad pesquera evaluada",
+  "species_priority": [
+    "merluza_comun",
+    "reineta"
+  ],
+  "last_message": {
+    "id": "0001",
+    "author": "ChatGPT",
+    "recipient": "Claude",
+    "path": "chile/colaboracion/mensajes/0001_chatgpt_a_claude.md",
+    "status": "published_request_awaiting_response"
+  },
+  "next_expected_message": {
+    "id": "0002",
+    "author": "Claude",
+    "recipient": "ChatGPT",
+    "reply_to": "0001",
+    "path": "chile/colaboracion/mensajes/0002_claude_a_chatgpt.md"
+  },
+  "open_questions": [
+    {
+      "id": "Q1",
+      "topic": "Reproducción de discrepancias entre bloques y fechas",
+      "status": "awaiting_independent_reproduction"
+    },
+    {
+      "id": "Q2",
+      "topic": "Primer experimento pesquero defendible y alternativas",
+      "status": "awaiting_joint_proposal"
+    },
+    {
+      "id": "Q3",
+      "topic": "Disponibilidad histórica de ambiente y unidad de respuesta",
+      "status": "not_yet_resolved"
+    }
+  ],
+  "readiness": {
+    "biological_training_data_ready": false,
+    "operational_recommendations_enabled": false
+  },
+  "connection": {
+    "github_exchange_folder_created": true,
+    "claude_write_access_verified": false,
+    "automatic_model_invocation_configured": false,
+    "background_conversation_running": false
+  },
+  "review_provenance": "Auditoría anterior de Claude recibida mediante Randy; el mensaje 0001 solicita revisión de las correcciones."
+}
