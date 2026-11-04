@@ -1,6 +1,9 @@
 {
   "schema_version": "chile_public_data_audit_v1",
   "research_only": true,
+  "counts_unit": "original Darwin Core Event rows, not deduplicated or independent fishing operations",
+  "operation_counts_validated": false,
+  "superseding_review_file": "review_reconciliation.json; run reconcile_review.py for cross-block comparison",
   "asipa_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
   "asipa_license": "CC-BY-NC-4.0; intended commercial use unresolved",
   "study_support": "30/60 nautical mile circles and regional box are diagnostic only, not an approved fishing area",
@@ -15,7 +18,10 @@
     "Occurrence quantity is not assumed to be total catch; no CPUE computed.",
     "Event locality can be landing/sampling port, not fishing location.",
     "Positive elevation fields are not reinterpreted as depth.",
-    "Rows sharing coordinates, trips or sampling context are not independent samples."
+    "Rows sharing coordinates, trips or sampling context are not independent samples.",
+    "Capture and biological blocks can share time/position; original regional/national/radius counts are not operation counts.",
+    "eventDate and year/month/day differ; neither is certified here as fishing date.",
+    "Biological block absent is excluded as a capture-zero label pending source clarification."
   ],
   "dwca_tables": {
     "event.txt": {
@@ -87,6 +93,15 @@
   "all_events": {
     "events": 575030,
     "unique_event_ids": 575030,
+    "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+    "source_block_counts": {
+      "15-01": 327408,
+      "14-01": 247622
+    },
+    "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+    "eventDate_component_disagreements": 196791,
+    "invalid_eventDate_rows": 7,
+    "capture_absence_use_permitted": false,
     "valid_coordinate_events": 575030,
     "unique_coordinate_pairs": 249125,
     "most_repeated_coordinate_count": 983,
@@ -442,6 +457,15 @@
       "national": {
         "events": 47088,
         "unique_event_ids": 47088,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "15-01": 23823,
+          "14-01": 23265
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 15826,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 47088,
         "unique_coordinate_pairs": 16213,
         "most_repeated_coordinate_count": 464,
@@ -570,6 +594,14 @@
       "portales_locality": {
         "events": 236,
         "unique_event_ids": 236,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "14-01": 236
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 0,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 236,
         "unique_coordinate_pairs": 142,
         "most_repeated_coordinate_count": 12,
@@ -613,6 +645,15 @@
       "regional_box": {
         "events": 669,
         "unique_event_ids": 669,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "14-01": 336,
+          "15-01": 333
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 2,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 669,
         "unique_coordinate_pairs": 207,
         "most_repeated_coordinate_count": 22,
@@ -670,6 +711,15 @@
       "within_30nm": {
         "events": 477,
         "unique_event_ids": 477,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "14-01": 241,
+          "15-01": 236
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 0,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 477,
         "unique_coordinate_pairs": 138,
         "most_repeated_coordinate_count": 22,
@@ -721,6 +771,15 @@
       "within_60nm": {
         "events": 663,
         "unique_event_ids": 663,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "14-01": 333,
+          "15-01": 330
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 2,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 663,
         "unique_coordinate_pairs": 204,
         "most_repeated_coordinate_count": 22,
@@ -789,6 +848,15 @@
       "national": {
         "events": 259552,
         "unique_event_ids": 259552,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "15-01": 148819,
+          "14-01": 110733
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 57531,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 259552,
         "unique_coordinate_pairs": 104691,
         "most_repeated_coordinate_count": 963,
@@ -951,6 +1019,14 @@
       "portales_locality": {
         "events": 16038,
         "unique_event_ids": 16038,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "14-01": 16038
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 0,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 16038,
         "unique_coordinate_pairs": 646,
         "most_repeated_coordinate_count": 431,
@@ -999,6 +1075,15 @@
       "regional_box": {
         "events": 79205,
         "unique_event_ids": 79205,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "15-01": 44473,
+          "14-01": 34732
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 5841,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 79205,
         "unique_coordinate_pairs": 23566,
         "most_repeated_coordinate_count": 894,
@@ -1084,6 +1169,15 @@
       "within_30nm": {
         "events": 45409,
         "unique_event_ids": 45409,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "15-01": 23898,
+          "14-01": 21511
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 1888,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 45409,
         "unique_coordinate_pairs": 6110,
         "most_repeated_coordinate_count": 894,
@@ -1153,6 +1247,15 @@
       "within_60nm": {
         "events": 78648,
         "unique_event_ids": 78648,
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": {
+          "15-01": 44009,
+          "14-01": 34639
+        },
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": 5565,
+        "invalid_eventDate_rows": 0,
+        "capture_absence_use_permitted": false,
         "valid_coordinate_events": 78648,
         "unique_coordinate_pairs": 23161,
         "most_repeated_coordinate_count": 894,

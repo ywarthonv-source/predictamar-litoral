@@ -20,6 +20,17 @@ def ddmm_to_south_west(values):
     return (-(degrees+minutes/60)).where(minutes.between(0,60,inclusive="left"))
 
 
+def parse_haul_dates(values):
+    """Use explicit source encodings; never guess day/month from table name."""
+    values=values.astype('string')
+    result=pd.Series(pd.NaT,index=values.index,dtype='datetime64[ns]')
+    exported_access=values.str.fullmatch(r'\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}',na=False)
+    text_day_first=values.str.fullmatch(r'\d{2}/\d{2}/\d{4}',na=False)
+    result.loc[exported_access]=pd.to_datetime(values[exported_access],format='%m/%d/%y %H:%M:%S',errors='coerce')
+    result.loc[text_day_first]=pd.to_datetime(values[text_day_first],format='%d/%m/%Y',errors='coerce')
+    return result
+
+
 def audit(raw_dir,output):
     report={"schema_version":"ifop_cruise_audit_v1","databases":[],
             "warnings":["Cruise trawls are not artisanal enmalle/espinel operations.",
@@ -45,10 +56,15 @@ def audit(raw_dir,output):
             elif name.startswith("BITÁCORA"):
                 lat=ddmm_to_south_west(data.LAT_INI);lon=ddmm_to_south_west(data.LON_INI)
                 regional=lat.between(-34,-32)&lon.between(-73,-71.3)
-                date_format="%m/%d/%y %H:%M:%S" if "2024" in name else "%d/%m/%Y"
-                dates=pd.to_datetime(data.F_LANCE,format=date_format,errors="coerce")
+                dates=parse_haul_dates(data.F_LANCE)
                 expected_year=2024 if "2024" in name else 2025
                 correct_year=dates.dt.year.eq(expected_year)
+                deployment=pd.to_numeric(data.H_CALADO,errors='coerce')
+                retrieval=pd.to_numeric(data.H_VIRADO,errors='coerce')
+                numeric=deployment.notna()&retrieval.notna()
+                valid_hhmm=numeric&(deployment//100).between(0,23)&(deployment%100).between(0,59)&(retrieval//100).between(0,23)&(retrieval%100).between(0,59)
+                elapsed=((retrieval//100*60+retrieval%100)-(deployment//100*60+deployment%100))%(24*60)
+                discrepancy=valid_hhmm&~np.isclose(elapsed/60,data['DURACIÓN'],atol=1/60+1e-12,rtol=0)
                 summary["hauls"]={"rows":len(data),"unique_lance_ids":int(data.LANCE.nunique()),
                     "first_date":str(dates.min().date()),"last_date":str(dates.max().date()),
                     "invalid_dates":int(dates.isna().sum()),"regional_rows":int(regional.sum()),
@@ -62,7 +78,12 @@ def audit(raw_dir,output):
                     "nonpositive_duration_rows":int(data['DURACIÓN'].le(0).sum()),
                     "duration_over_one_hour_rows":int(data['DURACIÓN'].gt(1).sum()),
                     "latitude_conversion":"source DDMM.m to negative decimal degrees; raw preserved",
-                    "source_duration_units":"not assumed from field name; verify report before CPUE"}
+                    "invalid_numeric_hhmm_lance_ids":data.loc[numeric&~valid_hhmm,'LANCE'].astype(int).tolist(),
+                    "unparsed_time_format_lance_ids":data.loc[~numeric,'LANCE'].astype(int).tolist(),
+                    "duration_time_discrepancy_lance_ids":data.loc[discrepancy,'LANCE'].astype(int).tolist(),
+                    "time_check_tolerance_minutes":1,
+                    "source_duration_units":"hours per DESCRIPTORES/BITACORA/DURACIÓN; no CPUE calculated"}
+                if (~valid_hhmm|discrepancy).any():summary["quality_flags"].append("Invalid/nonstandard HHMM or disagreement with duration: quarantine time/effort until resolved; do not silently repair.")
                 if data['DURACIÓN'].gt(1).any():summary["quality_flags"].append("Unusually long duration needs comparison with deployment/retrieval times before effort standardization.")
                 if (~correct_year).any():summary["quality_flags"].append("Haul dates missing or outside cruise year are quarantined; do not fill dates by copying year or neighbouring hauls.")
             elif name.startswith("OCEAN"):
@@ -84,6 +105,9 @@ def audit(raw_dir,output):
             elif name.startswith("CAPTURAS"):
                 selected=data[data.N_COMUN.str.contains("Merluza com|Reineta",case=False,na=False)]
                 summary["capture_species"]={n:{"rows":len(g),"hauls":int(g.LANCE.nunique()),"explicit_zero_rows":int(g['CAPTURA (kg)'].eq(0).sum())} for n,g in selected.groupby("N_COMUN")}
+            elif name.startswith('DESCRIPTORES'):
+                unit_rows=data[(data.ARCH.eq('BITACORA')&data.CAMPOS.eq('DURACIÓN'))|(data.ARCH.eq('OCEAN')&data.CAMPOS.eq('OXIGENO'))]
+                summary['unit_descriptor_rows']=unit_rows[['ARCH','CAMPOS','DESCRIPCIO']].to_dict('records')
         (csv_dir/"tables.json").write_text(json.dumps(dict(enumerate(names)),ensure_ascii=False,indent=2)+"\n")
         report["databases"].append(summary)
     output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")

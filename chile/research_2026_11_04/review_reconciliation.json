@@ -1,0 +1,118 @@
+{
+  "schema_version": "chile_review_reconciliation_v1",
+  "source_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
+  "key_definition": "eventDate parsed explicitly as MM/DD/YYYY HH:MM:SS plus parsed numeric latitude/longitude; no coordinate rounding",
+  "original_counts_unit": "Darwin Core Event rows, NOT independent operations/trips",
+  "training_ready": false,
+  "global_candidate_links": {
+    "left_events": 247622,
+    "right_events": 327408,
+    "left_valid_unique_keys": 245208,
+    "right_valid_unique_keys": 326378,
+    "shared_keys": 91794,
+    "shared_keys_with_multiple_left_events": 2072,
+    "shared_keys_with_multiple_right_events": 0,
+    "one_to_one_candidate_keys": 89722,
+    "not_certified_operation_counts": true
+  },
+  "portales_text_to_560_candidate_links": {
+    "left_events": 16343,
+    "right_events": 15771,
+    "left_valid_unique_keys": 15774,
+    "right_valid_unique_keys": 15771,
+    "shared_keys": 15764,
+    "shared_keys_with_multiple_left_events": 519,
+    "shared_keys_with_multiple_right_events": 0,
+    "one_to_one_candidate_keys": 15245,
+    "not_certified_operation_counts": true
+  },
+  "global_date_comparison": {
+    "rows": 575030,
+    "both_dates_parseable": 575019,
+    "invalid_eventDate": 7,
+    "invalid_component_date": 4,
+    "date_disagreements_among_parseable_rows": 196791,
+    "disagreements_by_source_block": {
+      "15-01": 196791
+    },
+    "median_eventDate_minus_component_days": 2.0,
+    "eventDate_semantics": "unconfirmed; only an explicit parsing convention, not certified fishing date"
+  },
+  "portales_capture_date_comparison": {
+    "rows": 16343,
+    "both_dates_parseable": 16343,
+    "invalid_eventDate": 0,
+    "invalid_component_date": 0,
+    "date_disagreements_among_parseable_rows": 0,
+    "disagreements_by_source_block": {},
+    "median_eventDate_minus_component_days": null,
+    "eventDate_semantics": "unconfirmed; only an explicit parsing convention, not certified fishing date"
+  },
+  "source_560_date_comparison": {
+    "rows": 15771,
+    "both_dates_parseable": 15771,
+    "invalid_eventDate": 0,
+    "invalid_component_date": 0,
+    "date_disagreements_among_parseable_rows": 1,
+    "disagreements_by_source_block": {
+      "15-01": 1
+    },
+    "median_eventDate_minus_component_days": 5.0,
+    "eventDate_semantics": "unconfirmed; only an explicit parsing convention, not certified fishing date"
+  },
+  "species": {
+    "merluza_comun": {
+      "capture_occurrence_rows": 22524,
+      "capture_event_ids": 16038,
+      "capture_positive_unique_candidate_keys": 15474,
+      "biology_declared_absent_rows": 9593,
+      "biology_keys_declaring_only_absent": 8774,
+      "positive_capture_keys_with_only_absent_biology": 8772,
+      "absent_interpretation": "unresolved; excluded as a capture-zero label",
+      "capture_events_per_candidate_key_can_exceed_one": true
+    },
+    "reineta": {
+      "capture_occurrence_rows": 467,
+      "capture_event_ids": 236,
+      "capture_positive_unique_candidate_keys": 233,
+      "biology_declared_absent_rows": 5,
+      "biology_keys_declaring_only_absent": 5,
+      "positive_capture_keys_with_only_absent_biology": 5,
+      "absent_interpretation": "unresolved; excluded as a capture-zero label",
+      "capture_events_per_candidate_key_can_exceed_one": true
+    }
+  },
+  "private_registry_rows": 16343,
+  "private_registry_note": "One row per original capture Event; links are candidates and cannot supply a certified number of operations.",
+  "chlorophyll": {
+    "marine_support_proxy_cells": 128,
+    "marine_support_proxy_definition": "union of finite L3/L4 cells across available times; not an independent land mask",
+    "l3_dates_in_array": 15,
+    "l3_daily_finite_cells": [
+      128,
+      5,
+      128,
+      20,
+      128,
+      0,
+      128,
+      128,
+      128,
+      128,
+      128,
+      71,
+      128,
+      2,
+      127
+    ],
+    "l3_fraction_on_support_proxy": 0.7171875,
+    "l3_dates_at_least_80pct_proxy_support": 10,
+    "threshold_80pct_is_exploratory_not_validated": true,
+    "common_l3_l4_dates": 10,
+    "common_l3_available_cells": 968,
+    "common_l4_available_cells": 1280,
+    "common_l4_only_cells": 312,
+    "maximum_absolute_difference_where_both_available": 0.0,
+    "inherited_time_coverage_attributes_are_not_used_as_subset_dates": true
+  }
+}

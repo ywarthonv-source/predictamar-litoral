@@ -1,6 +1,8 @@
 # PredictaMAR Chile: resultados de la primera auditoría
 Fecha: 4 de noviembre de 2026. Sitio: Caleta Portales, Valparaíso.
 
+**Actualización tras revisión independiente:** los conteos de la tabla local se mantienen, pero son filas Event del bloque de captura, no operaciones independientes. Los conteos nacionales/regionales/radios originales no están deduplicados entre bloques. Ver [respuesta y evidencia adicional](RESPUESTA_AUDITORIA.md).
+
 **Resultado:** se confirmó la pertinencia de investigar merluza común y reineta y se obtuvo una base real de datos biológicos y ambientales. La merluza tiene mejor soporte local para empezar. Todavía no hay un modelo validado ni coordenadas recomendadas de pesca.
 
 ## 1. Pesquerías y punto de referencia
@@ -21,9 +23,9 @@ Se descargó y examinó el archivo completo **ASIPA demersales 1.5**: 575.030 fi
 | Eventos de encuesta de enmalle | 9.552 | 5 |
 | Eventos de encuesta de espinel | 6.486 | 231 |
 
-Hay cantidades repetidas por evento: al distinguir evento, especie, cantidad, unidad y estado, esas filas se reducen a los mismos 16.038 y 236 eventos. **No se sumaron duplicados.** Tampoco se asume que dos eventos sean viajes independientes.
+Hay cantidades repetidas por evento: al distinguir evento, especie, cantidad, unidad y estado, esas filas se reducen a los mismos 16.038 y 236 eventos. **No se sumaron esas cantidades repetidas dentro del mismo evento. Esto no resuelve duplicados entre programas ni identifica viajes.** Tampoco se asume que dos eventos sean viajes independientes.
 
-En Portales todas las filas objetivo declaran presencia; no se construye un clasificador presencia/ausencia usando únicamente ese subconjunto. En el conjunto nacional hay **12.310 eventos de merluza y 1.087 de reineta con estados contradictorios** entre sus filas. Deben ponerse en cuarentena y resolverse por origen, no por voto mayoritario. No se convierten en ausencias las especies no registradas.
+En el subconjunto filtrado por el texto PORTALES (bloque 14-01) todas las filas objetivo declaran presencia; no se construye un clasificador presencia/ausencia usando únicamente ese subconjunto. En el conjunto nacional hay **12.310 eventos de merluza y 1.087 de reineta con estados contradictorios** entre sus filas del mismo Event. Esta medida no detectaba los conflictos entre Event de bloques diferentes; se incorporó una conciliación adicional sin reinterpretar estados. Deben ponerse en cuarentena y resolverse por origen, no por voto mayoritario. No se convierten en ausencias las especies no registradas.
 
 La extensión de mediciones contiene biometría; no ofrece por sí sola el esfuerzo completo de cada operación. `sampleSizeValue` incluye altura de red, no una definición suficiente de esfuerzo. Los campos de profundidad de los eventos objetivo de Portales están vacíos, aunque hay valores en campos de elevación. No se cambió su significado automáticamente ni se calculó CPUE.
 
@@ -76,7 +78,17 @@ OSTIA es un análisis L4 y la clorofila L4 es interpolada por el proveedor: cont
 
 Antes del primer experimento de modelación hay que resolver conflictos de estados, duplicación entre programas, fechas, posición de captura frente a puerto y definición de esfuerzo. Después, comparar predictores ambientales de profundidad adecuada contra referencias de profundidad/costa/época, separando campañas, tiempo y unidades de muestreo. Evaluar el valor adicional dentro del rango real de la flota, sin mezclar arrastre científico y enmalle/espinel como si fueran el mismo proceso.
 
-Quedan pendientes la geometría/arte actuales del piloto, aclaraciones de datos y permisos, y la revisión independiente de Claude. Ningún resultado de esta auditoría habilita recomendaciones operativas ni transfiere la calibración peruana.
+La revisión independiente de Claude ya fue recibida y sus observaciones críticas contrastadas. Quedan pendientes la geometría/arte actuales del piloto, aclaraciones de datos y permisos, y la revisión de las correcciones. Ningún resultado de esta auditoría habilita recomendaciones operativas ni transfiere la calibración peruana.
 
 ## Reproducibilidad
-`audit_summary.json`, `cruise_audit.json`, `environmental_summary.json` y `download_manifest.json` contienen los resultados verificables. Los scripts están en `chile/`. Se ejecutó la auditoría completa de ASIPA y de ambas bases Access; seis comprobaciones offline protegen taxonomía, unidades de distancia, coordenadas DDMM y tratamiento de faltantes. El workflow conserva como fallo de cobertura las dos series de clorofila incompletas; no se cambia ese resultado a éxito artificialmente.
+`audit_summary.json`, `cruise_audit.json`, `environmental_summary.json` y `download_manifest.json` contienen los resultados verificables. Los scripts están en `chile/`. Se ejecutó la auditoría completa de ASIPA y de ambas bases Access; las seis comprobaciones iniciales offline protegen taxonomía, unidades de distancia, coordenadas DDMM y tratamiento de faltantes. El workflow conserva como fallo de cobertura las dos series de clorofila incompletas; no se cambia ese resultado a éxito artificialmente.
+
+
+## Hallazgos adicionales tras la revisión
+El emparejamiento exploratorio por `eventDate` (MM/DD/YYYY HH:MM:SS) y coordenadas numéricas exactas encuentra 15.764 claves compartidas entre PORTALES/14-01 y 560.0/15-01; 519 de ellas tienen varios eventos de captura. Son enlaces candidatos, no operaciones certificadas. Hay 8.772 claves con kilos positivos de merluza en captura y solo *absent* en biología. El significado de *absent* sigue sin confirmar y no se utiliza como cero.
+
+Se detectaron 196.791 discrepancias entre fechas parseables en 15-01 y siete `eventDate` no parseables. Se conservan ambos campos; no se declara cuál es la fecha de pesca. La conciliación completa está en `review_reconciliation.json`.
+
+Clorofila: las 15 fechas L3 incluyen cuatro con 0, 2, 5 o 20 celdas finitas. Solo 10 fechas superan el 80% de un soporte proxy de 128 celdas; ese umbral es exploratorio. El 71,71875% se calcula sobre ese proxy, no sobre una máscara marina independiente. L4 coincide con L3 donde ambas existen y aporta 312 celdas adicionales en las 10 fechas comunes: se marcan como L4 disponible sin L3, no como observación óptica certificada.
+
+El diagnóstico 2026 no es un conjunto ambiental emparejado con capturas históricas. Para ese experimento hacen falta productos históricos del mismo periodo y profundidad, y fechas pesqueras con semántica resuelta.

@@ -46,10 +46,18 @@ def event_summary(frame):
     lat = pd.to_numeric(frame.decimalLatitude, errors="coerce")
     lon = pd.to_numeric(frame.decimalLongitude, errors="coerce")
     valid = lat.between(-90, 90) & lon.between(-180, 180) & ~((lat == 0) & (lon == 0))
-    days = pd.to_datetime(frame.year + "-" + frame.month + "-" + frame.day, errors="coerce")
+    days = pd.to_datetime(frame.year + "-" + frame.month + "-" + frame.day, format="%Y-%m-%d", errors="coerce")
+    event_days = pd.to_datetime(frame.eventDate,format="%m/%d/%Y %H:%M:%S",errors="coerce").dt.normalize()
+    comparable=days.notna()&event_days.notna()
     geo = frame.loc[valid, ["decimalLatitude", "decimalLongitude"]]
     return {
         "events": len(frame), "unique_event_ids": int(frame.id.nunique()),
+        "counts_unit": "Darwin Core Event rows; not independent/deduplicated fishing operations",
+        "source_block_counts": counts(frame.id.str.split('_').str[1]),
+        "date_summary_basis": "year/month/day components; NOT a certified fishing date",
+        "eventDate_component_disagreements": int((comparable&days.ne(event_days)).sum()),
+        "invalid_eventDate_rows": int(event_days.isna().sum()),
+        "capture_absence_use_permitted": False,
         "valid_coordinate_events": int(valid.sum()),
         "unique_coordinate_pairs": len(geo.drop_duplicates()),
         "most_repeated_coordinate_count": int(geo.value_counts().iloc[0]) if len(geo) else 0,
@@ -71,6 +79,9 @@ def audit(raw_dir: Path, output_dir: Path):
     report = {
         "schema_version": "chile_public_data_audit_v1",
         "research_only": True,
+        "counts_unit": "original Darwin Core Event rows, not deduplicated or independent fishing operations",
+        "operation_counts_validated": False,
+        "superseding_review_file": "review_reconciliation.json; run reconcile_review.py for cross-block comparison",
         "asipa_sha256": hashlib.file_digest(archive_path.open("rb"), "sha256").hexdigest(),
         "asipa_license": "CC-BY-NC-4.0; intended commercial use unresolved",
         "study_support": "30/60 nautical mile circles and regional box are diagnostic only, not an approved fishing area",
@@ -79,7 +90,10 @@ def audit(raw_dir: Path, output_dir: Path):
                      "Occurrence quantity is not assumed to be total catch; no CPUE computed.",
                      "Event locality can be landing/sampling port, not fishing location.",
                      "Positive elevation fields are not reinterpreted as depth.",
-                     "Rows sharing coordinates, trips or sampling context are not independent samples."],
+                     "Rows sharing coordinates, trips or sampling context are not independent samples.",
+                     "Capture and biological blocks can share time/position; original regional/national/radius counts are not operation counts.",
+                     "eventDate and year/month/day differ; neither is certified here as fishing date.",
+                     "Biological block absent is excluded as a capture-zero label pending source clarification."],
     }
     with zipfile.ZipFile(archive_path) as z:
         ns = {"d": "http://rs.tdwg.org/dwc/text/"}

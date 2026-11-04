@@ -39,10 +39,10 @@
   },
   "readiness": {
     "geometry_verified": false,
-    "biological_data_audited": true,
+    "biological_data_audited": false,
     "environmental_coverage_measured": true,
     "local_validation_completed": false,
-    "independent_review_completed": false
+    "independent_review_completed": true
   },
   "proposed_permissions": {
     "environmental_research": true,
@@ -58,6 +58,8 @@
     "environmental_local_auth": "credentials_not_present",
     "environmental_github_audit_run": 41908575663,
     "environmental_github_audit_status": "completed: 5 products complete dates, 2 chlorophyll products partial",
-    "cruise_databases_audited": true
+    "cruise_databases_audited": true,
+    "biological_audit_status": "partial; cross-block linkage and source semantics unresolved",
+    "independent_review_status": "Claude report supplied by Randy; critical findings reproduced; corrections do not constitute approval"
   }
 }

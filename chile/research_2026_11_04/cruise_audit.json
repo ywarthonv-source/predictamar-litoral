@@ -258,6 +258,7 @@
         }
       },
       "quality_flags": [
+        "Invalid/nonstandard HHMM or disagreement with duration: quarantine time/effort until resolved; do not silently repair.",
         "Haul dates missing or outside cruise year are quarantined; do not fill dates by copying year or neighbouring hauls.",
         "OCEAN 2024 chlorophyll is zero in every row; treat as suspect placeholder until source confirms, not measured zero biomass."
       ],
@@ -288,7 +289,15 @@
         "nonpositive_duration_rows": 0,
         "duration_over_one_hour_rows": 0,
         "latitude_conversion": "source DDMM.m to negative decimal degrees; raw preserved",
-        "source_duration_units": "not assumed from field name; verify report before CPUE"
+        "invalid_numeric_hhmm_lance_ids": [
+          6
+        ],
+        "unparsed_time_format_lance_ids": [],
+        "duration_time_discrepancy_lance_ids": [
+          49
+        ],
+        "time_check_tolerance_minutes": 1,
+        "source_duration_units": "hours per DESCRIPTORES/BITACORA/DURACIÓN; no CPUE calculated"
       },
       "capture_species": {
         "Merluza común": {
@@ -302,6 +311,18 @@
           "explicit_zero_rows": 0
         }
       },
+      "unit_descriptor_rows": [
+        {
+          "ARCH": "BITACORA",
+          "CAMPOS": "DURACIÓN",
+          "DESCRIPCIO": "Tiempo de arrastre en horas"
+        },
+        {
+          "ARCH": "OCEAN",
+          "CAMPOS": "OXIGENO",
+          "DESCRIPCIO": "Indica oxígeno en ml/l"
+        }
+      ],
       "ocean": {
         "rows": 14786,
         "stations": 67,
@@ -586,6 +607,7 @@
         }
       },
       "quality_flags": [
+        "Invalid/nonstandard HHMM or disagreement with duration: quarantine time/effort until resolved; do not silently repair.",
         "Unusually long duration needs comparison with deployment/retrieval times before effort standardization.",
         "OCEAN 2025 latitude/longitude columns are globally reversed for Chile. Raw retained; swap is only a documented diagnostic assumption here."
       ],
@@ -616,7 +638,16 @@
         "nonpositive_duration_rows": 0,
         "duration_over_one_hour_rows": 1,
         "latitude_conversion": "source DDMM.m to negative decimal degrees; raw preserved",
-        "source_duration_units": "not assumed from field name; verify report before CPUE"
+        "invalid_numeric_hhmm_lance_ids": [],
+        "unparsed_time_format_lance_ids": [
+          36
+        ],
+        "duration_time_discrepancy_lance_ids": [
+          26,
+          62
+        ],
+        "time_check_tolerance_minutes": 1,
+        "source_duration_units": "hours per DESCRIPTORES/BITACORA/DURACIÓN; no CPUE calculated"
       },
       "capture_species": {
         "Merluza común": {
@@ -630,6 +661,18 @@
           "explicit_zero_rows": 0
         }
       },
+      "unit_descriptor_rows": [
+        {
+          "ARCH": "BITACORA",
+          "CAMPOS": "DURACIÓN",
+          "DESCRIPCIO": "Tiempo de arrastre en horas"
+        },
+        {
+          "ARCH": "OCEAN",
+          "CAMPOS": "OXIGENO",
+          "DESCRIPCIO": "Indica oxígeno en ml/l"
+        }
+      ],
       "ocean": {
         "rows": 16390,
         "stations": 65,

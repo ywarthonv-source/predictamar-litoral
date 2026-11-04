@@ -1,5 +1,5 @@
 # Encargo de revisión independiente para Claude
-Estado: preparado, NO enviado ni ejecutado. No hay conexión directa a Claude verificada en esta sesión.
+Estado actualizado: Randy aportó la auditoría de Claude sobre el commit 3147920. Se contrastaron sus hallazgos en RESPUESTA_AUDITORIA.md y review_reconciliation.json. Esta conexión no ejecutó Claude directamente; la revisión corregida aún no tiene aprobación posterior.
 
 ## Contexto
 Randy inicia PredictaMAR Chile en Caleta Portales, Valparaíso. Revisa el commit exacto que añade este directorio, comparado con la base b3ccb6843e7adcbee3f21c7cc9307f77a37a650c. Registrar SHA revisado y fecha.
@@ -21,4 +21,4 @@ El autor contrastará cada hallazgo, corregirá lo sustentado en commits separad
 ## Ampliación del encargo tras descargar los datos
 Revisar también research_2026_11_04/RESULTADOS.md y los cuatro JSON de evidencia, junto con audit_public_data.py, audit_cruise_databases.py, diagnose_copernicus.py, download_public_sources.py y test_research_audit.py. Verificar el SHA actual del PR antes de iniciar.
 Cuestionar expresamente: duplicados de captura, estados present/absent contradictorios, ausencia de ceros locales, fechas 2024 vacías/fuera de año, coordenadas invertidas OCEAN 2025, clorofila 2024 siempre cero y falta de fecha/hora en acústica. Revisar si las descargas L3/L4 parciales se reportan honestamente; no llamar cobertura marina a la fracción finita de un recuadro que incluye tierra.
-No confundir disponibilidad de datos con capacidad predictiva, ni arrastre científico con pesca artesanal. Seis comprobaciones offline pasaron; no sustituyen una auditoría científica ni una reproducción independiente. La revisión de Claude continúa pendiente; esta ampliación no es su dictamen.
+No confundir disponibilidad de datos con capacidad predictiva, ni arrastre científico con pesca artesanal. Seis comprobaciones offline pasaron; no sustituyen una auditoría científica ni una reproducción independiente. La revisión original ya fue recibida de Randy. Esta ampliación fue el encargo previo; los resultados y el contraste están en RESPUESTA_AUDITORIA.md.
