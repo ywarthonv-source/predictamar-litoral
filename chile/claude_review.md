@@ -1,0 +1,19 @@
+# Encargo de revisión independiente para Claude
+Estado: preparado, NO enviado ni ejecutado. No hay conexión directa a Claude verificada en esta sesión.
+
+## Contexto
+Randy inicia PredictaMAR Chile en Caleta Portales, Valparaíso. Revisa el commit exacto que añade este directorio, comparado con la base b3ccb6843e7adcbee3f21c7cc9307f77a37a650c. Registrar SHA revisado y fecha.
+Leer primero chile/README.md, pilot_contract.json, sources.md y baseline_review.md. Inspeccionar después los archivos de código citados y las fuentes oficiales. No ejecutar workflows operativos ni modificar la rama principal para revisar.
+
+## Preguntas
+1. ¿El alcance separa correctamente base reutilizable, configuración local y evidencia biológica? ¿Qué supuesto peruano permanece oculto?
+2. ¿Qué fuente contiene datos utilizables para Portales y la pesquería elegida, y cuáles son solo portales o datos agregados? Verificar licencia/versiones, cobertura, taxonomía y unidad de muestreo.
+3. ¿El archivo ASIPA real permite captura/esfuerzo por lance, solo presencia, o submuestreo biológico? No asumir ceros ni CPUE a partir de conteos de individuos.
+4. ¿El diseño evalúa valor adicional respecto de profundidad, costa, estación y práctica habitual, con bloqueo espacial/temporal y por viaje/embarcación? ¿Evita usar información publicada después del zarpe?
+5. ¿Se documenta claramente que el contrato JSON aún no tiene enforcement, no existe ingesta chilena y no hay recomendaciones validadas?
+6. ¿Son correctos los hallazgos de baseline_review.md? Distinguir discrepancia documental de defecto confirmado.
+7. ¿Qué cambio mínimo, verificable y prioritario permitiría avanzar sin fabricar especies, geometría ni eficacia?
+
+## Entrega solicitada
+Tabla: severidad, archivo/línea o fuente, evidencia, impacto y corrección propuesta. Separar hallazgos confirmados, hipótesis y preguntas. Emitir dictamen: requiere correcciones / apto como base de investigación; nunca equivaler a validación operativa.
+El autor contrastará cada hallazgo, corregirá lo sustentado en commits separados y registrará resolución. Mantener historial del dictamen original y contraevidencia cuando corresponda.
