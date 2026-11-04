@@ -1,31 +1,34 @@
 # PredictaMAR Chile — Caleta Portales
-Fecha de inicio: 2026-11-04. Base inspeccionada: `b3ccb6843e7adcbee3f21c7cc9307f77a37a650c`.
-Estado: fundación documental y contrato propuesto; sin ingesta chilena implementada, sin ejecución real y sin modelo validado para Chile.
+Actualización: 4 de noviembre de 2026. Estado: investigación y auditoría de datos; sin recomendaciones operativas chilenas.
 
-## Objetivo
-Adaptar PredictaMAR a la flota artesanal que parte de Caleta Portales, Valparaíso. La primera entrega debe demostrar qué información local puede obtenerse, con qué cobertura y qué capacidad aporta para decidir zonas de pesca.
+Randy confirmó como objetivos **reineta (Brama australis)** y **merluza común (Merluccius gayi gayi)**. Se verificó el punto oficial de Portales (Subpesca, código 214). El área de pesca, arte actual de cada grupo y embarcaciones del piloto aún no están fijados.
 
-## Decisiones confirmadas y pendientes
-Confirmado por Randy: país Chile, punto de partida Caleta Portales, reutilizar la base existente y solicitar revisión independiente a Claude.
-Pendiente: especie inicial, arte de pesca, profundidad de operación, polígono de faena, embarcaciones participantes, disponibilidad de resultados por lance y canal concreto de revisión con Claude.
-Merluza común y reineta son candidatas mencionadas en antecedentes chilenos, pero todavía no están seleccionadas para este piloto. No se transfieren especies, curvas, pesos, radios ni métricas peruanas como parámetros chilenos.
+## Resultado disponible
+Leer [el informe de hallazgos](research_2026_11_04/RESULTADOS.md). La entrega contiene:
+- Auditoría completa de las tres tablas ASIPA demersales 1.5, con filtros de ambas especies y Portales.
+- CSV histórico de Sernapesca examinado: la etiqueta Valparaíso no separa Caleta Portales.
+- Dos bases Access de IFOP (cruceros 2024 y 2025) descargadas, exportadas y auditadas.
+- Descargas reales de siete productos Copernicus para un recuadro técnico de Valparaíso en octubre de 2026. Cinco cubren 30/30 fechas; clorofila L3 y L4 tienen cobertura temporal parcial.
+- Scripts reproducibles, seis comprobaciones científicas offline y manifiesto de fuentes/checksums.
 
-## Archivos
-- `pilot_contract.json`: declaración de alcance pendiente. No la consume el código existente y sus bloqueos son declarativos.
-- `sources.md`: inventario inicial de fuentes oficiales, evidencia y verificaciones pendientes.
-- `baseline_review.md`: hallazgos concretos de la inspección del repositorio.
-- `claude_review.md`: encargo reproducible de revisión, pendiente de ejecutar.
+Los datos crudos y las filas detalladas se conservan fuera del repositorio público. Las licencias y condiciones de cada fuente deben resolverse antes de su uso comercial. Las cantidades de registros no equivalen a viajes independientes ni a eficacia predictiva.
 
-## Secuencia y criterios de aceptación
-1. **Caracterizar la pesquería.** Seleccionar una especie y arte, confirmar profundidad y zona con la flota; resolver taxonomía local. Consultar la capa oficial de caletas para fijar coordenadas y código; el punto de la caleta no equivale al área de pesca.
-2. **Auditar datos biológicos.** Inspeccionar tablas y diccionarios de ASIPA/Sernapesca, filtrar Valparaíso y la pesquería elegida, contar fechas, posiciones y eventos únicos. Distinguir muestreo biológico en puerto de captura en el mar. No interpretar individuo medido como captura total ni ausencia de registro como lance sin captura.
-3. **Probar cobertura ambiental.** Reutilizar módulos de ingesta solo tras comprobar sus límites y compatibilidad en el dominio chileno. Definir un periodo retrospectivo de al menos 30 días como diagnóstico propuesto; medir cobertura, latencia, celda nativa, profundidad y variación espacial. Contar celdas independientes, no solo puntos interpolados. Para especies de fondo estudiar variables de fondo/columna; SST superficial por sí sola no representa el hábitat.
-4. **Construir adaptadores.** Separar país, sitio, pesquería y producto; ingesta cruda fuera de Git y normalización con procedencia. Cada observación debe conservar source_id, URL, versión, licencia, fecha de descarga, checksum, fecha del fenómeno, fecha de disponibilidad, coordenadas/CRS, profundidad, unidades y calidad. Registrar faltantes sin convertirlos en ceros.
-5. **Evaluar señal local.** Definir resultado y esfuerzo según arte antes de modelar. Comparar ambiente contra referencias simples: profundidad/distancia a costa, estacionalidad y zona habitual. Separar por viaje/embarcación, tiempo y espacio; ajustar transformaciones solo con entrenamiento. Reportar incertidumbre, sesgo de selección de la flota y valor adicional dentro del rango real de faena.
-6. **Revisión y piloto.** Revisar un commit fijo con Claude, registrar observaciones y corregir cada una con evidencia. Si el retrospectivo no encuentra señal útil, entregar información ambiental con limitaciones y diseñar evaluación prospectiva; no convertir variación del mapa en efectividad pesquera.
+## Reproducir
+Instalar `python -m pip install -r chile/requirements-research.txt`. La lectura de Access requiere `mdbtools` (probado con 1.0.0).
 
-## Salidas del siguiente bloque
-Tabla de flota/pesquería, geometría trazable, inventario descargable verificado, diagnóstico de disponibilidad y protocolo de validación. El primer mapa será ambiental y experimental; las recomendaciones requieren evidencia local.
+```bash
+python chile/download_public_sources.py --destination /ruta/fuera/del/repositorio
+python chile/audit_public_data.py --raw-dir /ruta/fuera/del/repositorio --output-dir /ruta/auditoria
+```
+Para los cruceros, descomprimir cada anexo en su propia carpeta bajo el directorio de datos, sin extraer entradas `__MACOSX`; después:
 
-## Límites de esta entrega
-La investigación inicial no es exhaustiva. Se leyeron páginas oficiales y archivos clave del repositorio; no se descargaron aún las tablas pesqueras ni se midió su cobertura en Portales. No se ejecutaron consultas Copernicus, pruebas del motor ni revisión de Claude. Ninguna fuente inventariada se considera ya integrada.
+```bash
+python chile/audit_cruise_databases.py --raw-dir /ruta/fuera/del/repositorio --output /ruta/auditoria/cruise_audit.json
+python -m unittest discover -s chile -p 'test_research_audit.py' -v
+```
+`diagnose_copernicus.py` usa las credenciales normales de Copernicus desde el entorno y no solicita ni publica contraseñas. El workflow de investigación usa los secrets ya existentes del repositorio; no modifica la publicación peruana ni programa corridas periódicas.
+
+## Siguiente decisión técnica
+Priorizar merluza común para depurar el primer conjunto evaluable, manteniendo reineta como segunda línea. Separar las encuestas artesanales de los cruceros de arrastre. Excluir conflictos y fechas inválidas, verificar unidades/esfuerzo y documentar cualquier corrección antes de emparejar ambiente y pesca.
+
+Los pesos, curvas, horarios y precisión de Pucusana no se trasladan a Chile. El contrato `pilot_contract.json` sigue siendo declarativo: ninguna ruta operativa carga ese archivo. La revisión independiente de Claude está preparada en `claude_review.md` y no ha sido ejecutada.

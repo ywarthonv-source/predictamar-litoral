@@ -17,3 +17,8 @@ Leer primero chile/README.md, pilot_contract.json, sources.md y baseline_review.
 ## Entrega solicitada
 Tabla: severidad, archivo/línea o fuente, evidencia, impacto y corrección propuesta. Separar hallazgos confirmados, hipótesis y preguntas. Emitir dictamen: requiere correcciones / apto como base de investigación; nunca equivaler a validación operativa.
 El autor contrastará cada hallazgo, corregirá lo sustentado en commits separados y registrará resolución. Mantener historial del dictamen original y contraevidencia cuando corresponda.
+
+## Ampliación del encargo tras descargar los datos
+Revisar también research_2026_11_04/RESULTADOS.md y los cuatro JSON de evidencia, junto con audit_public_data.py, audit_cruise_databases.py, diagnose_copernicus.py, download_public_sources.py y test_research_audit.py. Verificar el SHA actual del PR antes de iniciar.
+Cuestionar expresamente: duplicados de captura, estados present/absent contradictorios, ausencia de ceros locales, fechas 2024 vacías/fuera de año, coordenadas invertidas OCEAN 2025, clorofila 2024 siempre cero y falta de fecha/hora en acústica. Revisar si las descargas L3/L4 parciales se reportan honestamente; no llamar cobertura marina a la fracción finita de un recuadro que incluye tierra.
+No confundir disponibilidad de datos con capacidad predictiva, ni arrastre científico con pesca artesanal. Seis comprobaciones offline pasaron; no sustituyen una auditoría científica ni una reproducción independiente. La revisión de Claude continúa pendiente; esta ampliación no es su dictamen.

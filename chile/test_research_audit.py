@@ -6,9 +6,16 @@ import xarray as xr
 
 from audit_public_data import SITE_LAT, SITE_LON, distance_km, target_key
 from diagnose_copernicus import summarize_array
+from audit_cruise_databases import ddmm_to_south_west
 
 
 class ResearchAuditTests(unittest.TestCase):
+    def test_ddmm_coordinates_validate_minutes_and_keep_hemisphere(self):
+        r=ddmm_to_south_west(pd.Series([3315.0,7160.0,7100.0]))
+        self.assertEqual(r.iloc[0],-33.25)
+        self.assertTrue(pd.isna(r.iloc[1]))
+        self.assertEqual(r.iloc[2],-71.0)
+
     def test_chilean_hake_does_not_accept_peruvian_subspecies(self):
         self.assertEqual(target_key("Merluccius gayi gayi"), "merluza_comun")
         self.assertEqual(target_key("Merluccius gayi peruanus"), "")

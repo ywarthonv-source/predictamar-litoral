@@ -7,21 +7,40 @@
   "site": {
     "name": "Caleta Portales",
     "city": "Valparaíso",
-    "official_id": null,
-    "reference_point_wgs84": null
+    "official_id": 214,
+    "reference_point_wgs84": {
+      "latitude": -33.031145882327884,
+      "longitude": -71.5900592190291,
+      "source": "SUBPESCA SRMPUB_CALETAS_PESQUERAS/MapServer/0, OBJECTID=73, query outSR=4326",
+      "source_record_year": 2019,
+      "retrieved_on": "2026-11-04",
+      "not_operating_geometry": true
+    }
   },
   "fishery": {
-    "selected_species": null,
-    "scientific_name": null,
     "gear": null,
     "operating_depth_m": null,
     "operating_polygon_wgs84": null,
-    "participating_vessels": null
+    "participating_vessels": null,
+    "selected_species": [
+      {
+        "id": "reineta",
+        "scientific_name": "Brama australis",
+        "selection_source": "Randy, 2026-11-04",
+        "gear": "pending_local_confirmation"
+      },
+      {
+        "id": "merluza_comun",
+        "scientific_name": "Merluccius gayi gayi",
+        "selection_source": "Randy, 2026-11-04; taxon observed in ASIPA 1.5",
+        "gear": "pending_local_confirmation"
+      }
+    ]
   },
   "readiness": {
     "geometry_verified": false,
-    "biological_data_audited": false,
-    "environmental_coverage_measured": false,
+    "biological_data_audited": true,
+    "environmental_coverage_measured": true,
     "local_validation_completed": false,
     "independent_review_completed": false
   },
@@ -31,5 +50,14 @@
     "inherit_peru_weights": false,
     "inherit_peru_species": false
   },
-  "enforcement": "Declarative proposal only. Existing runtime does not load this file. A later implementation must enforce these gates before any Chile operational path is exposed."
+  "enforcement": "Declarative proposal only. Existing runtime does not load this file. A later implementation must enforce these gates before any Chile operational path is exposed.",
+  "research_status": {
+    "biological_archive_downloaded": true,
+    "table_level_audit_completed": true,
+    "biological_training_data_ready": false,
+    "environmental_local_auth": "credentials_not_present",
+    "environmental_github_audit_run": 41908575663,
+    "environmental_github_audit_status": "completed: 5 products complete dates, 2 chlorophyll products partial",
+    "cruise_databases_audited": true
+  }
 }

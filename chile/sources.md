@@ -1,5 +1,5 @@
 # Inventario inicial de fuentes — consulta 2026-11-04
-Estado común: páginas/metadatos consultados; adaptadores y descarga de tablas pendientes. Las URL de portales no se presentan como API ya probada. Acceso público no demuestra cobertura de Caleta Portales ni aptitud para entrenar un modelo.
+Inventario inicial conservado como registro de descubrimiento. La auditoría y los estados actuales están en [RESULTADOS.md](research_2026_11_04/RESULTADOS.md), junto con los manifiestos verificables. Las verificaciones de la tabla siguiente describen el punto de partida; ASIPA, Sernapesca y la capa de caletas ya fueron descargados e inspeccionados en esta entrega. IFOP/SIMMO, SHOA y las boyas siguen como candidatos no integrados.
 
 | Fuente y URL oficial | Aporte posible | Comprobado en esta sesión | Falta verificar |
 |---|---|---|---|
@@ -24,3 +24,12 @@ Para datos ambientales: celda y profundidad nativas, resolución efectiva, másc
 
 ## Ampliación pendiente
 Auditar productos globales ya utilizados (Copernicus/OSTIA/GEBCO), meteorología y oleaje locales, archivos de cruceros IFOP y literatura específica de especie/arte. Evaluar universidades y redes de observación solo cuando su cobertura y datos descargables estén identificados. Esta lista inicia la búsqueda; no demuestra que Chile tenga más datos útiles que Perú.
+
+## Fuentes incorporadas a la auditoría
+- ASIPA demersales 1.5: tres tablas examinadas completas; licencias, duplicados y conflictos descritos en el informe.
+- Sernapesca CSV: 221.309 filas mensuales, 2000–2023; puerto Valparaiso, sin etiqueta Portales.
+- Subpesca ArcGIS: consulta real Portales, código 214, coordenadas WGS84 y ficha 2019.
+- IFOP: bases Access de cruceros de merluza 2024 y 2025, informes de seguimiento 2023/2024/2025 y antecedentes de reineta/merluza. URLs exactas y checksums en download_manifest.json.
+- Copernicus: siete subconjuntos descargados; fechas, celdas, unidades, profundidades y huellas en environmental_summary.json. La cobertura medida no demuestra validez pesquera.
+
+Las versiones, archivos y límites comprobados se detallan en research_2026_11_04/. No se trasladan los conteos de una versión antigua del portal a los archivos actuales.
