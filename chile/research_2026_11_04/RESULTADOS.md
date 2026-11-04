@@ -92,3 +92,11 @@ Se detectaron 196.791 discrepancias entre fechas parseables en 15-01 y siete `ev
 Clorofila: las 15 fechas L3 incluyen cuatro con 0, 2, 5 o 20 celdas finitas. Solo 10 fechas superan el 80% de un soporte proxy de 128 celdas; ese umbral es exploratorio. El 71,71875% se calcula sobre ese proxy, no sobre una máscara marina independiente. L4 coincide con L3 donde ambas existen y aporta 312 celdas adicionales en las 10 fechas comunes: se marcan como L4 disponible sin L3, no como observación óptica certificada.
 
 El diagnóstico 2026 no es un conjunto ambiental emparejado con capturas históricas. Para ese experimento hacen falta productos históricos del mismo periodo y profundidad, y fechas pesqueras con semántica resuelta.
+
+
+## Revisión de Claude en el PR y ronda 2
+La primera respuesta de Claude en el PR reprodujo los vínculos, conflictos y discrepancias principales, y aceptó varios tratamientos. El ciclo sigue abierto: `independent_review_completed=false` corrige #23. Véase [RONDA_2.md](RONDA_2.md).
+
+La comprobación adicional de campos originales distingue altura de red (9.589 filas) de tamaño de malla (6 filas) en `sampleSize`; no se considera esfuerzo. Los nombres de dataset documentan enmalle/espinel sin certificar el arte por viaje. Septiembre tiene 71 eventos; el diseño temporal deberá considerar el régimen regulatorio por año, sin interpretar menor muestreo como menor abundancia.
+
+El STAC público permite identificar versiones MY diarias 202603 que cubren temporalmente 2010–2022; eso no certifica cobertura local ni explica los días ausentes del diagnóstico NRT. IFOP publica indicadores de esfuerzo/rendimiento para Valparaíso, pero no se ha confirmado acceso, cobertura de ceros ni permiso de los microdatos necesarios. Se valida una consulta única de Randy a integración/fuente e IFOP, detallada en la ronda 2. No hay conjunto listo para evaluar presencia/ausencia o CPUE con el extracto actual, ni dictamen conjunto final.

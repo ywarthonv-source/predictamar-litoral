@@ -42,7 +42,7 @@
     "biological_data_audited": false,
     "environmental_coverage_measured": true,
     "local_validation_completed": false,
-    "independent_review_completed": true
+    "independent_review_completed": false
   },
   "proposed_permissions": {
     "environmental_research": true,
@@ -60,6 +60,6 @@
     "environmental_github_audit_status": "completed: 5 products complete dates, 2 chlorophyll products partial",
     "cruise_databases_audited": true,
     "biological_audit_status": "partial; cross-block linkage and source semantics unresolved",
-    "independent_review_status": "Claude report supplied by Randy; critical findings reproduced; corrections do not constitute approval"
+    "independent_review_status": "Claude PR round 1 received; joint review remains open; findings #3/#6/#7/#9/#17/#19/#23-25 pending treatment or confirmation"
   }
 }

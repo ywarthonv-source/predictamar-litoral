@@ -1,0 +1,262 @@
+{
+  "schema_version": "chlorophyll_public_catalogue_v1",
+  "retrieved_at_utc": "2026-11-04T23:36:28.777228+00:00",
+  "method": "public STAC urllib GET; not copernicusmarine describe or an Actions run",
+  "products": [
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L3_NRT_009_101",
+      "requested_dataset_id": "cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D",
+      "product_url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/product.stac.json",
+      "product_sha256": "f9d2fe0723f81f656ad29af45a13b65a095f885f0aa68a4fcceded2766bb072e",
+      "product_temporal_extent": {
+        "interval": [
+          [
+            "2023-04-25T00:00:00Z",
+            "2026-10-29T00:00:00Z"
+          ]
+        ]
+      },
+      "datasets": [
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411/dataset.stac.json",
+          "sha256": "3aca85c884b183a1af75ad90f39b011d6d623e7995345426bd8576a375198664",
+          "datetime": null,
+          "start_datetime": "2024-09-30T00:00:00Z",
+          "end_datetime": "2026-10-29T00:00:00Z",
+          "cube_dimensions": {
+            "time": {
+              "type": "temporal",
+              "extent": [
+                "2024-09-30T00:00:00Z",
+                "2026-10-29T00:00:00Z"
+              ],
+              "step": "P1D"
+            },
+            "latitude": {
+              "type": "spatial",
+              "axis": "y",
+              "extent": [
+                -89.97917175292969,
+                89.97916412353516
+              ],
+              "step": 0.041666669021963275,
+              "reference_system": 4326
+            },
+            "longitude": {
+              "type": "spatial",
+              "axis": "x",
+              "extent": [
+                -179.9791717529297,
+                179.9791717529297
+              ],
+              "step": 0.041666667844178655,
+              "reference_system": 4326
+            }
+          },
+          "asset_temporal_coordinates": {}
+        },
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202611",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202611/dataset.stac.json",
+          "sha256": "e6e6979f20851701ba265ed8628b6bc8b28f8fe603aaeed8fc49014e0c68cdde",
+          "datetime": "1970-01-01T00:00:00.000000Z",
+          "start_datetime": null,
+          "end_datetime": null,
+          "cube_dimensions": {},
+          "asset_temporal_coordinates": {}
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L4_NRT_009_102",
+      "requested_dataset_id": "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D",
+      "product_url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/product.stac.json",
+      "product_sha256": "4f49a68b7c77386ea8476d9b42f4062d6c1f0c9dc6d1a138b42e2c92e545cf2e",
+      "product_temporal_extent": {
+        "interval": [
+          [
+            "2023-04-01T00:00:00Z",
+            "2026-10-29T00:00:00Z"
+          ]
+        ]
+      },
+      "datasets": [
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311/dataset.stac.json",
+          "sha256": "c9c2927fff600760883685ec96f34b3a6fe5de3b0d40770bc6abc96b9cc2485a",
+          "datetime": null,
+          "start_datetime": "2023-10-01T00:00:00Z",
+          "end_datetime": "2026-10-29T00:00:00Z",
+          "cube_dimensions": {
+            "time": {
+              "type": "temporal",
+              "extent": [
+                "2023-10-01T00:00:00Z",
+                "2026-10-29T00:00:00Z"
+              ],
+              "step": "P1D"
+            },
+            "latitude": {
+              "type": "spatial",
+              "axis": "y",
+              "extent": [
+                -89.97917175292969,
+                89.97916412353516
+              ],
+              "step": 0.041666669021963275,
+              "reference_system": 4326
+            },
+            "longitude": {
+              "type": "spatial",
+              "axis": "x",
+              "extent": [
+                -179.9791717529297,
+                179.9791717529297
+              ],
+              "step": 0.041666667844178655,
+              "reference_system": 4326
+            }
+          },
+          "asset_temporal_coordinates": {}
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L3_MY_009_103",
+      "requested_dataset_id": "cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D",
+      "product_url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/product.stac.json",
+      "product_sha256": "0fb908111652c2c667012bd59b00f01d9dc6573e1e844fb3f3fe8d1b7d8a67e5",
+      "product_temporal_extent": {
+        "interval": [
+          [
+            "1997-09-04T00:00:00Z",
+            "2026-10-22T00:00:00Z"
+          ]
+        ]
+      },
+      "datasets": [
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/dataset.stac.json",
+          "sha256": "4d39ddb4fe2274040ffdc4a86219f42663372904bd5724206d0b9bd795373fc9",
+          "datetime": null,
+          "start_datetime": "1997-09-04T00:00:00Z",
+          "end_datetime": "2026-10-22T00:00:00Z",
+          "cube_dimensions": {
+            "time": {
+              "type": "temporal",
+              "extent": [
+                "1997-09-04T00:00:00Z",
+                "2026-10-22T00:00:00Z"
+              ],
+              "step": "P1D"
+            },
+            "latitude": {
+              "type": "spatial",
+              "axis": "y",
+              "extent": [
+                -89.97917175292969,
+                89.97916412353516
+              ],
+              "step": 0.041666669021963275,
+              "reference_system": 4326
+            },
+            "longitude": {
+              "type": "spatial",
+              "axis": "x",
+              "extent": [
+                -179.9791717529297,
+                179.9791717529297
+              ],
+              "step": 0.041666667844178655,
+              "reference_system": 4326
+            }
+          },
+          "asset_temporal_coordinates": {}
+        },
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202611",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202611/dataset.stac.json",
+          "sha256": "537d10a379c41f25f1639b9067df99ebad930c82b4c8aabc3194f23a6203148e",
+          "datetime": "1970-01-01T00:00:00.000000Z",
+          "start_datetime": null,
+          "end_datetime": null,
+          "cube_dimensions": {},
+          "asset_temporal_coordinates": {}
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L4_MY_009_104",
+      "requested_dataset_id": "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D",
+      "product_url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/product.stac.json",
+      "product_sha256": "b10a3c98a46dd37b1eb76b08c8e479f5815fdb63cab804c61a54e343bf2a77eb",
+      "product_temporal_extent": {
+        "interval": [
+          [
+            "1997-09-01T00:00:00Z",
+            "2026-10-22T00:00:00Z"
+          ]
+        ]
+      },
+      "datasets": [
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/dataset.stac.json",
+          "sha256": "00945a1c796d88b43dc8da316ae5b88647dd44208c2aee5a2521a99e42f582ce",
+          "datetime": null,
+          "start_datetime": "1997-09-04T00:00:00Z",
+          "end_datetime": "2026-10-22T00:00:00Z",
+          "cube_dimensions": {
+            "time": {
+              "type": "temporal",
+              "extent": [
+                "1997-09-04T00:00:00Z",
+                "2026-10-22T00:00:00Z"
+              ],
+              "step": "P1D"
+            },
+            "latitude": {
+              "type": "spatial",
+              "axis": "y",
+              "extent": [
+                -89.97917175292969,
+                89.97916412353516
+              ],
+              "step": 0.041666669021963275,
+              "reference_system": 4326
+            },
+            "longitude": {
+              "type": "spatial",
+              "axis": "x",
+              "extent": [
+                -179.9791717529297,
+                179.9791717529297
+              ],
+              "step": 0.041666667844178655,
+              "reference_system": 4326
+            }
+          },
+          "asset_temporal_coordinates": {}
+        },
+        {
+          "id": "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202611",
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202611/dataset.stac.json",
+          "sha256": "6a654bad36372879a72ae9af6f20e2b01a27fe8c9ef15199a4fe16a2fd47d338",
+          "datetime": "1970-01-01T00:00:00.000000Z",
+          "start_datetime": null,
+          "end_datetime": null,
+          "cube_dimensions": {},
+          "asset_temporal_coordinates": {}
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "metadata extents do not certify daily availability in the pilot box",
+    "do not infer cloud cover or missing-date cause from product extents",
+    "all listed versions are recorded; no default version assumed"
+  ]
+}
