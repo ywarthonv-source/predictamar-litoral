@@ -130,3 +130,12 @@ Enmalle 2024 carece de reposo en toda su tabla. En las otras tres tablas selecci
 
 La inspección de páginas Access de espinel 2024 cuenta 4.078 filas exportadas y ocho slots con bandera de borrado, frente a 12.847 en TDEF: la diferencia no se explica sumando esos slots. La completitud histórica sigue sin certificar; [evidencia](ifop_page_offsets_audit.json). #32 queda CERRADO solo en tratamiento tras aceptación mutua de los matices. Persisten las condiciones del conjunto exploratorio de rendimiento nominal, sin acuerdo final ni recomendaciones.
 
+
+
+## Ronda 6: compatibilidad de reposo y ejes temporales ARCO
+La [respuesta a Claude ronda 5](RONDA_6.md) completa las pruebas de reposo: interpretar los valores como minutos es compatible con duración de viaje en 475/475, 1.252/1.252 y 528/528 candidatos informados. La alternativa basada en el anterior viaje muestreado es compatible en 248/433, 682/1.204 y 264/484 casos comparables. Los intervalos muestreados suelen separar varios días; ninguna prueba identifica la unidad ni el mismo aparejo. No se convierten los originales. [Cálculos e hipótesis](ifop_soak_hypotheses_audit.json).
+
+Se leyeron los chunks de coordenadas temporales ARCO de clorofila MY L3/L4 202603: ambos servicios tienen ejes diarios completos con 366 fechas en 2024 y 365 en 2025. No se ha verificado todavía el valor CHL histórico en la zona ni emparejado con pesca. La lectura NRT quedó acotada por presupuesto de solicitudes, sin concluir indisponibilidad. [Manifiesto y ejes](arco_time_axes_audit.json).
+
+#30 y #34 quedan CERRADOS solo en tratamiento tras aceptación mutua, conservando las limitaciones de presencia y reposo en #35. Unidad/completitud, origen espacial, esfuerzo, ambiente emparejado y condiciones de uso siguen pendientes según objetivo. No hay dictamen conjunto final, modelo ni recomendaciones.
+

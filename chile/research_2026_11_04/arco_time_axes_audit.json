@@ -1,0 +1,220 @@
+{
+  "schema_version": "arco_coordinate_axis_audit_v1",
+  "retrieved_at_utc": "2026-11-05T02:59:11.945260+00:00",
+  "method": "anonymous HTTPS STAC and Zarr v2 coordinate chunks; not SDK describe or Actions",
+  "numcodecs_version": "0.16.3",
+  "results": [
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L3_NRT_009_101",
+      "dataset_version_id": "cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411",
+      "services": {
+        "timeChunked": {
+          "status": "unavailable_in_this_execution",
+          "error": "ValueError: Coordinate request budget exceeded: 95 chunks"
+        },
+        "geoChunked": {
+          "status": "unavailable_in_this_execution",
+          "error": "ValueError: Coordinate request budget exceeded: 95 chunks"
+        }
+      },
+      "request_manifest": [
+        {
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411/dataset.stac.json",
+          "bytes": 55653,
+          "sha256": "3aca85c884b183a1af75ad90f39b011d6d623e7995345426bd8576a375198664"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-043/arco/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411/timeChunked.zarr/.zmetadata",
+          "bytes": 29574,
+          "sha256": "88f1c0d1c0b29ef7dfe6afd66ab2d9d393375afa3d127ba8004038eb4b167130"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-043/arco/OCEANCOLOUR_GLO_BGC_L3_NRT_009_101/cmems_obs-oc_glo_bgc-plankton_nrt_l3-multi-4km_P1D_202411/geoChunked.zarr/.zmetadata",
+          "bytes": 29553,
+          "sha256": "628b73144952858c7300631c3d410624a34b3bb3215a37e16cce475e539707c3"
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L4_NRT_009_102",
+      "dataset_version_id": "cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311",
+      "services": {
+        "timeChunked": {
+          "status": "unavailable_in_this_execution",
+          "error": "ValueError: Coordinate request budget exceeded: 75 chunks"
+        },
+        "geoChunked": {
+          "status": "unavailable_in_this_execution",
+          "error": "ValueError: Coordinate request budget exceeded: 75 chunks"
+        }
+      },
+      "request_manifest": [
+        {
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311/dataset.stac.json",
+          "bytes": 22341,
+          "sha256": "c9c2927fff600760883685ec96f34b3a6fe5de3b0d40770bc6abc96b9cc2485a"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-044/arco/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311/timeChunked.zarr/.zmetadata",
+          "bytes": 12542,
+          "sha256": "0cb21c92ca854ba2b1d85f2b2b11b4c2a1e8a33ff7a1826e573092efb8d91c72"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-044/arco/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D_202311/geoChunked.zarr/.zmetadata",
+          "bytes": 12539,
+          "sha256": "33f6147a532e6d52811a58df6572ccfe69c2a4fb21377c4f2c00f187ec6dbf33"
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L3_MY_009_103",
+      "dataset_version_id": "cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603",
+      "services": {
+        "timeChunked": {
+          "asset_url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/timeChunked.zarr",
+          "coordinate_size": 10641,
+          "coordinate_units": "days since 1900-01-01",
+          "first_time": "1997-09-04T00:00:00+00:00",
+          "last_time": "2026-10-22T00:00:00+00:00",
+          "strictly_increasing": true,
+          "all_steps_one_day": true,
+          "distinct_dates_2015": 365,
+          "distinct_dates_2024": 366,
+          "distinct_dates_2025": 365,
+          "distinct_dates_2026_october_01_30": 22,
+          "status": "coordinate_chunks_read"
+        },
+        "geoChunked": {
+          "asset_url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/geoChunked.zarr",
+          "coordinate_size": 10641,
+          "coordinate_units": "days since 1900-01-01",
+          "first_time": "1997-09-04T00:00:00+00:00",
+          "last_time": "2026-10-22T00:00:00+00:00",
+          "strictly_increasing": true,
+          "all_steps_one_day": true,
+          "distinct_dates_2015": 365,
+          "distinct_dates_2024": 366,
+          "distinct_dates_2025": 365,
+          "distinct_dates_2026_october_01_30": 22,
+          "status": "coordinate_chunks_read"
+        }
+      },
+      "request_manifest": [
+        {
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/dataset.stac.json",
+          "bytes": 55215,
+          "sha256": "4d39ddb4fe2274040ffdc4a86219f42663372904bd5724206d0b9bd795373fc9"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/timeChunked.zarr/.zmetadata",
+          "bytes": 36254,
+          "sha256": "a57ea3770975d54f370f43a03639ac6d83b6ea78c4e6d5f44a2e2a68b3c24022"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/timeChunked.zarr/time/0",
+          "bytes": 655,
+          "sha256": "121b27ce06c51d3167573fbf1315444e7e939fd798c9834021950a4fc708f256"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/timeChunked.zarr/time/1",
+          "bytes": 486,
+          "sha256": "9e20e844bf1debe61b4b9ec9c880fdde86b1bba376cbf96b355cb6c7a58ed4d7"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/geoChunked.zarr/.zmetadata",
+          "bytes": 36254,
+          "sha256": "370f44c5094ec0aa8cf5ce1adc4f7d8f2b081052a0e2132e95a0899178aad531"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/geoChunked.zarr/time/0",
+          "bytes": 655,
+          "sha256": "121b27ce06c51d3167573fbf1315444e7e939fd798c9834021950a4fc708f256"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-063/arco/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202603/geoChunked.zarr/time/1",
+          "bytes": 486,
+          "sha256": "9e20e844bf1debe61b4b9ec9c880fdde86b1bba376cbf96b355cb6c7a58ed4d7"
+        }
+      ]
+    },
+    {
+      "product_id": "OCEANCOLOUR_GLO_BGC_L4_MY_009_104",
+      "dataset_version_id": "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603",
+      "services": {
+        "timeChunked": {
+          "asset_url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/timeChunked.zarr",
+          "coordinate_size": 10641,
+          "coordinate_units": "days since 1900-01-01",
+          "first_time": "1997-09-04T00:00:00+00:00",
+          "last_time": "2026-10-22T00:00:00+00:00",
+          "strictly_increasing": true,
+          "all_steps_one_day": true,
+          "distinct_dates_2015": 365,
+          "distinct_dates_2024": 366,
+          "distinct_dates_2025": 365,
+          "distinct_dates_2026_october_01_30": 22,
+          "status": "coordinate_chunks_read"
+        },
+        "geoChunked": {
+          "asset_url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/geoChunked.zarr",
+          "coordinate_size": 10641,
+          "coordinate_units": "days since 1900-01-01",
+          "first_time": "1997-09-04T00:00:00+00:00",
+          "last_time": "2026-10-22T00:00:00+00:00",
+          "strictly_increasing": true,
+          "all_steps_one_day": true,
+          "distinct_dates_2015": 365,
+          "distinct_dates_2024": 366,
+          "distinct_dates_2025": 365,
+          "distinct_dates_2026_october_01_30": 22,
+          "status": "coordinate_chunks_read"
+        }
+      },
+      "request_manifest": [
+        {
+          "url": "https://stac.marine.copernicus.eu/metadata/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/dataset.stac.json",
+          "bytes": 21901,
+          "sha256": "00945a1c796d88b43dc8da316ae5b88647dd44208c2aee5a2521a99e42f582ce"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/timeChunked.zarr/.zmetadata",
+          "bytes": 12485,
+          "sha256": "f0c682a59ddb6163cb2ada7760d15ec3ef305ce2cb4cfb5c03caa1c55b42affe"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/timeChunked.zarr/time/0",
+          "bytes": 655,
+          "sha256": "121b27ce06c51d3167573fbf1315444e7e939fd798c9834021950a4fc708f256"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-time-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/timeChunked.zarr/time/1",
+          "bytes": 486,
+          "sha256": "9e20e844bf1debe61b4b9ec9c880fdde86b1bba376cbf96b355cb6c7a58ed4d7"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/geoChunked.zarr/.zmetadata",
+          "bytes": 12485,
+          "sha256": "bb6ca71f4a7f56e2b712c1790137187fae6c9776976c48434c0856e6b6de8ae8"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/geoChunked.zarr/time/0",
+          "bytes": 655,
+          "sha256": "121b27ce06c51d3167573fbf1315444e7e939fd798c9834021950a4fc708f256"
+        },
+        {
+          "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-043/arco/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D_202603/geoChunked.zarr/time/1",
+          "bytes": 486,
+          "sha256": "9e20e844bf1debe61b4b9ec9c880fdde86b1bba376cbf96b355cb6c7a58ed4d7"
+        }
+      ]
+    }
+  ],
+  "training_ready": false,
+  "limitations": [
+    "coordinate chunks do not establish availability or quality of environmental variable chunks",
+    "no historical CHL field downloaded or matched to fishing records in this execution",
+    "current service axes do not establish why an earlier request had a shorter window",
+    "no authenticated SDK service-forced comparison executed",
+    "no cloud coverage inference, pilot polygon change or operational recommendation"
+  ]
+}
