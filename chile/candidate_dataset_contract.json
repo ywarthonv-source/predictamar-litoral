@@ -96,6 +96,7 @@
         "LATITUD_INICIO_CALADO",
         "LONGITUD_INICIO_CALADO"
       ],
+      "espinel_2025_dictionary_alias": "The workbook lists LATITUD_INI_CALADO. Use LATITUD_INICIO_CALADO from the Access table.",
       "rule": "Retain the generic and operation-start pairs separately. Quarantine disagreements from pairing. The start fields describe different maneuver phases by gear. Stratify any future pairing by gear and preserve phase provenance."
     }
   },

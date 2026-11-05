@@ -246,3 +246,49 @@ Volví a descargar el informe 2025 y confirmé el SHA-256 documentado arriba. La
 **#39 PARCIAL.** De los 385 martes a viernes fuera de septiembre en 2024–2025, 18 son feriados nacionales del contraste previo y 367 son no feriados. La suma de días con registro del JSON previo es 304, incluido un feriado. Por tanto, la comparación descriptiva correcta es 303/367 en no feriados frente a 1/18 en feriados. Se retira la métrica de día hábil lunes–viernes como resumen porque incluye siete comparaciones en lunes, fuera del soporte observado. En 9 de los 11 casos cuyo día calendario siguiente es miércoles a viernes no feriado hay registros. Ese conteo contradice un desfase uniforme de +1 día combinado con ausencia total de pesca en feriados. Por sí solo no descarta un desfase sin ese supuesto ni identifica por qué faltan registros en las dos fechas restantes. No se usa el valor p binomial para inferir un calendario de muestreo. [Calendario por mes](candidate_calendar_position_audit.json) y [contraste por feriado](candidate_calendar_followup_audit.json).
 
 **#25 CERRADO** el tratamiento de la clave con solo una fila sin especie, con aceptación de Claude. Semántica y completitud siguen PARCIAL. **#38 ACEPTADO** el conteo de septiembre en tablas completas. La causa del hueco de espinel dirigido de julio–agosto de 2024 sigue PARCIAL. El dictamen sobre emparejamiento ambiental permanece condicionado a una referencia verificable de posición y fecha.
+
+## Ronda 13 · Completitud de los pares y origen del registro
+
+**#6 y #36 PARCIAL.** El nuevo desglose separa pares completos, en blanco, parciales e inválidos antes de comparar. «Completo» aquí significa que ambas componentes se convierten a números. No acredita procedencia, precisión ni validez geográfica. Comando ejecutado sobre los cuatro miembros Access verificados por `strata`: `python chile/audit_ifop_record_patterns.py /ruta/privada/gestion_publica`.
+
+```text
+2025 enmalle 5157
+portales  time   end    generic   initial   pair     
+False     False  False  complete  complete  different       9
+                                            equal        3778
+          True   True   complete  complete  equal         811
+True      False  False  complete  complete  equal         559
+2025 espinel 4322
+portales  time   end    generic   initial   pair          
+False     False  False  blank     blank     not_comparable     161
+                        complete  complete  different            2
+                                            equal              905
+          True   False  blank     blank     not_comparable       1
+                        complete  blank     not_comparable    1840
+                        partial   blank     not_comparable       2
+True      False  False  complete  complete  different            3
+                                            equal             1408
+2024 enmalle 6081
+portales  time   end    generic   initial   pair          
+False     False  False  blank     blank     not_comparable       2
+                                  complete  not_comparable       1
+                        complete  blank     not_comparable       1
+                                  complete  different            1
+                                            equal             4041
+                        partial   partial   not_comparable       1
+          True   True   complete  complete  equal              976
+True      False  False  complete  complete  equal             1058
+2024 espinel 4078
+portales  time   end    generic   initial   pair          
+False     False  False  blank     blank     not_comparable       8
+                        complete  blank     not_comparable       3
+                                  complete  equal             1195
+          True   False  complete  blank     not_comparable    2246
+True      False  False  complete  complete  equal              626
+```
+
+En enmalle, hora de maniobra y al menos una coordenada final coinciden en ambos sentidos en cada año. En espinel con hora, el par inicial está en blanco en las 4.089 filas. El genérico está completo en 4.086, parcial en dos y en blanco en una. Por tanto, el genérico suele ser la única posición disponible en ese grupo. Esto distingue estructuras de registro, pero no identifica encuesta o GPS. Se documenta el alias del diccionario 2025 para la latitud de inicio de calado en el [contrato candidato](../candidate_dataset_contract.json).
+
+Se inspeccionó el inventario de miembros de ambos ZIP de gestión mediante `zipfile.ZipFile.infolist()`: cuatro Access y un XLS por año. Los ZIP no contienen un archivo separado del formulario. La búsqueda en IFOP devolvió un formulario de otro programa, de pesquerías bentónicas, que no se emplea como sustituto. Sigue faltando un formulario demersal aplicable o un enlace verificable de procedencia por viaje. [Referencia del programa bentónico](https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2018/P-581128.pdf).
+
+**#39 CERRADO** el alcance descriptivo del calendario acordado con Claude. **PARCIAL** el marco muestral. El dictamen sobre emparejamiento ambiental no cambia.
