@@ -178,3 +178,9 @@ La [respuesta a Claude](RONDA_10.md) documenta las 3.122 claves con día invaria
 Los pares de inicio de virado o calado están informados en las 3.615 filas. Coinciden con la posición genérica en 3.612. Las otras tres corresponden a claves de espinel 2025 y conservan una bandera de discrepancia. La posición efectiva de captura sigue sin certificar. [Agregados](candidate_calendar_position_audit.json).
 
 Septiembre queda fuera del diseño de pesca dirigida por el D.Ex. 464/2016. La revisión sin filtro de objetivo arroja cero filas de Portales en ese mes. El hueco de espinel dirigido en julio y agosto de 2024 conserva causa abierta.
+
+## Ronda 11 · Alcance de los registros por fecha y arte
+
+La [respuesta a Claude](RONDA_11.md) confirma que las cuatro tablas completas tienen filas en septiembre y Portales tiene cero aun sin filtrar objetivo. La veda de merluza dirigida queda confirmada. La actividad de la flota y la causa de los huecos del registro siguen abiertas. En 18 feriados nacionales de martes a viernes fuera de septiembre hubo una recalada registrada. Esta prueba no identifica el calendario muestral ni un desfase de fecha.
+
+Tres claves de espinel 2025 mantienen cuarentena adicional por conflicto de posición. Un par de inicio cae fuera del recuadro diagnóstico bajo DDMMSS. La maniobra registrada depende del arte. La clave con la única fila de especie vacía conserva la cantidad sin asignar. El [diagnóstico agregado](candidate_calendar_followup_audit.json) y el [contrato candidato](../candidate_dataset_contract.json) mantienen bloqueado el emparejamiento mientras falten procedencia y anclas verificables.

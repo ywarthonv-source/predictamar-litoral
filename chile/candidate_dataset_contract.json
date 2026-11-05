@@ -20,7 +20,8 @@
       "directed_hake_september_2024_2025": "Closed period for the directed-fishing design",
       "legal_reference": "https://www.subpesca.cl/portal/616/articles-93729_documento.pdf",
       "source_audit": "Retain counts without target filtering and distinguish regulatory period from export coverage."
-    }
+    },
+    "recorded_weekday_coverage": "All 3132 candidate keys are recorded Tuesday through Friday. The sampling schedule is unverified. One record falls on a tested national holiday."
   },
   "unit": {
     "namespace": [
@@ -49,7 +50,8 @@
     "unit": "kg",
     "rule": "Retain a finite nonnegative value only from one explicit species row on a complete candidate key, with no conflicting positive weight under code 999.",
     "zero_policy": "Explicit zero remains a reported quantity with unvalidated semantics. Code 999 and target omission leave the hake quantity unset.",
-    "multiple_species_rows_policy": "Quarantine multiple target rows for review of scope before summing."
+    "multiple_species_rows_policy": "Quarantine multiple target rows for review of scope before summing.",
+    "blank_species_policy": "Retain blank-species rows and flag for review. If a key has only blank-species rows, keep the hake quantity unset and quarantine the key for catch-outcome evaluation."
   },
   "anchors": {
     "preserve_recorded_times": [
@@ -71,7 +73,8 @@
     ],
     "position_quarantine": [
       "coordinate_origin_unconfirmed",
-      "pilot_geometry_unconfirmed"
+      "pilot_geometry_unconfirmed",
+      "generic_and_operation_start_disagree"
     ],
     "position_rule": "Treat southwest DDMMSS parsing as a diagnostic. Verified capture position and approved pilot geometry are prerequisites for pairing.",
     "environmental_rule": "Keep environmental data separate until anchors are validated. Carry source and coverage provenance, including L3 availability and the mixed-coast diagnostic.",
@@ -93,7 +96,7 @@
         "LATITUD_INICIO_CALADO",
         "LONGITUD_INICIO_CALADO"
       ],
-      "rule": "Preserve the generic and operation-start pairs separately. Flag disagreements and retain provenance quarantine."
+      "rule": "Retain the generic and operation-start pairs separately. Quarantine disagreements from pairing. The start fields describe different maneuver phases by gear. Stratify any future pairing by gear and preserve phase provenance."
     }
   },
   "effort": {
