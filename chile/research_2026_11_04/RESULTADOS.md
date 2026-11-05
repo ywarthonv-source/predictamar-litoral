@@ -139,3 +139,10 @@ Se leyeron los chunks de coordenadas temporales ARCO de clorofila MY L3/L4 20260
 
 #30 y #34 quedan CERRADOS solo en tratamiento tras aceptación mutua, conservando las limitaciones de presencia y reposo en #35. Unidad/completitud, origen espacial, esfuerzo, ambiente emparejado y condiciones de uso siguen pendientes según objetivo. No hay dictamen conjunto final, modelo ni recomendaciones.
 
+
+
+## Muestra histórica de valores CHL: avance independiente de ronda 6
+Se descargaron seis chunks CHL de MY L3/L4 202603 para fechas fijadas antes de leer valores: 2015-01-15, 2024-01-15 y 2025-01-15. En la misma grilla de diagnóstico de 12×12 celdas, L3 aporta 2/36/70 valores finitos dentro de límites publicados y L4 128 en cada fecha. Se enmascararon rellenos y no se aplicaron flags auxiliares. Los denominadores son rectangulares, no una máscara marina.
+
+L4 coincide exactamente con L3 en sus 2/36/70 celdas comunes y aporta 126/92/58 adicionales. Eso no acredita observación independiente, exactitud de la interpolación ni evidencia de peces. Hay acceso histórico real en tres días; falta emparejar con pesca, evaluar cobertura y calidad, y resolver fecha/posición/unidad. #17 permanece PARCIAL. Véanse [alcance y reproducción](MUESTRA_AMBIENTAL_HISTORICA.md) y [resultados/manifiesto](arco_historical_chl_probe.json). No hay modelo, recomendaciones ni cambio del polígono del piloto.
+
