@@ -292,3 +292,20 @@ En enmalle, hora de maniobra y al menos una coordenada final coinciden en ambos 
 Se inspeccionó el inventario de miembros de ambos ZIP de gestión mediante `zipfile.ZipFile.infolist()`: cuatro Access y un XLS por año. Los ZIP no contienen un archivo separado del formulario. La búsqueda en IFOP devolvió un formulario de otro programa, de pesquerías bentónicas, que no se emplea como sustituto. Sigue faltando un formulario demersal aplicable o un enlace verificable de procedencia por viaje. [Referencia del programa bentónico](https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2018/P-581128.pdf).
 
 **#39 CERRADO** el alcance descriptivo del calendario acordado con Claude. **PARCIAL** el marco muestral. El dictamen sobre emparejamiento ambiental no cambia.
+
+## Ronda 14 · Sensibilidad al protocolo histórico y subreporte
+
+**#40 PARCIAL.** El protocolo histórico de IFOP usa objetivo 1 **y** especie capturada 1, agrupa Portales con otros puertos en Valparaíso, estratifica por puerto y mes y presenta kg/viaje por arte y categorías de eslora. El inventario del piloto conserva filas de otras especies y estados de captura, por lo que el filtro de peso se evaluó como sensibilidad sobre las filas explícitas de merluza. Ninguna captura positiva queda fuera de los rangos históricos. Los 20 ceros explícitos quedan fuera, y ninguno adquiere un peso dentro de rango al sumar retenido y descarte. Los cuatro esquemas no contienen un campo de eslora. Por tanto, la estratificación histórica exigiría un enlace verificable a eslora. El precedente respalda explorar kg/viaje por arte, sujeto a validar la unidad y el marco muestral. No se aplica el filtro al inventario. [Protocolo de la comisión, Doc. 2](https://www.subpesca.cl/portal/615/articles-108809_documento.pdf#page=15).
+
+| Año | Arte | Filas candidatas | Filas merluza explícita | Ceros fuera de rango | Filas de la razón diagnóstica | Razón diagnóstica |
+|---|---|---:|---:|---:|---:|---:|
+| 2024 | Enmalle | 1.049 | 832 | 12 | 820 | 105,952 g/m |
+| 2025 | Enmalle | 551 | 454 | 0 | 453 | 124,303 g/m |
+| 2024 | Espinel | 610 | 505 | 6 | 499 | 25,451 g/anzuelo |
+| 2025 | Espinel | 1.405 | 1.227 | 2 | 1.225 | 30,880 g/anzuelo |
+
+**#31/#33 PARCIAL.** Razón de sumas sobre filas explícitas con peso en rango, esfuerzo finito positivo y una sola fila de merluza por clave. Una fila positiva de enmalle 2025 quedó fuera de la razón. Comando ejecutado desde la raíz sobre los Access verificados: `python chile/audit_ifop_protocol_sensitivity.py /ruta/privada/gestion_publica`. Las cifras de espinel quedan cerca de 30 g/anzuelo en la Figura 7. Las de enmalle son inferiores a las curvas de la Figura 8. Las figuras no tienen el mismo dominio ni período que el cálculo local, y la coincidencia aproximada no identifica el campo ni valida el esfuerzo ejercido. Los g/m y g/anzuelo son unidades condicionales a la interpretación ensayada. [IT CCT-RDZCS 02/2025, figuras 7–8](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
+
+**#41 ACEPTADO** el hallazgo documental. La inspección visual de la página impresa 7 confirma Portales 1,4 en 2023 y 1,0 en 2024. La tabla termina en 2024. Es un ajuste agregado de la asesoría y no una regla de corrección por viaje. Los desembarques oficiales aportan contexto, con escala y procedencia propias. El valor de 2024 no prueba ausencia de sesgo en los viajes ni se extrapola a 2025. [Tabla del IT](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
+
+**#6/#36 PARCIAL.** El cruce de pares y horas solicitado en la ronda 12 ya está en la ronda 13. La fecha y posición de faena siguen pendientes para vincular los viajes con el ambiente. El resultado de esta sensibilidad no cambia el dictamen de viabilidad condicionada para el rendimiento nominal por viaje muestreado.
