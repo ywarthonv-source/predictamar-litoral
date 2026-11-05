@@ -14,7 +14,7 @@ from audit_ifop_artisanal import SOURCES, TRIP, date_or_none, table
 from audit_ifop_zero_activity import catch_state
 
 
-def strata(raw_dir):
+def strata(raw_dir, *, full_tables=False):
     for year, (digest, _) in SOURCES.items():
         archive = raw_dir/f'gestion_{year}_anexos.zip'
         with archive.open('rb') as source:
@@ -25,6 +25,9 @@ def strata(raw_dir):
                  ('espinel', f'BITACORAS ESPINEL Centro Sur-  Sur Austral {year}')]
         for gear, name in names:
             data = table(db, name)
+            if full_tables:
+                yield year, gear, digest, data
+                continue
             selected = data[data.PUERTO_RECALADA.eq('560') & data.ESPECIE_OBJETIVO.eq('1')]
             yield year, gear, digest, selected
 
@@ -103,3 +106,4 @@ if __name__ == '__main__':
                              'longitude is not a measured distance to coast']}
     args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
+

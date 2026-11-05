@@ -1,0 +1,483 @@
+{
+  "schema_version": "portales_candidate_calendar_position_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "source_rows": 5157,
+      "selected_rows": 551,
+      "row_code_and_weight_breakdown": {
+        "hake": {
+          "rows": 454,
+          "positive": 454,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "code999": {
+          "rows": 17,
+          "positive": 0,
+          "zero": 17,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "blank": {
+          "rows": 0,
+          "positive": 0,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "other": {
+          "rows": 80,
+          "positive": 80,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        }
+      },
+      "calendar": {
+        "same_day_keys": 474,
+        "cross_day_keys": 2,
+        "same_day_keys_with_date_invariant_under_offsets_0_3_4": 474
+      },
+      "return_weekday_keys_monday_to_sunday": [
+        0,
+        108,
+        116,
+        130,
+        122,
+        0,
+        0
+      ],
+      "return_days_by_month": {
+        "2025-01": 17,
+        "2025-02": 15,
+        "2025-03": 10,
+        "2025-04": 13,
+        "2025-05": 12,
+        "2025-06": 7,
+        "2025-07": 8,
+        "2025-08": 6,
+        "2025-10": 11,
+        "2025-11": 14,
+        "2025-12": 16
+      },
+      "september_portales_without_target_filter": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        }
+      },
+      "july_august_return_rows_full_table": 860,
+      "july_august_return_rows_portales_all_targets": 15,
+      "position_dictionary_endpoint_rows": {
+        "LATITUD_INI_VIRADO": 26,
+        "LONGITUD_INI_VIRADO": 27,
+        "LATITUD_FIN_VIRADO": 28,
+        "LONGITUD_FIN_VIRADO": 29
+      },
+      "endpoint_column_nonempty_selected_rows": {
+        "LATITUD_INI_VIRADO": 551,
+        "LONGITUD_INI_VIRADO": 551,
+        "LATITUD_FIN_VIRADO": 0,
+        "LONGITUD_FIN_VIRADO": 0
+      },
+      "generic_vs_start_endpoint": {
+        "start_pair": [
+          "LATITUD_INI_VIRADO",
+          "LONGITUD_INI_VIRADO"
+        ],
+        "comparable_numeric_rows": 551,
+        "exact_numeric_pair_equal_rows": 551,
+        "different_candidate_keys": 0,
+        "max_diagnostic_absolute_delta_degrees_on_different_rows": {
+          "LATITUD": null,
+          "LONGITUD": null
+        }
+      },
+      "generic_position_complete_selected_rows": 551
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "source_rows": 4322,
+      "selected_rows": 1405,
+      "row_code_and_weight_breakdown": {
+        "hake": {
+          "rows": 1227,
+          "positive": 1225,
+          "zero": 2,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "code999": {
+          "rows": 23,
+          "positive": 0,
+          "zero": 23,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "blank": {
+          "rows": 1,
+          "positive": 0,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 1
+        },
+        "other": {
+          "rows": 154,
+          "positive": 154,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        }
+      },
+      "calendar": {
+        "same_day_keys": 1251,
+        "cross_day_keys": 2,
+        "same_day_keys_with_date_invariant_under_offsets_0_3_4": 1251
+      },
+      "return_weekday_keys_monday_to_sunday": [
+        0,
+        304,
+        304,
+        317,
+        328,
+        0,
+        0
+      ],
+      "return_days_by_month": {
+        "2025-01": 17,
+        "2025-02": 15,
+        "2025-03": 11,
+        "2025-04": 14,
+        "2025-05": 13,
+        "2025-06": 13,
+        "2025-07": 15,
+        "2025-08": 13,
+        "2025-10": 16,
+        "2025-11": 16,
+        "2025-12": 15
+      },
+      "september_portales_without_target_filter": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        }
+      },
+      "july_august_return_rows_full_table": 609,
+      "july_august_return_rows_portales_all_targets": 304,
+      "position_dictionary_endpoint_rows": {
+        "LATITUD_INI_CALADO": 26,
+        "LONGITUD_INICIO_CALADO": 27,
+        "LATITUD_FIN_CALADO": 28,
+        "LONGITUD_FIN_CALADO": 29
+      },
+      "endpoint_column_nonempty_selected_rows": {
+        "LATITUD_INICIO_CALADO": 1405,
+        "LONGITUD_INICIO_CALADO": 1405,
+        "LATITUD_FIN_CALADO": 0,
+        "LONGITUD_FIN_CALADO": 0
+      },
+      "generic_vs_start_endpoint": {
+        "start_pair": [
+          "LATITUD_INICIO_CALADO",
+          "LONGITUD_INICIO_CALADO"
+        ],
+        "comparable_numeric_rows": 1405,
+        "exact_numeric_pair_equal_rows": 1402,
+        "different_candidate_keys": 3,
+        "max_diagnostic_absolute_delta_degrees_on_different_rows": {
+          "LATITUD": 1.0,
+          "LONGITUD": 40.00000000000001
+        }
+      },
+      "generic_position_complete_selected_rows": 1405
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "source_rows": 6081,
+      "selected_rows": 1049,
+      "row_code_and_weight_breakdown": {
+        "hake": {
+          "rows": 832,
+          "positive": 820,
+          "zero": 12,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "code999": {
+          "rows": 33,
+          "positive": 0,
+          "zero": 33,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "blank": {
+          "rows": 0,
+          "positive": 0,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "other": {
+          "rows": 184,
+          "positive": 184,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        }
+      },
+      "calendar": {
+        "same_day_keys": 870,
+        "cross_day_keys": 5,
+        "same_day_keys_with_date_invariant_under_offsets_0_3_4": 870
+      },
+      "return_weekday_keys_monday_to_sunday": [
+        0,
+        188,
+        210,
+        223,
+        254,
+        0,
+        0
+      ],
+      "return_days_by_month": {
+        "2024-01": 16,
+        "2024-02": 17,
+        "2024-03": 16,
+        "2024-04": 9,
+        "2024-05": 8,
+        "2024-06": 5,
+        "2024-07": 9,
+        "2024-08": 8,
+        "2024-10": 14,
+        "2024-11": 16,
+        "2024-12": 15
+      },
+      "september_portales_without_target_filter": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        }
+      },
+      "july_august_return_rows_full_table": 934,
+      "july_august_return_rows_portales_all_targets": 132,
+      "position_dictionary_endpoint_rows": {
+        "LATITUD_INI_VIRADO": 25,
+        "LONGITUD_INI_VIRADO": 26,
+        "LATITUD_FIN_VIRADO": 27,
+        "LONGITUD_FIN_VIRADO": 28
+      },
+      "endpoint_column_nonempty_selected_rows": {
+        "LATITUD_INI_VIRADO": 1049,
+        "LONGITUD_INI_VIRADO": 1049,
+        "LATITUD_FIN_VIRADO": 0,
+        "LONGITUD_FIN_VIRADO": 0
+      },
+      "generic_vs_start_endpoint": {
+        "start_pair": [
+          "LATITUD_INI_VIRADO",
+          "LONGITUD_INI_VIRADO"
+        ],
+        "comparable_numeric_rows": 1049,
+        "exact_numeric_pair_equal_rows": 1049,
+        "different_candidate_keys": 0,
+        "max_diagnostic_absolute_delta_degrees_on_different_rows": {
+          "LATITUD": null,
+          "LONGITUD": null
+        }
+      },
+      "generic_position_complete_selected_rows": 1049
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "source_rows": 4078,
+      "selected_rows": 610,
+      "row_code_and_weight_breakdown": {
+        "hake": {
+          "rows": 505,
+          "positive": 499,
+          "zero": 6,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "code999": {
+          "rows": 11,
+          "positive": 1,
+          "zero": 10,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "blank": {
+          "rows": 0,
+          "positive": 0,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        },
+        "other": {
+          "rows": 94,
+          "positive": 94,
+          "zero": 0,
+          "negative": 0,
+          "missing_or_nonnumeric": 0
+        }
+      },
+      "calendar": {
+        "same_day_keys": 527,
+        "cross_day_keys": 1,
+        "same_day_keys_with_date_invariant_under_offsets_0_3_4": 527
+      },
+      "return_weekday_keys_monday_to_sunday": [
+        0,
+        124,
+        109,
+        146,
+        149,
+        0,
+        0
+      ],
+      "return_days_by_month": {
+        "2024-01": 16,
+        "2024-02": 17,
+        "2024-03": 15,
+        "2024-04": 14,
+        "2024-05": 14,
+        "2024-06": 3,
+        "2024-10": 12,
+        "2024-11": 2,
+        "2024-12": 14
+      },
+      "september_portales_without_target_filter": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 0,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_port_dates": 0
+        }
+      },
+      "july_august_return_rows_full_table": 392,
+      "july_august_return_rows_portales_all_targets": 14,
+      "position_dictionary_endpoint_rows": {
+        "LATITUD_INICIO_CALADO": 25,
+        "LONGITUD_INICIO_CALADO": 26,
+        "LATITUD_FIN_CALADO": 27,
+        "LONGITUD_FIN_CALADO": 28
+      },
+      "endpoint_column_nonempty_selected_rows": {
+        "LATITUD_INICIO_CALADO": 610,
+        "LONGITUD_INICIO_CALADO": 610,
+        "LATITUD_FIN_CALADO": 0,
+        "LONGITUD_FIN_CALADO": 0
+      },
+      "generic_vs_start_endpoint": {
+        "start_pair": [
+          "LATITUD_INICIO_CALADO",
+          "LONGITUD_INICIO_CALADO"
+        ],
+        "comparable_numeric_rows": 610,
+        "exact_numeric_pair_equal_rows": 610,
+        "different_candidate_keys": 0,
+        "max_diagnostic_absolute_delta_degrees_on_different_rows": {
+          "LATITUD": null,
+          "LONGITUD": null
+        }
+      },
+      "generic_position_complete_selected_rows": 610
+    }
+  ],
+  "union_return_days_by_recorded_month": {
+    "2024-01": 16,
+    "2024-02": 17,
+    "2024-03": 16,
+    "2024-04": 14,
+    "2024-05": 15,
+    "2024-06": 5,
+    "2024-07": 9,
+    "2024-08": 8,
+    "2024-10": 14,
+    "2024-11": 16,
+    "2024-12": 15,
+    "2025-01": 17,
+    "2025-02": 15,
+    "2025-03": 11,
+    "2025-04": 14,
+    "2025-05": 13,
+    "2025-06": 13,
+    "2025-07": 15,
+    "2025-08": 13,
+    "2025-10": 16,
+    "2025-11": 16,
+    "2025-12": 16
+  },
+  "evaluation_ready": false,
+  "training_ready": false,
+  "limits": [
+    "tested offsets are conditional hypotheses, not a source clock certification",
+    "september counts describe exports, not all fishing or legal compliance",
+    "weekday coverage does not identify a sampling calendar",
+    "presence of coordinates does not establish their operational origin"
+  ]
+}

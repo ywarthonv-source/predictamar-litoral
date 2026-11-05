@@ -171,3 +171,10 @@ La [respuesta a Claude](RONDA_9.md) reproduce cobertura por arte y mes. Septiemb
 Los histogramas de zarpe y recalada permiten separar la sensibilidad de día registrado del momento de pesca. Hay 3.122 claves con día común y diez con días distintos. La documentación GlobColour define el día del producto aproximadamente en UTC. El huso de IFOP y las anclas de captura siguen pendientes. [Agregados](candidate_coverage_audit.json).
 
 #37 queda PARCIAL con el contraste por longitud y los requisitos de bandera costera en el contrato. Se cierra el desacuerdo escalado sobre E por aceptación mutua. HHMM, centésimas de hora y registros mixtos conservan el alcance de hipótesis. #35 sigue PARCIAL.
+
+## Ronda 10 · Calendario y posiciones de inicio
+La [respuesta a Claude](RONDA_10.md) documenta las 3.122 claves con día invariante bajo desplazamientos 0/+3/+4 y las diez claves que cruzan el día registrado. Las 3.132 recaladas candidatas se registran de martes a viernes y la unión de ambos artes tiene un máximo de 17 días por mes. El marco muestral sigue abierto.
+
+Los pares de inicio de virado o calado están informados en las 3.615 filas. Coinciden con la posición genérica en 3.612. Las otras tres corresponden a claves de espinel 2025 y conservan una bandera de discrepancia. La posición efectiva de captura sigue sin certificar. [Agregados](candidate_calendar_position_audit.json).
+
+Septiembre queda fuera del diseño de pesca dirigida por el D.Ex. 464/2016. La revisión sin filtro de objetivo arroja cero filas de Portales en ese mes. El hueco de espinel dirigido en julio y agosto de 2024 conserva causa abierta.
