@@ -1,0 +1,11 @@
+{
+  "url": "https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip",
+  "source_page": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/",
+  "retrieved_at_utc": "2026-11-05T00:31:23.490297+00:00",
+  "bytes": 3269070,
+  "sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc",
+  "scale": "1:10 million; NOT 10 metres",
+  "version": "5.1.1",
+  "licence_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+  "limitations": "generalized land polygons, review flags only; not navigational or nearshore certification"
+}

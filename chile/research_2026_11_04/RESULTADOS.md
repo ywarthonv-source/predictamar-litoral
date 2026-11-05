@@ -108,3 +108,9 @@ Se descargaron los ZIP de Sección I, temporadas 2024 y 2025, publicados en el c
 Para Portales y objetivo merluza hay 476/1.253 claves candidatas de viaje en enmalle/espinel 2025 y 875/528 en 2024. Existen cantidades positivas, ceros explícitos de merluza y registros código 999 con peso cero, junto con longitud de red o anzuelos. No se infieren ceros por ausencia de fila de especie ni se certifica la clave candidata. Véanse [RONDA_3.md](RONDA_3.md), [auditoría agregada](ifop_public_artisanal_audit.json) y [manifiesto](ifop_public_annex_manifest.json).
 
 Persisten problemas: contador Access discrepante en espinel 2024, un código 999 con peso positivo, descripciones invertidas de inicio/fin de calado y posiciones que requieren contraste geográfico. No hay conjunto listo para entrenamiento ni permiso comercial confirmado; no se calculó CPUE ni se entrenó un modelo. Los originales e identificadores individuales permanecen fuera del repositorio.
+
+
+## Revisión exploratoria de posiciones y viajes
+La comparación con Natural Earth land 5.1.1 (escala 1:10 millones) señala ocho filas a más de 5 km tierra adentro bajo esa referencia generalizada. Son banderas de revisión, sin excluir ni certificar posiciones; el entorno costero requiere una referencia más detallada. Las distancias se calcularon contra la frontera real de los polígonos unidos, sin usar bordes del recuadro como costa.
+
+En las cuatro tablas no se detectaron zarpe/recalada/lance temporalmente incompatibles bajo el parseo explícito. Sin embargo, tres claves candidatas declaran varias caladas y solo un número de lance: queda pendiente resolver si las filas resumen viajes y cómo se define el esfuerzo. Véanse [GEOGRAFIA_Y_VIAJES.md](GEOGRAFIA_Y_VIAJES.md) y [auditoría agregada](ifop_geography_audit.json). No se construyeron etiquetas de entrenamiento ni se modificaron los originales.
