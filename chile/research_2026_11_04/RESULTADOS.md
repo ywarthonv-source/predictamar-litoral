@@ -327,3 +327,31 @@ Se inspeccionó el inventario de miembros de ambos ZIP de gestión mediante `zip
 **#31/#33 PARCIAL.** Verifiqué el texto del IT 02/2025: el espinel corresponde a Valparaíso y la comparación de 2025 se refiere al primer semestre. El enmalle modificado excluye Curanipe. Portales es un subconjunto y el cálculo local anterior usa todo el año exportado. La prueba queda definida para separar dominio y estimador: con los filtros de peso y esfuerzo de la ronda 14, comprobar primero el código de Curanipe en el catálogo del anexo, conservar el puerto en la clave al extender el dominio y calcular por período y dominio tanto 1000·Σpeso/Σmetros como la media de 1000·peso/metros. Reportar número de claves y percentiles 5, 50 y 95 de metros. Usar 2024 y el primer semestre registrado de 2025, con Portales, todos los puertos disponibles y sin Curanipe cuando el código esté verificado. Una coincidencia no identifica por sí sola el estimador ni la fuente del campo oficial. En esta revisión el entorno de ejecución no estuvo disponible y no se recalcularon microdatos. [Informe oficial, páginas PDF 9–10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
 
 **#40 CERRADO** el tratamiento diagnóstico de peso nulo, aceptado por ambas partes. La eslora queda como limitación por falta de enlace verificado entre código IFOP y una fuente de eslora. **#41 ACEPTADO** en alcance agregado. La tabla se localiza en la página PDF 9 (impresa 7) y las figuras 7–8 en las páginas PDF 9–10 (impresas 7–8). La revisión visual independiente sigue pendiente.
+
+## Ronda 17 · Cruce exacto con costa y contraste por dominio
+
+**#6/#36 PARCIAL.** Se verificaron los Access contra sus ZIP y se usó Natural Earth 5.1.1 a escala 1:10 millones, con la misma huella y proyección del diagnóstico anterior. Cruce exacto para las 3.615 filas candidatas. En el recuadro hay 28 filas genéricas en tierra generalizada, ocho a más de 5 km, y 30 iniciales en tierra, diez a más de 5 km. Fuera del recuadro, hay dos genéricas fuera de tierra generalizada y tres iniciales, dos fuera de tierra y una fuera de la región de referencia. El resultado respalda mantener las banderas. La distancia del punto de referencia a la costa generalizada no establece el error máximo de esa costa y los conteos no prueban un error de digitación. No se alteraron coordenadas. Sigue pendiente comprobar la fecha y posición de faena.
+
+| Año | Arte | Genérico en tierra dentro (a >5 km) | Inicial en tierra dentro (a >5 km) |
+|---|---|---:|---:|
+| 2024 | Enmalle | 12 (3) | 12 (3) |
+| 2024 | Espinel | 4 (2) | 4 (2) |
+| 2025 | Enmalle | 7 (2) | 7 (2) |
+| 2025 | Espinel | 5 (1) | 7 (3) |
+
+Reproducción: `python chile/audit_ifop_coast_overlap.py /ruta/privada/gestion_publica /ruta/ne_10m_land.zip`. [Referencia cartográfica](coast_reference_manifest.json).
+
+**#31/#33 PARCIAL.** Se verificó Curanipe = 705 en Maestro Puertos de los dos anexos y se ejecutó la comparación por recalada: 2024 completo y enero–junio de 2025. Se conserva puerto en la clave y se aplican los filtros diagnósticos de la ronda 14. Las columnas de razón, media y mediana están en g/m bajo la interpretación condicional del campo. Los empates en P5 explican por qué su conteo puede superar 5 %.
+
+| Período | Dominio | Claves | Razón de sumas | Media | Mediana | P5/P50/P95 metros | Claves ≤ P5 |
+|---|---|---:|---:|---:|---:|---|---:|
+| 2024 | Portales | 820 | 105,95 | 105,91 | 98,77 | 405/486/486 | 186 |
+| 2024 | Todos | 3.808 | 508,81 | 572,53 | 270,00 | 405/840/1200 | 451 |
+| 2024 | Sin Curanipe | 2.838 | 341,96 | 286,15 | 195,14 | 405/840/1200 | 449 |
+| 2025 S1 | Portales | 270 | 114,96 | 114,91 | 107,00 | 405/486/486 | 31 |
+| 2025 S1 | Todos | 1.572 | 541,43 | 491,70 | 357,14 | 405/1050/1950 | 99 |
+| 2025 S1 | Sin Curanipe | 1.175 | 404,60 | 353,31 | 276,92 | 405/840/2080 | 99 |
+
+El dominio explica una parte importante de la brecha respecto a Portales y quitar Curanipe reduce la razón de sumas en ambos años. La razón de sumas para todos y sin Curanipe queda más cerca de las lecturas visuales en tres de las cuatro comparaciones. En 2024, para todos los puertos, también se acerca la media. La coincidencia es parcial y no identifica el estimador oficial ni acredita la medición del esfuerzo. Reproducción: `python chile/audit_ifop_effort_domains.py /ruta/privada/gestion_publica`. [IT 02/2025, PDF pp. 9–10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
+
+**#40 CERRADO** para peso nulo y eslora como limitación documentada. **#41 ACEPTADO** el alcance agregado, pendiente la lectura visual independiente de la tabla en PDF p. 9. El diagnóstico mantiene viabilidad condicionada para rendimiento nominal por viaje muestreado. El conjunto unido al ambiente sigue sin ser evaluable con los datos verificados.
