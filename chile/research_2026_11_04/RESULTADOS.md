@@ -443,3 +443,29 @@ Hay varios cocientes nominales compatibles con los campos observados. Queda pend
 Son filas, con posibles repeticiones por operación. Todos los campos iniciales no vacíos de la fase elegida pudieron compararse. En espinel, el lance registrado sigue el día de maniobra mucho más que la recalada en este subconjunto. No se traslada a Portales: allí las maniobras están vacías y lance coincide exactamente con recalada en 3.128 de 3.132 claves. El patrón refuerza la necesidad de una fecha independiente para Portales. Comando: `python chile/audit_ifop_maneuver_dates.py /ruta/privada/gestion_publica`.
 
 **#41 ACEPTADO**, pendiente el contraste visual independiente. El conjunto ambiental de Portales permanece sin condición de evaluación.
+
+## Ronda 21 · Paños históricos y longitud de relinga
+
+**#45 RECHAZADO** como interpretación de la norma aplicable a 2024–2025. La Res. Ex. 2.432/2015, numeral 1 letra b, establecía 25 y 35 paños según eslora. La Res. Ex. 957/2023 reemplaza esa misma letra por 1.300 m de relinga superior para eslora menor de 12 m y 1.800 m para eslora igual o superior a 12 m. Por tanto, 25/35 son referencias históricas en este contraste. El recuento por paños es descriptivo y no certifica esfuerzo comparable entre artes, viajes o puertos. [Texto original, PDF p. 2](https://www.subpesca.cl/portal/615/articles-89686_documento.pdf#page=2) · [Modificación, PDF p. 2](https://www.subpesca.cl/portal/615/articles-117875_documento.pdf#page=2) · [Diario Oficial](https://www.diariooficial.interior.gob.cl/publicaciones/2023/04/26/43536/01/2305024.pdf).
+
+**#46 PARCIAL.** Se contaron los umbrales en todo el universo elegible de enmalle, con el mismo filtro y clave con puerto de la ronda 19. La longitud registrada es LONGITUD_RED. El diccionario solo la describe como longitud de red en metros, sin especificar la relinga superior o el paño estirado. Los esquemas de las tablas de enmalle no contienen eslora ni un campo de categoría identificado por nombre.
+
+| Año | Dominio | Claves | 25 paños | 26–35 | >35 | LONGITUD_RED >1.300 | >1.800 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 2024 | Todos | 3.808 | 1.311 | 112 | 3 | 130 | 113 |
+| 2025 | Todos | 3.286 | 1.179 | 393 | 17 | 437 | 367 |
+| 2024 | Portales | 820 | 0 | 0 | 0 | 0 | 0 |
+| 2025 | Portales | 453 | 0 | 0 | 0 | 0 | 0 |
+
+En 2025 hay tres claves por encima de 1.800 m que pertenecen a la retícula de 40,5 m y se omitían al contar solo excepciones. La factorización del largo tampoco reproduce el conteo de 25 paños observados. Se mantiene la separación entre dato registrado, hipótesis de armado y aplicación de umbrales. Los conteos no permiten determinar cumplimiento ni escoger paños como sustituto de esfuerzo efectivo.
+
+Desglose de las claves con LONGITUD_RED >1.800 por código de puerto y paños (conteo):
+
+- 2024, puerto 29: 28 (9), 29 (2), 30 (8), 31 (1), 32 (1), 33 (3), 34 (1), 35 (10).
+- 2024, puerto 890: 24 (1), 28 (23), 30 (24), 32 (26), 33 (1), 36 (3).
+- 2025, puerto 29: 26 (1), 28 (41), 29 (2), 30 (93), 32 (7), 34 (2), 35 (17), 36 (2), 38 (3), 40 (6).
+- 2025, puerto 890: 28 (45), 30 (63), 31 (4), 32 (55), 35 (20), 36 (6).
+
+Reproducción sobre los ZIP y miembros Access verificados: `python chile/audit_ifop_net_thresholds.py /ruta/privada/gestion_publica`.
+
+**#42–#44 y #31/#33.** La ronda 20 ya responde las solicitudes de varianzas, excepciones locales, módulos con paños observados y duplicados entre semestres. Sin nueva aceptación de esos puntos. **#6/#36 PARCIAL.** Sigue sin verificarse fecha y posición de faena por viaje. El dictamen ambiental permanece condicionado a esa evidencia.
