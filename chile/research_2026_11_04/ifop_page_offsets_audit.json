@@ -1,0 +1,99 @@
+{
+  "schema_version": "ifop_access_offset_flags_v1",
+  "flag_semantics_source": "https://raw.githubusercontent.com/mdbtools/mdbtools/v1.0.0/src/libmdb/data.c",
+  "flag_semantics_source_retrieved_sha256": "c98a5d9633ad80fe14ee3623fee93c36e8ffbf69fde0af65afce2a0f73b9003e",
+  "flag_semantics_source_lines": [
+    337,
+    338,
+    347
+  ],
+  "flag_semantics": {
+    "0x4000": "deleted-row flag in mdbtools v1.0.0",
+    "0x8000": "lookup flag in mdbtools v1.0.0"
+  },
+  "access_parser_version_for_catalog_and_tdef_only": "0.0.6",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "database_version": 5,
+      "page_size_bytes": 4096,
+      "data_pages_with_matching_owner": 583,
+      "tdef_metadata_rows": 5157,
+      "mdb_count_metadata_rows": 5157,
+      "mdb_export_parsed_rows": 5157,
+      "offset_slots": 5157,
+      "offset_high_flags": {
+        "0x0000": 5157
+      },
+      "offset_slots_with_0x4000": 0,
+      "exported_rows_plus_0x4000_slots": 5157,
+      "metadata_minus_exported_rows_plus_0x4000_slots": 0
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "database_version": 5,
+      "page_size_bytes": 4096,
+      "data_pages_with_matching_owner": 532,
+      "tdef_metadata_rows": 4322,
+      "mdb_count_metadata_rows": 4322,
+      "mdb_export_parsed_rows": 4322,
+      "offset_slots": 4322,
+      "offset_high_flags": {
+        "0x0000": 4322
+      },
+      "offset_slots_with_0x4000": 0,
+      "exported_rows_plus_0x4000_slots": 4322,
+      "metadata_minus_exported_rows_plus_0x4000_slots": 0
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "database_version": 5,
+      "page_size_bytes": 4096,
+      "data_pages_with_matching_owner": 685,
+      "tdef_metadata_rows": 6081,
+      "mdb_count_metadata_rows": 6081,
+      "mdb_export_parsed_rows": 6081,
+      "offset_slots": 6090,
+      "offset_high_flags": {
+        "0x0000": 6081,
+        "0xd000": 9
+      },
+      "offset_slots_with_0x4000": 9,
+      "exported_rows_plus_0x4000_slots": 6090,
+      "metadata_minus_exported_rows_plus_0x4000_slots": -9
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "database_version": 5,
+      "page_size_bytes": 4096,
+      "data_pages_with_matching_owner": 535,
+      "tdef_metadata_rows": 12847,
+      "mdb_count_metadata_rows": 12847,
+      "mdb_export_parsed_rows": 4078,
+      "offset_slots": 4086,
+      "offset_high_flags": {
+        "0x0000": 4078,
+        "0xd000": 8
+      },
+      "offset_slots_with_0x4000": 8,
+      "exported_rows_plus_0x4000_slots": 4086,
+      "metadata_minus_exported_rows_plus_0x4000_slots": 8761
+    }
+  ],
+  "training_ready": false,
+  "limitations": [
+    "resident page-slot counts are not an audit of historical deletions or database completeness",
+    "does not recover deleted payloads or certify 4078 as all originally collected records",
+    "matching owner pages scanned; no inference about previously reassigned or overwritten pages",
+    "all nonzero high-bit patterns retained without guessing undocumented bits",
+    "no original rows, deleted payloads, table owner numbers or individual identifiers published"
+  ]
+}

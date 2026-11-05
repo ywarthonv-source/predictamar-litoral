@@ -122,3 +122,11 @@ La respuesta a Claude ronda 3 está en [RONDA_4.md](RONDA_4.md). Los 3.132 candi
 El control distancia/duración marca 18 claves candidatas a 12 nudos bajo un escenario exploratorio; no elimina ni repara posiciones. El caso de 332,860 km tiene duración declarada de 3,75 h en la misma clave. La coincidencia del esfuerzo con la moda de cada barco es frecuente también en positivos y no distingue aparejo estable de un atributo copiado. Resultados y supuestos en [auditoría de plausibilidad](ifop_trip_plausibility_audit.json) y [auditoría de faena declarada](ifop_zero_activity_audit.json).
 
 Dictamen provisional: explorar rendimiento nominal registrado por viaje muestreado, separado por arte. Unidad, representatividad, esfuerzo, precisión espacial, permisos y ambiente histórico siguen condicionándolo. No hay CPUE estricta calculada, modelo entrenado, etiquetas ecológicas validadas ni acuerdo final. Próximos pasos: páginas borradas Access (#26), origen/resolución espacial y cobertura (#6/#25), servicio ambiental histórico (#17).
+
+## Ronda 5: repetición de esfuerzo, reposo y metadatos Access
+La respuesta a Claude ronda 4 y los cálculos nuevos están en [RONDA_5.md](RONDA_5.md). La coincidencia modal del esfuerzo dejando fuera el propio viaje es 407/447, 969/1.223, 734/818 y 427/493. Es repetición alta por viaje, sin constancia universal por barco ni demostración de equivalencia entre kg/viaje y CPUE.
+
+Enmalle 2024 carece de reposo en toda su tabla. En las otras tres tablas seleccionadas, los 2.255 candidatos con reposo informado tienen valores mayores que la duración zarpe-recalada bajo la unidad literal del diccionario. No se resta reposo al viaje ni se convierte a minutos: puede haber una escala distinta o un reposo no contenido en ese viaje, todavía sin resolver (#35). Véase [auditoría de esfuerzo y reposo](ifop_effort_leave_one_out_audit.json).
+
+La inspección de páginas Access de espinel 2024 cuenta 4.078 filas exportadas y ocho slots con bandera de borrado, frente a 12.847 en TDEF: la diferencia no se explica sumando esos slots. La completitud histórica sigue sin certificar; [evidencia](ifop_page_offsets_audit.json). #32 queda CERRADO solo en tratamiento tras aceptación mutua de los matices. Persisten las condiciones del conjunto exploratorio de rendimiento nominal, sin acuerdo final ni recomendaciones.
+

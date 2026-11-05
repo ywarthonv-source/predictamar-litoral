@@ -28,8 +28,13 @@ Los 20 casos con merluza en cero y los 83 de código 999/peso cero tienen:
 - zarpe, recalada y lance parseables, duración de viaje positiva y lance dentro
   del intervalo zarpe-recalada.
 
-En 58 de esas claves las horas de reposo declaradas son positivas; en 45 faltan
+En 58 de esas claves el valor de reposo declarado es positivo; en 45 falta
 (todos los candidatos de enmalle 2024). No se convierten faltantes en cero.
+Actualización de ronda 5: toda la tabla de enmalle 2024 carece de reposo, no
+solo estos ceros. El valor positivo no se valida como duración dentro del viaje:
+en los 2.255 candidatos con reposo informado de las otras tablas supera las
+horas zarpe-recalada bajo la unidad literal del diccionario. Véanse #34/#35 en
+RONDA_5.md antes de interpretarlo o restarlo del tiempo disponible.
 Los cuatro campos de inicio/fin de calado y virado están vacíos en todos los
 candidatos de peso cero. También están vacíos en las filas positivas examinadas:
 no existe aquí un registro temporal independiente de despliegue/recogida.
@@ -84,3 +89,4 @@ de #6/#25 y el objetivo candidato. Próximos pasos propios: disponibilidad de
 origen/precisión posicional, cobertura del muestreo y diseño de evaluación
 agrupado por embarcación/tiempo, sin ajustar modelos. La solicitud institucional
 2026-122 sigue ingresada; no se requiere que Randy repita ninguna gestión.
+
