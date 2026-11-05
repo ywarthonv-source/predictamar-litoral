@@ -59,7 +59,9 @@
     "environmental_github_audit_run": 41908575663,
     "environmental_github_audit_status": "completed: 5 products complete dates, 2 chlorophyll products partial",
     "cruise_databases_audited": true,
-    "biological_audit_status": "partial; cross-block linkage and source semantics unresolved",
-    "independent_review_status": "Claude PR round 1 received; joint review remains open; findings #3/#6/#7/#9/#17/#19/#23-25 pending treatment or confirmation"
+    "biological_audit_status": "ASIPA source semantics unresolved; public IFOP artisanal alternative under audit",
+    "independent_review_status": "Claude PR rounds 1/2 received; round 3 public-annex evidence pending independent review",
+    "public_ifop_artisanal_annexes_downloaded": true,
+    "public_ifop_artisanal_audit_status": "exploratory; 2024/2025 public Access annexes contain Portales effort and explicit zeros; geographic, sampling-unit, source-quality and reuse checks pending"
   }
 }

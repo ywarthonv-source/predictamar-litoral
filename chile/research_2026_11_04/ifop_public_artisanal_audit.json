@@ -1,0 +1,350 @@
+{
+  "schema_version": "public_ifop_artisanal_audit_v1",
+  "method": "mdbtools export; optional access-parser row-count cross-check",
+  "sources": [
+    {
+      "year": 2025,
+      "url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-581228_Seccion_I_Anexos.zip",
+      "sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "artisanal_db_sha256": "7d3c2ba3b0df9369543fb9c07489594bd5ac37ecc9edcd3cd43ead741ade1a25",
+      "portales_code": "560",
+      "species_codes": [
+        {
+          "COD_ESPECIE": "999",
+          "NOMBRE_ESPECIE": "Viaje sin captura",
+          "NOMBRE_CIENTIFICO": "Sin movimiento"
+        },
+        {
+          "COD_ESPECIE": "27",
+          "NOMBRE_ESPECIE": "Hacha;palometa;reineta",
+          "NOMBRE_CIENTIFICO": "Brama australis"
+        },
+        {
+          "COD_ESPECIE": "1",
+          "NOMBRE_ESPECIE": "Merluza común",
+          "NOMBRE_CIENTIFICO": "Merluccius gayi gayi"
+        }
+      ],
+      "tables": {
+        "enmalle": {
+          "all_exported_rows": 5157,
+          "portales_all_rows": 559,
+          "portales_hake_target_rows": 551,
+          "candidate_trip_count": 476,
+          "candidate_lance_count": 476,
+          "missing_trip_key_rows": 0,
+          "duplicate_candidate_lance_species_rows": 0,
+          "species_code_rows": {
+            "1": 454,
+            "11": 35,
+            "999": 17,
+            "121": 12,
+            "47": 9,
+            "26": 8,
+            "512": 7,
+            "111": 2,
+            "53": 2,
+            "28": 1,
+            "124": 1,
+            "118": 1,
+            "39": 1,
+            "35": 1
+          },
+          "positive_hake_rows": 454,
+          "explicit_hake_zero_rows": 0,
+          "explicit_no_capture_code999_zero_rows": 17,
+          "code999_positive_weight_rows": 0,
+          "code999_missing_weight_rows": 0,
+          "candidate_trips_only_code999": 17,
+          "candidate_trips_without_hake_row_not_imputed_zero": 22,
+          "other_species_positive_rows": 80,
+          "missing_weight_rows": 0,
+          "effort_field": "LONGITUD_RED",
+          "positive_effort_rows": 550,
+          "missing_effort_rows": 1,
+          "effort_conflicting_candidate_trips": 0,
+          "position_conflicting_candidate_trips": 0,
+          "positive_hake_with_positive_effort_rows": 453,
+          "code999_zero_with_positive_effort_rows": 17,
+          "reported_caladas_counts_row_weighted": {
+            "1": 549,
+            "": 2
+          },
+          "unparseable_lance_date_rows": 0,
+          "lance_date_min": "2025-01-02T09:00:00",
+          "lance_date_max": "2025-12-31T10:30:00",
+          "lance_year_counts_row_weighted": {
+            "2025": 551
+          },
+          "invalid_dms_syntax_rows": 0,
+          "southwest_dms_diagnostic_range": {
+            "lat": [
+              -33.995555555555555,
+              -30.03888888888889
+            ],
+            "lon": [
+              -71.77416666666666,
+              -71.4961111111111
+            ]
+          },
+          "retained_weight_nonempty_rows": 0,
+          "discard_weight_nonempty_rows": 0,
+          "table_name": "BITACORAS ENMALLE Centro Sur 2025",
+          "mdb_count_metadata": 5157,
+          "metadata_row_count_matches_export": true,
+          "access_parser_rows": 5157,
+          "independent_parser_row_count_matches": true
+        },
+        "espinel": {
+          "all_exported_rows": 4322,
+          "portales_all_rows": 1411,
+          "portales_hake_target_rows": 1405,
+          "candidate_trip_count": 1253,
+          "candidate_lance_count": 1253,
+          "missing_trip_key_rows": 0,
+          "duplicate_candidate_lance_species_rows": 0,
+          "species_code_rows": {
+            "1": 1227,
+            "47": 49,
+            "111": 32,
+            "11": 29,
+            "999": 23,
+            "27": 22,
+            "26": 5,
+            "243": 3,
+            "118": 3,
+            "121": 2,
+            "110": 2,
+            "6": 2,
+            "54": 2,
+            "35": 1,
+            "": 1,
+            "92": 1,
+            "28": 1
+          },
+          "positive_hake_rows": 1225,
+          "explicit_hake_zero_rows": 2,
+          "explicit_no_capture_code999_zero_rows": 23,
+          "code999_positive_weight_rows": 0,
+          "code999_missing_weight_rows": 0,
+          "candidate_trips_only_code999": 23,
+          "candidate_trips_without_hake_row_not_imputed_zero": 26,
+          "other_species_positive_rows": 154,
+          "missing_weight_rows": 1,
+          "effort_field": "NUMERO_DE_ANZUELOS",
+          "positive_effort_rows": 1405,
+          "missing_effort_rows": 0,
+          "effort_conflicting_candidate_trips": 0,
+          "position_conflicting_candidate_trips": 0,
+          "positive_hake_with_positive_effort_rows": 1225,
+          "code999_zero_with_positive_effort_rows": 23,
+          "reported_caladas_counts_row_weighted": {
+            "1": 1398,
+            "": 4,
+            "2": 3
+          },
+          "unparseable_lance_date_rows": 0,
+          "lance_date_min": "2025-01-02T08:30:00",
+          "lance_date_max": "2025-12-31T10:00:00",
+          "lance_year_counts_row_weighted": {
+            "2025": 1405
+          },
+          "invalid_dms_syntax_rows": 0,
+          "southwest_dms_diagnostic_range": {
+            "lat": [
+              -33.91861111111111,
+              -32.46416666666667
+            ],
+            "lon": [
+              -71.99222222222222,
+              -71.53583333333333
+            ]
+          },
+          "retained_weight_nonempty_rows": 0,
+          "discard_weight_nonempty_rows": 0,
+          "table_name": "BITACORAS ESPINEL Centro Sur-  Sur Austral 2025",
+          "mdb_count_metadata": 4322,
+          "metadata_row_count_matches_export": true,
+          "access_parser_rows": 4322,
+          "independent_parser_row_count_matches": true
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-581216_Informe_Gestion_anexos.zip",
+      "sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "artisanal_db_sha256": "a3324dc893ee9d44c2c8e213ce9ae79f9cce3a3ec4ece0edb67cb3901daa7568",
+      "portales_code": "560",
+      "species_codes": [
+        {
+          "COD_ESPECIE": "999",
+          "NOMBRE_ESPECIE": "Viaje sin captura",
+          "NOMBRE_CIENTIFICO": "Sin movimiento"
+        },
+        {
+          "COD_ESPECIE": "27",
+          "NOMBRE_ESPECIE": "Hacha;palometa;reineta",
+          "NOMBRE_CIENTIFICO": "Brama australis"
+        },
+        {
+          "COD_ESPECIE": "1",
+          "NOMBRE_ESPECIE": "Merluza común",
+          "NOMBRE_CIENTIFICO": "Merluccius gayi gayi"
+        }
+      ],
+      "tables": {
+        "enmalle": {
+          "all_exported_rows": 6081,
+          "portales_all_rows": 1058,
+          "portales_hake_target_rows": 1049,
+          "candidate_trip_count": 875,
+          "candidate_lance_count": 875,
+          "missing_trip_key_rows": 0,
+          "duplicate_candidate_lance_species_rows": 0,
+          "species_code_rows": {
+            "1": 832,
+            "26": 54,
+            "53": 34,
+            "999": 33,
+            "11": 29,
+            "47": 21,
+            "127": 12,
+            "121": 11,
+            "41": 5,
+            "135": 3,
+            "31": 3,
+            "94": 3,
+            "27": 2,
+            "28": 2,
+            "110": 1,
+            "113": 1,
+            "111": 1,
+            "124": 1,
+            "123": 1
+          },
+          "positive_hake_rows": 820,
+          "explicit_hake_zero_rows": 12,
+          "explicit_no_capture_code999_zero_rows": 33,
+          "code999_positive_weight_rows": 0,
+          "code999_missing_weight_rows": 0,
+          "candidate_trips_only_code999": 33,
+          "candidate_trips_without_hake_row_not_imputed_zero": 43,
+          "other_species_positive_rows": 184,
+          "missing_weight_rows": 0,
+          "effort_field": "LONGITUD_RED",
+          "positive_effort_rows": 1049,
+          "missing_effort_rows": 0,
+          "effort_conflicting_candidate_trips": 0,
+          "position_conflicting_candidate_trips": 0,
+          "positive_hake_with_positive_effort_rows": 820,
+          "code999_zero_with_positive_effort_rows": 33,
+          "reported_caladas_counts_row_weighted": {
+            "1": 1037,
+            "": 12
+          },
+          "unparseable_lance_date_rows": 0,
+          "lance_date_min": "2024-01-04T09:30:00",
+          "lance_date_max": "2024-12-31T10:20:00",
+          "lance_year_counts_row_weighted": {
+            "2024": 1049
+          },
+          "invalid_dms_syntax_rows": 0,
+          "southwest_dms_diagnostic_range": {
+            "lat": [
+              -33.99472222222222,
+              -32.03361111111111
+            ],
+            "lon": [
+              -71.95472222222223,
+              -71.4825
+            ]
+          },
+          "retained_weight_nonempty_rows": 0,
+          "discard_weight_nonempty_rows": 0,
+          "table_name": "BITACORAS ENMALLE Centro Sur 2024",
+          "mdb_count_metadata": 6081,
+          "metadata_row_count_matches_export": true,
+          "access_parser_rows": 6081,
+          "independent_parser_row_count_matches": true
+        },
+        "espinel": {
+          "all_exported_rows": 4078,
+          "portales_all_rows": 626,
+          "portales_hake_target_rows": 610,
+          "candidate_trip_count": 528,
+          "candidate_lance_count": 528,
+          "missing_trip_key_rows": 0,
+          "duplicate_candidate_lance_species_rows": 0,
+          "species_code_rows": {
+            "1": 505,
+            "27": 63,
+            "999": 11,
+            "47": 9,
+            "26": 5,
+            "53": 5,
+            "11": 4,
+            "111": 4,
+            "118": 2,
+            "127": 2
+          },
+          "positive_hake_rows": 499,
+          "explicit_hake_zero_rows": 6,
+          "explicit_no_capture_code999_zero_rows": 10,
+          "code999_positive_weight_rows": 1,
+          "code999_missing_weight_rows": 0,
+          "candidate_trips_only_code999": 11,
+          "candidate_trips_without_hake_row_not_imputed_zero": 23,
+          "other_species_positive_rows": 94,
+          "missing_weight_rows": 0,
+          "effort_field": "NUMERO_DE_ANZUELOS",
+          "positive_effort_rows": 610,
+          "missing_effort_rows": 0,
+          "effort_conflicting_candidate_trips": 0,
+          "position_conflicting_candidate_trips": 0,
+          "positive_hake_with_positive_effort_rows": 499,
+          "code999_zero_with_positive_effort_rows": 10,
+          "reported_caladas_counts_row_weighted": {
+            "1": 607,
+            "13": 2,
+            "": 1
+          },
+          "unparseable_lance_date_rows": 0,
+          "lance_date_min": "2024-01-04T08:30:00",
+          "lance_date_max": "2024-12-31T10:00:00",
+          "lance_year_counts_row_weighted": {
+            "2024": 610
+          },
+          "invalid_dms_syntax_rows": 0,
+          "southwest_dms_diagnostic_range": {
+            "lat": [
+              -33.99444444444445,
+              -31.953333333333333
+            ],
+            "lon": [
+              -71.97583333333334,
+              -71.51583333333333
+            ]
+          },
+          "retained_weight_nonempty_rows": 0,
+          "discard_weight_nonempty_rows": 0,
+          "table_name": "BITACORAS ESPINEL Centro Sur-  Sur Austral 2024",
+          "mdb_count_metadata": 12847,
+          "metadata_row_count_matches_export": false,
+          "access_parser_rows": 4078,
+          "independent_parser_row_count_matches": true
+        }
+      }
+    }
+  ],
+  "training_ready": false,
+  "limitations": [
+    "candidate trip/lance keys not yet certified; no labels imputed from missing species rows",
+    "code999 denotes a reported no-capture trip, not proof of perfect species detection",
+    "coordinates parsed diagnostically as positive DDMMSS in southwest hemisphere; require geographic validation",
+    "report years and actual date ranges are checked separately",
+    "net length/hooks do not alone resolve soak time, selectivity or sampling bias",
+    "public download does not establish commercial reuse permission",
+    "no raw identifiers, original rows, CPUE estimates or operational recommendations published"
+  ]
+}

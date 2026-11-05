@@ -1,0 +1,67 @@
+{
+  "catalogue_url": "https://www.ifop.cl/en/busqueda-de-informes/",
+  "catalogue_html_sha256": "0ad30aee4d1b845afc99defa0acaf72e3e04fca0b5f249e60a9dbb31906a5aa2",
+  "licensing_status": "publicly downloadable; specific commercial reuse permission not established; originals not published in Git",
+  "downloads": [
+    {
+      "file": "gestion_2025_anexos.zip",
+      "url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-581228_Seccion_I_Anexos.zip",
+      "retrieved_at_utc": "2026-11-05T00:15:10.425032+00:00",
+      "bytes": 4577709,
+      "sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "members": [
+        {
+          "name": "Anexo 5_BD SDAP 2025/Códigos BASE DATOS_mod.accdb",
+          "bytes": 667648
+        },
+        {
+          "name": "Anexo 5_BD SDAP 2025/DATOS 2025 ARRASTRE DCS-PDA.accdb",
+          "bytes": 28315648
+        },
+        {
+          "name": "Anexo 5_BD SDAP 2025/DATOS 2025 ARTESANAL DCS-PDA.accdb",
+          "bytes": 29401088
+        },
+        {
+          "name": "Anexo 5_BD SDAP 2025/DATOS 2025 PALANGRE PDA.accdb",
+          "bytes": 11354112
+        },
+        {
+          "name": "Anexo 5_BD SDAP 2025/Descripción de Campos.xls",
+          "bytes": 113664
+        }
+      ],
+      "dictionary_sha256": "c62238830c211f012d3e780240d6039fd18d0c1a67871b496a515ba209d1ca9e"
+    },
+    {
+      "file": "gestion_2024_anexos.zip",
+      "url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-581216_Informe_Gestion_anexos.zip",
+      "retrieved_at_utc": "2026-11-05T00:15:11.219330+00:00",
+      "bytes": 23529631,
+      "sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "members": [
+        {
+          "name": "Base de datos SDAP 2024/Códigos BASE DATOS_mod.accdb",
+          "bytes": 675840
+        },
+        {
+          "name": "Base de datos SDAP 2024/DATOS 2024 ARRASTRE DCS-PDA.accdb",
+          "bytes": 305041408
+        },
+        {
+          "name": "Base de datos SDAP 2024/DATOS 2024 ARTESANAL DCS-PDA.accdb",
+          "bytes": 301039616
+        },
+        {
+          "name": "Base de datos SDAP 2024/DATOS 2024 PALANGRE PDA.accdb",
+          "bytes": 10272768
+        },
+        {
+          "name": "Base de datos SDAP 2024/Descripción de Campos.xls",
+          "bytes": 74752
+        }
+      ],
+      "dictionary_sha256": "6c9fef4abc9df882dcd426a9749e4bf95e0a5e5d76a12eec8a9b0a2e75800201"
+    }
+  ]
+}
