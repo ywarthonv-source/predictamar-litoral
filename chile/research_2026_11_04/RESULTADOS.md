@@ -469,3 +469,35 @@ Desglose de las claves con LONGITUD_RED >1.800 por código de puerto y paños (c
 Reproducción sobre los ZIP y miembros Access verificados: `python chile/audit_ifop_net_thresholds.py /ruta/privada/gestion_publica`.
 
 **#42–#44 y #31/#33.** La ronda 20 ya responde las solicitudes de varianzas, excepciones locales, módulos con paños observados y duplicados entre semestres. Sin nueva aceptación de esos puntos. **#6/#36 PARCIAL.** Sigue sin verificarse fecha y posición de faena por viaje. El dictamen ambiental permanece condicionado a esa evidencia.
+
+## Ronda 22 · Fecha diaria de enmalle por viaje y módulos por puerto
+
+**#6/#36 PARCIAL.** Se filtró enmalle con objetivo merluza, se exigió una clave completa de viaje con puerto y se colapsaron repeticiones del mismo par de inicios de calado y virado. Se excluyeron tres claves de 2024 con más de un par distinto. La comparación exige que ambos inicios estén ordenados entre zarpe y recalada. Ninguna de las claves con par único falló ese control.
+
+| Año | Claves objetivo | Con ambos inicios | Con par único y orden válido | Virado y recalada mismo día | Calado y virado mismo día | Horas virado–recalada P5/P50/P95 |
+|---|---:|---:|---:|---:|---:|---|
+| 2024 | 3.892 | 219 | 216 | 216 | 216 | 2,00 / 2,78 / 3,75 |
+| 2025 | 3.321 | 208 | 208 | 208 | 208 | 2,00 / 2,83 / 4,26 |
+
+El puerto 19 aporta 150 y 161 claves y el 705 aporta 66 y 47, respectivamente. Todos los pares incluidos en cada puerto comparten día con la recalada. P5/P50/P95 por puerto: 19, 2,17/2,83/3,68 y 2,17/2,92/4,37 h. Puerto 705, 1,77/2,65/4,05 y 1,90/2,70/3,57 h. Portales aporta cero claves con ambas maniobras.
+
+La recalada es una hipótesis plausible de fecha diaria para evaluar en enmalle de Portales. El contraste observado proviene de dos puertos y de una minoría de claves con información completa. No cuantifica el error local, la fecha UTC ni la posición de faena. Mantener bloqueada la unión ambiental. Comando sobre Access verificados: `python chile/audit_ifop_enmalle_trip_dates.py /ruta/privada/gestion_publica`.
+
+**#44 PARCIAL.** Con 55 m por paño informado ajustan 176 claves en 2024 y 124 en 2025 (±0,5 m de longitud total). La unión de seis módulos cubre 3.754/3.808 y 3.270/3.286 claves (98,6 % y 99,5 %), sin solapamientos observados. Módulo dominante por puerto entre los seis probados y coincidencias:
+
+| Puerto | Módulo m | 2024 | 2025 |
+|---|---:|---:|---:|
+| 12 | 55 | 176/179 | 124/125 |
+| 19 | 42 | 780/781 | 825/831 |
+| 23 | 42 | 99/101 | 66/66 |
+| 29 | 65 | 37/37 | 193/194 |
+| 560 | 40,5 | 817/820 | 453/453 |
+| 564 | 40,5 | 267/269 | 78/78 |
+| 603 | 42 | 91/91 | 104/104 |
+| 702 | 48 | 400/467 | 353/355 |
+| 705 | 45 | 968/970 | 833/834 |
+| 890 | 65 | 90/93 | 241/246 |
+
+El predominio es descriptivo por puerto de recalada. No identifica el protocolo de medición ni implica que todos los viajes usen el mismo paño. Comando: `python chile/audit_ifop_net_quantization.py /ruta/privada/gestion_publica`.
+
+**CERRADOS por acuerdo**, en su alcance específico: #42 descomposición de varianza (sin inferir preservación del orden de viajes), #43 tres excepciones locales, #45 corrección normativa, #46 conteos y #31/#33 duplicados. **#46 PARCIAL** la referencia física de LONGITUD_RED. No se verificó un manual aplicable que distinga relinga de paño estirado. **#31/#33 PARCIAL.** La brecha con figura 8 sigue sin explicación y no bloquea el análisis descriptivo de kg por viaje. **#41 ACEPTADO** en alcance agregado, con revisión independiente pendiente.

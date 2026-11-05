@@ -44,10 +44,19 @@ for year, gear, _, rows in strata(root, full_tables=True):
     print('Portales mismatched length and panels', mismatch.groupby(['net', 'NUMERO_PANIOS']).size().to_dict())
     implied = eligible.net / pd.to_numeric(eligible.NUMERO_PANIOS)
     print('implied panel lengths rounded to metres', implied.round().value_counts().sort_index().to_dict())
-    print('observed panels matching each module', {
-        module: int((eligible.net - pd.to_numeric(eligible.NUMERO_PANIOS)*module).abs().le(0.5).sum())
-        for module in (40.5, 42, 45, 48, 65)
+    panels = pd.to_numeric(eligible.NUMERO_PANIOS, errors='coerce')
+    modules = (40.5, 42, 45, 48, 55, 65)
+    matches = pd.DataFrame({
+        module: (eligible.net - panels * module).abs().le(0.5) for module in modules
     })
+    print('observed panels matching each module', matches.sum().to_dict())
+    print('union and overlap', int(matches.any(axis=1).sum()),
+          int(matches.sum(axis=1).gt(1).sum()))
+    for port, group in matches.groupby(eligible.PUERTO_RECALADA):
+        counts = group.sum()
+        best = counts.max()
+        dominant = counts.index[counts.eq(best)].tolist() if best else []
+        print('port, keys, dominant tested modules, matching keys', port, len(group), dominant, int(best))
     book = verified_member(root/f'gestion_{year}_anexos.zip', root/str(year), 'Descripción de Campos.xls')
     sheet = pd.read_excel(book, sheet_name='Bitácora Enmalle', header=None)
     print('dictionary', [(i+1, r.dropna().tolist()) for i,r in sheet.iterrows()
@@ -67,4 +76,5 @@ for year, gear, _, rows in strata(root, full_tables=True):
         print(name, 'without Feb/Mar', len(retained), round(1000*retained.kg.sum()/retained.net.sum(), 2))
         print('monthly ratios', {m: round(1000*g.kg.sum()/g.net.sum(), 2)
                                  for m,g in group.groupby(months)})
+
 
