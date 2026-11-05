@@ -1,0 +1,278 @@
+{
+  "schema_version": "ifop_clock_soak_hypothesis_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "national_source_row_histogram": {
+        "source_rows": 5157,
+        "missing": 818,
+        "nonempty_but_nonnumeric": 0,
+        "last_two_digits_or_invalid_class_counts": {
+          "00": 3051,
+          "10": 122,
+          "14": 3,
+          "15": 99,
+          "20": 173,
+          "24": 1,
+          "25": 41,
+          "30": 523,
+          "35": 28,
+          "36": 4,
+          "40": 105,
+          "44": 1,
+          "45": 48,
+          "50": 125,
+          "55": 13,
+          "72": 1,
+          "75": 1
+        },
+        "integer_clock_minute_overflow": 2
+      },
+      "column_storage_type_code": 16,
+      "column_properties_inspected": [
+        "Format",
+        "InputMask",
+        "DefaultValue",
+        "DecimalPlaces",
+        "DisplayControl"
+      ],
+      "column_properties_present": {
+        "DecimalPlaces": -1,
+        "DisplayControl": 109
+      },
+      "local_candidate_clock_compatibility": {
+        "reported_soak": 475,
+        "valid_clock_encoding": 474,
+        "clock_soak_within_trip_duration": 474,
+        "missing_soak": 1,
+        "invalid_clock_encoding": 1,
+        "invalid_trip_duration": 0,
+        "unusable_navigation_scenario": 0
+      },
+      "clock_minutes_median_among_valid": 60.0,
+      "clock_minutes_multiple_30": 413,
+      "unvalidated_clock_navigation_scenario": {
+        "usable_candidates": 474,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 19,
+            "source_rows_flagged": 19
+          },
+          "12": {
+            "candidate_trips_flagged": 9,
+            "source_rows_flagged": 9
+          },
+          "15": {
+            "candidate_trips_flagged": 5,
+            "source_rows_flagged": 5
+          }
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "national_source_row_histogram": {
+        "source_rows": 4322,
+        "missing": 1996,
+        "nonempty_but_nonnumeric": 0,
+        "last_two_digits_or_invalid_class_counts": {
+          "00": 1837,
+          "02": 1,
+          "05": 8,
+          "09": 1,
+          "10": 43,
+          "11": 1,
+          "14": 1,
+          "15": 29,
+          "20": 43,
+          "24": 1,
+          "30": 184,
+          "40": 122,
+          "45": 27,
+          "50": 26,
+          "55": 1,
+          "66": 1
+        },
+        "integer_clock_minute_overflow": 1
+      },
+      "column_storage_type_code": 16,
+      "column_properties_inspected": [
+        "Format",
+        "InputMask",
+        "DefaultValue",
+        "DecimalPlaces",
+        "DisplayControl"
+      ],
+      "column_properties_present": {
+        "DecimalPlaces": -1,
+        "DisplayControl": 109
+      },
+      "local_candidate_clock_compatibility": {
+        "reported_soak": 1252,
+        "valid_clock_encoding": 1252,
+        "clock_soak_within_trip_duration": 1252,
+        "missing_soak": 1,
+        "invalid_clock_encoding": 0,
+        "invalid_trip_duration": 0,
+        "unusable_navigation_scenario": 0
+      },
+      "clock_minutes_median_among_valid": 60.0,
+      "clock_minutes_multiple_30": 998,
+      "unvalidated_clock_navigation_scenario": {
+        "usable_candidates": 1252,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 54,
+            "source_rows_flagged": 60
+          },
+          "12": {
+            "candidate_trips_flagged": 17,
+            "source_rows_flagged": 18
+          },
+          "15": {
+            "candidate_trips_flagged": 3,
+            "source_rows_flagged": 3
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "national_source_row_histogram": {
+        "source_rows": 6081,
+        "missing": 6081,
+        "nonempty_but_nonnumeric": 0,
+        "last_two_digits_or_invalid_class_counts": {},
+        "integer_clock_minute_overflow": 0
+      },
+      "column_storage_type_code": 16,
+      "column_properties_inspected": [
+        "Format",
+        "InputMask",
+        "DefaultValue",
+        "DecimalPlaces",
+        "DisplayControl"
+      ],
+      "column_properties_present": {
+        "DecimalPlaces": -1,
+        "DisplayControl": 109
+      },
+      "local_candidate_clock_compatibility": {
+        "missing_soak": 875,
+        "reported_soak": 0,
+        "invalid_clock_encoding": 0,
+        "valid_clock_encoding": 0,
+        "invalid_trip_duration": 0,
+        "clock_soak_within_trip_duration": 0,
+        "unusable_navigation_scenario": 0
+      },
+      "clock_minutes_median_among_valid": null,
+      "clock_minutes_multiple_30": 0,
+      "unvalidated_clock_navigation_scenario": {
+        "usable_candidates": 0,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          },
+          "12": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          },
+          "15": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "national_source_row_histogram": {
+        "source_rows": 4078,
+        "missing": 1589,
+        "nonempty_but_nonnumeric": 0,
+        "last_two_digits_or_invalid_class_counts": {
+          "00": 1939,
+          "03": 1,
+          "05": 12,
+          "10": 44,
+          "15": 44,
+          "17": 3,
+          "20": 69,
+          "25": 6,
+          "30": 187,
+          "35": 2,
+          "40": 90,
+          "43": 6,
+          "45": 18,
+          "48": 2,
+          "50": 33,
+          "70": 6,
+          "93": 16,
+          "99": 11
+        },
+        "integer_clock_minute_overflow": 33
+      },
+      "column_storage_type_code": 16,
+      "column_properties_inspected": [
+        "Format",
+        "InputMask",
+        "DefaultValue",
+        "DecimalPlaces",
+        "DisplayControl"
+      ],
+      "column_properties_present": {
+        "DecimalPlaces": -1,
+        "DisplayControl": 109
+      },
+      "local_candidate_clock_compatibility": {
+        "reported_soak": 528,
+        "valid_clock_encoding": 528,
+        "clock_soak_within_trip_duration": 528,
+        "missing_soak": 0,
+        "invalid_clock_encoding": 0,
+        "invalid_trip_duration": 0,
+        "unusable_navigation_scenario": 0
+      },
+      "clock_minutes_median_among_valid": 60.0,
+      "clock_minutes_multiple_30": 409,
+      "unvalidated_clock_navigation_scenario": {
+        "usable_candidates": 528,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 26,
+            "source_rows_flagged": 30
+          },
+          "12": {
+            "candidate_trips_flagged": 7,
+            "source_rows_flagged": 10
+          },
+          "15": {
+            "candidate_trips_flagged": 4,
+            "source_rows_flagged": 4
+          }
+        }
+      }
+    }
+  ],
+  "access_parser_version": "0.0.6",
+  "training_ready": false,
+  "soak_units_validated": false,
+  "limitations": [
+    "national histograms count source rows, not independent trips",
+    "numeric clock compatibility is not a documented field convention",
+    "column display/default properties are not the original DCS-PDA application form",
+    "no defaults imputed, no clock conversion applied to original data",
+    "clock sensitivity excludes invalid encodings without repairing them",
+    "no individual identifiers, dates or source rows published"
+  ]
+}

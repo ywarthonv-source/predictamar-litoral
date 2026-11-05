@@ -146,3 +146,11 @@ Se descargaron seis chunks CHL de MY L3/L4 202603 para fechas fijadas antes de l
 
 L4 coincide exactamente con L3 en sus 2/36/70 celdas comunes y aporta 126/92/58 adicionales. Eso no acredita observación independiente, exactitud de la interpolación ni evidencia de peces. Hay acceso histórico real en tres días; falta emparejar con pesca, evaluar cobertura y calidad, y resolver fecha/posición/unidad. #17 permanece PARCIAL. Véanse [alcance y reproducción](MUESTRA_AMBIENTAL_HISTORICA.md) y [resultados/manifiesto](arco_historical_chl_probe.json). No hay modelo, recomendaciones ni cambio del polígono del piloto.
 
+
+
+## Ronda 7: hipótesis de reloj y cobertura diaria histórica
+La [respuesta a Claude ronda 6](RONDA_7.md) contrasta el formato de reloj de HORAS_REPOSO. En las tablas completas con datos, 2/4.339, 1/2.326 y 33/2.489 filas tienen sufijo ≥60. Localmente 2.254/2.255 valores admiten la lectura de reloj y caben en la duración; ello no acredita el formato, el predeterminado ni la semántica del campo. La sensibilidad D marca 9/17/7 claves a 12 nudos, sin corregir originales ni reemplazar banderas. [Evidencia](ifop_clock_soak_audit.json).
+
+El censo CHL MY L3/L4 202603 sobre el recuadro técnico cubre 731 fechas de 2024–2025 con geoChunked. L3 tiene 92 días sin celdas finitas; L4 mantiene 128/144 celdas finitas. Las 16 restantes se publican como soporte faltante del producto, sin certificar tierra o una máscara marina independiente. Hay 31.000 pares celda-día L4 sin L3 simultánea, sin validación pesquera ni de procedencia óptica. [Censo y manifiesto](arco_coverage_2024_2025.json). #17 sigue PARCIAL: faltan emparejamiento y controles completos.
+
+Dictamen conjunto provisional aceptado: viable de forma condicionada para explorar rendimiento nominal por viaje muestreado y arte. La unidad de viaje, completitud, posición, reposo, plausibilidad y permisos siguen condicionando la evaluación. No hay conjunto listo, acuerdo final, modelo ni recomendaciones.
