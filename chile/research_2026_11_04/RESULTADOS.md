@@ -194,3 +194,36 @@ Se inspeccionaron los encabezados completos que devuelve mdb-export para las cua
 El método general describe la recopilación de fechas de zarpe y recalada, pero las secciones citadas no especifican el reloj ni la regla que genera FECHA_LANCE en los anexos. La cobertura regional del programa no identifica el marco de viajes de Portales por arte y día. #36 y #39 siguen PARCIAL. El emparejamiento ambiental sigue condicionado a una referencia verificable por registro.
 
 SHA-256 de los PDF revisados: 2024 `a9b3b7b5f1ec707ac6824ccde1766a0bc451d5b46fabb6db11931e72ad0c0a87`; 2025 `44b919f9df0c44173f1d33a3b2e9f27e62aaa288aae2d5b724ca342e0e796a65`. Se extrajo texto con `pdftotext -layout`.
+
+## Avance de ronda 11 · Fechas y horas de maniobra en los anexos
+
+**#36 PARCIAL.** En los cuatro estratos, las 3.615 filas candidatas carecen de fecha y hora en los cuatro campos de inicio y fin de calado y virado. El resultado se mantiene al incluir cualquier especie objetivo en Portales. Las mismas columnas sí contienen datos en las tablas completas.
+
+| Año | Arte | Filas candidatas | Filas Portales sin filtro de objetivo | Filas Portales con algún campo de maniobra | Filas de todos los puertos con algún campo de maniobra |
+|---|---|---:|---:|---:|---:|
+| 2024 | Enmalle | 1.049 | 1.058 | 0 | 976 |
+| 2024 | Espinel | 610 | 626 | 0 | 2.246 |
+| 2025 | Enmalle | 551 | 559 | 0 | 811 |
+| 2025 | Espinel | 1.405 | 1.411 | 0 | 1.843 |
+
+Reproducción desde la raíz, con los ZIP y miembros Access verificados por [el lector existente](../audit_candidate_coverage.py):
+
+```sh
+PYTHONPATH=chile python - /ruta/privada/gestion_publica <<'PY'
+from pathlib import Path
+import sys
+from audit_candidate_coverage import strata
+
+for year, gear, _, source in strata(Path(sys.argv[1]), full_tables=True):
+    port = source[source.PUERTO_RECALADA.eq('560')]
+    candidates = port[port.ESPECIE_OBJETIVO.eq('1')]
+    fields = [f'FECHA_HORA_{phase}_{operation}'
+              for phase in ('INI', 'FIN') for operation in ('CALADO', 'VIRADO')]
+    def populated(rows):
+        return int(rows[fields].apply(lambda col: col.str.strip().ne('')).any(axis=1).sum())
+    print(year, gear, len(candidates), len(port),
+          populated(candidates), populated(port), populated(source))
+PY
+```
+
+Los campos de maniobra no permiten recuperar una fecha independiente para el emparejamiento de Portales con el ambiente. El patrón no distingue por sí solo encuesta de observación GPS ni demuestra cómo se generó FECHA_LANCE. El siguiente contraste es buscar el formulario original o un enlace por viaje a un registro de operación independiente.
