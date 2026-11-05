@@ -352,7 +352,7 @@ Reproducción: `python chile/audit_ifop_coast_overlap.py /ruta/privada/gestion_p
 | 2025 S1 | Todos | 1.572 | 541,43 | 491,70 | 357,14 | 405/1050/1950 | 99 |
 | 2025 S1 | Sin Curanipe | 1.175 | 404,60 | 353,31 | 276,92 | 405/840/2080 | 99 |
 
-El dominio explica una parte importante de la brecha respecto a Portales y quitar Curanipe reduce la razón de sumas en ambos años. La razón de sumas para todos y sin Curanipe queda más cerca de las lecturas visuales en tres de las cuatro comparaciones. En 2024, para todos los puertos, también se acerca la media. La coincidencia es parcial y no identifica el estimador oficial ni acredita la medición del esfuerzo. Reproducción: `python chile/audit_ifop_effort_domains.py /ruta/privada/gestion_publica`. [IT 02/2025, PDF pp. 9–10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
+El dominio explica una parte importante de la brecha respecto a Portales y quitar Curanipe reduce la razón de sumas en ambos años. La razón de sumas para todos y sin Curanipe queda más cerca de las lecturas visuales que la media en las cuatro comparaciones. La coincidencia es parcial y no identifica el estimador oficial ni acredita la medición del esfuerzo. Reproducción: `python chile/audit_ifop_effort_domains.py /ruta/privada/gestion_publica`. [IT 02/2025, PDF pp. 9–10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
 
 **#40 CERRADO** para peso nulo y eslora como limitación documentada. **#41 ACEPTADO** el alcance agregado, pendiente la lectura visual independiente de la tabla en PDF p. 9. El diagnóstico mantiene viabilidad condicionada para rendimiento nominal por viaje muestreado. El conjunto unido al ambiente sigue sin ser evaluable con los datos verificados.
 
@@ -382,3 +382,29 @@ Hay una embarcación con empate modal en 2025. Se consideraron todas sus modas. 
 En 2024 el zarpe mueve una clave de febrero a enero frente a recalada, sin cambiar los totales semestrales. Las diferencias de conteos entre años no demuestran faltantes en la publicación. Reproducción desde los Access y catálogos verificados: `python chile/audit_ifop_effort_stability.py /ruta/privada/gestion_publica`.
 
 **#6/#36 ACEPTADO** el cruce exacto con costa generalizada. **PARCIAL** la procedencia de fecha y posición y su precisión. Una costa de mayor detalle serviría para evaluar discrepancia cartográfica, sin establecer por sí sola la exactitud de una posición de faena. **#41 ACEPTADO**, pendiente la revisión visual independiente. El conjunto unido al ambiente sigue sin ser evaluable con los datos verificados.
+
+## Ronda 19 · Relación entre longitud declarada y número de paños
+
+**#42 PARCIAL.** Incluir puerto en la clave mantiene 820 claves elegibles de Portales en 2024 y 453 en 2025. Entre embarcaciones repetidoras, 84 de 818 y 26 de 447 viajes quedan fuera de las modas de su embarcación. En 2025 se admiten ambas modas en el empate. La concentración del denominador se confirma. El porcentaje de variación del g/m atribuible a kg requeriría un cálculo específico.
+
+**#43 PARCIAL.** Se contrastó la retícula de 40,5 m con tolerancia de ±0,5 m y se comparó también con el número de paños realmente informado en cada fila. Los diccionarios del anexo 2024 (filas 32 y 34) y 2025 (filas 31 y 33), hoja Bitácora Enmalle, definen LONGITUD_RED en metros y NUMERO_PANIOS como el número de paños. No explican cómo se obtienen esos campos.
+
+| Año | Dominio | Claves | Largos distintos | Claves en retícula | Ajuste con número de paños informado |
+|---|---|---:|---:|---:|---:|
+| 2024 | Portales | 820 | 9 | 820 (100 %) | 817 |
+| 2025 | Portales | 453 | 7 | 453 (100 %) | 453 |
+| 2024 | Todos | 3.808 | 61 | 1.237 (32,5 %) | 1.084 |
+| 2025 | Todos | 3.286 | 51 | 610 (18,6 %) | 531 |
+
+Todos los casos elegibles tienen un número positivo de paños. La retícula se confirma en Portales. La relación con los paños observados tiene tres excepciones en 2024. En el agregado de puertos también son frecuentes cocientes longitud/paños de 42, 45, 48 y 65 m. Esto respalda una relación nominal local como hipótesis, sin establecer el proceso de digitación, el esfuerzo ejercido ni una regla general. Conservar ambos campos. La prueba no usa un modelo nulo de mediciones continuas.
+
+Excepciones a la **retícula** en todos los puertos, largo en metros (conteo):
+
+- 2024: 1 (1), 220 (1), 480 (1), 660 (5), 714 (12), 720 (1), 756 (81), 798 (42), 840 (611), 880 (1), 900 (7), 924 (2), 930 (2), 945 (2), 950 (1), 960 (21), 966 (1), 990 (33), 1000 (1), 1008 (6), 1023 (10), 1035 (8), 1050 (224), 1056 (162), 1060 (1), 1070 (3), 1080 (3), 1089 (1), 1095 (1), 1104 (51), 1125 (970), 1152 (56), 1154 (1), 1188 (1), 1200 (116), 1238 (1), 1560 (11), 1625 (2), 1635 (1), 1690 (2), 1755 (1), 1820 (33), 1885 (2), 1950 (33), 2015 (1), 2080 (26), 2145 (4), 2210 (1), 2275 (10), 2340 (3).
+- 2025: 504 (2), 630 (1), 660 (4), 672 (12), 714 (1), 756 (19), 798 (78), 820 (2), 825 (4), 840 (676), 880 (1), 924 (26), 966 (10), 990 (34), 1008 (7), 1050 (167), 1056 (75), 1080 (3), 1100 (5), 1104 (18), 1123 (1), 1125 (832), 1152 (100), 1170 (1), 1200 (162), 1210 (1), 1560 (14), 1625 (17), 1690 (7), 1755 (32), 1820 (85), 1885 (2), 1950 (156), 1960 (1), 2015 (4), 2080 (62), 2082 (1), 2210 (2), 2275 (37), 2340 (8), 2600 (6).
+
+**#31/#33 PARCIAL.** Queda corregido también el párrafo original de la ronda 17. La razón de sumas se acerca más que la media a las cuatro lecturas visuales. En 2025, al retirar febrero–marzo, todos los puertos pasan de 541,43 a 545,74 g/m (1.124 claves restantes) y sin Curanipe de 404,60 a 391,13 (827 claves). El cambio acerca ligeramente la primera serie y aleja la segunda de las lecturas aproximadas 670 y 460. La exclusión no explica la brecha. Enero–junio por mes: 569,70 / 471,02 / 606,42 / 524,87 / 517,69 / 580,87 (todos), y 401,66 / 412,82 / 455,30 / 415,10 / 374,82 / 335,78 (sin Curanipe). [Figura 8 del IT 02/2025](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=10).
+
+Reproducción sobre ZIP, Access, catálogos y diccionarios verificados: `python chile/audit_ifop_net_quantization.py /ruta/privada/gestion_publica`.
+
+**#6/#36 PARCIAL.** Fecha y posición verificables siguen siendo el requisito mínimo para evaluar el cruce ambiental. **#41 ACEPTADO** el alcance agregado, con revisión visual independiente pendiente. No cambia el dictamen de viabilidad condicionada para explorar kg por viaje muestreado por arte.
