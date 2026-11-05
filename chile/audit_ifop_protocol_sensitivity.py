@@ -14,8 +14,9 @@ for year, gear, _, rows in strata(Path(sys.argv[1]), full_tables=True):
     effort = pd.to_numeric(hake[field], errors='coerce')
     eligible = weight.between(lower, 14000) & np.isfinite(effort) & effort.gt(0) & ~hake.duplicated(TRIP, keep=False)
     fallback = pd.to_numeric(hake.CAPTURA_RETENIDA, errors="coerce") + pd.to_numeric(hake.VOLUMEN_DESCARTE, errors="coerce")
-    print("zero fallback within range", int((weight.eq(0) & fallback.between(lower, 14000)).sum()), "positive in-range excluded", int((weight.between(lower, 14000) & ~eligible).sum()))
+    print("zero or missing weight fallback within range", int(((weight.eq(0) | weight.isna()) & fallback.between(lower, 14000)).sum()), "positive in-range excluded", int((weight.between(lower, 14000) & ~eligible).sum()))
     print(year, gear, len(local), len(hake), int(weight.isna().sum()), int(weight.eq(0).sum()),
           int((weight.gt(0) & weight.lt(lower)).sum()), int(weight.gt(14000).sum()),
           int(eligible.sum()), round(1000 * weight[eligible].sum() / effort[eligible].sum(), 3),
           [c for c in rows if 'ESLORA' in c])
+
