@@ -1,0 +1,52 @@
+{
+  "schema_version": "portales_hake_candidate_v1",
+  "status": "draft_inventory_only",
+  "scope": {
+    "source": "IFOP public artisanal annexes",
+    "seasons": [2024, 2025],
+    "source_strata": ["enmalle", "espinel"],
+    "filters": {"PUERTO_RECALADA": "560", "ESPECIE_OBJETIVO": "1"},
+    "pilot_configuration": "pilot_contract.json"
+  },
+  "unit": {
+    "namespace": ["source_year", "source_gear"],
+    "private_candidate_key": ["COD_BARCO", "FECHA_HORA_ZARPE", "FECHA_HORA_RECALADA"],
+    "source_linkage": ["archive_sha256", "archive_member", "table_name", "export_row_ordinal_1based"],
+    "export_ordinal_scope": "One full mdb-export before filtering, excluding its header. Keep linkage private and record the reader version.",
+    "confirmed_fishing_unit": false,
+    "caladas_policy": "Retain N_CALADAS and NUMERO_LANCE_EX. Flag missing, conflicting or multiple caladas and preserve original grouping."
+  },
+  "reported_quantity": {
+    "species_field": "COD_ESPECIE",
+    "species_code": "1",
+    "weight_field": "PESO",
+    "unit": "kg",
+    "rule": "Retain a finite nonnegative value only from one explicit species row on a complete candidate key, with no conflicting positive weight under code 999.",
+    "zero_policy": "Explicit zero remains a reported quantity with unvalidated semantics. Code 999 and target omission leave the hake quantity unset.",
+    "multiple_species_rows_policy": "Quarantine multiple target rows for review of scope before summing."
+  },
+  "anchors": {
+    "preserve_recorded_times": ["FECHA_HORA_ZARPE", "FECHA_HORA_RECALADA", "FECHA_LANCE"],
+    "time_quarantine": ["lance_timestamp_origin_unconfirmed", "source_timezone_unconfirmed"],
+    "time_diagnostic_flags": ["lance_equals_return", "departure_and_lance_differ_in_calendar_day"],
+    "preserve_recorded_coordinates": ["LATITUD", "LONGITUD"],
+    "position_quarantine": ["coordinate_origin_unconfirmed", "pilot_geometry_unconfirmed"],
+    "position_rule": "Treat southwest DDMMSS parsing as a diagnostic. Verified capture position and approved pilot geometry are prerequisites for pairing.",
+    "environmental_rule": "Keep environmental data separate until anchors are validated. Carry source and coverage provenance, including L3 availability and the mixed-coast diagnostic."
+  },
+  "effort": {
+    "preserve_raw_fields": ["LONGITUD_RED", "NUMERO_DE_ANZUELOS", "HORAS_REPOSO", "N_CALADAS"],
+    "soak_conversion_validated": false,
+    "escalation_reference": "https://github.com/ywarthonv-source/predictamar-litoral/pull/2#issuecomment-6650962969"
+  },
+  "readiness": {
+    "unit_and_sampling_frame_validated": false,
+    "capture_time_and_timezone_validated": false,
+    "capture_position_and_geometry_validated": false,
+    "fish_environment_pairing_validated": false,
+    "reuse_permission_confirmed": false,
+    "evaluation_ready": false,
+    "training_ready": false
+  },
+  "publication": "Aggregate diagnostics only. Keep source records and candidate linkage private."
+}

@@ -159,3 +159,8 @@ Dictamen conjunto provisional aceptado: viable de forma condicionada para explor
 La [respuesta a Claude ronda 7](RONDA_8.md) verifica la coincidencia de FECHA_LANCE y recalada en 3.128/3.132 claves de Portales con dos lectores. Los 3.132 días de lance coinciden con recalada y 10 difieren del día de zarpe. #36 queda PARCIAL. La semántica de fecha y posición para un emparejamiento de pesca requiere confirmación de origen. El mismo [diagnóstico](ifop_alignment_inputs_audit.json) desglosa reposos ambiguos, entre ellos 9999 en 11 filas de espinel 2024, cuyo significado sigue abierto.
 
 El [censo por celda](arco_cell_support.json) sitúa L3 entre 449 y 559 días finitos dentro del soporte fijo L4, con rachas máximas de 6 a 11 días por celda. GLOBE identifica diez celdas mixtas en ese soporte, incluida la huella de la referencia portuaria. El soporte 128 sigue siendo un conteo empírico de L4. #17 continúa PARCIAL y el dictamen conjunto provisional conserva las condiciones de fecha, posición, unidad y calidad.
+
+## Contrato candidato · Avance independiente de ronda 8
+La [prueba del contrato](CONTRATO_CANDIDATO.md) asigna 3.615 filas a 3.132 claves candidatas en cuatro estratos IFOP. Hay 2.998 cantidades positivas de merluza y 20 ceros explícitos con semántica pendiente. Otras 113 cantidades quedan sin asignar y un conflicto 999 permanece en cuarentena. Tres claves declaran varias caladas y 17 carecen de ese conteo.
+
+El [inventario agregado](candidate_inventory_audit.json) verifica trazabilidad y separación de estados. Las 3.132 claves permanecen en cuarentena para emparejamiento ambiental por #6/#25/#36. Pares certificados: cero. El [contrato candidato](../candidate_dataset_contract.json) mantiene evaluation_ready y training_ready en false.
