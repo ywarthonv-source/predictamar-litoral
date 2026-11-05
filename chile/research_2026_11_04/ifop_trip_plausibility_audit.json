@@ -1,0 +1,459 @@
+{
+  "schema_version": "ifop_distance_time_effort_modes_v1",
+  "reference_point_lat_lon": [
+    -33.031145882327884,
+    -71.5900592190291
+  ],
+  "reference_source": "Subpesca caleta 214 reference point; not exact vessel departure berth",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 476,
+      "departure_other_than_portales_trips": 0,
+      "unusable_distance_duration_trips": 0,
+      "distance_duration_review_by_speed_knots": {
+        "9": {
+          "candidate_trips_flagged": 7,
+          "source_rows_flagged": 7
+        },
+        "12": {
+          "candidate_trips_flagged": 5,
+          "source_rows_flagged": 5
+        },
+        "15": {
+          "candidate_trips_flagged": 5,
+          "source_rows_flagged": 5
+        }
+      },
+      "maximum_distance_case_derived": {
+        "distance_to_portales_km": 332.85973182022985,
+        "trip_duration_hours": 3.75,
+        "required_average_speed_knots": 95.85593428948303
+      },
+      "positive_trip_vessels_with_tied_effort_modes": 1,
+      "effort_modal_comparison": {
+        "reported_positive_hake": {
+          "candidate_trips": 454,
+          "vessels": 42,
+          "trips_with_positive_trip_mode_reference": 453,
+          "trips_without_usable_reference": 1,
+          "effort_matches_any_positive_mode": 427,
+          "match_fraction_among_comparable": 0.9426048565121413,
+          "duration_hours": {
+            "n": 454,
+            "minimum": 1.8333333333333333,
+            "median": 5.0,
+            "maximum": 30.166666666666668
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 454,
+            "minimum": 1.8333333333333333,
+            "median": 5.0,
+            "maximum": 30.166666666666668
+          }
+        },
+        "all_code999_including_conflict": {
+          "candidate_trips": 17,
+          "vessels": 13,
+          "trips_with_positive_trip_mode_reference": 17,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 15,
+          "match_fraction_among_comparable": 0.8823529411764706,
+          "duration_hours": {
+            "n": 17,
+            "minimum": 3.75,
+            "median": 4.666666666666667,
+            "maximum": 5.833333333333333
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 262,
+            "minimum": 1.8333333333333333,
+            "median": 5.0,
+            "maximum": 12.0
+          }
+        },
+        "code999_zero_only": {
+          "candidate_trips": 17,
+          "vessels": 13,
+          "trips_with_positive_trip_mode_reference": 17,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 15,
+          "match_fraction_among_comparable": 0.8823529411764706,
+          "duration_hours": {
+            "n": 17,
+            "minimum": 3.75,
+            "median": 4.666666666666667,
+            "maximum": 5.833333333333333
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 262,
+            "minimum": 1.8333333333333333,
+            "median": 5.0,
+            "maximum": 12.0
+          }
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 0,
+          "vessels": 0,
+          "trips_with_positive_trip_mode_reference": 0,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 0,
+          "match_fraction_among_comparable": null,
+          "duration_hours": {
+            "n": 0,
+            "minimum": null,
+            "median": null,
+            "maximum": null
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 0,
+            "minimum": null,
+            "median": null,
+            "maximum": null
+          }
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 1253,
+      "departure_other_than_portales_trips": 1,
+      "unusable_distance_duration_trips": 0,
+      "distance_duration_review_by_speed_knots": {
+        "9": {
+          "candidate_trips_flagged": 18,
+          "source_rows_flagged": 19
+        },
+        "12": {
+          "candidate_trips_flagged": 2,
+          "source_rows_flagged": 2
+        },
+        "15": {
+          "candidate_trips_flagged": 2,
+          "source_rows_flagged": 2
+        }
+      },
+      "maximum_distance_case_derived": {
+        "distance_to_portales_km": 98.9190626925226,
+        "trip_duration_hours": 6.0,
+        "required_average_speed_knots": 17.80400696409694
+      },
+      "positive_trip_vessels_with_tied_effort_modes": 1,
+      "effort_modal_comparison": {
+        "reported_positive_hake": {
+          "candidate_trips": 1225,
+          "vessels": 48,
+          "trips_with_positive_trip_mode_reference": 1225,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 983,
+          "match_fraction_among_comparable": 0.8024489795918367,
+          "duration_hours": {
+            "n": 1225,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 7.5
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 1225,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 7.5
+          }
+        },
+        "all_code999_including_conflict": {
+          "candidate_trips": 23,
+          "vessels": 17,
+          "trips_with_positive_trip_mode_reference": 23,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 15,
+          "match_fraction_among_comparable": 0.6521739130434783,
+          "duration_hours": {
+            "n": 23,
+            "minimum": 3.0,
+            "median": 5.0,
+            "maximum": 27.666666666666668
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 508,
+            "minimum": 2.5,
+            "median": 4.75,
+            "maximum": 7.166666666666667
+          }
+        },
+        "code999_zero_only": {
+          "candidate_trips": 23,
+          "vessels": 17,
+          "trips_with_positive_trip_mode_reference": 23,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 15,
+          "match_fraction_among_comparable": 0.6521739130434783,
+          "duration_hours": {
+            "n": 23,
+            "minimum": 3.0,
+            "median": 5.0,
+            "maximum": 27.666666666666668
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 508,
+            "minimum": 2.5,
+            "median": 4.75,
+            "maximum": 7.166666666666667
+          }
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 2,
+          "vessels": 2,
+          "trips_with_positive_trip_mode_reference": 2,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 1,
+          "match_fraction_among_comparable": 0.5,
+          "duration_hours": {
+            "n": 2,
+            "minimum": 3.6666666666666665,
+            "median": 4.583333333333333,
+            "maximum": 5.5
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 145,
+            "minimum": 2.5,
+            "median": 4.0,
+            "maximum": 7.5
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 875,
+      "departure_other_than_portales_trips": 0,
+      "unusable_distance_duration_trips": 0,
+      "distance_duration_review_by_speed_knots": {
+        "9": {
+          "candidate_trips_flagged": 10,
+          "source_rows_flagged": 11
+        },
+        "12": {
+          "candidate_trips_flagged": 8,
+          "source_rows_flagged": 8
+        },
+        "15": {
+          "candidate_trips_flagged": 7,
+          "source_rows_flagged": 7
+        }
+      },
+      "maximum_distance_case_derived": {
+        "distance_to_portales_km": 111.29218425133242,
+        "trip_duration_hours": 5.333333333333333,
+        "required_average_speed_knots": 22.534864521733077
+      },
+      "positive_trip_vessels_with_tied_effort_modes": 0,
+      "effort_modal_comparison": {
+        "reported_positive_hake": {
+          "candidate_trips": 820,
+          "vessels": 48,
+          "trips_with_positive_trip_mode_reference": 820,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 736,
+          "match_fraction_among_comparable": 0.8975609756097561,
+          "duration_hours": {
+            "n": 820,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 30.5
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 820,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 30.5
+          }
+        },
+        "all_code999_including_conflict": {
+          "candidate_trips": 33,
+          "vessels": 21,
+          "trips_with_positive_trip_mode_reference": 33,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 31,
+          "match_fraction_among_comparable": 0.9393939393939394,
+          "duration_hours": {
+            "n": 33,
+            "minimum": 2.5,
+            "median": 4.5,
+            "maximum": 7.0
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 501,
+            "minimum": 2.5,
+            "median": 4.5,
+            "maximum": 30.5
+          }
+        },
+        "code999_zero_only": {
+          "candidate_trips": 33,
+          "vessels": 21,
+          "trips_with_positive_trip_mode_reference": 33,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 31,
+          "match_fraction_among_comparable": 0.9393939393939394,
+          "duration_hours": {
+            "n": 33,
+            "minimum": 2.5,
+            "median": 4.5,
+            "maximum": 7.0
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 501,
+            "minimum": 2.5,
+            "median": 4.5,
+            "maximum": 30.5
+          }
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 12,
+          "vessels": 9,
+          "trips_with_positive_trip_mode_reference": 12,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 8,
+          "match_fraction_among_comparable": 0.6666666666666666,
+          "duration_hours": {
+            "n": 12,
+            "minimum": 4.0,
+            "median": 5.25,
+            "maximum": 6.5
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 152,
+            "minimum": 2.5,
+            "median": 4.791666666666666,
+            "maximum": 8.333333333333334
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 528,
+      "departure_other_than_portales_trips": 0,
+      "unusable_distance_duration_trips": 0,
+      "distance_duration_review_by_speed_knots": {
+        "9": {
+          "candidate_trips_flagged": 6,
+          "source_rows_flagged": 9
+        },
+        "12": {
+          "candidate_trips_flagged": 3,
+          "source_rows_flagged": 3
+        },
+        "15": {
+          "candidate_trips_flagged": 3,
+          "source_rows_flagged": 3
+        }
+      },
+      "maximum_distance_case_derived": {
+        "distance_to_portales_km": 119.99043932243744,
+        "trip_duration_hours": 4.833333333333333,
+        "required_average_speed_knots": 26.809512025568804
+      },
+      "positive_trip_vessels_with_tied_effort_modes": 2,
+      "effort_modal_comparison": {
+        "reported_positive_hake": {
+          "candidate_trips": 499,
+          "vessels": 43,
+          "trips_with_positive_trip_mode_reference": 499,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 439,
+          "match_fraction_among_comparable": 0.8797595190380761,
+          "duration_hours": {
+            "n": 499,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 27.833333333333332
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 499,
+            "minimum": 2.5,
+            "median": 4.666666666666667,
+            "maximum": 27.833333333333332
+          }
+        },
+        "all_code999_including_conflict": {
+          "candidate_trips": 11,
+          "vessels": 9,
+          "trips_with_positive_trip_mode_reference": 11,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 11,
+          "match_fraction_among_comparable": 1.0,
+          "duration_hours": {
+            "n": 11,
+            "minimum": 3.5,
+            "median": 4.5,
+            "maximum": 5.5
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 205,
+            "minimum": 2.5,
+            "median": 4.333333333333333,
+            "maximum": 6.333333333333333
+          }
+        },
+        "code999_zero_only": {
+          "candidate_trips": 10,
+          "vessels": 8,
+          "trips_with_positive_trip_mode_reference": 10,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 10,
+          "match_fraction_among_comparable": 1.0,
+          "duration_hours": {
+            "n": 10,
+            "minimum": 3.5,
+            "median": 4.5,
+            "maximum": 5.0
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 189,
+            "minimum": 2.5,
+            "median": 4.25,
+            "maximum": 6.333333333333333
+          }
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 6,
+          "vessels": 3,
+          "trips_with_positive_trip_mode_reference": 6,
+          "trips_without_usable_reference": 0,
+          "effort_matches_any_positive_mode": 6,
+          "match_fraction_among_comparable": 1.0,
+          "duration_hours": {
+            "n": 6,
+            "minimum": 4.0,
+            "median": 4.5,
+            "maximum": 5.0
+          },
+          "positive_peer_trips_same_vessels_duration_hours": {
+            "n": 125,
+            "minimum": 2.5,
+            "median": 4.333333333333333,
+            "maximum": 27.833333333333332
+          }
+        }
+      }
+    }
+  ],
+  "training_ready": false,
+  "limitations": [
+    "9/12/15 knots are exploratory scenarios, not measured vessel limits",
+    "round-trip bound used only when both reported ports are Portales",
+    "diagnostic southwest DDMMSS and candidate trip key remain assumptions",
+    "modal equality cannot distinguish stable deployed gear from copied equipment attributes",
+    "positive-trip mode comparison is in-sample and descriptive, not a statistical identification test",
+    "no individual identifiers, coordinates, raw rows or corrected labels published"
+  ]
+}
