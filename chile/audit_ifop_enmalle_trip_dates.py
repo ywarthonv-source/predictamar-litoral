@@ -16,6 +16,12 @@ for year, gear, _, source in strata(Path(sys.argv[1]), full_tables=True):
     rows = rows[~rows[key].eq('').any(axis=1)]
     for phase in phases:
         rows[phase] = pd.to_datetime(rows[phase].map(date_or_none))
+    departures = pd.to_datetime(rows.FECHA_HORA_ZARPE.map(date_or_none))
+    before_departure = rows[phases[0]].lt(departures)
+    has_phase = rows.groupby(key)[phases].count().gt(0)
+    only_virado = has_phase[phases[1]] & ~has_phase[phases[0]]
+    print(year, 'keys with any calado before departure / virado but no calado',
+          len(rows.loc[before_departure, key].drop_duplicates()), int(only_virado.sum()))
     paired = rows.dropna(subset=phases)
     unique_pairs = paired[key + phases].drop_duplicates()
     consistent = unique_pairs[~unique_pairs.duplicated(key, keep=False)].copy()
@@ -29,10 +35,14 @@ for year, gear, _, source in strata(Path(sys.argv[1]), full_tables=True):
     ordered &= consistent[phases[1]].le(consistent['return'])
     print('invalid order or missing trip timestamps', int((~ordered).sum()))
     good = consistent[ordered].copy()
+    good['same_trip_day'] = good.depart.dt.normalize().eq(good['return'].dt.normalize())
+    good['calado_before_return_day'] = good[phases[0]].dt.normalize().lt(good['return'].dt.normalize())
     good['return_virado'] = good['return'].dt.normalize().eq(good[phases[1]].dt.normalize())
     good['calado_virado'] = good[phases[0]].dt.normalize().eq(good[phases[1]].dt.normalize())
     good['calado_return'] = good[phases[0]].dt.normalize().eq(good['return'].dt.normalize())
     good['hours'] = (good['return']-good[phases[1]]).dt.total_seconds()/3600
     for port, group in [('all', good), *good.groupby('PUERTO_RECALADA')]:
         print(port, len(group), int(group.return_virado.sum()), int(group.calado_virado.sum()),
-              int(group.calado_return.sum()), group.hours.quantile([.05, .5, .95]).round(2).tolist())
+              int(group.calado_return.sum()), int(group.same_trip_day.sum()),
+              int((~group.same_trip_day & group.calado_before_return_day).sum()), group.hours.quantile([.05, .5, .95]).round(2).tolist())
+

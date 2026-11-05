@@ -35,6 +35,7 @@ def audit(raw_dir, support):
                     offsets[offset, 'outside_axis'] += 1
                 else:
                     offsets[offset, 'L3_any'] += int(value[0] > 0)
+                    offsets[offset, 'L3_ge64'] += int(value[0] >= 64)
                     offsets[offset, 'L4_any'] += int(value[1] > 0)
             if any(value is None for value in values):
                 windows['incomplete_axis'] += 1
@@ -45,11 +46,16 @@ def audit(raw_dir, support):
             windows['L3_mixed_three'] += int(any(available) and not all(available))
             windows['L3_center_missing_neighbor_available'] += int(
                 not available[1] and (available[0] or available[2]))
+            dense = [value[0] >= 64 for value in values]
+            windows['L3_ge64_all_three'] += int(all(dense))
+            windows['L3_ge64_none_of_three'] += int(not any(dense))
+            windows['L3_ge64_mixed_three'] += int(any(dense) and not all(dense))
             windows['L4_all_three'] += int(all(value[1] > 0 for value in values))
         print(year, gear, len(keys), {i: {k: offsets[i, k] for k in
-              ('outside_axis', 'L3_any', 'L4_any')} for i in (-1, 0, 1)}, dict(windows))
+              ('outside_axis', 'L3_any', 'L3_ge64', 'L4_any')} for i in (-1, 0, 1)}, dict(windows))
 
 
 if __name__ == '__main__':
     raw_dir, census_path = map(Path, sys.argv[1:])
     audit(raw_dir, support_by_date(json.loads(census_path.read_text())))
+

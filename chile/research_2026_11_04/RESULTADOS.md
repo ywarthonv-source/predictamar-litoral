@@ -519,3 +519,23 @@ Entre las 3.120 claves con ventana completa, 787 tienen L3 finito en alguna fech
 Reproducción desde la raíz: `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
 
 **#6/#36 PARCIAL.** La sensibilidad de disponibilidad no valida la recalada como fecha de faena ni identifica una posición. El conjunto combinado sigue sin ser evaluable con la evidencia actual.
+
+## Ronda 23 · Selección de viajes y cobertura regional de clorofila
+
+**#6/#36 PARCIAL.** Reejecución sobre Access verificados, enmalle con objetivo merluza, clave completa por viaje y puerto. Las 216 y 208 claves de los puertos 19 y 705 con un par único y orden válido de maniobras son todas viajes de un mismo día registrado. En ese subconjunto la coincidencia de día entre maniobra y recalada se deduce del filtro de orden. Cero viajes de varios días entran en esa comparación. En todo el extracto objetivo de enmalle (3.892 y 3.321 claves completas), se observaron cero claves con calado interpretable anterior al zarpe, y cero con algún virado interpretable pero ningún calado interpretable. Sin embargo, solo 219 y 208 claves tienen ambos inicios interpretables en al menos una fila, y ninguna es de Portales. Los ceros describen el registro disponible y no excluyen que una red quede calada entre viajes.
+
+En Portales, el intervalo zarpe–recalada acota el día **si la faena está dentro del intervalo**. D y D−1 son los escenarios biológicos prioritarios bajo reloj común y recalada posterior a la faena. D+1 queda como control de sensibilidad del calendario del producto, pues falta confirmar el huso del registro y una fecha civil puede cambiar al pasar al calendario UTC. D+1 no representa faena posterior a la recalada. Sigue faltando una posición de faena verificable por viaje y la evidencia local para trasladar el supuesto de intervalo. Reproducción: `python chile/audit_ifop_enmalle_trip_dates.py /ruta/privada/gestion_publica`.
+
+**#17 PARCIAL.** Además de alguna celda finita, se exigieron 64 celdas L3 finitas en el recuadro, un umbral diagnóstico equivalente a la mitad del conteo fijo L4. No supone que esas celdas sean las mismas que el soporte L4 ni que cubran una posición de faena.
+
+| Año | Arte | Claves | L3 ≥64 D−1 | L3 ≥64 D | L3 ≥64 D+1 | Los tres | Ninguno | Ventanas mixtas | Fuera del eje |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2024 | Enmalle | 875 | 575 | 580 | 600 | 308 | 45 | 522 | 0 |
+| 2024 | Espinel | 528 | 343 | 372 | 386 | 232 | 49 | 247 | 0 |
+| 2025 | Enmalle | 476 | 302 | 301 | 284 | 177 | 53 | 237 | 9 |
+| 2025 | Espinel | 1.253 | 888 | 785 | 761 | 392 | 42 | 816 | 3 |
+| Total | Ambos | 3.132 | 2.108 | 2.038 | 2.031 | 1.109 | 189 | 1.822 | 12 |
+
+En D, el umbral reduce el conteo regional de 2.775 a 2.038 claves. L4 gap-free es un producto interpolado y en el censo mantiene 128 celdas finitas por fecha. Su conteo sirve como control de disponibilidad del producto y no mide observaciones ópticas directas. [Catálogo L4 de Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/services) · [Censo diario](arco_coverage_2024_2025.json). Reproducción: `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
+
+**#44 CERRADO** como descriptor declarado por puerto, con acuerdo de Claude. Los alcances ya cerrados de #42, #43, #45, #46 y #31/#33 se mantienen. #41 sigue **ACEPTADO** en alcance agregado. El dictamen provisional permite explorar kg por viaje muestreado y arte. Los datos verificados siguen sin permitir evaluar el cruce pesquero con el ambiente.
