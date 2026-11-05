@@ -355,3 +355,30 @@ Reproducción: `python chile/audit_ifop_coast_overlap.py /ruta/privada/gestion_p
 El dominio explica una parte importante de la brecha respecto a Portales y quitar Curanipe reduce la razón de sumas en ambos años. La razón de sumas para todos y sin Curanipe queda más cerca de las lecturas visuales en tres de las cuatro comparaciones. En 2024, para todos los puertos, también se acerca la media. La coincidencia es parcial y no identifica el estimador oficial ni acredita la medición del esfuerzo. Reproducción: `python chile/audit_ifop_effort_domains.py /ruta/privada/gestion_publica`. [IT 02/2025, PDF pp. 9–10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=9).
 
 **#40 CERRADO** para peso nulo y eslora como limitación documentada. **#41 ACEPTADO** el alcance agregado, pendiente la lectura visual independiente de la tabla en PDF p. 9. El diagnóstico mantiene viabilidad condicionada para rendimiento nominal por viaje muestreado. El conjunto unido al ambiente sigue sin ser evaluable con los datos verificados.
+
+## Ronda 18 · Estabilidad de largo declarado y ventanas de enmalle
+
+**#42 PARCIAL.** Frecuencias de LONGITUD_RED por clave elegible de enmalle Portales en el año completo. Se usa una fila de merluza por clave, peso positivo en rango y longitud positiva finita. No se publican identificadores. Longitud declarada (conteo):
+
+- 2024: 284 (1), 324 (4), 405 (181), 445 (1), 446 (10), 486 (615), 527 (3), 567 (2), 608 (3).
+- 2025: 405 (39), 445 (1), 446 (3), 486 (402), 527 (2), 567 (4), 608 (2).
+
+| Año | Claves | Embarcaciones | Un viaje | Repetidoras constantes | Repetidoras variables | Claves fuera de las modas de su embarcación |
+|---|---:|---:|---:|---:|---:|---:|
+| 2024 | 820 | 48 | 2 | 23 | 23 | 84 |
+| 2025 | 453 | 42 | 6 | 20 | 16 | 26 |
+
+Hay una embarcación con empate modal en 2025. Se consideraron todas sus modas. La concentración en 486 se confirma (75,0 % y 88,7 % de las claves), pero 23 de 46 y 16 de 36 embarcaciones repetidoras cambian de valor. La concentración no prueba que sea un atributo fijo ni que el denominador carezca de información. El origen y la semántica del campo siguen abiertos.
+
+**#31/#33 CORREGIDO** el enunciado comparativo anterior: la razón de sumas queda más cerca que la media en las cuatro comparaciones visuales (desvíos absolutos aproximados de 4,0 %, 5,0 %, 19,2 % y 12,0 %, frente a 8,0 %, 20,5 %, 26,6 % y 23,2 %). La semántica sigue **PARCIAL**. Con las ventanas de recalada, zarpe o lance, los tres cálculos de 2025 S1 arrojan los mismos conteos mensuales y las mismas razones a dos decimales: todos 541,43 y sin Curanipe 404,60. Esto no explica la brecha con la figura. [IT 02/2025, figura 8](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=10).
+
+| Año | Dominio | Claves por mes de recalada, enero a junio |
+|---|---|---|
+| 2024 | Todos | 386 / 462 / 497 / 314 / 232 / 212 |
+| 2025 | Todos | 365 / 249 / 199 / 334 / 242 / 183 |
+| 2024 | Sin Curanipe | 338 / 402 / 384 / 180 / 146 / 153 |
+| 2025 | Sin Curanipe | 293 / 195 / 153 / 251 / 168 / 115 |
+
+En 2024 el zarpe mueve una clave de febrero a enero frente a recalada, sin cambiar los totales semestrales. Las diferencias de conteos entre años no demuestran faltantes en la publicación. Reproducción desde los Access y catálogos verificados: `python chile/audit_ifop_effort_stability.py /ruta/privada/gestion_publica`.
+
+**#6/#36 ACEPTADO** el cruce exacto con costa generalizada. **PARCIAL** la procedencia de fecha y posición y su precisión. Una costa de mayor detalle serviría para evaluar discrepancia cartográfica, sin establecer por sí sola la exactitud de una posición de faena. **#41 ACEPTADO**, pendiente la revisión visual independiente. El conjunto unido al ambiente sigue sin ser evaluable con los datos verificados.
