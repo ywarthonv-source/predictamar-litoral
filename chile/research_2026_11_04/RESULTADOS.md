@@ -227,3 +227,22 @@ PY
 ```
 
 Los campos de maniobra no permiten recuperar una fecha independiente para el emparejamiento de Portales con el ambiente. El patrón no distingue por sí solo encuesta de observación GPS ni demuestra cómo se generó FECHA_LANCE. El siguiente contraste es buscar el formulario original o un enlace por viaje a un registro de operación independiente.
+
+## Ronda 12 · Procedencia y calendario de los registros
+
+**#6 y #36 PARCIAL.** Se cruzó el puerto, la presencia de alguna hora de maniobra, la presencia de alguna coordenada final de la fase del arte y la igualdad numérica de los pares completos. Se reexportaron las cuatro tablas Access completas desde los anexos verificados. El código separa pares no comparables. Comando desde la raíz: `python chile/audit_ifop_record_patterns.py /ruta/privada/gestion_publica`.
+
+| Año | Arte | Filas con hora de maniobra | Con extremo final dentro de esas filas | Par genérico e inicial dentro de esas filas |
+|---|---|---:|---:|---|
+| 2024 | Enmalle | 976 | 976 | 976 iguales |
+| 2025 | Enmalle | 811 | 811 | 811 iguales |
+| 2024 | Espinel | 2.246 | 0 | 2.246 no comparables |
+| 2025 | Espinel | 1.843 | 0 | 1.843 no comparables |
+
+Las 3.654 filas de Portales sin filtro de objetivo carecen de horas de maniobra y extremos finales. Fuera de Portales, ninguna fila sin hora trae un extremo final. El cruce sí separa patrones de registro por arte, pero falta una etiqueta de origen para atribuirlos a encuesta o GPS. En enmalle, un extremo final puede coexistir con pares inicial y genérico iguales. En espinel, la ausencia de extremo final no discrimina las filas con y sin hora. El cambio limitado al componente de minutos o segundos queda como discrepancia no atribuida. Los demás casos tampoco tienen causa confirmada.
+
+Volví a descargar el informe 2025 y confirmé el SHA-256 documentado arriba. La Sección I, pp. 12 y 23, identifica el Registro diario de actividad y distingue las vías de encuesta y GPS. Esas secciones no reproducen el formulario ni detallan si incluye las horas de calado y virado. La coincidencia por arte no permite asignar una incertidumbre en kilómetros. [Informe de gestión IFOP 2025](https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-581228_Seccion_I.pdf#page=29).
+
+**#39 PARCIAL.** De los 385 martes a viernes fuera de septiembre en 2024–2025, 18 son feriados nacionales del contraste previo y 367 son no feriados. La suma de días con registro del JSON previo es 304, incluido un feriado. Por tanto, la comparación descriptiva correcta es 303/367 en no feriados frente a 1/18 en feriados. Se retira la métrica de día hábil lunes–viernes como resumen porque incluye siete comparaciones en lunes, fuera del soporte observado. En 9 de los 11 casos cuyo día calendario siguiente es miércoles a viernes no feriado hay registros. Ese conteo contradice un desfase uniforme de +1 día combinado con ausencia total de pesca en feriados. Por sí solo no descarta un desfase sin ese supuesto ni identifica por qué faltan registros en las dos fechas restantes. No se usa el valor p binomial para inferir un calendario de muestreo. [Calendario por mes](candidate_calendar_position_audit.json) y [contraste por feriado](candidate_calendar_followup_audit.json).
+
+**#25 CERRADO** el tratamiento de la clave con solo una fila sin especie, con aceptación de Claude. Semántica y completitud siguen PARCIAL. **#38 ACEPTADO** el conteo de septiembre en tablas completas. La causa del hueco de espinel dirigido de julio–agosto de 2024 sigue PARCIAL. El dictamen sobre emparejamiento ambiental permanece condicionado a una referencia verificable de posición y fecha.
