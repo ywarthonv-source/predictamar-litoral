@@ -501,3 +501,21 @@ La recalada es una hipótesis plausible de fecha diaria para evaluar en enmalle 
 El predominio es descriptivo por puerto de recalada. No identifica el protocolo de medición ni implica que todos los viajes usen el mismo paño. Comando: `python chile/audit_ifop_net_quantization.py /ruta/privada/gestion_publica`.
 
 **CERRADOS por acuerdo**, en su alcance específico: #42 descomposición de varianza (sin inferir preservación del orden de viajes), #43 tres excepciones locales, #45 corrección normativa, #46 conteos y #31/#33 duplicados. **#46 PARCIAL** la referencia física de LONGITUD_RED. No se verificó un manual aplicable que distinga relinga de paño estirado. **#31/#33 PARCIAL.** La brecha con figura 8 sigue sin explicación y no bloquea el análisis descriptivo de kg por viaje. **#41 ACEPTADO** en alcance agregado, con revisión independiente pendiente.
+
+## Avance de ronda 22 · Cobertura de clorofila según fecha candidata
+
+**#17 PARCIAL.** Se cruzaron las 3.132 claves candidatas de los anexos IFOP verificados con los conteos diarios ya reproducidos de GlobColour L3 y L4 en el recuadro técnico. Se usó la fecha registrada de recalada como etiqueta D y se compararon D−1, D y D+1. Son escenarios de sensibilidad, sin asignar huso ni fecha de captura. El indicador es al menos una celda finita en todo el recuadro, sin seleccionar posición pesquera ni evaluar asociación con capturas. [Censo diario](arco_coverage_2024_2025.json) · [Catálogo L3 de Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L3_MY_009_107/description).
+
+| Año | Arte | Claves | L3 D−1 | L3 D | L3 D+1 | L3 los tres días | L3 ningún día | Ventana incompleta en el censo |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| 2024 | Enmalle | 875 | 825 | 806 | 804 | 720 | 3 | 0 |
+| 2024 | Espinel | 528 | 497 | 496 | 488 | 442 | 4 | 0 |
+| 2025 | Enmalle | 476 | 432 | 436 | 425 | 373 | 0 | 9 |
+| 2025 | Espinel | 1.253 | 1.108 | 1.037 | 1.024 | 791 | 0 | 3 |
+| Total | Ambos | 3.132 | 2.862 | 2.775 | 2.741 | 2.326 | 7 | 12 |
+
+Entre las 3.120 claves con ventana completa, 787 tienen L3 finito en alguna fecha pero no en las tres. En 350 claves con ventana completa, L3 falta en D y aparece en un día vecino. L4 tiene al menos una celda finita en los tres días para las 3.120 ventanas completas. En las 12 restantes, D+1 está fuera del censo 2024–2025. Este techo de cobertura regional no garantiza observación óptica directa ni cobertura de la celda de faena. Se mantienen separadas las tres fechas, sin rellenar D con un vecino. Para un contraste futuro de clorofila se requiere una posición de faena y una regla temporal respaldadas, con el estado de cobertura conservado por clave y escenario.
+
+Reproducción desde la raíz: `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
+
+**#6/#36 PARCIAL.** La sensibilidad de disponibilidad no valida la recalada como fecha de faena ni identifica una posición. El conjunto combinado sigue sin ser evaluable con la evidencia actual.
