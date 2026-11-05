@@ -408,3 +408,38 @@ Excepciones a la **retícula** en todos los puertos, largo en metros (conteo):
 Reproducción sobre ZIP, Access, catálogos y diccionarios verificados: `python chile/audit_ifop_net_quantization.py /ruta/privada/gestion_publica`.
 
 **#6/#36 PARCIAL.** Fecha y posición verificables siguen siendo el requisito mínimo para evaluar el cruce ambiental. **#41 ACEPTADO** el alcance agregado, con revisión visual independiente pendiente. No cambia el dictamen de viabilidad condicionada para explorar kg por viaje muestreado por arte.
+
+## Ronda 20 · Paños observados y fechas de maniobra
+
+**#42 PARCIAL.** El efecto de añadir puerto a la clave queda CERRADO por acuerdo. En la muestra elegible de Portales, las varianzas muestrales de log(kg), log(metros) y log(g/m) son respectivamente 0,981491, 0,007055 y 0,963921 en 2024, y 0,819671, 0,003206 y 0,815883 en 2025. Las covarianzas log(kg)–log(metros) son 0,012313 y 0,003497. La identidad de la varianza de la diferencia cuadra. La dispersión observada de log(kg) es mayor que la de log(metros). Eso no atribuye una proporción causal de la variación ni certifica el esfuerzo.
+
+**#43 PARCIAL.** Las tres discrepancias locales de 2024 son 405 m con 12 paños (dos claves) y 527 m con 11 paños (una). Ninguna corresponde a 405 m con nueve paños. El cruce aporta evidencia de una relación nominal local, con excepciones preservadas.
+
+**#44 PARCIAL.** La divisibilidad por un módulo no identifica el número de paños. Contraste directo por año en todos los puertos con `abs(LONGITUD_RED − NUMERO_PANIOS × módulo) <= 0.5`:
+
+| Año | Claves | 40,5 m | 42 m | 45 m | 48 m | 65 m |
+|---|---:|---:|---:|---:|---:|---:|
+| 2024 | 3.808 | 1.084 | 970 | 997 | 400 | 127 |
+| 2025 | 3.286 | 531 | 995 | 833 | 353 | 434 |
+
+Los cocientes metros/paños redondeados al entero más próximo usan el redondeo al par en empates (40,5 exacto aparece en 40). Frecuencias:
+
+- 2024: 0 (1), 9 (1), 34 (2), 36 (2), 40 (1.046), 41 (40), 42 (971), 43 (1), 45 (997), 46 (16), 47 (7), 48 (403), 50 (8), 52 (1), 53 (2), 55 (177), 58 (1), 61 (1), 65 (128), 70 (2), 76 (1).
+- 2025: 34 (3), 35 (1), 40 (524), 41 (11), 42 (995), 44 (1), 45 (834), 48 (353), 49 (1), 53 (1), 55 (125), 65 (435), 74 (1), 75 (1).
+
+Hay varios cocientes nominales compatibles con los campos observados. Queda pendiente establecer su distribución por puerto y cómo se registran. No se adopta una regla universal ni se normaliza el esfuerzo usando un módulo inferido. Comando sobre ZIP y miembros verificados: `python chile/audit_ifop_net_quantization.py /ruta/privada/gestion_publica`.
+
+**#31/#33 PARCIAL.** Cero filas elegibles de 2025 S1 pierden la clave al controlar duplicados con todo el año. Se acepta el límite algebraico para mezclas que preserven las razones mensuales. No cubre cambios de composición o rendimiento dentro de un mes. La figura 8 rotula g/m, sin identificar el campo de origen ni documentar el cálculo en su pie. [IT 02/2025, página PDF 10](https://www.subpesca.cl/portal/616/articles-128066_documento.pdf#page=10).
+
+**#6/#36 PARCIAL.** Prueba independiente en tablas completas sobre filas con la fecha-hora inicial de la fase por arte (inicio de virado en enmalle y de calado en espinel), FECHA_LANCE y recalada interpretables:
+
+| Año | Arte | Filas con las tres fechas | Lance y maniobra en el mismo día | Recalada y maniobra en el mismo día | Ambas en el mismo día de maniobra | Lance idéntico a recalada, incluida hora |
+|---|---|---:|---:|---:|---:|---:|
+| 2024 | Enmalle | 976 | 932 | 948 | 923 | 0 |
+| 2025 | Enmalle | 811 | 787 | 769 | 767 | 0 |
+| 2024 | Espinel | 2.246 | 2.246 | 342 | 342 | 0 |
+| 2025 | Espinel | 1.843 | 1.839 | 282 | 282 | 0 |
+
+Son filas, con posibles repeticiones por operación. Todos los campos iniciales no vacíos de la fase elegida pudieron compararse. En espinel, el lance registrado sigue el día de maniobra mucho más que la recalada en este subconjunto. No se traslada a Portales: allí las maniobras están vacías y lance coincide exactamente con recalada en 3.128 de 3.132 claves. El patrón refuerza la necesidad de una fecha independiente para Portales. Comando: `python chile/audit_ifop_maneuver_dates.py /ruta/privada/gestion_publica`.
+
+**#41 ACEPTADO**, pendiente el contraste visual independiente. El conjunto ambiental de Portales permanece sin condición de evaluación.

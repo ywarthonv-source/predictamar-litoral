@@ -36,6 +36,18 @@ for year, gear, _, rows in strata(root, full_tables=True):
               int((has_panels & (net - panels * 40.5).abs().le(0.5)).sum()))
         print('exceptions', net[~fits].value_counts().sort_index().to_dict())
         print("most frequent implied lengths per panel", (net[has_panels] / panels[has_panels]).round(2).value_counts().head(8).to_dict())
+    log_kg = np.log(portales.kg)
+    log_net = np.log(portales.net)
+    print('variance log kg, net, ratio; covariance',
+          log_kg.var(), log_net.var(), (log_kg-log_net).var(), log_kg.cov(log_net))
+    mismatch = portales[(portales.net - pd.to_numeric(portales.NUMERO_PANIOS)*40.5).abs().gt(0.5)]
+    print('Portales mismatched length and panels', mismatch.groupby(['net', 'NUMERO_PANIOS']).size().to_dict())
+    implied = eligible.net / pd.to_numeric(eligible.NUMERO_PANIOS)
+    print('implied panel lengths rounded to metres', implied.round().value_counts().sort_index().to_dict())
+    print('observed panels matching each module', {
+        module: int((eligible.net - pd.to_numeric(eligible.NUMERO_PANIOS)*module).abs().le(0.5).sum())
+        for module in (40.5, 42, 45, 48, 65)
+    })
     book = verified_member(root/f'gestion_{year}_anexos.zip', root/str(year), 'Descripción de Campos.xls')
     sheet = pd.read_excel(book, sheet_name='Bitácora Enmalle', header=None)
     print('dictionary', [(i+1, r.dropna().tolist()) for i,r in sheet.iterrows()
@@ -47,6 +59,7 @@ for year, gear, _, rows in strata(root, full_tables=True):
     semester = hake[dates.dt.year.eq(year) & dates.dt.month.le(6)]
     selected = semester[valid.reindex(semester.index) & semester.PUERTO_RECALADA.ne('')
                         & ~semester.duplicated(key, keep=False)]
+    print('semester eligible rows with full-year key conflict', len(selected.index.difference(eligible.index)))
     for name, group in [('all', selected),
                         ('without_curanipe', selected[selected.PUERTO_RECALADA.ne(curanipe)])]:
         months = dates.loc[group.index].dt.month
@@ -54,3 +67,4 @@ for year, gear, _, rows in strata(root, full_tables=True):
         print(name, 'without Feb/Mar', len(retained), round(1000*retained.kg.sum()/retained.net.sum(), 2))
         print('monthly ratios', {m: round(1000*g.kg.sum()/g.net.sum(), 2)
                                  for m,g in group.groupby(months)})
+
