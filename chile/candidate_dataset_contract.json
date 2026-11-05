@@ -3,15 +3,36 @@
   "status": "draft_inventory_only",
   "scope": {
     "source": "IFOP public artisanal annexes",
-    "seasons": [2024, 2025],
-    "source_strata": ["enmalle", "espinel"],
-    "filters": {"PUERTO_RECALADA": "560", "ESPECIE_OBJETIVO": "1"},
+    "seasons": [
+      2024,
+      2025
+    ],
+    "source_strata": [
+      "enmalle",
+      "espinel"
+    ],
+    "filters": {
+      "PUERTO_RECALADA": "560",
+      "ESPECIE_OBJETIVO": "1"
+    },
     "pilot_configuration": "pilot_contract.json"
   },
   "unit": {
-    "namespace": ["source_year", "source_gear"],
-    "private_candidate_key": ["COD_BARCO", "FECHA_HORA_ZARPE", "FECHA_HORA_RECALADA"],
-    "source_linkage": ["archive_sha256", "archive_member", "table_name", "export_row_ordinal_1based"],
+    "namespace": [
+      "source_year",
+      "source_gear"
+    ],
+    "private_candidate_key": [
+      "COD_BARCO",
+      "FECHA_HORA_ZARPE",
+      "FECHA_HORA_RECALADA"
+    ],
+    "source_linkage": [
+      "archive_sha256",
+      "archive_member",
+      "table_name",
+      "export_row_ordinal_1based"
+    ],
     "export_ordinal_scope": "One full mdb-export before filtering, excluding its header. Keep linkage private and record the reader version.",
     "confirmed_fishing_unit": false,
     "caladas_policy": "Retain N_CALADAS and NUMERO_LANCE_EX. Flag missing, conflicting or multiple caladas and preserve original grouping."
@@ -26,18 +47,49 @@
     "multiple_species_rows_policy": "Quarantine multiple target rows for review of scope before summing."
   },
   "anchors": {
-    "preserve_recorded_times": ["FECHA_HORA_ZARPE", "FECHA_HORA_RECALADA", "FECHA_LANCE"],
-    "time_quarantine": ["lance_timestamp_origin_unconfirmed", "source_timezone_unconfirmed"],
-    "time_diagnostic_flags": ["lance_equals_return", "departure_and_lance_differ_in_calendar_day"],
-    "preserve_recorded_coordinates": ["LATITUD", "LONGITUD"],
-    "position_quarantine": ["coordinate_origin_unconfirmed", "pilot_geometry_unconfirmed"],
+    "preserve_recorded_times": [
+      "FECHA_HORA_ZARPE",
+      "FECHA_HORA_RECALADA",
+      "FECHA_LANCE"
+    ],
+    "time_quarantine": [
+      "lance_timestamp_origin_unconfirmed",
+      "source_timezone_unconfirmed"
+    ],
+    "time_diagnostic_flags": [
+      "lance_equals_return",
+      "departure_and_lance_differ_in_calendar_day"
+    ],
+    "preserve_recorded_coordinates": [
+      "LATITUD",
+      "LONGITUD"
+    ],
+    "position_quarantine": [
+      "coordinate_origin_unconfirmed",
+      "pilot_geometry_unconfirmed"
+    ],
     "position_rule": "Treat southwest DDMMSS parsing as a diagnostic. Verified capture position and approved pilot geometry are prerequisites for pairing.",
-    "environmental_rule": "Keep environmental data separate until anchors are validated. Carry source and coverage provenance, including L3 availability and the mixed-coast diagnostic."
+    "environmental_rule": "Keep environmental data separate until anchors are validated. Carry source and coverage provenance, including L3 availability and the mixed-coast diagnostic.",
+    "recorded_calendar_day_sensitivity": {
+      "same_recorded_departure_return_day": "May be used for aggregate calendar sensitivity. Source timezone and capture date remain unverified.",
+      "different_recorded_departure_return_day": "Retain both dates and flag for comparison."
+    },
+    "coastal_support_sensitivity": {
+      "report": "Compare eligible matched coverage with and without mixed cells when support permits. Keep missing support visible.",
+      "mixed_weight_fraction": "Record the fraction of actual spatial weight assigned to GLOBE mixed cells for each match. A single-cell match has fraction 0 or 1.",
+      "scope": "Diagnostic provenance only. Pilot geometry and marine mask validation remain pending."
+    }
   },
   "effort": {
-    "preserve_raw_fields": ["LONGITUD_RED", "NUMERO_DE_ANZUELOS", "HORAS_REPOSO", "N_CALADAS"],
+    "preserve_raw_fields": [
+      "LONGITUD_RED",
+      "NUMERO_DE_ANZUELOS",
+      "HORAS_REPOSO",
+      "N_CALADAS"
+    ],
     "soak_conversion_validated": false,
-    "escalation_reference": "https://github.com/ywarthonv-source/predictamar-litoral/pull/2#issuecomment-6650962969"
+    "escalation_reference": "https://github.com/ywarthonv-source/predictamar-litoral/pull/2#issuecomment-6650962969",
+    "escalation_status": "Resolved by agreement on interpretation scope. HHMM remains a working hypothesis. Centésimas de hora and mixed records remain open pending source documentation."
   },
   "readiness": {
     "unit_and_sampling_frame_validated": false,

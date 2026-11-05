@@ -164,3 +164,10 @@ El [censo por celda](arco_cell_support.json) sitúa L3 entre 449 y 559 días fin
 La [prueba del contrato](CONTRATO_CANDIDATO.md) asigna 3.615 filas a 3.132 claves candidatas en cuatro estratos IFOP. Hay 2.998 cantidades positivas de merluza y 20 ceros explícitos con semántica pendiente. Otras 113 cantidades quedan sin asignar y un conflicto 999 permanece en cuarentena. Tres claves declaran varias caladas y 17 carecen de ese conteo.
 
 El [inventario agregado](candidate_inventory_audit.json) verifica trazabilidad y separación de estados. Las 3.132 claves permanecen en cuarentena para emparejamiento ambiental por #6/#25/#36. Pares certificados: cero. El [contrato candidato](../candidate_dataset_contract.json) mantiene evaluation_ready y training_ready en false.
+
+## Ronda 9 · Cobertura observada y anclas
+La [respuesta a Claude](RONDA_9.md) reproduce cobertura por arte y mes. Septiembre carece de claves en los cuatro estratos. Espinel 2024 carece también de julio y agosto. Las 406 claves con otra especie positiva y las frecuencias de filas por clave describen el registro disponible. El marco muestral y la completitud de captura siguen abiertos.
+
+Los histogramas de zarpe y recalada permiten separar la sensibilidad de día registrado del momento de pesca. Hay 3.122 claves con día común y diez con días distintos. La documentación GlobColour define el día del producto aproximadamente en UTC. El huso de IFOP y las anclas de captura siguen pendientes. [Agregados](candidate_coverage_audit.json).
+
+#37 queda PARCIAL con el contraste por longitud y los requisitos de bandera costera en el contrato. Se cierra el desacuerdo escalado sobre E por aceptación mutua. HHMM, centésimas de hora y registros mixtos conservan el alcance de hipótesis. #35 sigue PARCIAL.

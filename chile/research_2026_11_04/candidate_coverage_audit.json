@@ -1,0 +1,671 @@
+{
+  "schema_version": "portales_candidate_coverage_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "selected_rows": 551,
+      "counts": {
+        "candidate_keys": 476,
+        "keys_with_other_species": 63,
+        "keys_with_positive_other_species": 63,
+        "other_species_rows": 80,
+        "positive_other_species_rows": 80,
+        "same_recorded_calendar_day": 474
+      },
+      "rows_per_key": {
+        "1": 418,
+        "2": 41,
+        "3": 17
+      },
+      "distinct_positive_other_species_codes": 12,
+      "departure_hour_0_to_23": [
+        0,
+        0,
+        8,
+        20,
+        196,
+        244,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "return_hour_0_to_23": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        79,
+        224,
+        150,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "recorded_return_months": {
+        "2025-01": {
+          "days_with_keys": 17,
+          "states": {
+            "reported_positive_hake": 116,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2025-02": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 56,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2025-03": {
+          "days_with_keys": 10,
+          "states": {
+            "reported_positive_hake": 29
+          }
+        },
+        "2025-04": {
+          "days_with_keys": 13,
+          "states": {
+            "reported_positive_hake": 41,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2025-05": {
+          "days_with_keys": 12,
+          "states": {
+            "reported_positive_hake": 19,
+            "target_not_listed_no_zero_imputed": 4,
+            "reported_no_capture_trip_code999_zero": 5
+          }
+        },
+        "2025-06": {
+          "days_with_keys": 7,
+          "states": {
+            "reported_positive_hake": 10,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2025-07": {
+          "days_with_keys": 8,
+          "states": {
+            "reported_no_capture_trip_code999_zero": 1,
+            "reported_positive_hake": 8
+          }
+        },
+        "2025-08": {
+          "days_with_keys": 6,
+          "states": {
+            "reported_positive_hake": 6
+          }
+        },
+        "2025-10": {
+          "days_with_keys": 11,
+          "states": {
+            "reported_positive_hake": 17
+          }
+        },
+        "2025-11": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 58,
+            "reported_no_capture_trip_code999_zero": 3
+          }
+        },
+        "2025-12": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 94,
+            "reported_no_capture_trip_code999_zero": 4,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "selected_rows": 1405,
+      "counts": {
+        "candidate_keys": 1253,
+        "keys_with_other_species": 128,
+        "keys_with_positive_other_species": 128,
+        "other_species_rows": 154,
+        "positive_other_species_rows": 154,
+        "same_recorded_calendar_day": 1251
+      },
+      "rows_per_key": {
+        "1": 1127,
+        "2": 103,
+        "3": 20,
+        "4": 3
+      },
+      "distinct_positive_other_species_codes": 14,
+      "departure_hour_0_to_23": [
+        0,
+        0,
+        0,
+        20,
+        581,
+        645,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "return_hour_0_to_23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        303,
+        592,
+        325,
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "recorded_return_months": {
+        "2025-01": {
+          "days_with_keys": 17,
+          "states": {
+            "reported_positive_hake": 84
+          }
+        },
+        "2025-02": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 123
+          }
+        },
+        "2025-03": {
+          "days_with_keys": 11,
+          "states": {
+            "reported_positive_hake": 96
+          }
+        },
+        "2025-04": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 99,
+            "reported_no_capture_trip_code999_zero": 3,
+            "reported_hake_weight_zero": 1,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        },
+        "2025-05": {
+          "days_with_keys": 13,
+          "states": {
+            "reported_positive_hake": 88,
+            "reported_no_capture_trip_code999_zero": 3
+          }
+        },
+        "2025-06": {
+          "days_with_keys": 13,
+          "states": {
+            "target_not_listed_no_zero_imputed": 1,
+            "reported_positive_hake": 117,
+            "reported_no_capture_trip_code999_zero": 6
+          }
+        },
+        "2025-07": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 146
+          }
+        },
+        "2025-08": {
+          "days_with_keys": 13,
+          "states": {
+            "reported_positive_hake": 125,
+            "reported_no_capture_trip_code999_zero": 3,
+            "reported_hake_weight_zero": 1
+          }
+        },
+        "2025-10": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 170,
+            "reported_no_capture_trip_code999_zero": 3
+          }
+        },
+        "2025-11": {
+          "days_with_keys": 16,
+          "states": {
+            "target_not_listed_no_zero_imputed": 1,
+            "reported_positive_hake": 117
+          }
+        },
+        "2025-12": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 60,
+            "reported_no_capture_trip_code999_zero": 5
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "selected_rows": 1049,
+      "counts": {
+        "candidate_keys": 875,
+        "keys_with_other_species": 131,
+        "keys_with_positive_other_species": 131,
+        "other_species_rows": 184,
+        "positive_other_species_rows": 184,
+        "same_recorded_calendar_day": 870
+      },
+      "rows_per_key": {
+        "1": 750,
+        "2": 82,
+        "3": 40,
+        "5": 3
+      },
+      "distinct_positive_other_species_codes": 17,
+      "departure_hour_0_to_23": [
+        3,
+        0,
+        2,
+        39,
+        465,
+        362,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "return_hour_0_to_23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        198,
+        448,
+        199,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "recorded_return_months": {
+        "2024-01": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 123
+          }
+        },
+        "2024-02": {
+          "days_with_keys": 17,
+          "states": {
+            "reported_positive_hake": 165
+          }
+        },
+        "2024-03": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 68,
+            "target_not_listed_no_zero_imputed": 1,
+            "reported_no_capture_trip_code999_zero": 2
+          }
+        },
+        "2024-04": {
+          "days_with_keys": 9,
+          "states": {
+            "reported_positive_hake": 13,
+            "reported_no_capture_trip_code999_zero": 3,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        },
+        "2024-05": {
+          "days_with_keys": 8,
+          "states": {
+            "reported_no_capture_trip_code999_zero": 3,
+            "reported_positive_hake": 9,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        },
+        "2024-06": {
+          "days_with_keys": 5,
+          "states": {
+            "reported_positive_hake": 8,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        },
+        "2024-07": {
+          "days_with_keys": 9,
+          "states": {
+            "reported_no_capture_trip_code999_zero": 8,
+            "reported_positive_hake": 51,
+            "target_not_listed_no_zero_imputed": 2
+          }
+        },
+        "2024-08": {
+          "days_with_keys": 8,
+          "states": {
+            "target_not_listed_no_zero_imputed": 3,
+            "reported_positive_hake": 24,
+            "reported_no_capture_trip_code999_zero": 4
+          }
+        },
+        "2024-10": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 89,
+            "reported_no_capture_trip_code999_zero": 5,
+            "target_not_listed_no_zero_imputed": 1
+          }
+        },
+        "2024-11": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 150,
+            "reported_no_capture_trip_code999_zero": 7
+          }
+        },
+        "2024-12": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 120,
+            "reported_hake_weight_zero": 12,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "selected_rows": 610,
+      "counts": {
+        "candidate_keys": 528,
+        "keys_with_other_species": 84,
+        "keys_with_positive_other_species": 84,
+        "other_species_rows": 94,
+        "positive_other_species_rows": 94,
+        "same_recorded_calendar_day": 527
+      },
+      "rows_per_key": {
+        "1": 453,
+        "2": 68,
+        "3": 7
+      },
+      "distinct_positive_other_species_codes": 8,
+      "departure_hour_0_to_23": [
+        0,
+        0,
+        2,
+        19,
+        285,
+        221,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "return_hour_0_to_23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        124,
+        271,
+        129,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "recorded_return_months": {
+        "2024-01": {
+          "days_with_keys": 16,
+          "states": {
+            "reported_positive_hake": 63,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2024-02": {
+          "days_with_keys": 17,
+          "states": {
+            "reported_positive_hake": 35,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2024-03": {
+          "days_with_keys": 15,
+          "states": {
+            "reported_positive_hake": 117,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2024-04": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 121,
+            "target_not_listed_no_zero_imputed": 12
+          }
+        },
+        "2024-05": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 83,
+            "reported_no_capture_trip_code999_zero": 6
+          }
+        },
+        "2024-06": {
+          "days_with_keys": 3,
+          "states": {
+            "reported_positive_hake": 6
+          }
+        },
+        "2024-10": {
+          "days_with_keys": 12,
+          "states": {
+            "reported_positive_hake": 35,
+            "reported_no_capture_trip_code999_zero": 1
+          }
+        },
+        "2024-11": {
+          "days_with_keys": 2,
+          "states": {
+            "reported_positive_hake": 3
+          }
+        },
+        "2024-12": {
+          "days_with_keys": 14,
+          "states": {
+            "reported_positive_hake": 36,
+            "reported_hake_weight_zero": 6,
+            "conflicting_code999_positive_weight": 1
+          }
+        }
+      }
+    }
+  ],
+  "cell_gradient_from_published_aggregate": {
+    "input_sha256": "20bcbd8a0a91bf190c8ea07d5e25330d42a925aec3e443ec0899fdf522045627",
+    "fixed_support_cells": 128,
+    "globe_zero_land_cells": 118,
+    "globe_mixed_cells": 10,
+    "zero_land_median_l3_days": 479.0,
+    "mixed_median_l3_days": 529.5,
+    "zero_land_by_column": {
+      "0": {
+        "cells": 12,
+        "median_l3_days": 473.0
+      },
+      "1": {
+        "cells": 12,
+        "median_l3_days": 472.5
+      },
+      "2": {
+        "cells": 12,
+        "median_l3_days": 465.0
+      },
+      "3": {
+        "cells": 12,
+        "median_l3_days": 468.0
+      },
+      "4": {
+        "cells": 12,
+        "median_l3_days": 458.5
+      },
+      "5": {
+        "cells": 12,
+        "median_l3_days": 481.5
+      },
+      "6": {
+        "cells": 12,
+        "median_l3_days": 489.0
+      },
+      "7": {
+        "cells": 11,
+        "median_l3_days": 509
+      },
+      "8": {
+        "cells": 8,
+        "median_l3_days": 516.5
+      },
+      "9": {
+        "cells": 5,
+        "median_l3_days": 507
+      },
+      "10": {
+        "cells": 5,
+        "median_l3_days": 507
+      },
+      "11": {
+        "cells": 5,
+        "median_l3_days": 512
+      }
+    },
+    "port_cells_fewer_l3_days": 124,
+    "port_cells_equal_l3_days": 1,
+    "port_cells_more_l3_days": 3
+  },
+  "recorded_clock_timezone_validated": false,
+  "sampling_frame_validated": false,
+  "evaluation_ready": false,
+  "training_ready": false,
+  "limitations": [
+    "calendar and clock summaries preserve source values",
+    "months with no keys in an export do not measure fishing effort",
+    "other-species rows measure recording, not catch completeness",
+    "longitude is not a measured distance to coast"
+  ]
+}
