@@ -37,7 +37,7 @@ def read_grid(base, metadata, ti, yi, xi, manifest):
     return result
 
 
-def product(item):
+def product(item, *, include_reference_2015=True):
     pid,dataset=item;manifest=[]
     stac=json.loads(get(ROOT+pid+'/'+dataset+'/dataset.stac.json',manifest))
     base=stac['assets']['geoChunked']['href'].rstrip('/')
@@ -55,7 +55,7 @@ def product(item):
     xi=np.flatnonzero((axes['longitude']>=BOX['minimum_longitude'])&(axes['longitude']<=BOX['maximum_longitude']))
     data=read_grid(base,m,ti,yi,xi,manifest)
     probe_2015=None
-    if '_L4_' in pid:
+    if include_reference_2015 and '_L4_' in pid:
         # Verify whether the earlier 2015 sample has the same nonfinite cells.
         tb=stac['assets']['timeChunked']['href'].rstrip('/')
         tm=json.loads(get(tb+'/.zmetadata',manifest))['metadata']
@@ -112,3 +112,4 @@ if __name__=='__main__':
                            'NRT service-window cause, licenses and pilot geometry remain outside this census']}
     args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k not in ['daily_finite_counts','products']},ensure_ascii=False,indent=2))
+
