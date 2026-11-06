@@ -684,3 +684,21 @@ En merluza, 43 de 646 pares concentran al menos la mitad de los 16.038 eventos y
 **#6/#36 y #40 PARCIAL.** El art. 64 B confirma que la obligación de posicionador incluye la flota artesanal de 15 m o más y, de 12 a menos de 15 m, la inscrita en cerco pelágico. Los recursos bentónicos tienen disposición aparte. La FAQ describe el reporte básico como posición, rumbo y velocidad de la nave. La regla no identifica esloras ni cobertura de Portales. Incluso si se confirma una nave con posicionador, faltan una equivalencia de códigos y una referencia del lance para asociar captura. El rastreo queda como vía complementaria, sin prioridad sobre una fuente de operación vinculable. [Ley, art. 64 B](https://www.bcn.cl/leychile/navegar?idNorma=13315&idVersion=2026-11-01). [Sernapesca, descripción del reporte](https://www.sernapesca.cl/preguntas-frecuentes/sistema-de-posicionamiento-satelital/).
 
 **#48 ACEPTADO** el resultado no concluyente. En la celda el centro nulo estratificado es −3,73 puntos y el contraste observado es −9,28, a 5,55 puntos por debajo del centro. Esto cuantifica la parte compatible con la composición temporal bajo el contraste, sin atribución causal al calendario o nubosidad. [Agregados reproducibles](candidate_chl_date_clusters.json).
+
+## Ronda 31. Resolución publicada y procedencia de las posiciones ASIPA
+
+**#49 PARCIAL.** Sobre el ZIP verificado se clasificaron los pares numéricos únicos de merluza con ambos ejes dentro de una tolerancia de 0,0001° de la rejilla. Las categorías son excluyentes. El resultado es idéntico con 0,000001°. Los estratos pueden compartir pares.
+
+| Estrato | Minuto entero | Décima de minuto solamente | Fuera de ambas rejillas |
+|---|---:|---:|---:|
+| all | 624 | 3 | 19 |
+| Encuesta Pesq DCS/DSA Art Espinel · 2017–2022 | 426 | 1 | 6 |
+| Encuesta Pesq DCS/DSA Art Espinel · 2010–2016 | 169 | 1 | 1 |
+| Encuesta Pesqueria Enmalle · 2010–2016 | 424 | 1 | 8 |
+| Encuesta Pesqueria Enmalle · 2017–2022 | 348 | 0 | 5 |
+
+624/646 pares (96,6 %) son compatibles con minutos enteros. Al contar por evento, los decimales efectivos de la representación, tras quitar ceros finales, son 0, 1, 2 o 13 en ambos ejes. Trece decimales de salida no equivalen a precisión de medición. La rejilla es evidencia del redondeo o formato de los valores publicados, sin identificar instrumento, método de captura ni incertidumbre. [Agregados por estrato y eje](asipa_portales_history_2010_2022.json). Reproducción: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`.
+
+La tabla 8 de FIPA 2024-02 identifica bitácoras de embarque o encuestas en tierra para viajes artesanales de enmalle y espinel. La p. 64 impresa describe la interpretación de ciertos formatos como grados y minutos sin segundos, sin asignarla específicamente a Portales. El EML incluido en el ZIP verificado (SHA-256 `0664827fa2ad3ee1a54d83e970adb0f3ea14c6e839e8faba8a811368ad236635`, `methods/sampling/samplingDescription`) dice que las coordenadas se asignan según los lances reportados por observadores, con variaciones por antigüedad o formato. Es evidencia de la unidad que el recurso pretende representar. No discrimina por evento de Portales observación a bordo, entrevista u otra asignación. Todavía falta una referencia enlazable que confirme procedencia, fecha de operación e incertidumbre. [FIPA, tabla 8](https://www.subpesca.cl/fipa/613/articles-122024_informe_final.pdf#page=40). [FIPA, p. 64 impresa](https://www.subpesca.cl/fipa/613/articles-122024_informe_final.pdf#page=69). [Ficha ASIPA 1.5 y EML](https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5).
+
+**#49b ACEPTADO** como advertencia de interpretación. El cambio entre 2015 (1.199 enmalle, 94 espinel) y 2019 (28 y 1.468) es un cambio en la composición de los eventos publicados por etiqueta de encuesta. No acredita por sí solo un cambio de actividad ni un cambio deliberado de diseño. Mantener el desglose por año y arte y tratar la causa como hipótesis. [Tabla anual](asipa_portales_history_2010_2022.json).

@@ -2,6 +2,7 @@
 from collections import Counter, defaultdict
 import csv
 from datetime import date, datetime
+from decimal import Decimal
 import hashlib
 import io
 import json
@@ -45,6 +46,21 @@ def concentration(counts):
     return result
 
 
+def grid_summary(pairs):
+    results = {}
+    for tolerance in (Decimal('0.0001'), Decimal('0.000001')):
+        counts = Counter({'whole_minute': 0, 'tenth_minute_only': 0, 'neither': 0})
+        for pair in pairs:
+            if all(abs(value * 60 - round(value * 60)) <= tolerance * 60 for value in pair):
+                counts['whole_minute'] += 1
+            elif all(abs(value * 600 - round(value * 600)) <= tolerance * 600 for value in pair):
+                counts['tenth_minute_only'] += 1
+            else:
+                counts['neither'] += 1
+        results[str(tolerance)] = dict(counts)
+    return results
+
+
 def audit(path):
     with path.open('rb') as source:
         if hashlib.file_digest(source, 'sha256').hexdigest() != SHA256:
@@ -71,6 +87,8 @@ def audit(path):
     localities = defaultdict(Counter)
     positions = defaultdict(Counter)
     dates = defaultdict(Counter)
+    hake_pairs = defaultdict(set)
+    decimal_places = defaultdict(Counter)
     for (species, event_id), status in states.items():
         if status != {'present'}:
             excluded[f'{species}:status_not_exclusively_present'] += 1
@@ -90,6 +108,13 @@ def audit(path):
         localities[species][row['locality']] += 1
         if row['decimalLatitude'] and row['decimalLongitude']:
             positions[species][float(row['decimalLatitude']), float(row['decimalLongitude'])] += 1
+            if species == 'merluza_comun':
+                pair = tuple(Decimal(row[field]) for field in ('decimalLatitude', 'decimalLongitude'))
+                period = '2010–2016' if component_day.year <= 2016 else '2017–2022'
+                for group in ('all', f"{row['datasetName']} | {period}"):
+                    hake_pairs[group].add(pair)
+                for axis, value in zip(('latitude', 'longitude'), pair):
+                    decimal_places[axis][max(0, -value.normalize().as_tuple().exponent)] += 1
         dates[species][component_day] += 1
     return {
         'archive_sha256': SHA256,
@@ -101,6 +126,8 @@ def audit(path):
         'georeferencing_field_presence_in_event': field_presence,
         'coordinate_pair_concentration': {species: concentration(c) for species, c in positions.items()},
         'recorded_day_concentration': {species: concentration(c) for species, c in dates.items()},
+        'merluza_unique_pairs_grid_by_stratum': {name: grid_summary(pairs) for name, pairs in hake_pairs.items()},
+        'merluza_decimal_places_without_trailing_zeros_by_event': decimal_places,
         'excluded_event_species': dict(excluded),
         'evaluation_ready': False,
     }
