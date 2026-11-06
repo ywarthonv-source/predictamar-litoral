@@ -1,0 +1,196 @@
+{
+  "archive_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
+  "window": [
+    2010,
+    2022
+  ],
+  "basis": "Unique Event IDs per species with exclusively present status, PORTALES locality, capture block 14-01. Year from date components.",
+  "annual": {
+    "2010": {
+      "merluza_comun": {
+        "event_ids": 661,
+        "both_dates_agree": 661,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 661
+      },
+      "reineta": {}
+    },
+    "2011": {
+      "merluza_comun": {
+        "event_ids": 1158,
+        "both_dates_agree": 1158,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1158
+      },
+      "reineta": {
+        "event_ids": 32,
+        "both_dates_agree": 32,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 32
+      }
+    },
+    "2012": {
+      "merluza_comun": {
+        "event_ids": 1315,
+        "both_dates_agree": 1315,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1315
+      },
+      "reineta": {
+        "event_ids": 65,
+        "both_dates_agree": 65,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 65
+      }
+    },
+    "2013": {
+      "merluza_comun": {
+        "event_ids": 1301,
+        "both_dates_agree": 1301,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1301
+      },
+      "reineta": {
+        "event_ids": 20,
+        "both_dates_agree": 20,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 20
+      }
+    },
+    "2014": {
+      "merluza_comun": {
+        "event_ids": 1375,
+        "both_dates_agree": 1375,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1375
+      },
+      "reineta": {}
+    },
+    "2015": {
+      "merluza_comun": {
+        "event_ids": 1293,
+        "both_dates_agree": 1293,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1293
+      },
+      "reineta": {}
+    },
+    "2016": {
+      "merluza_comun": {
+        "event_ids": 1138,
+        "both_dates_agree": 1138,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1138
+      },
+      "reineta": {}
+    },
+    "2017": {
+      "merluza_comun": {
+        "event_ids": 1270,
+        "both_dates_agree": 1270,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1270
+      },
+      "reineta": {
+        "event_ids": 4,
+        "both_dates_agree": 4,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 4
+      }
+    },
+    "2018": {
+      "merluza_comun": {
+        "event_ids": 1502,
+        "both_dates_agree": 1502,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1502
+      },
+      "reineta": {
+        "event_ids": 29,
+        "both_dates_agree": 29,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 29
+      }
+    },
+    "2019": {
+      "merluza_comun": {
+        "event_ids": 1496,
+        "both_dates_agree": 1496,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1496
+      },
+      "reineta": {
+        "event_ids": 18,
+        "both_dates_agree": 18,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 18
+      }
+    },
+    "2020": {
+      "merluza_comun": {
+        "event_ids": 1135,
+        "both_dates_agree": 1135,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1135
+      },
+      "reineta": {
+        "event_ids": 9,
+        "both_dates_agree": 9,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 9
+      }
+    },
+    "2021": {
+      "merluza_comun": {
+        "event_ids": 1150,
+        "both_dates_agree": 1150,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1150
+      },
+      "reineta": {
+        "event_ids": 24,
+        "both_dates_agree": 24,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 24
+      }
+    },
+    "2022": {
+      "merluza_comun": {
+        "event_ids": 1244,
+        "both_dates_agree": 1244,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1244
+      },
+      "reineta": {
+        "event_ids": 35,
+        "both_dates_agree": 35,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 35
+      }
+    }
+  },
+  "excluded_event_species": {},
+  "evaluation_ready": false
+}

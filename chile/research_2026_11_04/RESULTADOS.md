@@ -632,3 +632,28 @@ Reproducción con ambos CSV guardados como `vms_2024.csv` y `vms_2025.csv` en un
 ```bash
 python chile/audit_sernapesca_vms_linkage.py /ruta/privada/gestion_publica /ruta/privada/vms
 ```
+
+## Ronda 29. Serie histórica de Portales, ASIPA 2010–2022
+
+**#6/#36 PARCIAL.** Se incorpora una serie histórica separada de las bitácoras IFOP 2024–2025, por instrucción de Randy. El cálculo relee el ZIP ASIPA 1.5 con SHA-256 comprobado, selecciona localidad PORTALES del bloque de captura 14-01 y cuenta cada identificador de evento una vez por especie, con estado exclusivamente `present`. El año proviene de los componentes de fecha. En todos los eventos incluidos, el día coincide con el de `eventDate`. La coincidencia interna no valida la fecha ni la posición de faena.
+
+| Año | Merluza común | Reineta |
+|---|---:|---:|
+| 2010 | 661 | 0 |
+| 2011 | 1158 | 32 |
+| 2012 | 1315 | 65 |
+| 2013 | 1301 | 20 |
+| 2014 | 1375 | 0 |
+| 2015 | 1293 | 0 |
+| 2016 | 1138 | 0 |
+| 2017 | 1270 | 4 |
+| 2018 | 1502 | 29 |
+| 2019 | 1496 | 18 |
+| 2020 | 1135 | 9 |
+| 2021 | 1150 | 24 |
+| 2022 | 1244 | 35 |
+| **Total** | **16.038** | **236** |
+
+Un cero en la tabla indica que el extracto no contiene eventos positivos para esa especie y año. No representa ausencia biológica ni viaje sin captura. Los conteos no son operaciones independientes, esfuerzo ni toneladas. La serie se publica como [agregados anuales por especie y protocolo](asipa_portales_history_2010_2022.json), separada del inventario IFOP. La ficha ASIPA indica CC BY-NC 4.0. [Fuente y licencia](https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5).
+
+Reproducción con el ZIP conservado en una ruta privada: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`. Sigue pendiente determinar qué eventos tienen fecha y posición de faena verificables antes de un cruce ambiental.
