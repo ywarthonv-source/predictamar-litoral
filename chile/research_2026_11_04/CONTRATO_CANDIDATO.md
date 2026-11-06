@@ -94,22 +94,38 @@ privada y una operación necesita además una clave de lance o equivalente.
    cada dato indicar si procede del mismo registro que la captura. Si
    procede de otra tabla, guardar la llave documentada y comprobar que
    identifica una sola operación. Una coincidencia por proximidad en
-   fecha o espacio no acredita el vínculo.
+   fecha o espacio no acredita el vínculo. Antes del cruce, deduplicar
+   entre fuentes con una equivalencia de identificadores documentada.
+   Conservar todas las referencias. Si no se resuelve si dos registros
+   son el mismo lance, o difieren en datos necesarios, mantenerlos en
+   cuarentena y no contar dos operaciones.
 2. **Fecha, hora y posición de operación.** Conservar originales,
    significado, huso o convención horaria, datum, método de registro e
    incertidumbre. Para cruzar a resolución diaria y de celda, el intervalo
    temporal documentado debe identificar un solo día del producto y la
-   incertidumbre espacial debe permitir asignar una sola celda dentro de
-   la geometría aprobada. Una recalada, centroide o posición sin método
+   huella del arte, ampliada por la incertidumbre de localización, debe
+   quedar en una sola celda dentro de la geometría aprobada. Registrar las
+   posiciones de calado y virado o una trayectoria o huella equivalente
+   documentada. La longitud sola sirve únicamente si, con un ancla y
+   límites de desplazamiento documentados, permite construir una envolvente
+   conservadora. La distancia entre extremos no es un error instrumental
+   y no reemplaza la huella. Convertir el intervalo de faena al día UTC del
+   producto L3 antes de aplicar el criterio temporal. Si cruza un límite
+   de día o celda, queda en cuarentena para este cruce. Una recalada, centroide o posición sin método
    acreditado se conserva como dato descriptivo. No se imputa al lance.
 3. **Captura y unidad.** Verificar especie, cantidad, unidad y alcance
    (lance o viaje). Si un peso se reporta por viaje con varios lances, no
    repartirlo ni duplicarlo por posición. Separar ceros, faltantes y
    conflictos hasta confirmar su significado. Exigir marco de muestreo y
-   esfuerzo comparable para presencia/ausencia o CPUE estricta.
+   esfuerzo comparable para presencia/ausencia o CPUE estricta. Registrar
+   también el mecanismo de inclusión para toda operación descriptiva
+   (observador, bitácora u otro mecanismo documentado) y limitar cualquier
+   generalización al marco que pueda acreditarse.
 4. **Salida verificable.** Mantener cuarentena con razones separadas
    cuando falte un campo, su procedencia o una llave única. Contar
-   elegibles, descartes y cobertura ambiental por arte y periodo.
+   elegibles, descartes y cobertura ambiental por arte, periodo y mecanismo
+   de inclusión. Fijar la prueba y el mínimo de operaciones por arte antes
+   de examinar CHL del subconjunto, según la finalidad y cobertura observada.
    Conservar las filas e identificadores originales en privado y publicar
    agregados. La coincidencia ambiental se evalúa después de la admisión
    pesquera. Las condiciones de reutilización se revisan por separado.

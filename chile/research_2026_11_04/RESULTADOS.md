@@ -807,3 +807,19 @@ Se mantiene el dictamen de tres niveles aceptado por ambos. El cruce por recalad
 El centrado por mes elimina también cualquier señal estacional compartida. Las cifras en bruto y centradas no separan estacionalidad de una posible señal biológica. En los 436 pares de días consecutivos con CHL, recalculé 0,415 de correlación de rangos y 0,186 al centrar los rangos por mediana de año-mes y volver a rangar. El centrado reduce la dependencia de CHL en este diagnóstico, sin calibrar inferencia para los kilos. [Serie ambiental](port_reference_chl_l3_values.json).
 
 **#49 PARCIAL.** El [criterio de admisión](CONTRATO_CANDIDATO.md#criterio-de-admisión-por-operación) documenta evidencia por campo y una llave única a la captura. Es una propuesta verificable para evaluar cualquier entrega o fuente alternativa dentro del mismo alcance. La vía por faena sigue pendiente de un subconjunto que cumpla el criterio.
+
+## Ronda 39. Admisión por operación y contraste de cruceros
+
+**#49 PARCIAL.** Se incorporaron cuatro requisitos al criterio propuesto: huella espacial del arte con incertidumbre, conversión del intervalo de operación al día UTC del producto, mecanismo de inclusión y deduplicación entre fuentes. Para la huella se distingue la extensión del arte del error del instrumento. Se usa el soporte espacial documentado más su incertidumbre, sin asumir que la distancia recta calado–virado describe todo el arte. La admisión conservadora se limita a operaciones cuya envolvente y cuyo intervalo corresponden a una sola celda y un solo día. [Criterio revisado](CONTRATO_CANDIDATO.md#criterio-de-admisión-por-operación).
+
+Se contrastaron los cruceros IFOP 2024–2025 como fuente pública candidata usando los esquemas y recuentos previamente extraídos de los Access y fijados en [la auditoría de cruceros](cruise_audit.json). No se hizo una nueva exportación Access en esta ronda. La [fuente oficial de IFOP](https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128.pdf) y los [anexos oficiales 2025](https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128_anexos.zip) identifican la campaña de evaluación directa. El expediente y sus hashes están registrados en el PR.
+
+| Requisito | Campo y límite en los anexos de crucero |
+|---|---|
+| Llave | `BITÁCORA*` y `CAPTURAS*` comparten `COD_PROY, CRUCERO, LANCE`. El esquema permite plantear un enlace. La unicidad de `LANCE` en bitácora (97/97 y 93/93) no valida la correspondencia de captura ni una llave artesanal. |
+| Intervalo y fecha del producto | `BITÁCORA*.F_LANCE, H_CALADO, H_VIRADO`. En 2024 hay 31 fechas inválidas o vacías y 6 de otro año. La convención horaria y la asignación por día UTC requieren acreditación antes de cruzar. |
+| Huella y precisión | `BITÁCORA*.LAT_INI, LON_INI, LAT_FIN, LON_FIN, DIST`. El esquema tiene extremos y distancia, pero no certifica una huella completa ni su incertidumbre. |
+| Captura | `CAPTURAS*.COD_ESP, N_COMUN, CAPTURA (kg)` están en tabla separada. `BITÁCORA*.MERLUZA` está en la bitácora. Sus equivalencias, unidades y correspondencia por clave se verificarían antes de cualquier enlace de investigación. |
+| Inclusión y duplicación | Es un diseño de evaluación directa y lances de arrastre científico. No se ha acreditado equivalencia con ninguna operación artesanal de Portales, ni un mecanismo de inclusión de esa flota. |
+
+**Resultado de admisión:** se excluye esta fuente del conjunto artesanal por alcance, aun cuando su esquema tenga mejores anclas. Los 32 lances positivos del recuadro diagnóstico aportan contexto biológico regional y no operaciones artesanales atribuibles a Portales. El dato mínimo que sigue faltando es un subconjunto de lances del arte y geometría acordados, con vínculo trazable a captura y procedencia de tiempo, espacio e inclusión. [Auditoría y dictamen](RESULTADOS.md#3-cruceros-ifop-de-merluza-2024-y-2025).
