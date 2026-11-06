@@ -654,6 +654,33 @@ python chile/audit_sernapesca_vms_linkage.py /ruta/privada/gestion_publica /ruta
 | 2022 | 1244 | 35 |
 | **Total** | **16.038** | **236** |
 
-Un cero en la tabla indica que el extracto no contiene eventos positivos para esa especie y año. No representa ausencia biológica ni viaje sin captura. Los conteos no son operaciones independientes, esfuerzo ni toneladas. La serie se publica como [agregados anuales por especie y protocolo](asipa_portales_history_2010_2022.json), separada del inventario IFOP. La ficha ASIPA indica CC BY-NC 4.0. [Fuente y licencia](https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5).
+Un cero en la tabla indica que el extracto no contiene eventos positivos para esa especie y año. No representa ausencia biológica ni viaje sin captura. Los conteos no son operaciones independientes, esfuerzo ni toneladas. La serie se publica como [agregados anuales por especie y arte declarado en el nombre del conjunto](asipa_portales_history_2010_2022.json), separada del inventario IFOP. La ficha ASIPA indica CC BY-NC 4.0. [Fuente y licencia](https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5).
 
 Reproducción con el ZIP conservado en una ruta privada: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`. Sigue pendiente determinar qué eventos tienen fecha y posición de faena verificables antes de un cruce ambiental.
+
+## Ronda 30. Procedencia y concentración espacial del histórico ASIPA
+
+**#49 PARCIAL.** Se releyó el ZIP original con SHA-256 verificado. El filtro por subcadena solo selecciona el valor exacto `PORTALES` en el bloque 14-01 para ambos objetivos. `samplingProtocol` está vacío en todos los incluidos. Se usa `datasetName` para distinguir las encuestas de enmalle y espinel. Esta etiqueta identifica el conjunto declarado y no acredita el método de georreferenciación de un evento.
+
+| Año | Merluza enmalle | Merluza espinel | Reineta enmalle | Reineta espinel |
+|---|---:|---:|---:|---:|
+| 2010 | 661 | 0 | 0 | 0 |
+| 2011 | 1148 | 10 | 0 | 32 |
+| 2012 | 1239 | 76 | 0 | 65 |
+| 2013 | 827 | 474 | 0 | 20 |
+| 2014 | 893 | 482 | 0 | 0 |
+| 2015 | 1199 | 94 | 0 | 0 |
+| 2016 | 928 | 210 | 0 | 0 |
+| 2017 | 253 | 1017 | 0 | 4 |
+| 2018 | 175 | 1327 | 0 | 29 |
+| 2019 | 28 | 1468 | 0 | 18 |
+| 2020 | 490 | 645 | 0 | 9 |
+| 2021 | 874 | 276 | 4 | 20 |
+| 2022 | 837 | 407 | 1 | 34 |
+| Total | 9.552 | 6.486 | 5 | 231 |
+
+En merluza, 43 de 646 pares concentran al menos la mitad de los 16.038 eventos y 186 concentran al menos el 90 %. Por fecha registrada son 711 y 1.527 de 1.946 días. En reineta son 34 y 119 de 142 pares, y 23 y 70 de 93 días. Los umbrales ordenan las frecuencias de mayor a menor y toman el primer recuento que alcanza la proporción. Los cuatro campos consultados (`coordinateUncertaintyInMeters`, `coordinatePrecision`, `georeferenceRemarks`, `footprintWKT`) no existen en la tabla Event del ZIP. La repetición es compatible con posiciones redondeadas o referencias reutilizadas, entre otras causas. El análisis no distingue esas hipótesis. Con la evidencia disponible todavía no se ha acreditado ningún evento con fecha y posición de faena verificadas para un cruce a resolución de celda. Esto no descarta que existan operaciones recuperables. [Agregados y diagnóstico](asipa_portales_history_2010_2022.json). Reproducción: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`.
+
+**#6/#36 y #40 PARCIAL.** El art. 64 B confirma que la obligación de posicionador incluye la flota artesanal de 15 m o más y, de 12 a menos de 15 m, la inscrita en cerco pelágico. Los recursos bentónicos tienen disposición aparte. La FAQ describe el reporte básico como posición, rumbo y velocidad de la nave. La regla no identifica esloras ni cobertura de Portales. Incluso si se confirma una nave con posicionador, faltan una equivalencia de códigos y una referencia del lance para asociar captura. El rastreo queda como vía complementaria, sin prioridad sobre una fuente de operación vinculable. [Ley, art. 64 B](https://www.bcn.cl/leychile/navegar?idNorma=13315&idVersion=2026-11-01). [Sernapesca, descripción del reporte](https://www.sernapesca.cl/preguntas-frecuentes/sistema-de-posicionamiento-satelital/).
+
+**#48 ACEPTADO** el resultado no concluyente. En la celda el centro nulo estratificado es −3,73 puntos y el contraste observado es −9,28, a 5,55 puntos por debajo del centro. Esto cuantifica la parte compatible con la composición temporal bajo el contraste, sin atribución causal al calendario o nubosidad. [Agregados reproducibles](candidate_chl_date_clusters.json).

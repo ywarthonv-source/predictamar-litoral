@@ -32,13 +32,31 @@ def parsed_days(row):
     return components, event_day
 
 
+def concentration(counts):
+    ranked = sorted(counts.values(), reverse=True)
+    total = sum(ranked)
+    result = {'unique': len(ranked), 'total': total}
+    cumulative = 0
+    for rank, count in enumerate(ranked, 1):
+        cumulative += count
+        for share in (50, 90):
+            if cumulative * 100 >= total * share:
+                result.setdefault(f'units_for_{share}_percent', rank)
+    return result
+
+
 def audit(path):
     with path.open('rb') as source:
         if hashlib.file_digest(source, 'sha256').hexdigest() != SHA256:
             raise ValueError('Unexpected ASIPA archive')
     with ZipFile(path) as archive:
         local = {}
+        fields = ('coordinateUncertaintyInMeters', 'coordinatePrecision',
+                  'georeferenceRemarks', 'footprintWKT')
+        field_presence = {}
         for row in rows(archive, 'event.txt'):
+            if not field_presence:
+                field_presence = {field: field in row for field in fields}
             if row['id'].split('_')[1:2] == ['14-01'] and 'PORTALES' in row['locality'].upper():
                 if row['id'] in local:
                     raise ValueError('Duplicate Event identifier')
@@ -50,6 +68,9 @@ def audit(path):
 
     annual = defaultdict(Counter)
     excluded = Counter()
+    localities = defaultdict(Counter)
+    positions = defaultdict(Counter)
+    dates = defaultdict(Counter)
     for (species, event_id), status in states.items():
         if status != {'present'}:
             excluded[f'{species}:status_not_exclusively_present'] += 1
@@ -65,12 +86,21 @@ def audit(path):
         counts['event_date_unparseable'] += int(event_day is None)
         counts['dates_disagree'] += int(event_day is not None and component_day != event_day)
         counts['sampling_protocol:' + row['samplingProtocol']] += 1
+        counts['dataset:' + row['datasetName']] += 1
+        localities[species][row['locality']] += 1
+        if row['decimalLatitude'] and row['decimalLongitude']:
+            positions[species][float(row['decimalLatitude']), float(row['decimalLongitude'])] += 1
+        dates[species][component_day] += 1
     return {
         'archive_sha256': SHA256,
         'window': [2010, 2022],
         'basis': 'Unique Event IDs per species with exclusively present status, PORTALES locality, capture block 14-01. Year from date components.',
         'annual': {year: {species: dict(annual[year, species]) for species in ('merluza_comun', 'reineta')}
                    for year in range(2010, 2023)},
+        'locality_values_by_species': localities,
+        'georeferencing_field_presence_in_event': field_presence,
+        'coordinate_pair_concentration': {species: concentration(c) for species, c in positions.items()},
+        'recorded_day_concentration': {species: concentration(c) for species, c in dates.items()},
         'excluded_event_species': dict(excluded),
         'evaluation_ready': False,
     }
@@ -78,3 +108,4 @@ def audit(path):
 
 if __name__ == '__main__':
     print(json.dumps(audit(Path(sys.argv[1])), ensure_ascii=False, indent=2))
+
