@@ -1,0 +1,276 @@
+{
+  "2025": {
+    "CIAMT": {
+      "table": "BITACORA CIAMT ENMALLE-ESPINEL Centro Sur-  Sur Austral 2025",
+      "rows_all_ports": 76,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "IOE": {
+      "table": "BITACORA IOE ENMALLE-ESPINEL Centro Sur-  Sur Austral 2025",
+      "rows_all_ports": 2104,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "BIOLOGICO": {
+      "table": "BIOLOGICO ENMALLE-ESPINEL Centro Sur-  Sur Austral 2025",
+      "rows_all_ports": 62302,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "LONGITUD": {
+      "table": "LONGITUD ENMALLE-ESPINEL Centro Sur-  Sur Austral 2025",
+      "rows_all_ports": 33908,
+      "rows_portales": 337,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 13,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 8,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 8,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 5,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 5,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "PRESENCIA": {
+      "table": "BITÁCORA PRESENCIA Centro Sur-Sur Austral 2025",
+      "rows_all_ports": 1693,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "COMERCIALIZACIÓN": {
+      "table": "BITÁCORA COMERCIALIZACIÓN",
+      "rows_all_ports": 8459,
+      "rows_portales": 1931,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 1698,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 476,
+          "linked_keys": 466,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 1253,
+          "linked_keys": 1228,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    }
+  },
+  "2024": {
+    "CIAMT": {
+      "table": "CIAMT ENMALLE-ESPINEL Centro Sur-  Sur Austral 2024",
+      "rows_all_ports": 4,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 875,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 528,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "IOE": {
+      "table": "IOE ENMALLE-ESPINEL Centro Sur-  Sur Austral 2024",
+      "rows_all_ports": 2190,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 875,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 528,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "BIOLOGICO": {
+      "table": "BIOLOGICO ENMALLE-ESPINEL Centro Sur-  Sur Austral 2024",
+      "rows_all_ports": 61004,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 875,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 528,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    },
+    "LONGITUD": {
+      "table": "LONGITUD ENMALLE-ESPINEL Centro Sur-  Sur Austral 2024",
+      "rows_all_ports": 33410,
+      "rows_portales": 0,
+      "portales_rows_incomplete_key": 0,
+      "portales_complete_keys": 0,
+      "by_gear": {
+        "enmalle": {
+          "candidate_keys": 875,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        },
+        "espinel": {
+          "candidate_keys": 528,
+          "linked_keys": 0,
+          "exact_key_with_other_or_blank_port": 0,
+          "linked_with_parsed_lance_day": 0,
+          "linked_with_lance_day_not_in_primary": 0,
+          "linked_with_complete_coordinate_pair": 0,
+          "linked_with_pair_not_in_primary": 0
+        }
+      }
+    }
+  }
+}
