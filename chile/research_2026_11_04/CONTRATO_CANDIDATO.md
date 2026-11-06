@@ -176,3 +176,35 @@ for month in (1, 7):
 En enero resulta falso/verdadero/falso y en julio,
 verdadero/falso/falso. Una faena nocturna que comienza después del corte
 puede quedar íntegra en un mismo día UTC.
+
+## Desglose estacional de la admisión (#56)
+
+Asignar mes y año por fecha local de calado documentada, antes del filtro
+UTC. Por arte, año y mes, comparar el denominador de #55 con el subconjunto
+admitido por día UTC y con el finalmente emparejado con CHL. Informar los
+recuentos por separado, conservando el desglose por mecanismo de inclusión.
+Aplicar la alerta de más del 50 % solo donde el denominador alcance el
+mínimo para el estrato, fijado antes de consultar CHL. Por debajo del
+mínimo, informar solo recuentos. Con denominador cero, la proporción queda
+indefinida. Mantener la regla principal y la sensibilidad por virado.
+
+Comprobación sintética con Python y zoneinfo:
+
+```python
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+local = ZoneInfo("America/Santiago")
+rows = []
+for month, n in ((1, 2), (7, 8)):
+    start = datetime(2025, month, 15, 20, 30, tzinfo=local)
+    end = datetime(2025, month, 16, 6, tzinfo=local)
+    crossed = start.astimezone(timezone.utc).date() != end.astimezone(timezone.utc).date()
+    rows.append((n * crossed, n))
+assert rows == [(2, 2), (0, 8)]
+print(rows, sum(a for a, _ in rows) / sum(b for _, b in rows))
+```
+
+El total anual (2/10) oculta un mes sin operaciones admitidas (0/2).
+Este escenario usa una hora fija y no reproduce el cálculo astronómico
+ni permite inferir cuándo se cala realmente en Portales.

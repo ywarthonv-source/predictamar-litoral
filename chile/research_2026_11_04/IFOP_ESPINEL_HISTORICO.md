@@ -22,3 +22,15 @@ El [informe técnico IFOP 2022, anexo de subreporte, cuadros 1–2](https://www.
 ## Dictamen provisional
 
 El esquema histórico documenta operaciones artesanales con captura y esfuerzo parcial, pero no aporta la resolución necesaria para el cruce diario por celda con Copernicus. Tampoco acredita un archivo reutilizable para 2010–2022. Para reconsiderar #49 hace falta un extracto de lances con llave estable, captura de merluza del mismo lance, fecha y horas de la operación, huella del arte y mecanismo de inclusión. Para CPUE y presencia/ausencia también deben verificarse esfuerzo y registro explícito de ceros. Contrastar si existe un diccionario más granular o un anexo público con esos campos antes de incorporar filas.
+
+## Control de atribución en IFOP 2014
+
+En el [informe oficial de estatus 2014, sección 5.1.3, página impresa 39](https://www.ifop.cl/wp-content/contenidos/uploads/merluza-comun.pdf),
+IFOP distingue dos fuentes. Las bitácoras con latitud, longitud, fechas,
+horas y captura retenida por especie corresponden al **arrastre 1983–2012**.
+La serie de **espinel artesanal de cuatro caletas** vuelve a figurar como
+1998–2009 y se atribuye a encuestas directas para Valparaíso. El texto no
+acredita resolución diaria para el espinel ni un extracto artesanal nuevo
+para 2010–2012. La fecha de cierre de la serie de arrastre no se debe
+trasladar a la de espinel. Se consultó el texto del PDF oficial, sin acceso
+a los bytes para calcular la huella.
