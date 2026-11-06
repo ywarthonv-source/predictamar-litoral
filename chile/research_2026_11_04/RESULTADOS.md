@@ -564,7 +564,7 @@ Reproducción sobre los Access verificados y el [censo fijado](arco_coverage_202
 
 Entre 2024 y 2025 hubo 639 de 731 días con algún valor finito en el recuadro y 546 en la celda pública de referencia. Por inclusión, hubo 93 días con dato regional y sin dato en esa celda costera mixta.
 
-De 3.132 claves candidatas de IFOP, 2.775 tienen cobertura regional en su fecha registrada de retorno. Para acotar cuántas pudieron tener soporte en la celda, se cuentan las claves por fecha y se suman los 546 menores o mayores pesos entre los 639 días elegibles. El resultado, **1.654–2.775**, es una cota conservadora con estos agregados. Los extremos de cada estrato pueden corresponder a calendarios diferentes. El censo por celda no identifica los días concretos y la celda de referencia no representa ubicaciones de faena. Una lectura directa de un bloque histórico L3 excedió el tiempo de espera en esta ejecución.
+De 3.132 claves candidatas de IFOP, 2.775 tienen cobertura regional en su fecha registrada de retorno. Para acotar cuántas pudieron tener soporte en la celda, se cuentan las claves por fecha y se suman los 546 menores o mayores pesos entre los 639 días elegibles. El resultado, **1.654–2.775**, es una cota conservadora con estos agregados. Los extremos de cada estrato pueden corresponder a calendarios diferentes. El censo por celda no identifica los días concretos y la celda de referencia no representa ubicaciones de faena. La lectura de esa ronda excedió el tiempo de espera. La ronda 26 presenta el recuento directo.
 
 ```bash
 python chile/audit_candidate_port_pixel_bounds.py /ruta/privada/gestion_publica \
@@ -572,10 +572,29 @@ python chile/audit_candidate_port_pixel_bounds.py /ruta/privada/gestion_publica 
   chile/research_2026_11_04/arco_cell_support.json
 ```
 
-[Conteos agregados](candidate_port_pixel_bounds.json).
+[Cotas originales](https://github.com/ywarthonv-source/predictamar-litoral/blob/9ae926e608183cc1ff7796585cf6d3b41eb23105/chile/research_2026_11_04/candidate_port_pixel_bounds.json).
 
 ## #48 PARCIAL. Disponibilidad regional según mes y estado de captura
 
 De las 83 claves con código 999 y peso cero, 45 cumplen el umbral regional L3 ≥64 en la fecha registrada de retorno. Si a cada mes se aplica la proporción observada en las claves positivas de ese mismo mes, se esperan 55,12 de 83, frente a 54,10 usando la proporción positiva global (1.954/2.998). El ajuste descriptivo por mes del año, agrupando 2024 y 2025, no explica la diferencia observada. La unidad del indicador ambiental es el día y varias claves pueden compartirlo. El cálculo no establece significancia, sesgo causal ni un efecto de nubosidad. Queda por contrastar año, arte y dependencia por fecha.
 
 Reproducción: `python chile/audit_candidate_chl_month.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`. [Tabla mensual](candidate_chl_month_audit.json).
+
+## Ronda 26. Cobertura diaria en la celda pública y agrupación por fecha
+
+**#17 PARCIAL.** Los dos censos coinciden en 62.568 celdas-día finitas L3 y registran cero valores finitos L3 fuera de las 128 celdas con soporte fijo L4. Los 333 días con las 128 celdas finitas garantizan cobertura en la referencia pública. De los 306 días con cobertura parcial, la referencia tiene dato en 213. Al fijar esos 333 días y ordenar los pesos por fecha de retorno en los otros 306, la cota total mejora a 1.661–2.775 claves. [Cotas por estrato](candidate_port_pixel_bounds.json).
+
+La nueva lectura de ARCO reprodujo el total regional de cada uno de los 731 días y los 546 días finitos en la celda (fila 6, columna 11). En la fecha de retorno registrada, **2.399/3.132** claves coinciden con L3 finita en la celda, frente a **2.775/3.132** con L3 en cualquier celda del recuadro. La diferencia es de 376 claves. Esto evalúa disponibilidad en una celda costera de referencia. Para asociar ambiente y captura todavía se requiere posición y fecha de faena verificables. [Máscara ambiental pública, hashes y conteos agregados](candidate_port_pixel_daily.json). [Ficha de Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/services).
+
+**#48 PARCIAL.** Las 83 claves 999 con peso cero ocupan 59 fechas de retorno. 57 de esas fechas y 80 de esas claves coinciden con al menos una clave positiva. La diferencia de −10,96 puntos porcentuales en el umbral regional también refleja pesos distintos de fechas compartidas. Una permutación exploratoria de etiquetas de cobertura entre fechas muestreadas dentro de cada año y mes, conservando juntas las claves del día, dio p unilateral 0,0443 (20.000 permutaciones, semilla 20261105). La dirección se examinó tras observar la diferencia y el ejercicio supone fechas intercambiables dentro de cada estrato. No controla autocorrelación ni separa arte. En el esquema de las cuatro tablas artesanales no se identificó un campo explícito de viento, meteorología, oleaje o motivo de no captura. La hipótesis de mal tiempo sigue sin verificar. [Diagnóstico por fecha](candidate_chl_date_clusters.json).
+
+**#47 ACEPTADO** el respaldo documental de la etiqueta diaria. La sección II.5.3 del QUID GlobColour v7.0, p. 27, da el ejemplo de un día global que reúne observaciones aproximadamente entre las 00:00 y las 23:59 UTC. Es la convención del producto y no certifica la hora de faena. [QUID, p. 27](https://documentation.marine.copernicus.eu/QUID/CMEMS-OC-QUID-009-101to104-111-113-116-118.pdf#page=27).
+
+Reproducción de los nuevos diagnósticos con los Access verificados, NumPy, pandas, numcodecs y mdb-export:
+
+```bash
+python chile/audit_candidate_port_pixel_daily.py /ruta/privada/gestion_publica \
+  chile/research_2026_11_04/arco_coverage_2024_2025.json chile/research_2026_11_04/arco_cell_support.json
+python chile/audit_candidate_chl_date_clusters.py /ruta/privada/gestion_publica \
+  chile/research_2026_11_04/arco_coverage_2024_2025.json
+```

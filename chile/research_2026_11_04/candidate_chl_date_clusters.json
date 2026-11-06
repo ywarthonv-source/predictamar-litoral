@@ -1,0 +1,15 @@
+{
+  "positive_keys": 2998,
+  "code999_keys": 83,
+  "sampled_dates": 304,
+  "positive_dates": 302,
+  "code999_dates": 59,
+  "dates_shared": 57,
+  "code999_keys_on_shared_dates": 80,
+  "observed_coverage_difference_code999_minus_positive": -0.10959917053135827,
+  "permutation_mean_difference": -0.004507870307112426,
+  "permutation_lower_tail_p_exploratory": 0.04429778511074446,
+  "permutation_seed": 20261105,
+  "permutation_draws": 20000,
+  "stratification": "year and month of recorded return date"
+}
