@@ -743,3 +743,13 @@ El conjunto unido al ambiente por faena sigue **sin ser evaluable con la evidenc
 | Recomendaciones operativas | Fuera del alcance de estos datos y de este dictamen. |
 
 [Máscara diaria y cobertura](candidate_port_pixel_daily.json). [Intersección por estado de captura](candidate_chl_date_clusters.json). [Producto Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/description). El mínimo para probar un cruce por faena es el subconjunto trazable definido en la ronda 32. **#49 PARCIAL** en procedencia por evento. ASIPA se mantiene como histórico descriptivo.
+
+## Ronda 34. Concentraciones L3 diarias en la celda de referencia
+
+**#51 PARCIAL** en el desarrollo de la vía exploratoria. Se descargó el mismo producto histórico, se comprobó la versión, unidad y coordenadas del píxel público y se verificó día por día la coincidencia exacta con la máscara de disponibilidad publicada. Del 1 de enero de 2024 al 31 de diciembre de 2025 hay **546 valores finitos en 731 días**. Entre los días finitos, mínimo 0,196, mediana 2,311 y máximo 55,558 mg/m³. Se conservan los 185 huecos como nulos y el máximo como valor del producto. La prueba valida la reproducción de la máscara y la disponibilidad de valores, no la exactitud oceanográfica de la celda costera mixta.
+
+El [derivado ambiental de una sola celda](port_reference_chl_l3_values.json) conserva el eje diario y los hashes de las descargas. Las 2.399 coincidencias previas por fecha de recalada y máscara (2.301 positivas) describen el máximo conjunto disponible para esa vía, sin acreditar representatividad ni posición de faena. Todavía no se calculó una asociación con captura. La unidad ambiental es el día y se repite si coinciden varios viajes. La unión por operación sigue condicionada a los datos mínimos del dictamen.
+
+Reproducción con NumPy y numcodecs: `python chile/audit_port_reference_chl_values.py chile/research_2026_11_04/candidate_port_pixel_daily.json`.
+
+Fuente: European Union, Copernicus Marine Service Data (2024–2025), ©Mercator Ocean. Global Ocean Colour (Copernicus-GlobColour), L3 daily from Satellite Observations. [DOI 10.48670/moi-00280](https://doi.org/10.48670/moi-00280), consultado el 6 de noviembre de 2026.
