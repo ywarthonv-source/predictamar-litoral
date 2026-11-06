@@ -8,7 +8,8 @@ from pathlib import Path
 from zipfile import ZipFile
 
 from openpyxl import load_workbook
-from scipy.stats import spearmanr
+import numpy as np
+from scipy.stats import rankdata, spearmanr
 
 MIN_DAYS = 8
 ZIP_SHA = "556cfcc9c0f068e10d5c3d972bbd224082d7e4c427498904c687c48d35cd06ba"
@@ -20,7 +21,17 @@ def correlation(x, y):
     return round(float(spearmanr(x, y).statistic), 4)
 
 
-def audit(archive_path, environment_path):
+def permutation_p(x, y, permutations):
+    x, y = rankdata(x), rankdata(y)
+    x -= x.mean()
+    y -= y.mean()
+    observed = abs(x @ y)
+    simulated = abs(np.einsum("ij,j->i", y[permutations], x))
+    return float((1 + np.count_nonzero(simulated >= observed - 1e-10))
+                 / (1 + len(permutations)))
+
+
+def audit(archive_path, environment_path, *, iid_diagnostic=False):
     my, nrt = json.loads(environment_path.read_text())
     raw = archive_path.read_bytes()
     if sha256(raw).hexdigest() != ZIP_SHA:
@@ -49,6 +60,7 @@ def audit(archive_path, environment_path):
                 raise ValueError("Anomaly unexpectedly matched; review sensitivity")
             daily[day].append(float(row[13]) * 1000)
     strata = []
+    rng = np.random.default_rng(70)
     for (month, gear), daily in sorted(groups.items()):
         days = sorted(daily)
         result = {"month": month, "gear": gear, "days": len(days)}
@@ -59,6 +71,14 @@ def audit(archive_path, environment_path):
             result.update(rho_daily_kg=correlation(chl, weights),
                           rho_mean_kg_per_row=correlation(chl, [w/n for w,n in zip(weights,counts)]),
                           rho_daily_row_count=correlation(chl, counts))
+            if iid_diagnostic:
+                permutations = np.array([rng.permutation(len(days)) for _ in range(40000)])
+                measures = (weights, [w/n for w,n in zip(weights,counts)], counts)
+                result["iid_permutation_diagnostic"] = [
+                    permutation_p(chl, values, permutations)
+                    if len(set(chl)) > 1 and len(set(values)) > 1 else None
+                    for values in measures
+                ]
         strata.append(result)
     early = lambda day: day[:7] <= "2026-04"
     matched = [day for day in dates if my["chl"].get(day) is not None]
@@ -72,5 +92,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("environment", type=Path)
+    parser.add_argument('--iid-diagnostic', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(audit(args.archive, args.environment), indent=2, allow_nan=False))
+    print(json.dumps(audit(args.archive, args.environment, iid_diagnostic=args.iid_diagnostic), indent=2, allow_nan=False))
