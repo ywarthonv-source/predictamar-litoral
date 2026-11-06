@@ -765,3 +765,20 @@ Fuente: European Union, Copernicus Marine Service Data (2024–2025), ©Mercator
 Reproducción con NumPy y numcodecs: `python chile/audit_port_reference_chl_quality.py chile/research_2026_11_04/port_reference_chl_l3_values.json`.
 
 Fuente: European Union, Copernicus Marine Service Data (2024–2025), ©Mercator Ocean. [Global Ocean Colour L3, DOI 10.48670/moi-00280](https://doi.org/10.48670/moi-00280).
+
+## Ronda 36. Cruce exploratorio de clorofila y kilos por recalada
+
+**#51 PARCIAL.** Reexporté ambos Access artesanales desde los ZIP cuyos hashes y miembros comprueba `strata()`. Para cada clave candidata completa con una sola fila de merluza y kilos positivos finitos, sin conflicto con código 999, uní la concentración L3 de la celda fija con el día registrado de recalada. Reproduje 3.132 claves, 2.399 con clorofila y 2.998 con kilos positivos. La intersección contiene **2.301 claves positivas**, en concordancia con el diagnóstico previo. No se asignó peso a ceros, faltantes ni conflictos. Se publican solo agregados.
+
+Cada fila compara, por año y arte, la concentración diaria con la mediana de kilos positivos reportados en ese día. El coeficiente de Spearman usa rangos medios para empates. Cada día tiene igual peso dentro de su estrato. No se combinan artes ni se suman los días como independientes entre estratos.
+
+| Estrato | Claves positivas con CHL | Días | Spearman | Días sin superar P95 | Spearman sin superar P95 |
+|---|---:|---:|---:|---:|---:|
+| 2024 enmalle | 685 | 100 | 0.048 | 90 | 0.070 |
+| 2024 espinel | 394 | 82 | 0.124 | 75 | 0.184 |
+| 2025 enmalle | 369 | 100 | 0.099 | 96 | 0.070 |
+| 2025 espinel | 853 | 117 | 0.181 | 113 | 0.209 |
+
+**#53 PARCIAL.** El corte de sensibilidad usa el percentil 95 de todos los días finitos de la serie fija (16,949 mg/m³), previo al filtro pesquero. Se conservan todos los datos y se presenta el corte como contraste descriptivo. Una transformación logarítmica de CHL positiva conserva los rangos usados aquí. Las asociaciones son positivas y débiles en estos cuatro subconjuntos, incluso al aplicar el corte. No se estimó inferencia, autocorrelación, ajuste por estación ni efecto causal. El resultado describe concentraciones superficiales del sitio de referencia en fecha de recalada y kilos condicionados a ser positivos. El cruce por fecha y posición de faena y la CPUE siguen fuera del alcance verificable.
+
+[Agregados](port_reference_reported_kg_audit.json). Reproducción con pandas, mdbtools, los ZIP artesanales en una ruta privada y los miembros Access extraídos en subcarpetas por año: `python chile/audit_port_reference_reported_kg.py /ruta/privada/gestion_publica chile/research_2026_11_04/port_reference_chl_l3_values.json`.
