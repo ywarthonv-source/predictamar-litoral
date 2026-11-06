@@ -573,3 +573,9 @@ python chile/audit_candidate_port_pixel_bounds.py /ruta/privada/gestion_publica 
 ```
 
 [Conteos agregados](candidate_port_pixel_bounds.json).
+
+## #48 PARCIAL. Disponibilidad regional según mes y estado de captura
+
+De las 83 claves con código 999 y peso cero, 45 cumplen el umbral regional L3 ≥64 en la fecha registrada de retorno. Si a cada mes se aplica la proporción observada en las claves positivas de ese mismo mes, se esperan 55,12 de 83, frente a 54,10 usando la proporción positiva global (1.954/2.998). El ajuste descriptivo por mes del año, agrupando 2024 y 2025, no explica la diferencia observada. La unidad del indicador ambiental es el día y varias claves pueden compartirlo. El cálculo no establece significancia, sesgo causal ni un efecto de nubosidad. Queda por contrastar año, arte y dependencia por fecha.
+
+Reproducción: `python chile/audit_candidate_chl_month.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`. [Tabla mensual](candidate_chl_month_audit.json).

@@ -1,0 +1,115 @@
+{
+  "months": {
+    "1": {
+      "reported_positive_hake": {
+        "total": 386,
+        "ge64": 249
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 2,
+        "ge64": 0
+      }
+    },
+    "2": {
+      "reported_positive_hake": {
+        "total": 379,
+        "ge64": 262
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 2,
+        "ge64": 1
+      }
+    },
+    "3": {
+      "reported_positive_hake": {
+        "total": 310,
+        "ge64": 170
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 3,
+        "ge64": 2
+      }
+    },
+    "4": {
+      "reported_positive_hake": {
+        "total": 274,
+        "ge64": 203
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 7,
+        "ge64": 4
+      }
+    },
+    "5": {
+      "reported_positive_hake": {
+        "total": 199,
+        "ge64": 150
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 17,
+        "ge64": 8
+      }
+    },
+    "6": {
+      "reported_positive_hake": {
+        "total": 141,
+        "ge64": 90
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 7,
+        "ge64": 7
+      }
+    },
+    "7": {
+      "reported_positive_hake": {
+        "total": 205,
+        "ge64": 133
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 9,
+        "ge64": 5
+      }
+    },
+    "8": {
+      "reported_positive_hake": {
+        "total": 155,
+        "ge64": 83
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 7,
+        "ge64": 4
+      }
+    },
+    "10": {
+      "reported_positive_hake": {
+        "total": 311,
+        "ge64": 184
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 9,
+        "ge64": 4
+      }
+    },
+    "11": {
+      "reported_positive_hake": {
+        "total": 328,
+        "ge64": 252
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 10,
+        "ge64": 6
+      }
+    },
+    "12": {
+      "reported_positive_hake": {
+        "total": 310,
+        "ge64": 178
+      },
+      "reported_no_capture_trip_code999_zero": {
+        "total": 10,
+        "ge64": 4
+      }
+    }
+  },
+  "code999_expected_ge64_using_positive_month_rates": 55.12322197032015
+}
