@@ -133,3 +133,46 @@ privada y una operación necesita además una clave de lance o equivalente.
 Este criterio es una puerta para probar un subconjunto trazable, no
 acredita que dicho subconjunto esté disponible ni altera los indicadores
 de preparación del inventario.
+
+## Sensibilidad al límite de día UTC (#55)
+
+Mantener el criterio principal y registrar, por arte, periodo y mecanismo
+de inclusión, el número de operaciones que cumplen todos los demás
+requisitos pesqueros y, dentro de ese grupo, cuántas quedan fuera solo
+por el límite UTC. Calcular esa proporción antes de consultar CHL.
+Informar también las exclusiones concurrentes y las pérdidas posteriores
+por falta de observación ambiental por separado.
+
+Como sensibilidad fijada de antemano, para ese grupo que cruza el día
+usar el día UTC del virado en la misma celda ya acreditada. Publicar el
+resultado por separado, con su denominador y cobertura, sin sustituir la
+estimación principal. El dato del día de virado describe ese día y no toda
+la exposición del arte. Si supera el 50 % de exclusiones por cruce de día,
+calificar el resultado principal como de cobertura temporal insuficiente
+para ese marco observado. Es una alerta de cobertura. Una proporción
+menor tampoco acredita representatividad de la flota. No hay datos de
+faena certificados para medir todavía esa proporción.
+
+Comprobación sintética ejecutada con Python y `zoneinfo`. La comparación
+mide cambio de fecha UTC entre extremos, no frecuencia real de faenas:
+
+```python
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+local = ZoneInfo("America/Santiago")
+for month in (1, 7):
+    for start, end, end_day in (
+        ((19, 30), (20, 30), 15),
+        ((20, 30), (21, 30), 15),
+        ((22, 0), (6, 0), 16),
+    ):
+        calado = datetime(2025, month, 15, *start, tzinfo=local)
+        virado = datetime(2025, month, end_day, *end, tzinfo=local)
+        print(calado.astimezone(timezone.utc).date() !=
+              virado.astimezone(timezone.utc).date())
+```
+
+En enero resulta falso/verdadero/falso y en julio,
+verdadero/falso/falso. Una faena nocturna que comienza después del corte
+puede quedar íntegra en un mismo día UTC.
