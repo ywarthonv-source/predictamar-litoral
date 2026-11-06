@@ -727,3 +727,19 @@ El patrón de 3′ o más grueso abarca 5.177 latitudes, 6.734 longitudes y **1.
 | Copernicus | Cobertura ambiental verificable. 2.399 claves con clorofila L3 en la celda pública el día de recalada. | Enlace a una posición de operación verificable y una fecha compatible con el producto. |
 
 El conjunto unido al ambiente por faena sigue **sin ser evaluable con la evidencia reproducida**. Para probar el enlace mínimo hace falta un subconjunto trazable de operaciones del mismo alcance, con identificador de viaje y lance, fecha con convención horaria, posición con método e incertidumbre y vínculo con la captura. IFOP es una posible fuente por su rol de recopilación. La disponibilidad y el permiso comercial siguen pendientes. Este dictamen está sujeto a revisión de Claude.
+
+## Ronda 33. Dictamen por alcance y contraste de latitudes vecinas
+
+**#50 CERRADO** en el alcance acordado. La compatibilidad aritmética con 3′ o múltiplos más gruesos no acredita un paso de captura distinto de 1′ ni una precisión de medición. Las referencias uniformes e independientes son ilustrativas. No constituyen un modelo del muestreo local.
+
+**#50b PARCIAL.** Reejecución sobre el ZIP verificado, con tolerancia de 0,000001° por latitud. Los 767 eventos de la latitud entera dominante se compararon con los conteos en −3′, −2′, −1′, +1′, +2′ y +3′: 1.278, 840, 1.164, 574, 529 y 614. El cociente es 0,921 frente a la media de las seis filas. No se observa un exceso respecto a esa media local. Este control no identifica si hubo relleno ni corrige diferencias de esfuerzo o geografía. [Agregados](asipa_portales_history_2010_2022.json). Reproducción: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`.
+
+**#51 ACEPTADO** el dictamen por alcance, con una distinción entre disponibilidad ambiental comprobada y concentración lista para analizar:
+
+| Alcance | Dictamen |
+|---|---|
+| Viaje candidato × arte × día de recalada × celda fija de Portales | **Viable condicionado, exploratorio.** El enlace por fecha con la máscara ambiental es reproducible. De 3.132 claves, 2.399 coinciden con clorofila L3 finita y 2.301 de las 2.998 claves de captura positiva están en esa intersección. El derivado conserva la máscara de disponibilidad y agregados, no los valores diarios de concentración. Para una asociación descriptiva hay que extraer los valores diarios de la misma celda y producto, verificar su máscara contra los 731 días publicados (546 finitos) y conservar el arte y la fecha como unidades de agrupación. El análisis se refiere a la celda costera el día de recalada. |
+| Cruce ambiental por faena, presencia/ausencia y CPUE estricta | **No viable con los datos verificados.** Falta fecha y posición de faena acreditadas y vinculadas a captura. Para presencia/ausencia y CPUE se requieren además estados de captura interpretables, marco de muestreo y esfuerzo comparable según el análisis. |
+| Recomendaciones operativas | Fuera del alcance de estos datos y de este dictamen. |
+
+[Máscara diaria y cobertura](candidate_port_pixel_daily.json). [Intersección por estado de captura](candidate_chl_date_clusters.json). [Producto Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L3_MY_009_103/description). El mínimo para probar un cruce por faena es el subconjunto trazable definido en la ronda 32. **#49 PARCIAL** en procedencia por evento. ASIPA se mantiene como histórico descriptivo.

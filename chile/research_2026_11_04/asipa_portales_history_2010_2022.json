@@ -485,6 +485,18 @@
     1,
     1
   ],
+  "merluza_dominant_integer_latitude_neighbors": {
+    "dominant_integer_latitude_events": 767,
+    "neighbor_counts_by_minute_offset": {
+      "-3": 1278,
+      "-2": 840,
+      "-1": 1164,
+      "1": 574,
+      "2": 529,
+      "3": 614
+    },
+    "ratio_to_neighbor_mean": 0.9205841168233647
+  },
   "excluded_event_species": {},
   "evaluation_ready": false
 }

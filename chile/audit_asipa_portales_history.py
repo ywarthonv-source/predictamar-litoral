@@ -75,6 +75,20 @@ def coarsest_grid(values, tolerance=Decimal('0.000001')):
     return 'neither'
 
 
+def integer_latitude_neighbors(latitude_counts, integer_counts):
+    dominant = max(integer_counts, key=integer_counts.get)
+    offsets = (-3, -2, -1, 1, 2, 3)
+    neighbors = {offset: sum(count for value, count in latitude_counts.items()
+                             if abs((value - dominant) * 60 - offset) <= Decimal('0.000060'))
+                 for offset in offsets}
+    total = sum(neighbors.values())
+    return {
+        'dominant_integer_latitude_events': integer_counts[dominant],
+        'neighbor_counts_by_minute_offset': neighbors,
+        'ratio_to_neighbor_mean': 6 * integer_counts[dominant] / total if total else None,
+    }
+
+
 def audit(path):
     with path.open('rb') as source:
         if hashlib.file_digest(source, 'sha256').hexdigest() != SHA256:
@@ -105,6 +119,7 @@ def audit(path):
     decimal_places = defaultdict(Counter)
     event_grids = defaultdict(lambda: defaultdict(Counter))
     integer_values = defaultdict(Counter)
+    latitude_counts = Counter()
     longitude_by_integer_latitude = defaultdict(set)
     for (species, event_id), status in states.items():
         if status != {'present'}:
@@ -132,6 +147,7 @@ def audit(path):
                     hake_pairs[group].add(pair)
                     for axis, values in (('latitude', pair[:1]), ('longitude', pair[1:]), ('pair', pair)):
                         event_grids[group][axis][coarsest_grid(values)] += 1
+                latitude_counts[pair[0]] += 1
                 if pair[0] == int(pair[0]):
                     longitude_by_integer_latitude[pair[0]].add(pair[1])
                 for axis, value in zip(('latitude', 'longitude'), pair):
@@ -158,6 +174,8 @@ def audit(path):
         },
         'merluza_integer_latitude_distinct_longitudes_descending': sorted(
             (len(values) for values in longitude_by_integer_latitude.values()), reverse=True),
+        'merluza_dominant_integer_latitude_neighbors': integer_latitude_neighbors(
+            latitude_counts, integer_values['latitude']),
         'excluded_event_species': dict(excluded),
         'evaluation_ready': False,
     }
@@ -165,5 +183,6 @@ def audit(path):
 
 if __name__ == '__main__':
     print(json.dumps(audit(Path(sys.argv[1])), ensure_ascii=False, indent=2))
+
 
 
