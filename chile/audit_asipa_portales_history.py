@@ -61,6 +61,20 @@ def grid_summary(pairs):
     return results
 
 
+GRID_STEPS = (
+    ('degree', 1), ('six_minutes', 10), ('three_minutes', 20),
+    ('one_minute', 60), ('tenth_minute', 600),
+)
+
+
+def coarsest_grid(values, tolerance=Decimal('0.000001')):
+    for name, factor in GRID_STEPS:
+        if all(abs(value * factor - round(value * factor)) <= tolerance * factor
+               for value in values):
+            return name
+    return 'neither'
+
+
 def audit(path):
     with path.open('rb') as source:
         if hashlib.file_digest(source, 'sha256').hexdigest() != SHA256:
@@ -89,6 +103,9 @@ def audit(path):
     dates = defaultdict(Counter)
     hake_pairs = defaultdict(set)
     decimal_places = defaultdict(Counter)
+    event_grids = defaultdict(lambda: defaultdict(Counter))
+    integer_values = defaultdict(Counter)
+    longitude_by_integer_latitude = defaultdict(set)
     for (species, event_id), status in states.items():
         if status != {'present'}:
             excluded[f'{species}:status_not_exclusively_present'] += 1
@@ -113,7 +130,13 @@ def audit(path):
                 period = '2010–2016' if component_day.year <= 2016 else '2017–2022'
                 for group in ('all', f"{row['datasetName']} | {period}"):
                     hake_pairs[group].add(pair)
+                    for axis, values in (('latitude', pair[:1]), ('longitude', pair[1:]), ('pair', pair)):
+                        event_grids[group][axis][coarsest_grid(values)] += 1
+                if pair[0] == int(pair[0]):
+                    longitude_by_integer_latitude[pair[0]].add(pair[1])
                 for axis, value in zip(('latitude', 'longitude'), pair):
+                    if value == int(value):
+                        integer_values[axis][value] += 1
                     decimal_places[axis][max(0, -value.normalize().as_tuple().exponent)] += 1
         dates[species][component_day] += 1
     return {
@@ -128,6 +151,13 @@ def audit(path):
         'recorded_day_concentration': {species: concentration(c) for species, c in dates.items()},
         'merluza_unique_pairs_grid_by_stratum': {name: grid_summary(pairs) for name, pairs in hake_pairs.items()},
         'merluza_decimal_places_without_trailing_zeros_by_event': decimal_places,
+        'merluza_coarsest_grid_by_event': event_grids,
+        'merluza_integer_axis_aggregate': {
+            axis: {'unique': len(values), 'event_counts_descending': sorted(values.values(), reverse=True)}
+            for axis, values in integer_values.items()
+        },
+        'merluza_integer_latitude_distinct_longitudes_descending': sorted(
+            (len(values) for values in longitude_by_integer_latitude.values()), reverse=True),
         'excluded_event_species': dict(excluded),
         'evaluation_ready': False,
     }
@@ -135,4 +165,5 @@ def audit(path):
 
 if __name__ == '__main__':
     print(json.dumps(audit(Path(sys.argv[1])), ensure_ascii=False, indent=2))
+
 

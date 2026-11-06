@@ -345,6 +345,146 @@
       "0": 3
     }
   },
+  "merluza_coarsest_grid_by_event": {
+    "all": {
+      "latitude": {
+        "one_minute": 10846,
+        "three_minutes": 3048,
+        "degree": 769,
+        "six_minutes": 1360,
+        "neither": 14,
+        "tenth_minute": 1
+      },
+      "longitude": {
+        "one_minute": 9292,
+        "six_minutes": 3138,
+        "three_minutes": 3593,
+        "tenth_minute": 2,
+        "neither": 10,
+        "degree": 3
+      },
+      "pair": {
+        "one_minute": 14334,
+        "three_minutes": 1471,
+        "six_minutes": 209,
+        "tenth_minute": 3,
+        "neither": 20,
+        "degree": 1
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2017–2022": {
+      "latitude": {
+        "one_minute": 3348,
+        "three_minutes": 1013,
+        "degree": 260,
+        "six_minutes": 517,
+        "neither": 2
+      },
+      "longitude": {
+        "one_minute": 3193,
+        "six_minutes": 893,
+        "three_minutes": 1049,
+        "tenth_minute": 1,
+        "neither": 4
+      },
+      "pair": {
+        "one_minute": 4550,
+        "three_minutes": 524,
+        "six_minutes": 59,
+        "tenth_minute": 1,
+        "neither": 6
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2010–2016": {
+      "latitude": {
+        "one_minute": 987,
+        "three_minutes": 245,
+        "degree": 76,
+        "six_minutes": 37,
+        "neither": 1
+      },
+      "longitude": {
+        "six_minutes": 111,
+        "one_minute": 691,
+        "three_minutes": 543,
+        "tenth_minute": 1
+      },
+      "pair": {
+        "one_minute": 1236,
+        "three_minutes": 105,
+        "six_minutes": 3,
+        "tenth_minute": 1,
+        "neither": 1
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2010–2016": {
+      "latitude": {
+        "one_minute": 4678,
+        "three_minutes": 1360,
+        "degree": 303,
+        "six_minutes": 546,
+        "neither": 7,
+        "tenth_minute": 1
+      },
+      "longitude": {
+        "three_minutes": 1283,
+        "six_minutes": 1706,
+        "one_minute": 3898,
+        "degree": 3,
+        "neither": 5
+      },
+      "pair": {
+        "one_minute": 6209,
+        "three_minutes": 553,
+        "six_minutes": 123,
+        "neither": 8,
+        "degree": 1,
+        "tenth_minute": 1
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2017–2022": {
+      "latitude": {
+        "one_minute": 1833,
+        "three_minutes": 430,
+        "six_minutes": 260,
+        "degree": 130,
+        "neither": 4
+      },
+      "longitude": {
+        "one_minute": 1510,
+        "six_minutes": 428,
+        "three_minutes": 718,
+        "neither": 1
+      },
+      "pair": {
+        "one_minute": 2339,
+        "three_minutes": 289,
+        "six_minutes": 24,
+        "neither": 5
+      }
+    }
+  },
+  "merluza_integer_axis_aggregate": {
+    "latitude": {
+      "unique": 3,
+      "event_counts_descending": [
+        767,
+        1,
+        1
+      ]
+    },
+    "longitude": {
+      "unique": 1,
+      "event_counts_descending": [
+        3
+      ]
+    }
+  },
+  "merluza_integer_latitude_distinct_longitudes_descending": [
+    21,
+    1,
+    1
+  ],
   "excluded_event_species": {},
   "evaluation_ready": false
 }

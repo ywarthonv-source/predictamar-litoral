@@ -702,3 +702,28 @@ En merluza, 43 de 646 pares concentran al menos la mitad de los 16.038 eventos y
 La tabla 8 de FIPA 2024-02 identifica bitácoras de embarque o encuestas en tierra para viajes artesanales de enmalle y espinel. La p. 64 impresa describe la interpretación de ciertos formatos como grados y minutos sin segundos, sin asignarla específicamente a Portales. El EML incluido en el ZIP verificado (SHA-256 `0664827fa2ad3ee1a54d83e970adb0f3ea14c6e839e8faba8a811368ad236635`, `methods/sampling/samplingDescription`) dice que las coordenadas se asignan según los lances reportados por observadores, con variaciones por antigüedad o formato. Es evidencia de la unidad que el recurso pretende representar. No discrimina por evento de Portales observación a bordo, entrevista u otra asignación. Todavía falta una referencia enlazable que confirme procedencia, fecha de operación e incertidumbre. [FIPA, tabla 8](https://www.subpesca.cl/fipa/613/articles-122024_informe_final.pdf#page=40). [FIPA, p. 64 impresa](https://www.subpesca.cl/fipa/613/articles-122024_informe_final.pdf#page=69). [Ficha ASIPA 1.5 y EML](https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5).
 
 **#49b ACEPTADO** como advertencia de interpretación. El cambio entre 2015 (1.199 enmalle, 94 espinel) y 2019 (28 y 1.468) es un cambio en la composición de los eventos publicados por etiqueta de encuesta. No acredita por sí solo un cambio de actividad ni un cambio deliberado de diseño. Mantener el desglose por año y arte y tratar la causa como hipótesis. [Tabla anual](asipa_portales_history_2010_2022.json).
+
+## Ronda 32. Rejillas ponderadas por evento y dictamen provisional
+
+**#50 PARCIAL.** Reejecución sobre ZIP ASIPA 1.5 verificado. Cada evento se asigna una sola vez por eje o par al paso más grueso compatible con los valores publicados. Tolerancia 0,000001° por eje. Para el par se exige el mismo paso en ambos ejes.
+
+| Unidad | 1° | 6′ | 3′ | 1′ | 0,1′ | Fuera |
+|---|---:|---:|---:|---:|---:|---:|
+| Latitud | 769 | 1360 | 3048 | 10846 | 1 | 14 |
+| Longitud | 3 | 3138 | 3593 | 9292 | 2 | 10 |
+| Par | 1 | 209 | 1471 | 14334 | 3 | 20 |
+
+El patrón de 3′ o más grueso abarca 5.177 latitudes, 6.734 longitudes y **1.681 de 16.038 pares por evento (10,5 %)**. Los 769 eventos de latitud entera se reparten entre tres valores (767, 1 y 1). El máximo número de longitudes distintas para una latitud entera es 21. Los tres casos de longitud entera comparten un solo valor. Se omiten los valores de coordenadas. Los pasos son divisibilidades observadas, compatibles también con una rejilla más fina que contiene esos puntos. No demuestran redondeo deliberado a pasos distintos, precisión real ni relleno. La hipótesis de valores por defecto sigue sin verificar. [Agregados por eje, arte y periodo](asipa_portales_history_2010_2022.json). Reproducción: `python chile/audit_asipa_portales_history.py /ruta/privada/asipa_demersales_1_5.zip`.
+
+**#49 PARCIAL.** La p. 22 impresa de FIPA 2024-02 enuncia seis decimales en la sección general de estandarización de cabeceras, con referencia a la Res. Ex. 34/2023. El ZIP examinado conserva valores de 13 decimales efectivos. La documentación consultada no explica la diferencia para esta versión del recurso. La combinación de valores largos y compatibilidad con minutos enteros apoya la hipótesis de conversión sexagesimal, sin identificar el origen de medición o el flujo de exportación. [FIPA, §4.1.5.1](https://www.subpesca.cl/fipa/613/articles-122024_informe_final.pdf#page=27). **#49b CERRADO** por acuerdo en la advertencia de composición de encuestas.
+
+### Dictamen provisional con las fuentes verificadas
+
+| Vía | Alcance hoy | Dato faltante |
+|---|---|---|
+| ASIPA Portales | Presencias declaradas por año y arte. | Llave a un registro de operación que confirme fecha, posición y procedencia de cada enlace. |
+| Anexos artesanales IFOP 2024–2025 | Análisis descriptivo de kg reportados por viaje candidato muestreado y arte. Hay 3.132 claves candidatas y 2.998 cantidades positivas. | Fecha y posición de faena ligadas a la clave y marco de muestreo. Para comparar estados o normalizar por esfuerzo se requieren además ceros interpretables y esfuerzo comparable. |
+| Cruceros IFOP | Evidencia biológica regional de arrastre científico. Los 32 lances del recuadro resultaron positivos para merluza. | Diseño que permita evaluar el objetivo artesanal acordado. |
+| Copernicus | Cobertura ambiental verificable. 2.399 claves con clorofila L3 en la celda pública el día de recalada. | Enlace a una posición de operación verificable y una fecha compatible con el producto. |
+
+El conjunto unido al ambiente por faena sigue **sin ser evaluable con la evidencia reproducida**. Para probar el enlace mínimo hace falta un subconjunto trazable de operaciones del mismo alcance, con identificador de viaje y lance, fecha con convención horaria, posición con método e incertidumbre y vínculo con la captura. IFOP es una posible fuente por su rol de recopilación. La disponibilidad y el permiso comercial siguen pendientes. Este dictamen está sujeto a revisión de Claude.
