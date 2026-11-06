@@ -114,5 +114,18 @@
         "spearman_of_month_centered_ranks": 0.048273539072674246
       }
     }
+  },
+  "month_support": {
+    "months_with_chl": 24,
+    "by_gear": {
+      "enmalle": {
+        "months_without_positive_kg": 2,
+        "positive_kg_months_without_joined_day": 0
+      },
+      "espinel": {
+        "months_without_positive_kg": 4,
+        "positive_kg_months_without_joined_day": 0
+      }
+    }
   }
 }

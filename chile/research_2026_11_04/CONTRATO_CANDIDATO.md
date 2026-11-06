@@ -81,3 +81,39 @@ en false. La prueba verifica reglas de inventario y contabilidad.
 - Cola propia. Medir cobertura de la unidad candidata por arte y periodo.
   Contrastar la semántica de anclas y luego probar el emparejamiento sobre
   registros defendibles.
+
+## Criterio de admisión por operación
+
+Propuesta de la ronda 38, para revisión. Se aplica dentro del arte y la
+geometría aprobados. La clave candidata de viaje sirve como referencia
+privada y una operación necesita además una clave de lance o equivalente.
+
+1. **Origen verificable.** Registrar en privado la versión o huella del
+   original, tabla y referencia de fila o formulario. Identificar por
+   nombre el campo de fecha, hora, posición y cantidad de merluza. Para
+   cada dato indicar si procede del mismo registro que la captura. Si
+   procede de otra tabla, guardar la llave documentada y comprobar que
+   identifica una sola operación. Una coincidencia por proximidad en
+   fecha o espacio no acredita el vínculo.
+2. **Fecha, hora y posición de operación.** Conservar originales,
+   significado, huso o convención horaria, datum, método de registro e
+   incertidumbre. Para cruzar a resolución diaria y de celda, el intervalo
+   temporal documentado debe identificar un solo día del producto y la
+   incertidumbre espacial debe permitir asignar una sola celda dentro de
+   la geometría aprobada. Una recalada, centroide o posición sin método
+   acreditado se conserva como dato descriptivo. No se imputa al lance.
+3. **Captura y unidad.** Verificar especie, cantidad, unidad y alcance
+   (lance o viaje). Si un peso se reporta por viaje con varios lances, no
+   repartirlo ni duplicarlo por posición. Separar ceros, faltantes y
+   conflictos hasta confirmar su significado. Exigir marco de muestreo y
+   esfuerzo comparable para presencia/ausencia o CPUE estricta.
+4. **Salida verificable.** Mantener cuarentena con razones separadas
+   cuando falte un campo, su procedencia o una llave única. Contar
+   elegibles, descartes y cobertura ambiental por arte y periodo.
+   Conservar las filas e identificadores originales en privado y publicar
+   agregados. La coincidencia ambiental se evalúa después de la admisión
+   pesquera. Las condiciones de reutilización se revisan por separado.
+
+Este criterio es una puerta para probar un subconjunto trazable, no
+acredita que dicho subconjunto esté disponible ni altera los indicadores
+de preparación del inventario.

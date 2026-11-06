@@ -49,6 +49,7 @@ def audit(raw_dir, reference):
     output = {}
     totals = Counter()
     by_gear = defaultdict(list)
+    positive_months = defaultdict(set)
     for year, gear, _, rows in strata(raw_dir):
         if rows[TRIP].eq('').any(axis=None):
             raise ValueError('Incomplete candidate key')
@@ -70,6 +71,7 @@ def audit(raw_dir, reference):
             if not math.isfinite(weight) or weight <= 0:
                 continue
             counts['positive_kg_keys'] += 1
+            positive_months[gear].add((day.year, day.month))
             if chl is not None:
                 grouped_days[day].append(float(weight))
         pairs = [(axis[day], weights) for day, weights in grouped_days.items()]
@@ -80,18 +82,28 @@ def audit(raw_dir, reference):
             'excluding_above_environmental_p95': summarize(pairs, p95),
         }
         totals.update(counts)
+    all_months = {(day.year, day.month) for day in axis}
+    chl_months = {(day.year, day.month) for day, chl in axis.items() if chl is not None}
+    month_support = {}
     sensitivity = {}
     for gear, rows in by_gear.items():
         frame = pd.DataFrame(rows, columns=['day', 'chl', 'kg'])
+        linked_months = {(day.year, day.month) for day in frame.day}
+        month_support[gear] = {
+            'months_without_positive_kg': len(all_months - positive_months[gear]),
+            'positive_kg_months_without_joined_day': len(positive_months[gear] - linked_months),
+        }
         sensitivity[gear] = {
             'complete': month_centered(frame),
             'excluding_above_environmental_p95': month_centered(frame[frame.chl <= p95]),
         }
     return {'historical_l3_p95_mg_m3': p95, 'counts_all_strata': dict(totals),
-            'by_stratum': output, 'month_centered_by_gear': sensitivity}
+            'by_stratum': output, 'month_centered_by_gear': sensitivity,
+            'month_support': {'months_with_chl': len(chl_months), 'by_gear': month_support}}
 
 
 if __name__ == '__main__':
     raw_dir, values = map(Path, sys.argv[1:])
     print(json.dumps(audit(raw_dir, json.loads(values.read_text())), allow_nan=False, indent=2))
+
 
