@@ -208,3 +208,62 @@ print(rows, sum(a for a, _ in rows) / sum(b for _, b in rows))
 El total anual (2/10) oculta un mes sin operaciones admitidas (0/2).
 Este escenario usa una hora fija y no reproduce el cálculo astronómico
 ni permite inferir cuándo se cala realmente en Portales.
+
+## Hora local y transiciones de huso (#57 y #58)
+
+Entre las faenas con calado documentado, publicar por arte y mes local
+los recuentos antes de 20:00, desde 20:00 hasta antes de 21:00, y desde
+21:00. Es un diagnóstico previo a CHL. La admisión usa ambos extremos
+reales. El histograma solo predice el corte para el supuesto de virado
+al día local siguiente antes de su corte, dentro del dominio probado.
+
+Contar por separado las faenas sin fecha de calado por mes de recalada,
+con categoría adicional si falta recalada. Ese mes no imputa el de calado.
+El nivel 1 usa mes de recalada. La cobertura CHL principal y la del día
+de virado se informan por separado porque usan reglas de asignación
+distintas.
+
+Con hora local y sin desfase explícito, verificar ambos valores de
+`fold` mediante ida y vuelta por UTC. Una hora inexistente no tiene
+conversión válida y queda en cuarentena temporal hasta aclararla. Para
+una hora ambigua, conservar ambos instantes válidos. Se admite el día UTC
+solo si todas las interpretaciones válidas y cronológicamente posibles
+dan el mismo día para la operación. Mantener la duración como ambigua
+si difiere, sin usarla como esfuerzo exacto. Registrar la versión de
+tzdata. Los cuatro casos sintéticos conservan fecha UTC entre candidatos,
+pero los candidatos de septiembre fallan la ida y vuelta.
+
+Prueba sintética ejecutada con tzdata 2025b. Para 731 días y 72 horas
+de calado por día (paso de diez minutos), virando a las 06:00 locales
+del día siguiente, hubo 35.088 cruces antes de 20:00, 2.538 de 4.386
+entre 20:00 y 21:00 y 0 de 13.158 desde 21:00. No mide la distribución
+real de horarios ni el signo del sesgo. Los intervalos que se extiendan
+más allá del supuesto necesitan sus dos anclas.
+
+```bash
+python - <<'PY'
+from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+z=ZoneInfo('America/Santiago')
+utc=timezone.utc
+counts={}
+d=date(2024,1,1)
+while d<date(2026,1,1):
+ for m in range(720,1440,10):
+  a=datetime(d.year,d.month,d.day,m//60,m%60,tzinfo=z)
+  e=d+timedelta(days=1)
+  b=datetime(e.year,e.month,e.day,6,tzinfo=z)
+  band=0 if m<1200 else 1 if m<1260 else 2
+  k=(band,a.astimezone(utc).date()!=b.astimezone(utc).date())
+  counts[k]=counts.get(k,0)+1
+ d+=timedelta(days=1)
+print(sorted(counts.items()))
+for y,m,d,h in [(2024,4,6,23),(2025,4,5,23),(2024,9,8,0),(2025,9,7,0)]:
+ a=datetime(y,m,d,h,30)
+ vals=[a.replace(tzinfo=z,fold=f).astimezone(utc) for f in (0,1)]
+ valid=[v.astimezone(z).replace(tzinfo=None)==a for v in vals]
+ assert vals[0].date()==vals[1].date()
+ print(a, [str(v) for v in vals],valid)
+PY
+head -1 /usr/share/zoneinfo/tzdata.zi
+```
