@@ -779,6 +779,23 @@ Cada fila compara, por año y arte, la concentración diaria con la mediana de k
 | 2025 enmalle | 369 | 100 | 0.099 | 96 | 0.070 |
 | 2025 espinel | 853 | 117 | 0.181 | 113 | 0.209 |
 
-**#53 PARCIAL.** El corte de sensibilidad usa el percentil 95 de todos los días finitos de la serie fija (16,949 mg/m³), previo al filtro pesquero. Se conservan todos los datos y se presenta el corte como contraste descriptivo. Una transformación logarítmica de CHL positiva conserva los rangos usados aquí. Las asociaciones son positivas y débiles en estos cuatro subconjuntos, incluso al aplicar el corte. No se estimó inferencia, autocorrelación, ajuste por estación ni efecto causal. El resultado describe concentraciones superficiales del sitio de referencia en fecha de recalada y kilos condicionados a ser positivos. El cruce por fecha y posición de faena y la CPUE siguen fuera del alcance verificable.
+**#53 PARCIAL.** El corte de sensibilidad usa el percentil 95 de todos los días finitos de la serie fija (16,949 mg/m³), previo al filtro pesquero. Se conservan todos los datos y se presenta el corte como contraste descriptivo. Una transformación logarítmica de CHL positiva conserva los rangos usados aquí. Los coeficientes son pequeños. Esta descripción no establece una relación distinguible de la variación temporal de la muestra. No se estimó inferencia, autocorrelación, ajuste por estación ni efecto causal. El resultado describe concentraciones superficiales del sitio de referencia en fecha de recalada y kilos condicionados a ser positivos. El cruce por fecha y posición de faena y la CPUE siguen fuera del alcance verificable.
 
 [Agregados](port_reference_reported_kg_audit.json). Reproducción con pandas, mdbtools, los ZIP artesanales en una ruta privada y los miembros Access extraídos en subcarpetas por año: `python chile/audit_port_reference_reported_kg.py /ruta/privada/gestion_publica chile/research_2026_11_04/port_reference_chl_l3_values.json`.
+
+## Ronda 37. Sensibilidad por mes de la asociación descriptiva
+
+**#51 PARCIAL.** Se reexportaron los dos Access de los ZIP verificados. La ejecución reproduce los cuatro coeficientes y conteos de la ronda 36, con y sin corte de CHL. Se verificaron **cero claves con más de una fila de merluza**, tanto antes como después de excluir conflictos de código 999.
+
+**#54 PARCIAL.** Por arte, se ordenan CHL y mediana de kilos positivos en rangos medios en el conjunto de días. Se resta de cada rango la mediana del año-mes correspondiente. Se calcula Spearman entre ambos residuos, con igual peso por día. Se recalculan los rangos y las medianas al retirar los días que superan el P95 ambiental de 16,949 mg/m³.
+
+| Arte | Días | Grupos año-mes | Spearman centrado | Días sin superar P95 | Spearman centrado sin superar P95 |
+|---|---:|---:|---:|---:|---:|
+| Enmalle | 200 | 22 | −0,039 | 186 | −0,051 |
+| Espinel | 199 | 20 | 0,024 | 188 | 0,048 |
+
+Hay un grupo con un solo día en enmalle y dos en espinel, que aportan residuo cero. Los cuatro coeficientes centrados están cerca de cero. Esto no muestra una relación clara entre la clorofila en la celda de referencia el día de recalada y los kilos positivos reportados. La comparación es exploratoria, sin prueba de significancia ni ajuste por autocorrelación, esfuerzo o selección. La banda para días independientes que discutió Claude sirve de referencia ilustrativa y no es un intervalo calibrado aquí. [Agregados](port_reference_reported_kg_audit.json). Reproducción: `python chile/audit_port_reference_reported_kg.py /ruta/privada/gestion_publica chile/research_2026_11_04/port_reference_chl_l3_values.json`.
+
+**#52 CERRADO** por acuerdo para fijar el derivado R34/R35. Recalculé la huella publicada; sigue sin prueba retrospectiva de igualdad con R26. **#53 CERRADO** en el alcance de conservar valores y documentar incertidumbre y sensibilidad. La única bandera publicada es LAND. Un 0 no indica calidad óptica ni ausencia de efectos costeros. El Spearman descriptivo entre CHL e incertidumbre del producto es 0,509 en los 546 días finitos (rangos medios y correlación de Pearson sobre ellos). [Serie y atributos](port_reference_chl_l3_quality.json).
+
+Se mantiene el dictamen de tres niveles aceptado por ambos. El cruce por recalada y celda fija es exploratorio. El cruce por faena, la presencia/ausencia y la CPUE estricta siguen sin ser evaluables con la evidencia verificada. Las recomendaciones a pescadores quedan fuera de alcance.

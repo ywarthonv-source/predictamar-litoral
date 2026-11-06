@@ -1,6 +1,8 @@
 {
   "historical_l3_p95_mg_m3": 16.94874143600464,
   "counts_all_strata": {
+    "multiple_merluza_rows": 0,
+    "multiple_merluza_rows_without_999_conflict": 0,
     "candidate_keys": 3132,
     "keys_with_chl": 2399,
     "positive_kg_keys": 2998
@@ -8,6 +10,8 @@
   "by_stratum": {
     "2025_enmalle": {
       "counts": {
+        "multiple_merluza_rows": 0,
+        "multiple_merluza_rows_without_999_conflict": 0,
         "candidate_keys": 476,
         "keys_with_chl": 383,
         "positive_kg_keys": 454
@@ -25,6 +29,8 @@
     },
     "2025_espinel": {
       "counts": {
+        "multiple_merluza_rows": 0,
+        "multiple_merluza_rows_without_999_conflict": 0,
         "candidate_keys": 1253,
         "keys_with_chl": 876,
         "positive_kg_keys": 1225
@@ -42,6 +48,8 @@
     },
     "2024_enmalle": {
       "counts": {
+        "multiple_merluza_rows": 0,
+        "multiple_merluza_rows_without_999_conflict": 0,
         "candidate_keys": 875,
         "keys_with_chl": 723,
         "positive_kg_keys": 820
@@ -59,6 +67,8 @@
     },
     "2024_espinel": {
       "counts": {
+        "multiple_merluza_rows": 0,
+        "multiple_merluza_rows_without_999_conflict": 0,
         "candidate_keys": 528,
         "keys_with_chl": 417,
         "positive_kg_keys": 499
@@ -72,6 +82,36 @@
         "days": 75,
         "candidate_keys": 335,
         "spearman_chl_vs_daily_median_positive_kg": 0.18380599501123104
+      }
+    }
+  },
+  "month_centered_by_gear": {
+    "enmalle": {
+      "complete": {
+        "days": 200,
+        "year_month_groups": 22,
+        "single_day_groups": 1,
+        "spearman_of_month_centered_ranks": -0.03929021086722513
+      },
+      "excluding_above_environmental_p95": {
+        "days": 186,
+        "year_month_groups": 22,
+        "single_day_groups": 1,
+        "spearman_of_month_centered_ranks": -0.05094197086793257
+      }
+    },
+    "espinel": {
+      "complete": {
+        "days": 199,
+        "year_month_groups": 20,
+        "single_day_groups": 2,
+        "spearman_of_month_centered_ranks": 0.024314839839356884
+      },
+      "excluding_above_environmental_p95": {
+        "days": 188,
+        "year_month_groups": 20,
+        "single_day_groups": 2,
+        "spearman_of_month_centered_ranks": 0.048273539072674246
       }
     }
   }
