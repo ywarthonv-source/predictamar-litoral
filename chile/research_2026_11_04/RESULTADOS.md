@@ -618,3 +618,17 @@ python chile/audit_ifop_auxiliary_links.py /ruta/privada/gestion_publica
 python chile/audit_candidate_chl_date_clusters.py /ruta/privada/gestion_publica \
   chile/research_2026_11_04/arco_coverage_2024_2025.json chile/research_2026_11_04/candidate_port_pixel_daily.json
 ```
+
+## Ronda 28. Posicionamiento satelital público como fuente de contraste
+
+**#6/#36 y #40 PARCIAL.** Se descargaron dos CSV de la sección Flota Artesanal del catálogo de posicionamiento de Sernapesca, etiquetados 19-06-2024 y 18-06-2025. Se ensayó un reporte de junio por temporada como prueba acotada de acceso y esquema. El primero contiene 8.221 posiciones entre el 18 y el 19 de junio, 70 dentro del recuadro diagnóstico. El segundo contiene 44.613 del 18 de junio, 276 dentro del recuadro. Estos conteos son reportes de posición, sin atribución a Portales ni a operaciones. [Catálogo oficial](https://www.sernapesca.cl/informacion-utilidad/posiciones-geograficas-del-sistema-de-posicionamiento-satelital/). [CSV 2024](https://www.sernapesca.cl/app/uploads/2024/06/report_31_20240619_flota_artesanal.csv). [CSV 2025](https://www.sernapesca.cl/app/uploads/2025/08/report_31_20250618_flota_artesanal.csv).
+
+El CSV 2024 trae distintivo de llamada. El de 2025 trae `call_sign` e `internal_ref`. Al cotejar esas cadenas (mayúsculas y espacios exteriores normalizados) con los códigos IFOP de todos los candidatos de la temporada correspondiente, hubo cero coincidencias en ambos artes y muestras. La fecha etiquetada de 2024 tiene cero recaladas candidatas. La de 2025 tiene 12 (2 enmalle, 10 espinel). El diccionario artesanal identifica `COD_BARCO` como código IFOP (ronda 13); no se encontró una equivalencia pública documentada con los identificadores de estos CSV. La coincidencia de fechas o el formato del código no permiten identificar una embarcación. [Columnas, hashes y conteos por arte](sernapesca_vms_linkage_audit.json).
+
+La fuente demuestra que se pueden descargar trayectorias históricas de una parte de la flota artesanal. Estos dos archivos no demuestran cobertura de los candidatos, ni tienen campos de lance, arte, especie o captura. Una trayectoria vinculada serviría para contrastar desplazamiento y horario, y haría falta una referencia adicional para distinguir la maniobra y atribuirle la captura. La posición y la fecha de faena siguen sin verificar en el conjunto candidato. [Descripción oficial del reporte básico](https://www.sernapesca.cl/preguntas-frecuentes/sistema-de-posicionamiento-satelital/).
+
+Reproducción con ambos CSV guardados como `vms_2024.csv` y `vms_2025.csv` en un directorio privado y los anexos IFOP verificados:
+
+```bash
+python chile/audit_sernapesca_vms_linkage.py /ruta/privada/gestion_publica /ruta/privada/vms
+```
