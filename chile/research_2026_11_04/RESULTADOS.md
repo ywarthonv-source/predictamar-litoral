@@ -524,7 +524,7 @@ Reproducción desde la raíz: `python chile/audit_candidate_chl_date_sensitivity
 
 **#6/#36 PARCIAL.** Reejecución sobre Access verificados, enmalle con objetivo merluza, clave completa por viaje y puerto. Las 216 y 208 claves de los puertos 19 y 705 con un par único y orden válido de maniobras son todas viajes de un mismo día registrado. En ese subconjunto la coincidencia de día entre maniobra y recalada se deduce del filtro de orden. Cero viajes de varios días entran en esa comparación. En todo el extracto objetivo de enmalle (3.892 y 3.321 claves completas), se observaron cero claves con calado interpretable anterior al zarpe, y cero con algún virado interpretable pero ningún calado interpretable. Sin embargo, solo 219 y 208 claves tienen ambos inicios interpretables en al menos una fila, y ninguna es de Portales. Los ceros describen el registro disponible y no excluyen que una red quede calada entre viajes.
 
-En Portales, el intervalo zarpe–recalada acota el día **si la faena está dentro del intervalo**. D y D−1 son los escenarios biológicos prioritarios bajo reloj común y recalada posterior a la faena. D+1 queda como control de sensibilidad del calendario del producto, pues falta confirmar el huso del registro y una fecha civil puede cambiar al pasar al calendario UTC. D+1 no representa faena posterior a la recalada. Sigue faltando una posición de faena verificable por viaje y la evidencia local para trasladar el supuesto de intervalo. Reproducción: `python chile/audit_ifop_enmalle_trip_dates.py /ruta/privada/gestion_publica`.
+En Portales, el intervalo zarpe–recalada acota el día **si la faena está dentro del intervalo**. D y D−1 son los escenarios biológicos prioritarios bajo reloj común y recalada posterior a la faena. D+1 se conserva como control de desplazamiento, sin interpretación de huso para estas claves (ver ronda 24). D+1 no representa faena posterior a la recalada. Sigue faltando una posición de faena verificable por viaje y la evidencia local para trasladar el supuesto de intervalo. Reproducción: `python chile/audit_ifop_enmalle_trip_dates.py /ruta/privada/gestion_publica`.
 
 **#17 PARCIAL.** Además de alguna celda finita, se exigieron 64 celdas L3 finitas en el recuadro, un umbral diagnóstico equivalente a la mitad del conteo fijo L4. No supone que esas celdas sean las mismas que el soporte L4 ni que cubran una posición de faena.
 
@@ -539,3 +539,23 @@ En Portales, el intervalo zarpe–recalada acota el día **si la faena está den
 En D, el umbral reduce el conteo regional de 2.775 a 2.038 claves. L4 gap-free es un producto interpolado y en el censo mantiene 128 celdas finitas por fecha. Su conteo sirve como control de disponibilidad del producto y no mide observaciones ópticas directas. [Catálogo L4 de Copernicus](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/services) · [Censo diario](arco_coverage_2024_2025.json). Reproducción: `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
 
 **#44 CERRADO** como descriptor declarado por puerto, con acuerdo de Claude. Los alcances ya cerrados de #42, #43, #45, #46 y #31/#33 se mantienen. #41 sigue **ACEPTADO** en alcance agregado. El dictamen provisional permite explorar kg por viaje muestreado y arte. Los datos verificados siguen sin permitir evaluar el cruce pesquero con el ambiente.
+
+## Ronda 24 · Control de calendario y cobertura en D−1/D
+
+**#47 ACEPTADO** el resultado bajo las convenciones ensayadas. Se releyeron las 3.132 claves IFOP y se aplicaron 0, +3 y +4 h a cada extremo. Cero cambios de día en zarpe y recalada con cada desplazamiento. Si ambos campos usan una de esas convenciones y la faena está contenida en el intervalo de un solo día, su fecha UTC queda acotada. El cálculo no acredita el huso del origen ni el supuesto de faena dentro del viaje. La conversión desde un reloj UTC+k (k positivo) restaría horas y podría mover una fecha hacia D−1, no D+1. D+1 queda rotulado como control de desplazamiento fuera de las hipótesis de faena ensayadas. No es un control causal: el ambiente puede estar autocorrelacionado. El QUID GlobColour, versión 7.0, sección II.5.3, explica que la etiqueta de un producto global diario reúne observaciones de aproximadamente 00:00 a 23:59 UTC del día indicado, con la salvedad de la composición global. [Manual de calidad](https://documentation.marine.copernicus.eu/QUID/CMEMS-OC-QUID-009-101to104-111-113-116-118.pdf) · [Hora oficial, SHOA](https://www.directemar.cl/cambio-de-hora-en-chile-continental-e-insular-occidental).
+
+**#17 PARCIAL.** Con ≥64 celdas L3 finitas, el par (D−1,D) tiene eje completo para las 3.132 claves:
+
+| Año | Arte | Ambas fechas | Ninguna | Cambia de estado |
+|---|---|---:|---:|---:|
+| 2024 | Enmalle | 394 | 114 | 367 |
+| 2024 | Espinel | 278 | 91 | 159 |
+| 2025 | Enmalle | 218 | 91 | 167 |
+| 2025 | Espinel | 581 | 161 | 511 |
+| Total | Ambos | 1.471 | 457 | 1.204 (38,4 %) |
+
+Como paso independiente, se desglosó el umbral en D por estado de captura registrado: 1.954/2.998 claves con merluza positiva, 16/20 con peso cero explícito de merluza, 45/83 con código 999 y peso cero, 22/30 con objetivo no listado y 1/1 con conflicto 999 y peso positivo. Es una comparación descriptiva ponderada por claves, con grupos pequeños. No se imputaron ceros ni se atribuyeron diferencias a nubosidad o captura. La disponibilidad regional puede cambiar la composición de una muestra filtrada. El umbral regional no demuestra cobertura en la posición de faena.
+
+Reproducción sobre los Access verificados y el [censo fijado](arco_coverage_2024_2025.json): `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
+
+**#6/#36 CERRADO** el subpunto de la coincidencia automática en la muestra de otros puertos con viajes de un solo día. La procedencia de fecha y posición en Portales sigue **PARCIAL**. El dictamen provisional permite explorar kg por viaje muestreado y arte. Falta una referencia de fecha y posición de faena vinculable a las claves para evaluar el cruce ambiental.

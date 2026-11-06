@@ -1,5 +1,5 @@
 """Audit daily chlorophyll support under three recorded-date scenarios."""
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import date, timedelta
 import json
 from pathlib import Path
@@ -7,6 +7,7 @@ import sys
 
 from audit_candidate_coverage import strata
 from audit_ifop_artisanal import TRIP, date_or_none
+from audit_ifop_zero_activity import catch_state
 
 
 def support_by_date(census):
@@ -21,15 +22,32 @@ def support_by_date(census):
 
 def audit(raw_dir, support):
     for year, gear, _, rows in strata(raw_dir):
-        keys = rows[TRIP].drop_duplicates()
-        dates = keys.FECHA_HORA_RECALADA.map(date_or_none)
-        if keys.eq('').any(axis=None) or dates.isna().any():
-            raise ValueError('Unexpected missing candidate key or date')
+        if rows[TRIP].eq('').any(axis=None):
+            raise ValueError('Unexpected missing candidate key')
         offsets = Counter()
         windows = Counter()
-        for recorded in dates:
+        pair = Counter()
+        calendar = Counter()
+        by_state = defaultdict(Counter)
+        for (_, departure_raw, return_raw), group in rows.groupby(TRIP):
+            departure, recorded = map(date_or_none, (departure_raw, return_raw))
+            if departure is None or recorded is None or departure > recorded:
+                raise ValueError('Unexpected candidate interval')
+            for shift in (0, 3, 4):
+                for label, timestamp in [('departure', departure), ('return', recorded)]:
+                    calendar[shift, label] += int(
+                        (timestamp + timedelta(hours=shift)).date() != timestamp.date())
             days = [recorded.date() + timedelta(days=i) for i in (-1, 0, 1)]
             values = [support.get(day) for day in days]
+            state = by_state[catch_state(group)]
+            state['keys'] += 1
+            if values[0] is not None and values[1] is not None:
+                before, center = (value[0] >= 64 for value in values[:2])
+                pair['both' if before and center else 'mixed' if before or center else 'neither'] += 1
+                state['ge64_center'] += int(center)
+                state['ge64_changes'] += int(before != center)
+            else:
+                pair['incomplete'] += 1
             for offset, value in zip((-1, 0, 1), values):
                 if value is None:
                     offsets[offset, 'outside_axis'] += 1
@@ -51,11 +69,14 @@ def audit(raw_dir, support):
             windows['L3_ge64_none_of_three'] += int(not any(dense))
             windows['L3_ge64_mixed_three'] += int(any(dense) and not all(dense))
             windows['L4_all_three'] += int(all(value[1] > 0 for value in values))
-        print(year, gear, len(keys), {i: {k: offsets[i, k] for k in
+        print(year, gear, sum(state["keys"] for state in by_state.values()), {i: {k: offsets[i, k] for k in
               ('outside_axis', 'L3_any', 'L3_ge64', 'L4_any')} for i in (-1, 0, 1)}, dict(windows))
+        print("two-day threshold", dict(pair), "endpoint changes", dict(calendar))
+        print("catch states", {name: dict(counts) for name, counts in sorted(by_state.items())})
 
 
 if __name__ == '__main__':
     raw_dir, census_path = map(Path, sys.argv[1:])
     audit(raw_dir, support_by_date(json.loads(census_path.read_text())))
+
 
