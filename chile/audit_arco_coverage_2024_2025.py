@@ -13,8 +13,8 @@ from audit_arco_time_axes import DATASETS, ROOT, read_axis
 from audit_arco_historical_probe import BOX, get, decode, masked_cf
 
 
-def read_grid(base, metadata, ti, yi, xi, manifest):
-    spec,attrs=metadata['CHL/.zarray'],metadata['CHL/.zattrs']
+def read_grid(base, metadata, ti, yi, xi, manifest, *, variable='CHL'):
+    spec,attrs=metadata[variable+'/.zarray'],metadata[variable+'/.zattrs']
     if attrs['_ARRAY_DIMENSIONS']!=['time','latitude','longitude']:
         raise ValueError('Unexpected variable dimensions')
     vectors=[np.asarray(v,dtype=int) for v in [ti,yi,xi]]
@@ -24,7 +24,7 @@ def read_grid(base, metadata, ti, yi, xi, manifest):
         raise ValueError('At most eight field chunks per read allowed')
     result=np.full(tuple(len(v) for v in vectors),np.nan)
     for key in keys:
-        url=base+'/CHL/'+spec.get('dimension_separator','.').join(map(str,key))
+        url=base+'/'+variable+'/'+spec.get('dimension_separator','.').join(map(str,key))
         try:raw=get(url,manifest)
         except urllib.error.HTTPError as e:
             if e.code!=404:raise
@@ -112,4 +112,5 @@ if __name__=='__main__':
                            'NRT service-window cause, licenses and pilot geometry remain outside this census']}
     args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k not in ['daily_finite_counts','products']},ensure_ascii=False,indent=2))
+
 
