@@ -559,3 +559,17 @@ Como paso independiente, se desglosó el umbral en D por estado de captura regis
 Reproducción sobre los Access verificados y el [censo fijado](arco_coverage_2024_2025.json): `python chile/audit_candidate_chl_date_sensitivity.py /ruta/privada/gestion_publica chile/research_2026_11_04/arco_coverage_2024_2025.json`.
 
 **#6/#36 CERRADO** el subpunto de la coincidencia automática en la muestra de otros puertos con viajes de un solo día. La procedencia de fecha y posición en Portales sigue **PARCIAL**. El dictamen provisional permite explorar kg por viaje muestreado y arte. Falta una referencia de fecha y posición de faena vinculable a las claves para evaluar el cruce ambiental.
+
+## #17 PARCIAL. Clorofila L3 en la celda de referencia de Portales
+
+Entre 2024 y 2025 hubo 639 de 731 días con algún valor finito en el recuadro y 546 en la celda pública de referencia. Por inclusión, hubo 93 días con dato regional y sin dato en esa celda costera mixta.
+
+De 3.132 claves candidatas de IFOP, 2.775 tienen cobertura regional en su fecha registrada de retorno. Para acotar cuántas pudieron tener soporte en la celda, se cuentan las claves por fecha y se suman los 546 menores o mayores pesos entre los 639 días elegibles. El resultado, **1.654–2.775**, es una cota conservadora con estos agregados. Los extremos de cada estrato pueden corresponder a calendarios diferentes. El censo por celda no identifica los días concretos y la celda de referencia no representa ubicaciones de faena. Una lectura directa de un bloque histórico L3 excedió el tiempo de espera en esta ejecución.
+
+```bash
+python chile/audit_candidate_port_pixel_bounds.py /ruta/privada/gestion_publica \
+  chile/research_2026_11_04/arco_coverage_2024_2025.json \
+  chile/research_2026_11_04/arco_cell_support.json
+```
+
+[Conteos agregados](candidate_port_pixel_bounds.json).

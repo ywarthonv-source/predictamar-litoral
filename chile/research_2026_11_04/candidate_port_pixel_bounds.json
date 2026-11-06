@@ -1,0 +1,48 @@
+{
+  "calendar_days": 731,
+  "regional_any_days": 639,
+  "port_finite_days": 546,
+  "regional_only_days": 93,
+  "bounds": {
+    "2025_enmalle": {
+      "candidate_keys": 476,
+      "regional_any": 436,
+      "port_possible_min": 23,
+      "port_possible_max": 436,
+      "regional_only_min": 0,
+      "regional_only_max": 413
+    },
+    "2025_espinel": {
+      "candidate_keys": 1253,
+      "regional_any": 1037,
+      "port_possible_min": 172,
+      "port_possible_max": 1037,
+      "regional_only_min": 0,
+      "regional_only_max": 865
+    },
+    "2024_enmalle": {
+      "candidate_keys": 875,
+      "regional_any": 806,
+      "port_possible_min": 40,
+      "port_possible_max": 806,
+      "regional_only_min": 0,
+      "regional_only_max": 766
+    },
+    "2024_espinel": {
+      "candidate_keys": 528,
+      "regional_any": 496,
+      "port_possible_min": 5,
+      "port_possible_max": 496,
+      "regional_only_min": 0,
+      "regional_only_max": 491
+    },
+    "all": {
+      "candidate_keys": 3132,
+      "regional_any": 2775,
+      "port_possible_min": 1654,
+      "port_possible_max": 2775,
+      "regional_only_min": 0,
+      "regional_only_max": 1121
+    }
+  }
+}
