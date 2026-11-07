@@ -1,0 +1,82 @@
+{
+  "2024": {
+    "url": "https://www.sernapesca.cl/app/uploads/2024/06/report_31_20240619_flota_artesanal.csv",
+    "sha256": "d8a9043a85365a484daf264a38efe377fa9c106a947617c438a55db3f3ed047d",
+    "columns": [
+      "Name",
+      "Radio Call Sign (RC)",
+      "Location date",
+      "Latitude",
+      "Longitude",
+      "Heading",
+      "Speed (kt)"
+    ],
+    "position_rows": 8221,
+    "first_recorded_date": "2024-06-18",
+    "last_recorded_date": "2024-06-19",
+    "rows_in_diagnostic_box": 70,
+    "unique_nonblank_identifier_strings": {
+      "Radio Call Sign (RC)": 127
+    },
+    "by_gear": {
+      "enmalle": {
+        "candidate_keys": 875,
+        "candidate_boat_codes": 49,
+        "keys_with_recorded_return_on_report_label_day": 0,
+        "exact_code_strings_shared": {
+          "Radio Call Sign (RC)": 0
+        }
+      },
+      "espinel": {
+        "candidate_keys": 528,
+        "candidate_boat_codes": 43,
+        "keys_with_recorded_return_on_report_label_day": 0,
+        "exact_code_strings_shared": {
+          "Radio Call Sign (RC)": 0
+        }
+      }
+    }
+  },
+  "2025": {
+    "url": "https://www.sernapesca.cl/app/uploads/2025/08/report_31_20250618_flota_artesanal.csv",
+    "sha256": "b01b80d2f6736bd0e5e52ca69dddc3476399269a15ebf232c7c15254a42961b6",
+    "columns": [
+      "name",
+      "call_sign",
+      "loc_date",
+      "latitude",
+      "longitude",
+      "heading",
+      "speed",
+      "internal_ref"
+    ],
+    "position_rows": 44613,
+    "first_recorded_date": "2025-06-18",
+    "last_recorded_date": "2025-06-18",
+    "rows_in_diagnostic_box": 276,
+    "unique_nonblank_identifier_strings": {
+      "call_sign": 365,
+      "internal_ref": 365
+    },
+    "by_gear": {
+      "enmalle": {
+        "candidate_keys": 476,
+        "candidate_boat_codes": 42,
+        "keys_with_recorded_return_on_report_label_day": 2,
+        "exact_code_strings_shared": {
+          "call_sign": 0,
+          "internal_ref": 0
+        }
+      },
+      "espinel": {
+        "candidate_keys": 1253,
+        "candidate_boat_codes": 48,
+        "keys_with_recorded_return_on_report_label_day": 10,
+        "exact_code_strings_shared": {
+          "call_sign": 0,
+          "internal_ref": 0
+        }
+      }
+    }
+  }
+}

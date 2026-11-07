@@ -1,0 +1,697 @@
+{
+  "schema_version": "ifop_cruise_audit_v1",
+  "databases": [
+    {
+      "file": "ifop_merluza_acustica_2024_anexos/BASE DE DATOS MGAYI 2024-2025.accdb",
+      "sha256": "4e59d4b3e802291733face46a2489fccf054c9da24057eb1b0b3a0a3b7570766",
+      "tables": {
+        "ACÚSTICA2024": {
+          "rows": 1457,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "TRANS",
+            "R_CLASS",
+            "INTERVAL",
+            "Sv_MEAN",
+            "D_MEAN",
+            "NASC_TOT",
+            "FREQUENCY",
+            "LAT_M",
+            "LON_M",
+            "P_FONDO"
+          ]
+        },
+        "BIOJIBIA2024": {
+          "rows": 62,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "LONGITUD",
+            "PESO",
+            "SEXO"
+          ]
+        },
+        "BIOLÓGICA2024": {
+          "rows": 2786,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "REGISTRO",
+            "LONGITUD",
+            "P_TOTAL",
+            "SEXO",
+            "M_SEXUAL",
+            "P_EVISC",
+            "P_GONADA",
+            "OTOLITO",
+            "Campo13",
+            "Campo14"
+          ]
+        },
+        "BITÁCORA2024": {
+          "rows": 97,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "F_LANCE",
+            "H_CALADO",
+            "H_VIRADO",
+            "DURACIÓN",
+            "LAT_INI",
+            "LON_INI",
+            "LAT_FIN",
+            "LON_FIN",
+            "H_REGIS",
+            "RUMBO",
+            "VEL",
+            "DIST",
+            "P_FONDO",
+            "P_RELING",
+            "PROF_REG",
+            "L_CABLE",
+            "ALT_BOCA",
+            "TEMP_SUP",
+            "TEMP_REL",
+            "TIPO_RED",
+            "EST_MAR",
+            "D_VIENTO",
+            "F_VIENTO",
+            "PRESIÓN",
+            "A_BARRID",
+            "EST_LUNA",
+            "NUBOSIDAD",
+            "DIST_ALA",
+            "T_AGREGA",
+            "ESC_ECOS",
+            "MERLUZA",
+            "JIBIA",
+            "OTROS"
+          ]
+        },
+        "CAPTURAS2024": {
+          "rows": 517,
+          "columns": [
+            "COD_PROY",
+            "CRUCERO",
+            "LANCE",
+            "COD_ESP",
+            "N_COMUN",
+            "CAPTURA (kg)"
+          ]
+        },
+        "DESCRIPTORES2024": {
+          "rows": 166,
+          "columns": [
+            "COD_PROY",
+            "ARCH",
+            "CAMPOS",
+            "DESCRIPCIO"
+          ]
+        },
+        "EDAD2024": {
+          "rows": 619,
+          "columns": [
+            "COD_PROY",
+            "BARCO",
+            "CRUCERO",
+            "COD_ESP",
+            "N_COMUN",
+            "NUMERO",
+            "LONGITUD",
+            "GRUPO-EDAD",
+            "LANCE",
+            "REGISTRO",
+            "DÍA",
+            "PESO-TOTAL",
+            "PESO-EVICERADO",
+            "MADUREZ",
+            "SEXO",
+            "MES"
+          ]
+        },
+        "OCEAN2024": {
+          "rows": 14786,
+          "columns": [
+            "682-119",
+            "ABATE MOLINA",
+            "2",
+            "LATITUD",
+            "LONGITUD",
+            "ESTACIÓN",
+            "D_COSTA",
+            "AÑO",
+            "MES",
+            "DIA",
+            "PROFUNDI",
+            "TEMP",
+            "SALINIDA",
+            "DENSIDAD",
+            "OXIGENO",
+            "CLO_a"
+          ]
+        },
+        "PLANCTON2024": {
+          "rows": 64,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "CODEST",
+            "LONGITUD",
+            "LATITUD",
+            "FECHA",
+            "D_COSTA",
+            "HORA",
+            "CABLE",
+            "D_LANCE",
+            "A_FILT",
+            "P_LANCE",
+            "FAC_ESTI",
+            "FAC_ESTZ",
+            "BIO_ZOO",
+            "H_GAYI",
+            "L_GAYI",
+            "Eufáusidos",
+            "Larvas Furcilia",
+            "Larvas Caliptopis",
+            "Nauplius eufáusidos",
+            "Ostrácodos",
+            "Cladóceros",
+            "Nauplius cirripedios",
+            "Cipris",
+            "Estomatópodos",
+            "Cumáceos",
+            "Isópodos",
+            "Anfípodos",
+            "Mysidaceos",
+            "Larvas brachiopoda",
+            "Hidromedusas",
+            "Sifonóforos",
+            "Ctenóforos",
+            "Quetognatos",
+            "Poliquetos",
+            "Larvas Gastrópodo",
+            "Larvas Bivalvia",
+            "Pteropodos",
+            "Salpas",
+            "Doliólidos",
+            "Apendicularia",
+            "Larva Cifonauta",
+            "Larva equinodermos",
+            "Nauplius copépodos",
+            "Copépodos Calanoida",
+            "Copépodos Cyclopoida",
+            "Copépodos Harpacticoida",
+            "Copépodos Poecilostomatoida",
+            "Copépodos Siphonostomatoida",
+            "Paralarva cefalópodos",
+            "Huevos invertebrados",
+            "Larvas crust Decápodos",
+            "Anfioxo",
+            "Foraminíferos",
+            "Shannon-Wiener",
+            "Margalef",
+            "Pielou"
+          ]
+        },
+        "TALLAS2024": {
+          "rows": 8873,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "ZONA",
+            "LANCE",
+            "LONGITUD mm",
+            "LONGITUD cm",
+            "MARCA cm",
+            "SEXO",
+            "MADUREZ"
+          ]
+        },
+        "TRANSECTAS2024": {
+          "rows": 66,
+          "columns": [
+            "COD_PROY",
+            "NOMBRE",
+            "ARCH",
+            "OBS",
+            "POSIC",
+            "Campo6"
+          ]
+        },
+        "DESCRIPTOR_ARCH2024": {
+          "rows": 11,
+          "columns": [
+            "COD_PROY",
+            "ARCH",
+            "DESCRIPCIO"
+          ]
+        }
+      },
+      "quality_flags": [
+        "Invalid/nonstandard HHMM or disagreement with duration: quarantine time/effort until resolved; do not silently repair.",
+        "Haul dates missing or outside cruise year are quarantined; do not fill dates by copying year or neighbouring hauls.",
+        "OCEAN 2024 chlorophyll is zero in every row; treat as suspect placeholder until source confirms, not measured zero biomass."
+      ],
+      "acoustic": {
+        "raw_rows": 1457,
+        "rows_with_position_and_nasc": 1349,
+        "zero_nasc_rows": 0,
+        "classification_labels": {
+          "mergayi": 1349
+        },
+        "dated_rows": 0,
+        "rows_in_latitude_band_32_34S": 163
+      },
+      "hauls": {
+        "rows": 97,
+        "unique_lance_ids": 97,
+        "first_date": "2024-07-26",
+        "last_date": "2027-08-10",
+        "invalid_dates": 31,
+        "regional_rows": 16,
+        "expected_cruise_year": 2024,
+        "dates_outside_cruise_year": 6,
+        "dates_matching_cruise_year": 60,
+        "first_date_matching_cruise_year": "2024-07-26",
+        "last_date_matching_cruise_year": "2024-08-15",
+        "zero_merluza_rows": 6,
+        "regional_zero_merluza_rows": 0,
+        "nonpositive_duration_rows": 0,
+        "duration_over_one_hour_rows": 0,
+        "latitude_conversion": "source DDMM.m to negative decimal degrees; raw preserved",
+        "invalid_numeric_hhmm_lance_ids": [
+          6
+        ],
+        "unparsed_time_format_lance_ids": [],
+        "duration_time_discrepancy_lance_ids": [
+          49
+        ],
+        "time_check_tolerance_minutes": 1,
+        "source_duration_units": "hours per DESCRIPTORES/BITACORA/DURACIÓN; no CPUE calculated"
+      },
+      "capture_species": {
+        "Merluza común": {
+          "rows": 97,
+          "hauls": 97,
+          "explicit_zero_rows": 6
+        },
+        "Reineta        ": {
+          "rows": 14,
+          "hauls": 14,
+          "explicit_zero_rows": 0
+        }
+      },
+      "unit_descriptor_rows": [
+        {
+          "ARCH": "BITACORA",
+          "CAMPOS": "DURACIÓN",
+          "DESCRIPCIO": "Tiempo de arrastre en horas"
+        },
+        {
+          "ARCH": "OCEAN",
+          "CAMPOS": "OXIGENO",
+          "DESCRIPCIO": "Indica oxígeno en ml/l"
+        }
+      ],
+      "ocean": {
+        "rows": 14786,
+        "stations": 67,
+        "lat_lon_globally_swapped_for_chile": false,
+        "year_values": [
+          2024
+        ],
+        "chlorophyll_nonmissing": 14786,
+        "chlorophyll_zero_rows": 14786,
+        "missing_temperature_rows": 0,
+        "missing_oxygen_rows": 0,
+        "regional_stations_after_explicit_diagnostic_swap_if_needed": 12
+      }
+    },
+    {
+      "file": "ifop_merluza_acustica_2025_anexos/BASE DE DATOS MGAYI 2025-2026.accdb",
+      "sha256": "fb9f87838d673aed19c80487e492917af3469990a229716cdc4b0685103624f5",
+      "tables": {
+        "ACÚSTICA2025-2026": {
+          "rows": 1340,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "TRANS",
+            "R_CLASS",
+            "INTERVAL",
+            "Sv_MEAN",
+            "D_MEAN",
+            "NASC_TOT",
+            "FREQUENCY",
+            "LAT_M",
+            "LON_M",
+            "P_FONDO"
+          ]
+        },
+        "BIOLÓGICA2025-2026": {
+          "rows": 2631,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "REGISTRO",
+            "LONGITUD",
+            "P_TOTAL",
+            "SEXO",
+            "M_SEXUAL",
+            "P_EVISC",
+            "P_GONADA",
+            "OTOLITO"
+          ]
+        },
+        "BITÁCORA2025-2026": {
+          "rows": 93,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "F_LANCE",
+            "H_CALADO",
+            "H_VIRADO",
+            "DURACIÓN",
+            "LAT_INI",
+            "LON_INI",
+            "LAT_FIN",
+            "LON_FIN",
+            "H_REGIS",
+            "RUMBO",
+            "VEL",
+            "DIST",
+            "P_FONDO",
+            "P_RELING",
+            "PROF_REG",
+            "L_CABLE",
+            "ALT_BOCA",
+            "TEMP_SUP",
+            "TEMP_REL",
+            "TIPO_RED",
+            "EST_MAR",
+            "D_VIENTO",
+            "F_VIENTO",
+            "PRESIÓN",
+            "A_BARRID",
+            "EST_LUNA",
+            "NUBOSIDAD",
+            "DIST_ALA",
+            "T_AGREGA",
+            "ESC_ECOS",
+            "MERLUZA",
+            "JIBIA",
+            "OTROS"
+          ]
+        },
+        "CAPTURAS2025-2026": {
+          "rows": 643,
+          "columns": [
+            "COD_PROY",
+            "CRUCERO",
+            "LANCE",
+            "COD_ESP",
+            "N_COMUN",
+            "CAPTURA (kg)"
+          ]
+        },
+        "DESCRIPTOR_ARCH2025-2026": {
+          "rows": 10,
+          "columns": [
+            "COD_PROY",
+            "ARCH",
+            "DESCRIPCIO"
+          ]
+        },
+        "DESCRIPTORES2025-2026": {
+          "rows": 160,
+          "columns": [
+            "COD_PROY",
+            "ARCH",
+            "CAMPOS",
+            "DESCRIPCIO"
+          ]
+        },
+        "EDAD2025-2026": {
+          "rows": 619,
+          "columns": [
+            "COD_PROY",
+            "BARCO",
+            "CRUCERO",
+            "COD_ESP",
+            "N_COMUN",
+            "NUMERO",
+            "LONGITUD",
+            "GRUPO-EDAD",
+            "LANCE",
+            "REGISTRO",
+            "DÍA",
+            "PESO-TOTAL",
+            "PESO-EVICERADO",
+            "MADUREZ",
+            "SEXO",
+            "MES"
+          ]
+        },
+        "OCEAN2025-2026": {
+          "rows": 16390,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LATITUD",
+            "LONGITUD",
+            "ESTACIÓN",
+            "D_COSTA",
+            "AÑO",
+            "MES",
+            "DIA",
+            "PROFUNDI",
+            "TEMP",
+            "SALINIDA",
+            "DENSIDAD",
+            "OXIGENO",
+            "CLO_a"
+          ]
+        },
+        "PLANCTON2025-2026": {
+          "rows": 64,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "CODEST",
+            "LONGITUD",
+            "LATITUD",
+            "FECHA",
+            "D_COSTA",
+            "HORA",
+            "CABLE",
+            "D_LANCE",
+            "A_FILT",
+            "P_LANCE",
+            "FAC_ESTI",
+            "FAC_ESTZ",
+            "BIO_ZOO",
+            "H_GAYI",
+            "L_GAYI",
+            "Eufáusidos",
+            "Larvas Furcilia",
+            "Larvas Caliptopis",
+            "Nauplius eufáusidos",
+            "Ostrácodos",
+            "Cladóceros",
+            "Nauplius cirripedios",
+            "cipris",
+            "Estomatópodos",
+            "Cumaceos",
+            "Isópodos",
+            "Anfípodos",
+            "Mysidacea",
+            "Zoea",
+            "Megalopa",
+            "Pycnogonida",
+            "Hidromedusas",
+            "Sifonóforos",
+            "Ctenoforos",
+            "Quetognatos",
+            "Poliquetos",
+            "Larvas Gastropoda",
+            "Larvas Bivalvia",
+            "Pteropoda",
+            "Salpas",
+            "Doliólidos",
+            "Apendicularias",
+            "Larvas Cifonauta",
+            "Larvas equinodermos",
+            "Nauplius copépodos",
+            "Copépodos Calanoida",
+            "Copépodos Cyclopoida",
+            "Copépodos Harpacticoida",
+            "Copépodos Poecilostomatoida",
+            "Copépodos Siphonostomatoida",
+            "Paralarva cefalópodos",
+            "Huevos crustáceos",
+            "Anfioxo",
+            "Foraminíferos",
+            "Radiolarios",
+            "Copépodos total",
+            "Larvas de crustáceos decápodos",
+            "Shannon-Wiener",
+            "Margalef",
+            "Pielou"
+          ]
+        },
+        "TALLAS2025-2026": {
+          "rows": 8306,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "ZONA",
+            "LANCE",
+            "LONGITUD mm",
+            "LONGITUD cm",
+            "MARCA cm",
+            "SEXO",
+            "MADUREZ"
+          ]
+        },
+        "BIOJIBIA2025-2026": {
+          "rows": 10,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "LONGITUD",
+            "PESO",
+            "SEXO"
+          ]
+        },
+        "FECUNDIDAD2025-2026": {
+          "rows": 13,
+          "columns": [
+            "COD_PROY",
+            "BUQUE",
+            "CRUCERO",
+            "LANCE",
+            "REGISTRO",
+            "LONGITUD",
+            "P_TOTAL",
+            "SEXO",
+            "M_SEXUAL",
+            "P_EVISC",
+            "P_GONADA",
+            "REG_GON",
+            "SUBZONA",
+            "IGS",
+            "M_MICRO",
+            "F_POSTOV",
+            "ATRESIA"
+          ]
+        }
+      },
+      "quality_flags": [
+        "Invalid/nonstandard HHMM or disagreement with duration: quarantine time/effort until resolved; do not silently repair.",
+        "Unusually long duration needs comparison with deployment/retrieval times before effort standardization.",
+        "OCEAN 2025 latitude/longitude columns are globally reversed for Chile. Raw retained; swap is only a documented diagnostic assumption here."
+      ],
+      "acoustic": {
+        "raw_rows": 1340,
+        "rows_with_position_and_nasc": 1340,
+        "zero_nasc_rows": 0,
+        "classification_labels": {
+          "mergayi": 1340
+        },
+        "dated_rows": 0,
+        "rows_in_latitude_band_32_34S": 172
+      },
+      "hauls": {
+        "rows": 93,
+        "unique_lance_ids": 93,
+        "first_date": "2025-07-30",
+        "last_date": "2025-09-10",
+        "invalid_dates": 0,
+        "regional_rows": 16,
+        "expected_cruise_year": 2025,
+        "dates_outside_cruise_year": 0,
+        "dates_matching_cruise_year": 93,
+        "first_date_matching_cruise_year": "2025-07-30",
+        "last_date_matching_cruise_year": "2025-09-10",
+        "zero_merluza_rows": 3,
+        "regional_zero_merluza_rows": 0,
+        "nonpositive_duration_rows": 0,
+        "duration_over_one_hour_rows": 1,
+        "latitude_conversion": "source DDMM.m to negative decimal degrees; raw preserved",
+        "invalid_numeric_hhmm_lance_ids": [],
+        "unparsed_time_format_lance_ids": [
+          36
+        ],
+        "duration_time_discrepancy_lance_ids": [
+          26,
+          62
+        ],
+        "time_check_tolerance_minutes": 1,
+        "source_duration_units": "hours per DESCRIPTORES/BITACORA/DURACIÓN; no CPUE calculated"
+      },
+      "capture_species": {
+        "Merluza común": {
+          "rows": 93,
+          "hauls": 93,
+          "explicit_zero_rows": 3
+        },
+        "Reineta        ": {
+          "rows": 3,
+          "hauls": 3,
+          "explicit_zero_rows": 0
+        }
+      },
+      "unit_descriptor_rows": [
+        {
+          "ARCH": "BITACORA",
+          "CAMPOS": "DURACIÓN",
+          "DESCRIPCIO": "Tiempo de arrastre en horas"
+        },
+        {
+          "ARCH": "OCEAN",
+          "CAMPOS": "OXIGENO",
+          "DESCRIPCIO": "Indica oxígeno en ml/l"
+        }
+      ],
+      "ocean": {
+        "rows": 16390,
+        "stations": 65,
+        "lat_lon_globally_swapped_for_chile": true,
+        "year_values": [
+          2025
+        ],
+        "chlorophyll_nonmissing": 5368,
+        "chlorophyll_zero_rows": 23,
+        "missing_temperature_rows": 85,
+        "missing_oxygen_rows": 85,
+        "regional_stations_after_explicit_diagnostic_swap_if_needed": 12
+      }
+    }
+  ],
+  "warnings": [
+    "Cruise trawls are not artisanal enmalle/espinel operations.",
+    "Acoustic rows lack date/time and contain no explicit zero NASC observations; do not infer absence from omitted intervals.",
+    "Survey hauls are identification hauls with selection bias; no operational prediction performance evaluated.",
+    "Source licence/conditions for commercial reuse must be established before product integration."
+  ]
+}

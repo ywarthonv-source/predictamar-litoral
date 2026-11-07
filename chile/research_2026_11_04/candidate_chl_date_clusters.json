@@ -1,0 +1,90 @@
+{
+  "regional_ge64": {
+    "positive_covered_keys": 1954,
+    "code999_covered_keys": 45,
+    "positive_keys": 2998,
+    "code999_keys": 83,
+    "sampled_dates": 304,
+    "positive_dates": 302,
+    "code999_dates": 59,
+    "dates_shared": 57,
+    "code999_keys_on_shared_dates": 80,
+    "observed_coverage_difference_code999_minus_positive": -0.10959917053135827,
+    "permutation_exact_null_center": -0.00460163343319208,
+    "permutation_mean_difference": -0.004507870307112426,
+    "permutation_lower_tail_p_exploratory": 0.04429778511074446,
+    "permutation_two_sided_p_exploratory": 0.08909554522273887,
+    "permutation_seed": 20261105,
+    "permutation_draws": 20000,
+    "stratification": "year and month of recorded return date"
+  },
+  "reference_pixel_finite": {
+    "positive_covered_keys": 2301,
+    "code999_covered_keys": 56,
+    "positive_keys": 2998,
+    "code999_keys": 83,
+    "sampled_dates": 304,
+    "positive_dates": 302,
+    "code999_dates": 59,
+    "dates_shared": 57,
+    "code999_keys_on_shared_dates": 80,
+    "observed_coverage_difference_code999_minus_positive": -0.09281287926891024,
+    "permutation_exact_null_center": -0.03728553492092698,
+    "permutation_mean_difference": -0.03700302028661686,
+    "permutation_lower_tail_p_exploratory": 0.1688915554222289,
+    "permutation_two_sided_p_exploratory": 0.343982800859957,
+    "permutation_seed": 20261105,
+    "permutation_draws": 20000,
+    "stratification": "year and month of recorded return date"
+  },
+  "monthly_reference_calendar_coverage": {
+    "1": {
+      "finite_days": 54,
+      "days": 62
+    },
+    "2": {
+      "finite_days": 49,
+      "days": 57
+    },
+    "3": {
+      "finite_days": 52,
+      "days": 62
+    },
+    "4": {
+      "finite_days": 44,
+      "days": 60
+    },
+    "5": {
+      "finite_days": 41,
+      "days": 62
+    },
+    "6": {
+      "finite_days": 32,
+      "days": 60
+    },
+    "7": {
+      "finite_days": 42,
+      "days": 62
+    },
+    "8": {
+      "finite_days": 38,
+      "days": 62
+    },
+    "9": {
+      "finite_days": 48,
+      "days": 60
+    },
+    "10": {
+      "finite_days": 46,
+      "days": 62
+    },
+    "11": {
+      "finite_days": 48,
+      "days": 60
+    },
+    "12": {
+      "finite_days": 52,
+      "days": 62
+    }
+  }
+}

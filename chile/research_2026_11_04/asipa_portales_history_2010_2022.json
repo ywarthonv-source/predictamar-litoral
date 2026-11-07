@@ -1,0 +1,502 @@
+{
+  "archive_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
+  "window": [
+    2010,
+    2022
+  ],
+  "basis": "Unique Event IDs per species with exclusively present status, PORTALES locality, capture block 14-01. Year from date components.",
+  "annual": {
+    "2010": {
+      "merluza_comun": {
+        "event_ids": 661,
+        "both_dates_agree": 661,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 661,
+        "dataset:Encuesta Pesqueria Enmalle": 661
+      },
+      "reineta": {}
+    },
+    "2011": {
+      "merluza_comun": {
+        "event_ids": 1158,
+        "both_dates_agree": 1158,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1158,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 10,
+        "dataset:Encuesta Pesqueria Enmalle": 1148
+      },
+      "reineta": {
+        "event_ids": 32,
+        "both_dates_agree": 32,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 32,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 32
+      }
+    },
+    "2012": {
+      "merluza_comun": {
+        "event_ids": 1315,
+        "both_dates_agree": 1315,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1315,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 76,
+        "dataset:Encuesta Pesqueria Enmalle": 1239
+      },
+      "reineta": {
+        "event_ids": 65,
+        "both_dates_agree": 65,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 65,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 65
+      }
+    },
+    "2013": {
+      "merluza_comun": {
+        "event_ids": 1301,
+        "both_dates_agree": 1301,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1301,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 474,
+        "dataset:Encuesta Pesqueria Enmalle": 827
+      },
+      "reineta": {
+        "event_ids": 20,
+        "both_dates_agree": 20,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 20,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 20
+      }
+    },
+    "2014": {
+      "merluza_comun": {
+        "event_ids": 1375,
+        "both_dates_agree": 1375,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1375,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 482,
+        "dataset:Encuesta Pesqueria Enmalle": 893
+      },
+      "reineta": {}
+    },
+    "2015": {
+      "merluza_comun": {
+        "event_ids": 1293,
+        "both_dates_agree": 1293,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1293,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 94,
+        "dataset:Encuesta Pesqueria Enmalle": 1199
+      },
+      "reineta": {}
+    },
+    "2016": {
+      "merluza_comun": {
+        "event_ids": 1138,
+        "both_dates_agree": 1138,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1138,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 210,
+        "dataset:Encuesta Pesqueria Enmalle": 928
+      },
+      "reineta": {}
+    },
+    "2017": {
+      "merluza_comun": {
+        "event_ids": 1270,
+        "both_dates_agree": 1270,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1270,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 1017,
+        "dataset:Encuesta Pesqueria Enmalle": 253
+      },
+      "reineta": {
+        "event_ids": 4,
+        "both_dates_agree": 4,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 4,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 4
+      }
+    },
+    "2018": {
+      "merluza_comun": {
+        "event_ids": 1502,
+        "both_dates_agree": 1502,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1502,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 1327,
+        "dataset:Encuesta Pesqueria Enmalle": 175
+      },
+      "reineta": {
+        "event_ids": 29,
+        "both_dates_agree": 29,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 29,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 29
+      }
+    },
+    "2019": {
+      "merluza_comun": {
+        "event_ids": 1496,
+        "both_dates_agree": 1496,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1496,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 1468,
+        "dataset:Encuesta Pesqueria Enmalle": 28
+      },
+      "reineta": {
+        "event_ids": 18,
+        "both_dates_agree": 18,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 18,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 18
+      }
+    },
+    "2020": {
+      "merluza_comun": {
+        "event_ids": 1135,
+        "both_dates_agree": 1135,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1135,
+        "dataset:Encuesta Pesqueria Enmalle": 490,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 645
+      },
+      "reineta": {
+        "event_ids": 9,
+        "both_dates_agree": 9,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 9,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 9
+      }
+    },
+    "2021": {
+      "merluza_comun": {
+        "event_ids": 1150,
+        "both_dates_agree": 1150,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1150,
+        "dataset:Encuesta Pesqueria Enmalle": 874,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 276
+      },
+      "reineta": {
+        "event_ids": 24,
+        "both_dates_agree": 24,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 24,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 20,
+        "dataset:Encuesta Pesqueria Enmalle": 4
+      }
+    },
+    "2022": {
+      "merluza_comun": {
+        "event_ids": 1244,
+        "both_dates_agree": 1244,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 1244,
+        "dataset:Encuesta Pesqueria Enmalle": 837,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 407
+      },
+      "reineta": {
+        "event_ids": 35,
+        "both_dates_agree": 35,
+        "event_date_unparseable": 0,
+        "dates_disagree": 0,
+        "sampling_protocol:": 35,
+        "dataset:Encuesta Pesq DCS/DSA Art Espinel": 34,
+        "dataset:Encuesta Pesqueria Enmalle": 1
+      }
+    }
+  },
+  "locality_values_by_species": {
+    "reineta": {
+      "PORTALES": 236
+    },
+    "merluza_comun": {
+      "PORTALES": 16038
+    }
+  },
+  "georeferencing_field_presence_in_event": {
+    "coordinateUncertaintyInMeters": false,
+    "coordinatePrecision": false,
+    "georeferenceRemarks": false,
+    "footprintWKT": false
+  },
+  "coordinate_pair_concentration": {
+    "reineta": {
+      "unique": 142,
+      "total": 236,
+      "units_for_50_percent": 34,
+      "units_for_90_percent": 119
+    },
+    "merluza_comun": {
+      "unique": 646,
+      "total": 16038,
+      "units_for_50_percent": 43,
+      "units_for_90_percent": 186
+    }
+  },
+  "recorded_day_concentration": {
+    "reineta": {
+      "unique": 93,
+      "total": 236,
+      "units_for_50_percent": 23,
+      "units_for_90_percent": 70
+    },
+    "merluza_comun": {
+      "unique": 1946,
+      "total": 16038,
+      "units_for_50_percent": 711,
+      "units_for_90_percent": 1527
+    }
+  },
+  "merluza_unique_pairs_grid_by_stratum": {
+    "all": {
+      "0.0001": {
+        "whole_minute": 624,
+        "tenth_minute_only": 3,
+        "neither": 19
+      },
+      "0.000001": {
+        "whole_minute": 624,
+        "tenth_minute_only": 3,
+        "neither": 19
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2017–2022": {
+      "0.0001": {
+        "whole_minute": 426,
+        "tenth_minute_only": 1,
+        "neither": 6
+      },
+      "0.000001": {
+        "whole_minute": 426,
+        "tenth_minute_only": 1,
+        "neither": 6
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2010–2016": {
+      "0.0001": {
+        "whole_minute": 169,
+        "tenth_minute_only": 1,
+        "neither": 1
+      },
+      "0.000001": {
+        "whole_minute": 169,
+        "tenth_minute_only": 1,
+        "neither": 1
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2010–2016": {
+      "0.0001": {
+        "whole_minute": 424,
+        "tenth_minute_only": 1,
+        "neither": 8
+      },
+      "0.000001": {
+        "whole_minute": 424,
+        "tenth_minute_only": 1,
+        "neither": 8
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2017–2022": {
+      "0.0001": {
+        "whole_minute": 348,
+        "tenth_minute_only": 0,
+        "neither": 5
+      },
+      "0.000001": {
+        "whole_minute": 348,
+        "tenth_minute_only": 0,
+        "neither": 5
+      }
+    }
+  },
+  "merluza_decimal_places_without_trailing_zeros_by_event": {
+    "latitude": {
+      "13": 10861,
+      "2": 3048,
+      "0": 769,
+      "1": 1360
+    },
+    "longitude": {
+      "13": 9304,
+      "1": 3138,
+      "2": 3593,
+      "0": 3
+    }
+  },
+  "merluza_coarsest_grid_by_event": {
+    "all": {
+      "latitude": {
+        "one_minute": 10846,
+        "three_minutes": 3048,
+        "degree": 769,
+        "six_minutes": 1360,
+        "neither": 14,
+        "tenth_minute": 1
+      },
+      "longitude": {
+        "one_minute": 9292,
+        "six_minutes": 3138,
+        "three_minutes": 3593,
+        "tenth_minute": 2,
+        "neither": 10,
+        "degree": 3
+      },
+      "pair": {
+        "one_minute": 14334,
+        "three_minutes": 1471,
+        "six_minutes": 209,
+        "tenth_minute": 3,
+        "neither": 20,
+        "degree": 1
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2017–2022": {
+      "latitude": {
+        "one_minute": 3348,
+        "three_minutes": 1013,
+        "degree": 260,
+        "six_minutes": 517,
+        "neither": 2
+      },
+      "longitude": {
+        "one_minute": 3193,
+        "six_minutes": 893,
+        "three_minutes": 1049,
+        "tenth_minute": 1,
+        "neither": 4
+      },
+      "pair": {
+        "one_minute": 4550,
+        "three_minutes": 524,
+        "six_minutes": 59,
+        "tenth_minute": 1,
+        "neither": 6
+      }
+    },
+    "Encuesta Pesq DCS/DSA Art Espinel | 2010–2016": {
+      "latitude": {
+        "one_minute": 987,
+        "three_minutes": 245,
+        "degree": 76,
+        "six_minutes": 37,
+        "neither": 1
+      },
+      "longitude": {
+        "six_minutes": 111,
+        "one_minute": 691,
+        "three_minutes": 543,
+        "tenth_minute": 1
+      },
+      "pair": {
+        "one_minute": 1236,
+        "three_minutes": 105,
+        "six_minutes": 3,
+        "tenth_minute": 1,
+        "neither": 1
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2010–2016": {
+      "latitude": {
+        "one_minute": 4678,
+        "three_minutes": 1360,
+        "degree": 303,
+        "six_minutes": 546,
+        "neither": 7,
+        "tenth_minute": 1
+      },
+      "longitude": {
+        "three_minutes": 1283,
+        "six_minutes": 1706,
+        "one_minute": 3898,
+        "degree": 3,
+        "neither": 5
+      },
+      "pair": {
+        "one_minute": 6209,
+        "three_minutes": 553,
+        "six_minutes": 123,
+        "neither": 8,
+        "degree": 1,
+        "tenth_minute": 1
+      }
+    },
+    "Encuesta Pesqueria Enmalle | 2017–2022": {
+      "latitude": {
+        "one_minute": 1833,
+        "three_minutes": 430,
+        "six_minutes": 260,
+        "degree": 130,
+        "neither": 4
+      },
+      "longitude": {
+        "one_minute": 1510,
+        "six_minutes": 428,
+        "three_minutes": 718,
+        "neither": 1
+      },
+      "pair": {
+        "one_minute": 2339,
+        "three_minutes": 289,
+        "six_minutes": 24,
+        "neither": 5
+      }
+    }
+  },
+  "merluza_integer_axis_aggregate": {
+    "latitude": {
+      "unique": 3,
+      "event_counts_descending": [
+        767,
+        1,
+        1
+      ]
+    },
+    "longitude": {
+      "unique": 1,
+      "event_counts_descending": [
+        3
+      ]
+    }
+  },
+  "merluza_integer_latitude_distinct_longitudes_descending": [
+    21,
+    1,
+    1
+  ],
+  "merluza_dominant_integer_latitude_neighbors": {
+    "dominant_integer_latitude_events": 767,
+    "neighbor_counts_by_minute_offset": {
+      "-3": 1278,
+      "-2": 840,
+      "-1": 1164,
+      "1": 574,
+      "2": 529,
+      "3": 614
+    },
+    "ratio_to_neighbor_mean": 0.9205841168233647
+  },
+  "excluded_event_species": {},
+  "evaluation_ready": false
+}

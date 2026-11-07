@@ -1,0 +1,437 @@
+{
+  "schema_version": "ifop_effort_leave_one_out_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 476,
+      "positive_hake_trips": 454,
+      "positive_effort_leave_one_out": {
+        "comparable_positive_trips": 447,
+        "matches_any_leave_one_out_mode": 407,
+        "tied_leave_one_out_modes": 0,
+        "no_other_positive_effort_trip": 6,
+        "missing_effort": 1,
+        "match_fraction_among_comparable": 0.9105145413870246
+      },
+      "constant_effort_all_states": {
+        "vessels": 42,
+        "vessels_with_complete_effort": 41,
+        "complete_vessels_with_one_recorded_effort": 25,
+        "complete_vessels_with_at_least_two_trips": 35,
+        "repeat_vessels_with_one_recorded_effort": 19,
+        "complete_single_trip_vessels": 6,
+        "trips_with_missing_effort": 1
+      },
+      "constant_effort_positive_hake_only": {
+        "vessels": 42,
+        "vessels_with_complete_effort": 41,
+        "complete_vessels_with_one_recorded_effort": 25,
+        "complete_vessels_with_at_least_two_trips": 35,
+        "repeat_vessels_with_one_recorded_effort": 19,
+        "complete_single_trip_vessels": 6,
+        "trips_with_missing_effort": 1
+      },
+      "soak_dictionary": {
+        "sheet": "Bitácora Enmalle",
+        "excel_row_1based": 35,
+        "field": "HORAS_REPOSO",
+        "description": "Horas de reposo del arte.",
+        "dictionary_sha256": "c62238830c211f012d3e780240d6039fd18d0c1a67871b496a515ba209d1ca9e"
+      },
+      "soak_full_source_table": {
+        "rows": 5157,
+        "missing": 818,
+        "nonempty_strings": 4339
+      },
+      "soak_selected_candidate_trips_summary": {
+        "nonmissing": 475,
+        "minimum_reported_value": 30.0,
+        "median_reported_value": 100.0,
+        "maximum_reported_value": 300.0,
+        "greater_than_trip_hours": 475,
+        "greater_than_trip_hours_with_one_calada": 473
+      },
+      "soak_selected_candidate_trips_by_state": {
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 17,
+          "missing_soak": 0,
+          "positive_soak": 17,
+          "soak_greater_than_total_trip_hours": 17,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_positive_hake": {
+          "candidate_trips": 454,
+          "missing_soak": 1,
+          "positive_soak": 453,
+          "soak_greater_than_total_trip_hours": 453,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 5,
+          "missing_soak": 0,
+          "positive_soak": 5,
+          "soak_greater_than_total_trip_hours": 5,
+          "soak_equal_to_total_trip_hours": 0
+        }
+      },
+      "hypothetical_auc_precision": {
+        "reported_zero_candidates_assumed_negative": 17,
+        "reported_zero_candidate_vessels": 13,
+        "scenarios": [
+          {
+            "assumed_auc": 0.7,
+            "standard_error": 0.055234671369821374,
+            "normal_95_interval": [
+              0.59174004411515,
+              0.8082599558848499
+            ]
+          },
+          {
+            "assumed_auc": 0.6,
+            "standard_error": 0.06513372249869952,
+            "normal_95_interval": [
+              0.47233790390254893,
+              0.727662096097451
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 1253,
+      "positive_hake_trips": 1225,
+      "positive_effort_leave_one_out": {
+        "comparable_positive_trips": 1223,
+        "matches_any_leave_one_out_mode": 969,
+        "tied_leave_one_out_modes": 15,
+        "no_other_positive_effort_trip": 2,
+        "missing_effort": 0,
+        "match_fraction_among_comparable": 0.7923139820114473
+      },
+      "constant_effort_all_states": {
+        "vessels": 48,
+        "vessels_with_complete_effort": 48,
+        "complete_vessels_with_one_recorded_effort": 9,
+        "complete_vessels_with_at_least_two_trips": 46,
+        "repeat_vessels_with_one_recorded_effort": 7,
+        "complete_single_trip_vessels": 2,
+        "trips_with_missing_effort": 0
+      },
+      "constant_effort_positive_hake_only": {
+        "vessels": 48,
+        "vessels_with_complete_effort": 48,
+        "complete_vessels_with_one_recorded_effort": 10,
+        "complete_vessels_with_at_least_two_trips": 46,
+        "repeat_vessels_with_one_recorded_effort": 8,
+        "complete_single_trip_vessels": 2,
+        "trips_with_missing_effort": 0
+      },
+      "soak_dictionary": {
+        "sheet": "Bitácora Espinel",
+        "excel_row_1based": 33,
+        "field": "HORAS_REPOSO",
+        "description": "Horas de reposo de los anzuelos",
+        "dictionary_sha256": "c62238830c211f012d3e780240d6039fd18d0c1a67871b496a515ba209d1ca9e"
+      },
+      "soak_full_source_table": {
+        "rows": 4322,
+        "missing": 1996,
+        "nonempty_strings": 2326
+      },
+      "soak_selected_candidate_trips_summary": {
+        "nonmissing": 1252,
+        "minimum_reported_value": 20.0,
+        "median_reported_value": 100.0,
+        "maximum_reported_value": 200.0,
+        "greater_than_trip_hours": 1252,
+        "greater_than_trip_hours_with_one_calada": 1247
+      },
+      "soak_selected_candidate_trips_by_state": {
+        "reported_hake_weight_zero": {
+          "candidate_trips": 2,
+          "missing_soak": 0,
+          "positive_soak": 2,
+          "soak_greater_than_total_trip_hours": 2,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 23,
+          "missing_soak": 0,
+          "positive_soak": 23,
+          "soak_greater_than_total_trip_hours": 23,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_positive_hake": {
+          "candidate_trips": 1225,
+          "missing_soak": 0,
+          "positive_soak": 1225,
+          "soak_greater_than_total_trip_hours": 1225,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 3,
+          "missing_soak": 1,
+          "positive_soak": 2,
+          "soak_greater_than_total_trip_hours": 2,
+          "soak_equal_to_total_trip_hours": 0
+        }
+      },
+      "hypothetical_auc_precision": {
+        "reported_zero_candidates_assumed_negative": 25,
+        "reported_zero_candidate_vessels": 19,
+        "scenarios": [
+          {
+            "assumed_auc": 0.7,
+            "standard_error": 0.044849759972809426,
+            "normal_95_interval": [
+              0.6120944704532935,
+              0.7879055295467065
+            ]
+          },
+          {
+            "assumed_auc": 0.6,
+            "standard_error": 0.0530941185324752,
+            "normal_95_interval": [
+              0.4959355276763486,
+              0.7040644723236513
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 875,
+      "positive_hake_trips": 820,
+      "positive_effort_leave_one_out": {
+        "comparable_positive_trips": 818,
+        "matches_any_leave_one_out_mode": 734,
+        "tied_leave_one_out_modes": 0,
+        "no_other_positive_effort_trip": 2,
+        "missing_effort": 0,
+        "match_fraction_among_comparable": 0.8973105134474327
+      },
+      "constant_effort_all_states": {
+        "vessels": 49,
+        "vessels_with_complete_effort": 49,
+        "complete_vessels_with_one_recorded_effort": 26,
+        "complete_vessels_with_at_least_two_trips": 46,
+        "repeat_vessels_with_one_recorded_effort": 23,
+        "complete_single_trip_vessels": 3,
+        "trips_with_missing_effort": 0
+      },
+      "constant_effort_positive_hake_only": {
+        "vessels": 48,
+        "vessels_with_complete_effort": 48,
+        "complete_vessels_with_one_recorded_effort": 25,
+        "complete_vessels_with_at_least_two_trips": 46,
+        "repeat_vessels_with_one_recorded_effort": 23,
+        "complete_single_trip_vessels": 2,
+        "trips_with_missing_effort": 0
+      },
+      "soak_dictionary": {
+        "sheet": "Bitácora Enmalle",
+        "excel_row_1based": 36,
+        "field": "HORAS_REPOSO",
+        "description": "Horas de reposo del arte.",
+        "dictionary_sha256": "6c9fef4abc9df882dcd426a9749e4bf95e0a5e5d76a12eec8a9b0a2e75800201"
+      },
+      "soak_full_source_table": {
+        "rows": 6081,
+        "missing": 6081,
+        "nonempty_strings": 0
+      },
+      "soak_selected_candidate_trips_summary": {
+        "nonmissing": 0,
+        "minimum_reported_value": null,
+        "median_reported_value": null,
+        "maximum_reported_value": null,
+        "greater_than_trip_hours": 0,
+        "greater_than_trip_hours_with_one_calada": 0
+      },
+      "soak_selected_candidate_trips_by_state": {
+        "reported_hake_weight_zero": {
+          "candidate_trips": 12,
+          "missing_soak": 12,
+          "positive_soak": 0,
+          "soak_greater_than_total_trip_hours": 0,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 33,
+          "missing_soak": 33,
+          "positive_soak": 0,
+          "soak_greater_than_total_trip_hours": 0,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_positive_hake": {
+          "candidate_trips": 820,
+          "missing_soak": 820,
+          "positive_soak": 0,
+          "soak_greater_than_total_trip_hours": 0,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 10,
+          "missing_soak": 10,
+          "positive_soak": 0,
+          "soak_greater_than_total_trip_hours": 0,
+          "soak_equal_to_total_trip_hours": 0
+        }
+      },
+      "hypothetical_auc_precision": {
+        "reported_zero_candidates_assumed_negative": 45,
+        "reported_zero_candidate_vessels": 27,
+        "scenarios": [
+          {
+            "assumed_auc": 0.7,
+            "standard_error": 0.03441524914199374,
+            "normal_95_interval": [
+              0.6325461116816922,
+              0.7674538883183077
+            ]
+          },
+          {
+            "assumed_auc": 0.6,
+            "standard_error": 0.04044468268788344,
+            "normal_95_interval": [
+              0.5207284219317484,
+              0.6792715780682516
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 528,
+      "positive_hake_trips": 499,
+      "positive_effort_leave_one_out": {
+        "comparable_positive_trips": 493,
+        "matches_any_leave_one_out_mode": 427,
+        "tied_leave_one_out_modes": 18,
+        "no_other_positive_effort_trip": 6,
+        "missing_effort": 0,
+        "match_fraction_among_comparable": 0.8661257606490872
+      },
+      "constant_effort_all_states": {
+        "vessels": 43,
+        "vessels_with_complete_effort": 43,
+        "complete_vessels_with_one_recorded_effort": 15,
+        "complete_vessels_with_at_least_two_trips": 37,
+        "repeat_vessels_with_one_recorded_effort": 9,
+        "complete_single_trip_vessels": 6,
+        "trips_with_missing_effort": 0
+      },
+      "constant_effort_positive_hake_only": {
+        "vessels": 43,
+        "vessels_with_complete_effort": 43,
+        "complete_vessels_with_one_recorded_effort": 17,
+        "complete_vessels_with_at_least_two_trips": 37,
+        "repeat_vessels_with_one_recorded_effort": 11,
+        "complete_single_trip_vessels": 6,
+        "trips_with_missing_effort": 0
+      },
+      "soak_dictionary": {
+        "sheet": "Bitácora Espinel",
+        "excel_row_1based": 34,
+        "field": "HORAS_REPOSO",
+        "description": "Horas de reposo de los anzuelos",
+        "dictionary_sha256": "6c9fef4abc9df882dcd426a9749e4bf95e0a5e5d76a12eec8a9b0a2e75800201"
+      },
+      "soak_full_source_table": {
+        "rows": 4078,
+        "missing": 1589,
+        "nonempty_strings": 2489
+      },
+      "soak_selected_candidate_trips_summary": {
+        "nonmissing": 528,
+        "minimum_reported_value": 30.0,
+        "median_reported_value": 100.0,
+        "maximum_reported_value": 200.0,
+        "greater_than_trip_hours": 528,
+        "greater_than_trip_hours_with_one_calada": 526
+      },
+      "soak_selected_candidate_trips_by_state": {
+        "conflicting_code999_positive_weight": {
+          "candidate_trips": 1,
+          "missing_soak": 0,
+          "positive_soak": 1,
+          "soak_greater_than_total_trip_hours": 1,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 6,
+          "missing_soak": 0,
+          "positive_soak": 6,
+          "soak_greater_than_total_trip_hours": 6,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 10,
+          "missing_soak": 0,
+          "positive_soak": 10,
+          "soak_greater_than_total_trip_hours": 10,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "reported_positive_hake": {
+          "candidate_trips": 499,
+          "missing_soak": 0,
+          "positive_soak": 499,
+          "soak_greater_than_total_trip_hours": 499,
+          "soak_equal_to_total_trip_hours": 0
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 12,
+          "missing_soak": 0,
+          "positive_soak": 12,
+          "soak_greater_than_total_trip_hours": 12,
+          "soak_equal_to_total_trip_hours": 0
+        }
+      },
+      "hypothetical_auc_precision": {
+        "reported_zero_candidates_assumed_negative": 16,
+        "reported_zero_candidate_vessels": 10,
+        "scenarios": [
+          {
+            "assumed_auc": 0.7,
+            "standard_error": 0.056670417278868436,
+            "normal_95_interval": [
+              0.5889259821334178,
+              0.8110740178665821
+            ]
+          },
+          {
+            "assumed_auc": 0.6,
+            "standard_error": 0.06690496227130302,
+            "normal_95_interval": [
+              0.4688662739482461,
+              0.7311337260517539
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "training_ready": false,
+  "zero_labels_validated": false,
+  "auc_formula_source": "https://jhanley.biostat.mcgill.ca/software/Hanley_McNeil_Radiology_82.pdf",
+  "limitations": [
+    "leave-one-out modes are descriptive, not causal evidence about deployed gear",
+    "single-trip vessels excluded from the repeat-vessel constancy denominator",
+    "dictionary does not identify whether soak is per set, mean or cumulative across sets",
+    "no navigation-time correction applied from unverified soak semantics",
+    "hypothetical AUC scenarios use unvalidated negatives and independent-observation approximation",
+    "no observed model AUC or cluster-adjusted confidence intervals calculated",
+    "no original rows, vessel identifiers or coordinates published"
+  ]
+}

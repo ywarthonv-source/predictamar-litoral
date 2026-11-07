@@ -1,0 +1,144 @@
+{
+  "schema_version": "portales_candidate_inventory_audit_v1",
+  "contract_schema_version": "portales_hake_candidate_v1",
+  "reader_version": "mdbtools v1.0.0",
+  "results": [
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "archive_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "archive_member_basename": "DATOS 2024 ARTESANAL DCS-PDA.accdb",
+      "table": "BITACORAS ENMALLE Centro Sur 2024",
+      "weight_dictionary_row_1based": 19,
+      "selected_source_rows": 1049,
+      "rows_without_complete_key": 0,
+      "rows_traced_to_candidate_keys": 1049,
+      "candidate_keys": 875,
+      "reported_states": {
+        "reported_positive_hake": 820,
+        "reported_no_capture_trip_code999_zero": 33,
+        "target_not_listed_no_zero_imputed": 10,
+        "reported_hake_weight_zero": 12
+      },
+      "quantity_dispositions": {
+        "reported_positive_kg": 820,
+        "target_quantity_unset": 43,
+        "reported_zero_kg_unvalidated": 12
+      },
+      "diagnostic_flags": {
+        "multiple_reported_caladas": 0,
+        "missing_caladas": 11,
+        "conflicting_caladas": 0,
+        "lance_equals_return": 873,
+        "departure_and_lance_differ_in_calendar_day": 5
+      },
+      "keys_in_time_and_position_quarantine": 875,
+      "keys_with_certified_fish_environment_pair": 0
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "archive_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "archive_member_basename": "DATOS 2024 ARTESANAL DCS-PDA.accdb",
+      "table": "BITACORAS ESPINEL Centro Sur-  Sur Austral 2024",
+      "weight_dictionary_row_1based": 19,
+      "selected_source_rows": 610,
+      "rows_without_complete_key": 0,
+      "rows_traced_to_candidate_keys": 610,
+      "candidate_keys": 528,
+      "reported_states": {
+        "reported_positive_hake": 499,
+        "target_not_listed_no_zero_imputed": 12,
+        "reported_hake_weight_zero": 6,
+        "reported_no_capture_trip_code999_zero": 10,
+        "conflicting_code999_positive_weight": 1
+      },
+      "quantity_dispositions": {
+        "reported_positive_kg": 499,
+        "target_quantity_unset": 22,
+        "reported_zero_kg_unvalidated": 6,
+        "conflicting_999_quarantined": 1
+      },
+      "diagnostic_flags": {
+        "multiple_reported_caladas": 1,
+        "missing_caladas": 1,
+        "conflicting_caladas": 0,
+        "lance_equals_return": 528,
+        "departure_and_lance_differ_in_calendar_day": 1
+      },
+      "keys_in_time_and_position_quarantine": 528,
+      "keys_with_certified_fish_environment_pair": 0
+    },
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "archive_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "archive_member_basename": "DATOS 2025 ARTESANAL DCS-PDA.accdb",
+      "table": "BITACORAS ENMALLE Centro Sur 2025",
+      "weight_dictionary_row_1based": 19,
+      "selected_source_rows": 551,
+      "rows_without_complete_key": 0,
+      "rows_traced_to_candidate_keys": 551,
+      "candidate_keys": 476,
+      "reported_states": {
+        "reported_positive_hake": 454,
+        "reported_no_capture_trip_code999_zero": 17,
+        "target_not_listed_no_zero_imputed": 5
+      },
+      "quantity_dispositions": {
+        "reported_positive_kg": 454,
+        "target_quantity_unset": 22
+      },
+      "diagnostic_flags": {
+        "multiple_reported_caladas": 0,
+        "missing_caladas": 2,
+        "conflicting_caladas": 0,
+        "lance_equals_return": 475,
+        "departure_and_lance_differ_in_calendar_day": 2
+      },
+      "keys_in_time_and_position_quarantine": 476,
+      "keys_with_certified_fish_environment_pair": 0
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "archive_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "archive_member_basename": "DATOS 2025 ARTESANAL DCS-PDA.accdb",
+      "table": "BITACORAS ESPINEL Centro Sur-  Sur Austral 2025",
+      "weight_dictionary_row_1based": 19,
+      "selected_source_rows": 1405,
+      "rows_without_complete_key": 0,
+      "rows_traced_to_candidate_keys": 1405,
+      "candidate_keys": 1253,
+      "reported_states": {
+        "reported_positive_hake": 1225,
+        "target_not_listed_no_zero_imputed": 3,
+        "reported_no_capture_trip_code999_zero": 23,
+        "reported_hake_weight_zero": 2
+      },
+      "quantity_dispositions": {
+        "reported_positive_kg": 1225,
+        "target_quantity_unset": 26,
+        "reported_zero_kg_unvalidated": 2
+      },
+      "diagnostic_flags": {
+        "multiple_reported_caladas": 2,
+        "missing_caladas": 3,
+        "conflicting_caladas": 0,
+        "lance_equals_return": 1252,
+        "departure_and_lance_differ_in_calendar_day": 2
+      },
+      "keys_in_time_and_position_quarantine": 1253,
+      "keys_with_certified_fish_environment_pair": 0
+    }
+  ],
+  "readiness": {
+    "unit_and_sampling_frame_validated": false,
+    "capture_time_and_timezone_validated": false,
+    "capture_position_and_geometry_validated": false,
+    "fish_environment_pairing_validated": false,
+    "reuse_permission_confirmed": false,
+    "evaluation_ready": false,
+    "training_ready": false
+  }
+}

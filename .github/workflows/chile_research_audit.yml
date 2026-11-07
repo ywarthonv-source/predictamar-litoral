@@ -1,0 +1,44 @@
+name: Chile research availability audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'chile/diagnose_copernicus.py'
+      - 'chile/requirements-research.txt'
+      - '.github/workflows/chile_research_audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  availability:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        product: [temperature, salinity, currents, oxygen, ostia, chlorophyll_l3, chlorophyll_l4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install research dependencies
+        run: pip install -r chile/requirements-research.txt
+      - name: Diagnose bounded regional fields (no fish recommendations)
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.COPERNICUSMARINE_SERVICE_USERNAME }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.COPERNICUSMARINE_SERVICE_PASSWORD }}
+        run: python chile/diagnose_copernicus.py --product '${{ matrix.product }}' --output /tmp/chile-environmental-audit
+      - name: Retain diagnostics and provider subsets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chile-${{ matrix.product }}-${{ github.sha }}
+          path: /tmp/chile-environmental-audit
+          retention-days: 7
+          if-no-files-found: warn

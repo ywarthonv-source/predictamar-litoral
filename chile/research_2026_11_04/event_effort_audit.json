@@ -1,0 +1,69 @@
+{
+  "schema_version": "portales_event_fields_v1",
+  "source_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
+  "embedded_eml_sha256": "0664827fa2ad3ee1a54d83e970adb0f3ea14c6e839e8faba8a811368ad236635",
+  "source_eml_url": "https://gbif-chile.mma.gob.cl/ipt/eml.do?r=asipa_demersales&v=1.5",
+  "actual_table_data_rows": {
+    "event.txt": 575030,
+    "occurrence.txt": 3751572,
+    "extendedmeasurementorfact.txt": 3258055
+  },
+  "scope": "locality PORTALES, source block 14-01, all species; Event rows, not independent trips",
+  "event_rows": 16343,
+  "dataset_names_as_published": {
+    "Encuesta Pesqueria Enmalle": 9608,
+    "Encuesta Pesq DCS/DSA Art Espinel": 6735
+  },
+  "nonempty_field_rows": {
+    "samplingProtocol": 0,
+    "sampleSizeValue": 9595,
+    "sampleSizeUnit": 9595,
+    "minimumElevationInMeters": 6486,
+    "maximumElevationInMeters": 6486,
+    "verbatimElevation": 0,
+    "minimumDepthInMeters": 0,
+    "maximumDepthInMeters": 0
+  },
+  "sample_size_unit_labels_as_published": {
+    "Extensión de la altura de red, espresada en metros": 9589,
+    "": 6748,
+    "Tamaño de la malla , expresado en pulgadas": 6
+  },
+  "sample_size_numeric_by_unit_label": {
+    "Extensión de la altura de red, espresada en metros": {
+      "rows": 9589,
+      "median": 3.0,
+      "minimum": 0.0,
+      "maximum": 36.0,
+      "zero_rows": 2
+    },
+    "Tamaño de la malla , expresado en pulgadas": {
+      "rows": 6,
+      "median": 2.25,
+      "minimum": 2.0,
+      "maximum": 2.5,
+      "zero_rows": 0
+    }
+  },
+  "event_rows_by_component_month": {
+    "1": 1458,
+    "2": 1543,
+    "3": 1621,
+    "4": 1218,
+    "5": 1268,
+    "6": 1187,
+    "7": 1312,
+    "8": 1582,
+    "9": 71,
+    "10": 1848,
+    "11": 1681,
+    "12": 1554
+  },
+  "limitations": [
+    "datasetName labels are documentary evidence, not verified gear for every trip",
+    "sampleSize mixes net height and mesh size; neither alone measures fishing effort",
+    "no unit conversion, relabelling, deduplication or zero-capture inference performed",
+    "component-month counts do not establish cause of seasonal sampling gaps",
+    "no fishery validation or training-readiness claim"
+  ]
+}

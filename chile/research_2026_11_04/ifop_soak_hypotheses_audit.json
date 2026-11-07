@@ -1,0 +1,297 @@
+{
+  "schema_version": "ifop_soak_hypothesis_compatibility_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 476,
+      "hypothesis_A_minutes_compatibility": {
+        "with_soak": 475,
+        "minutes_compatible_with_trip_duration": 475,
+        "minutes_exceed_trip_duration": 0,
+        "missing_soak": 1,
+        "invalid_trip_time": 0,
+        "minutes_scenario_nonpositive_time_or_bad_coordinate": 0,
+        "compatibility_fraction": 1.0
+      },
+      "hypothesis_B_prior_observed_record_compatibility": {
+        "no_prior_observed_departure_same_gear_year": 42,
+        "comparable_with_prior_observed_record": 433,
+        "hours_compatible_with_prior_departure_current_return": 248,
+        "hours_exceed_prior_departure_current_return": 185,
+        "ambiguous_prior_same_departure_time": 0,
+        "prior_observed_record_overlaps_current": 0,
+        "compatibility_fraction_among_comparable": 0.5727482678983834,
+        "prior_departure_to_current_return_hours": {
+          "n": 433,
+          "minimum": 26.5,
+          "median": 148.0,
+          "maximum": 8261.0
+        },
+        "observed_departure_gap_hours": {
+          "n": 433,
+          "minimum": 22.5,
+          "median": 143.5,
+          "maximum": 8253.5
+        }
+      },
+      "reported_soak_value_frequencies": {
+        "30.0": 1,
+        "40.0": 4,
+        "44.0": 1,
+        "45.0": 1,
+        "50.0": 2,
+        "75.0": 1,
+        "100.0": 251,
+        "110.0": 19,
+        "115.0": 19,
+        "120.0": 14,
+        "125.0": 1,
+        "130.0": 136,
+        "200.0": 23,
+        "300.0": 2
+      },
+      "reported_soak_multiples": {
+        "10": 452,
+        "30": 17,
+        "60": 16
+      },
+      "unvalidated_minutes_navigation_scenario": {
+        "usable_candidates": 475,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 50,
+            "source_rows_flagged": 53
+          },
+          "12": {
+            "candidate_trips_flagged": 22,
+            "source_rows_flagged": 25
+          },
+          "15": {
+            "candidate_trips_flagged": 12,
+            "source_rows_flagged": 13
+          }
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "candidate_trips": 1253,
+      "hypothesis_A_minutes_compatibility": {
+        "with_soak": 1252,
+        "minutes_compatible_with_trip_duration": 1252,
+        "minutes_exceed_trip_duration": 0,
+        "missing_soak": 1,
+        "invalid_trip_time": 0,
+        "minutes_scenario_nonpositive_time_or_bad_coordinate": 0,
+        "compatibility_fraction": 1.0
+      },
+      "hypothesis_B_prior_observed_record_compatibility": {
+        "no_prior_observed_departure_same_gear_year": 48,
+        "comparable_with_prior_observed_record": 1204,
+        "hours_compatible_with_prior_departure_current_return": 682,
+        "hours_exceed_prior_departure_current_return": 522,
+        "ambiguous_prior_same_departure_time": 0,
+        "prior_observed_record_overlaps_current": 0,
+        "compatibility_fraction_among_comparable": 0.5664451827242525,
+        "prior_departure_to_current_return_hours": {
+          "n": 1204,
+          "minimum": 26.5,
+          "median": 123.5,
+          "maximum": 4875.0
+        },
+        "observed_departure_gap_hours": {
+          "n": 1204,
+          "minimum": 21.5,
+          "median": 119.0,
+          "maximum": 4871.5
+        }
+      },
+      "reported_soak_value_frequencies": {
+        "20.0": 2,
+        "30.0": 33,
+        "40.0": 106,
+        "45.0": 22,
+        "50.0": 24,
+        "55.0": 1,
+        "100.0": 842,
+        "102.0": 1,
+        "105.0": 5,
+        "110.0": 32,
+        "115.0": 24,
+        "120.0": 33,
+        "130.0": 117,
+        "140.0": 4,
+        "200.0": 6
+      },
+      "reported_soak_multiples": {
+        "10": 1199,
+        "30": 66,
+        "60": 33
+      },
+      "unvalidated_minutes_navigation_scenario": {
+        "usable_candidates": 1252,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 112,
+            "source_rows_flagged": 122
+          },
+          "12": {
+            "candidate_trips_flagged": 45,
+            "source_rows_flagged": 50
+          },
+          "15": {
+            "candidate_trips_flagged": 20,
+            "source_rows_flagged": 23
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 875,
+      "hypothesis_A_minutes_compatibility": {
+        "missing_soak": 875,
+        "with_soak": 0,
+        "invalid_trip_time": 0,
+        "minutes_compatible_with_trip_duration": 0,
+        "minutes_exceed_trip_duration": 0,
+        "minutes_scenario_nonpositive_time_or_bad_coordinate": 0,
+        "compatibility_fraction": null
+      },
+      "hypothesis_B_prior_observed_record_compatibility": {
+        "no_prior_observed_departure_same_gear_year": 0,
+        "ambiguous_prior_same_departure_time": 0,
+        "prior_observed_record_overlaps_current": 0,
+        "comparable_with_prior_observed_record": 0,
+        "hours_compatible_with_prior_departure_current_return": 0,
+        "hours_exceed_prior_departure_current_return": 0,
+        "compatibility_fraction_among_comparable": null,
+        "prior_departure_to_current_return_hours": {
+          "n": 0,
+          "minimum": null,
+          "median": null,
+          "maximum": null
+        },
+        "observed_departure_gap_hours": {
+          "n": 0,
+          "minimum": null,
+          "median": null,
+          "maximum": null
+        }
+      },
+      "reported_soak_value_frequencies": {},
+      "reported_soak_multiples": {
+        "10": 0,
+        "30": 0,
+        "60": 0
+      },
+      "unvalidated_minutes_navigation_scenario": {
+        "usable_candidates": 0,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          },
+          "12": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          },
+          "15": {
+            "candidate_trips_flagged": 0,
+            "source_rows_flagged": 0
+          }
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "candidate_trips": 528,
+      "hypothesis_A_minutes_compatibility": {
+        "with_soak": 528,
+        "minutes_compatible_with_trip_duration": 528,
+        "minutes_exceed_trip_duration": 0,
+        "missing_soak": 0,
+        "invalid_trip_time": 0,
+        "minutes_scenario_nonpositive_time_or_bad_coordinate": 0,
+        "compatibility_fraction": 1.0
+      },
+      "hypothesis_B_prior_observed_record_compatibility": {
+        "no_prior_observed_departure_same_gear_year": 43,
+        "comparable_with_prior_observed_record": 484,
+        "hours_compatible_with_prior_departure_current_return": 264,
+        "hours_exceed_prior_departure_current_return": 220,
+        "prior_observed_record_overlaps_current": 1,
+        "ambiguous_prior_same_departure_time": 0,
+        "compatibility_fraction_among_comparable": 0.5454545454545454,
+        "prior_departure_to_current_return_hours": {
+          "n": 484,
+          "minimum": 26.5,
+          "median": 101.66666666666667,
+          "maximum": 4516.666666666667
+        },
+        "observed_departure_gap_hours": {
+          "n": 484,
+          "minimum": 22.333333333333332,
+          "median": 96.5,
+          "maximum": 4511.0
+        }
+      },
+      "reported_soak_value_frequencies": {
+        "30.0": 5,
+        "40.0": 53,
+        "45.0": 8,
+        "50.0": 9,
+        "100.0": 341,
+        "105.0": 2,
+        "110.0": 13,
+        "115.0": 17,
+        "120.0": 14,
+        "130.0": 61,
+        "140.0": 2,
+        "150.0": 1,
+        "200.0": 2
+      },
+      "reported_soak_multiples": {
+        "10": 501,
+        "30": 20,
+        "60": 14
+      },
+      "unvalidated_minutes_navigation_scenario": {
+        "usable_candidates": 528,
+        "flags_by_knots": {
+          "9": {
+            "candidate_trips_flagged": 49,
+            "source_rows_flagged": 54
+          },
+          "12": {
+            "candidate_trips_flagged": 19,
+            "source_rows_flagged": 22
+          },
+          "15": {
+            "candidate_trips_flagged": 8,
+            "source_rows_flagged": 11
+          }
+        }
+      }
+    }
+  ],
+  "training_ready": false,
+  "soak_units_validated": false,
+  "limitations": [
+    "compatibility tests do not distinguish true units, gear carryover or source errors",
+    "previous sampled record may be separated by many unobserved trips and does not link the same gear",
+    "prior record search is within one gear/year and all rows of that table, not across years or gears",
+    "hypothesis B is not exhaustive: deployment could precede multiple trips",
+    "failure of both A and B does not establish a residual cause by exclusion",
+    "minutes navigation is an unvalidated sensitivity scenario; original flags and values unchanged",
+    "no original rows, vessel identifiers or exact trip timestamps published"
+  ]
+}

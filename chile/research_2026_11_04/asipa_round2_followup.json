@@ -1,0 +1,55 @@
+{
+  "source_sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd",
+  "scope": "PORTALES/14-01 Event rows, all species",
+  "dataset_cross_tabs": [
+    {
+      "dataset_name": "Encuesta Pesq DCS/DSA Art Espinel",
+      "event_rows": 6735,
+      "sample_size_unit_rows": {
+        "": 6735
+      },
+      "nonempty_minimum_elevation_rows": 444,
+      "nonempty_maximum_elevation_rows": 444
+    },
+    {
+      "dataset_name": "Encuesta Pesqueria Enmalle",
+      "event_rows": 9608,
+      "sample_size_unit_rows": {
+        "Extensión de la altura de red, espresada en metros": 9589,
+        "": 13,
+        "Tamaño de la malla , expresado en pulgadas": 6
+      },
+      "nonempty_minimum_elevation_rows": 6042,
+      "nonempty_maximum_elevation_rows": 6042
+    }
+  ],
+  "september_by_year": [
+    {
+      "year": "2010",
+      "events": 66,
+      "component_day_min": 2,
+      "component_day_max": 30,
+      "scientific_name_occurrence_rows": {
+        "Merluccius gayi gayi": 66
+      },
+      "rows_missing_kg": 0,
+      "duplicate_event_species_rows": 0
+    },
+    {
+      "year": "2011",
+      "events": 5,
+      "component_day_min": 7,
+      "component_day_max": 21,
+      "scientific_name_occurrence_rows": {
+        "Scomber japonicus": 5
+      },
+      "rows_missing_kg": 0,
+      "duplicate_event_species_rows": 0
+    }
+  ],
+  "limitations": [
+    "missing hake row is not an absence label",
+    "no individual event/vessel identifiers published",
+    "calendar strata are not a judgement about legality or abundance"
+  ]
+}

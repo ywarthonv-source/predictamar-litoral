@@ -1,0 +1,124 @@
+{
+  "schema_version": "portales_hake_candidate_v1",
+  "status": "draft_inventory_only",
+  "scope": {
+    "source": "IFOP public artisanal annexes",
+    "seasons": [
+      2024,
+      2025
+    ],
+    "source_strata": [
+      "enmalle",
+      "espinel"
+    ],
+    "filters": {
+      "PUERTO_RECALADA": "560",
+      "ESPECIE_OBJETIVO": "1"
+    },
+    "pilot_configuration": "pilot_contract.json",
+    "regulatory_calendar": {
+      "directed_hake_september_2024_2025": "Closed period for the directed-fishing design",
+      "legal_reference": "https://www.subpesca.cl/portal/616/articles-93729_documento.pdf",
+      "source_audit": "Retain counts without target filtering and distinguish regulatory period from export coverage."
+    },
+    "recorded_weekday_coverage": "All 3132 candidate keys are recorded Tuesday through Friday. The sampling schedule is unverified. One record falls on a tested national holiday."
+  },
+  "unit": {
+    "namespace": [
+      "source_year",
+      "source_gear"
+    ],
+    "private_candidate_key": [
+      "COD_BARCO",
+      "FECHA_HORA_ZARPE",
+      "FECHA_HORA_RECALADA"
+    ],
+    "source_linkage": [
+      "archive_sha256",
+      "archive_member",
+      "table_name",
+      "export_row_ordinal_1based"
+    ],
+    "export_ordinal_scope": "One full mdb-export before filtering, excluding its header. Keep linkage private and record the reader version.",
+    "confirmed_fishing_unit": false,
+    "caladas_policy": "Retain N_CALADAS and NUMERO_LANCE_EX. Flag missing, conflicting or multiple caladas and preserve original grouping."
+  },
+  "reported_quantity": {
+    "species_field": "COD_ESPECIE",
+    "species_code": "1",
+    "weight_field": "PESO",
+    "unit": "kg",
+    "rule": "Retain a finite nonnegative value only from one explicit species row on a complete candidate key, with no conflicting positive weight under code 999.",
+    "zero_policy": "Explicit zero remains a reported quantity with unvalidated semantics. Code 999 and target omission leave the hake quantity unset.",
+    "multiple_species_rows_policy": "Quarantine multiple target rows for review of scope before summing.",
+    "blank_species_policy": "Retain blank-species rows and flag for review. If a key has only blank-species rows, keep the hake quantity unset and quarantine the key for catch-outcome evaluation."
+  },
+  "anchors": {
+    "preserve_recorded_times": [
+      "FECHA_HORA_ZARPE",
+      "FECHA_HORA_RECALADA",
+      "FECHA_LANCE"
+    ],
+    "time_quarantine": [
+      "lance_timestamp_origin_unconfirmed",
+      "source_timezone_unconfirmed"
+    ],
+    "time_diagnostic_flags": [
+      "lance_equals_return",
+      "departure_and_lance_differ_in_calendar_day"
+    ],
+    "preserve_recorded_coordinates": [
+      "LATITUD",
+      "LONGITUD"
+    ],
+    "position_quarantine": [
+      "coordinate_origin_unconfirmed",
+      "pilot_geometry_unconfirmed",
+      "generic_and_operation_start_disagree"
+    ],
+    "position_rule": "Treat southwest DDMMSS parsing as a diagnostic. Verified capture position and approved pilot geometry are prerequisites for pairing.",
+    "environmental_rule": "Keep environmental data separate until anchors are validated. Carry source and coverage provenance, including L3 availability and the mixed-coast diagnostic.",
+    "recorded_calendar_day_sensitivity": {
+      "same_recorded_departure_return_day": "The 3122 tested keys preserve their recorded day after offsets of 0, +3 and +4 hours are applied jointly to departure and return. This is conditional on the tested clock hypotheses and capture falling within the recorded interval. Source timezone and capture anchor remain unverified.",
+      "different_recorded_departure_return_day": "Retain both dates and flag for comparison."
+    },
+    "coastal_support_sensitivity": {
+      "report": "Compare eligible matched coverage with and without mixed cells when support permits. Keep missing support visible.",
+      "mixed_weight_fraction": "Record the fraction of actual spatial weight assigned to GLOBE mixed cells for each match. A single-cell match has fraction 0 or 1.",
+      "scope": "Diagnostic provenance only. Pilot geometry and marine mask validation remain pending."
+    },
+    "operation_start_fields": {
+      "enmalle": [
+        "LATITUD_INI_VIRADO",
+        "LONGITUD_INI_VIRADO"
+      ],
+      "espinel": [
+        "LATITUD_INICIO_CALADO",
+        "LONGITUD_INICIO_CALADO"
+      ],
+      "espinel_2025_dictionary_alias": "The workbook lists LATITUD_INI_CALADO. Use LATITUD_INICIO_CALADO from the Access table.",
+      "rule": "Retain the generic and operation-start pairs separately. Quarantine disagreements from pairing. The start fields describe different maneuver phases by gear. Stratify any future pairing by gear and preserve phase provenance."
+    }
+  },
+  "effort": {
+    "preserve_raw_fields": [
+      "LONGITUD_RED",
+      "NUMERO_DE_ANZUELOS",
+      "HORAS_REPOSO",
+      "N_CALADAS"
+    ],
+    "soak_conversion_validated": false,
+    "escalation_reference": "https://github.com/ywarthonv-source/predictamar-litoral/pull/2#issuecomment-6650962969",
+    "escalation_status": "Resolved by agreement on interpretation scope. HHMM remains a working hypothesis. Centésimas de hora and mixed records remain open pending source documentation."
+  },
+  "readiness": {
+    "unit_and_sampling_frame_validated": false,
+    "capture_time_and_timezone_validated": false,
+    "capture_position_and_geometry_validated": false,
+    "fish_environment_pairing_validated": false,
+    "reuse_permission_confirmed": false,
+    "evaluation_ready": false,
+    "training_ready": false
+  },
+  "publication": "Aggregate diagnostics only. Keep source records and candidate linkage private."
+}

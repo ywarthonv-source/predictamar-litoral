@@ -1,0 +1,258 @@
+[
+  {
+    "file": "asipa_demersales_1_5.html",
+    "requested_url": "https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5",
+    "retrieved_at_utc": "2026-11-04T20:24:11.315580+00:00",
+    "final_url": "https://gbif-chile.mma.gob.cl/ipt/resource?r=asipa_demersales&v=1.5",
+    "status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "bytes": 90602,
+    "sha256": "588f4995019a5894b3339b43b4cf0ede9c26d93abc02ffdc7c1b9ab52bf9f72e"
+  },
+  {
+    "file": "asipa_demersales_1_5.zip",
+    "requested_url": "https://gbif-chile.mma.gob.cl/ipt/archive.do?r=asipa_demersales&v=1.5",
+    "retrieved_at_utc": "2026-11-04T20:24:11.314227+00:00",
+    "final_url": "https://gbif-chile.mma.gob.cl/ipt/archive.do?r=asipa_demersales&v=1.5",
+    "status": 200,
+    "content_type": "application/zip;charset=ISO-8859-1",
+    "bytes": 94049953,
+    "sha256": "251c84804d99b98b2a6f2d1b1cc9106ddc608f987abbf788a72457725d6ce3dd"
+  },
+  {
+    "file": "asipa_demersales_1_5_eml.xml",
+    "requested_url": "https://gbif-chile.mma.gob.cl/ipt/eml.do?r=asipa_demersales&v=1.5",
+    "retrieved_at_utc": "2026-11-04T20:24:11.316455+00:00",
+    "final_url": "https://gbif-chile.mma.gob.cl/ipt/eml.do?r=asipa_demersales&v=1.5",
+    "status": 200,
+    "content_type": "text/xml;charset=UTF-8",
+    "bytes": 42068,
+    "sha256": "0664827fa2ad3ee1a54d83e970adb0f3ea14c6e839e8faba8a811368ad236635"
+  },
+  {
+    "file": "caletas_layer.json",
+    "requested_url": "https://geoportal.subpesca.cl/server/rest/services/IDE_PUBLICO/SRMPUB_CALETAS_PESQUERAS/MapServer/0?f=pjson",
+    "retrieved_at_utc": "2026-11-04T20:24:11.317263+00:00",
+    "final_url": "https://geoportal.subpesca.cl/server/rest/services/IDE_PUBLICO/SRMPUB_CALETAS_PESQUERAS/MapServer/0?f=pjson",
+    "status": 200,
+    "content_type": "text/plain;charset=UTF-8",
+    "bytes": 33261,
+    "sha256": "4e9e3a32b3210eec1debd95276a16f0b25f4534c8e009788187198b5fe9e87c6"
+  },
+  {
+    "file": "copernicus_phy_manual.pdf",
+    "requested_url": "https://documentation.marine.copernicus.eu/PUM/CMEMS-GLO-PUM-001-024.pdf",
+    "retrieved_at_utc": "2026-11-04T20:25:03.829168+00:00",
+    "final_url": "https://documentation.marine.copernicus.eu/PUM/CMEMS-GLO-PUM-001-024.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 1075184,
+    "sha256": "4b0a8374f15b3bdc429634812015a9b9ca89eeea29d4898400bbe0926d436972"
+  },
+  {
+    "file": "ifop_P-483271.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-483271.pdf",
+    "retrieved_at_utc": "2026-11-04T20:26:10.487132+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-483271.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 7939356,
+    "sha256": "d5398b3f594830cfa84cf96a93d188c758b03a7917ba4e6c5387343dbd8957ad"
+  },
+  {
+    "file": "ifop_P-483291.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-483291.pdf",
+    "retrieved_at_utc": "2026-11-04T20:26:10.484197+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-483291.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 8341091,
+    "sha256": "67373d82330d2f75faa243cafed424e8f1dfed8ab18799f42babd5cf8bb0d735"
+  },
+  {
+    "file": "ifop_P-581203_Pesqueria_demersal_centro_sur.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-581203_Pesqueria_demersal_centro_sur.pdf",
+    "retrieved_at_utc": "2026-11-04T20:26:10.485947+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2024/P-581203_Pesqueria_demersal_centro_sur.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 6814565,
+    "sha256": "86aa2551dd38edb9cb80ceeca54512984c7419f865fef1d6b97894830997bcc5"
+  },
+  {
+    "file": "ifop_demersales_centro_sur_2024_informe_2025.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-581216_Pesqueria_demersal_centro_sur.pdf",
+    "retrieved_at_utc": "2026-11-04T20:33:02.215861+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-581216_Pesqueria_demersal_centro_sur.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 6149608,
+    "sha256": "34e671d2b5b8d7fcac7227142d9aaecda3c77ab902ebb4e648e251f178d17332"
+  },
+  {
+    "file": "ifop_demersales_centro_sur_2025_informe_2026.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-581228_Seccion_II_Pesqueria_centro_sur.pdf",
+    "retrieved_at_utc": "2026-11-04T20:32:55.144167+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-581228_Seccion_II_Pesqueria_centro_sur.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 10373107,
+    "sha256": "afb23821284d488d05997e23ac20aeb29919045b822f930fa9fc5b7453003142"
+  },
+  {
+    "file": "ifop_informes.html",
+    "requested_url": "https://www.ifop.cl/buscador-2026/",
+    "retrieved_at_utc": "2026-11-04T20:24:24.072027+00:00",
+    "final_url": "https://www.ifop.cl/buscador-2026/",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 3641335,
+    "sha256": "815ff5933ef8b5723664faa8795111692072e86723c43863cb2fab9e7e7ee2a3"
+  },
+  {
+    "file": "ifop_merluza_acustica_2024_anexos.zip",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-682119_anexos.zip",
+    "retrieved_at_utc": "2026-11-04T20:32:55.142119+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2025/P-682119_anexos.zip",
+    "status": 200,
+    "content_type": "application/zip",
+    "bytes": 807327,
+    "sha256": "33b4430ec084bae45696d4026838cdb2175d3018595acdceb56e5d891c0c8afb"
+  },
+  {
+    "file": "ifop_merluza_acustica_2025_anexos.zip",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128_anexos.zip",
+    "retrieved_at_utc": "2026-11-04T20:32:55.140883+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128_anexos.zip",
+    "status": 200,
+    "content_type": "application/zip",
+    "bytes": 614131,
+    "sha256": "06cf636f98f4c9e78dc3e7e49c6df13f1ad3dff374752dd5c5cbccfe40c1dfd4"
+  },
+  {
+    "file": "ifop_merluza_acustica_2025_informe_2026.pdf",
+    "requested_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128.pdf",
+    "retrieved_at_utc": "2026-11-04T20:32:55.139219+00:00",
+    "final_url": "https://www.ifop.cl/wp-content/contenidos/uploads/RepositorioIfop/InformeFinal/2026/P-682128.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 25933696,
+    "sha256": "8ab92bd655a1dbca76e564b40bb451fb53695b97e53409d9ba9e87900327cb5f"
+  },
+  {
+    "file": "indespa_portales_2026.html",
+    "requested_url": "https://indespa.cl/noticias-indespa/reparacion-de-grua-de-caleta-portales-recibe-visto-bueno-y-pescadores-podran-volver-a-trabajar-tras-danos-provocados-por-temporales-0/",
+    "retrieved_at_utc": "2026-11-04T20:24:30.891332+00:00",
+    "final_url": "https://indespa.gob.cl/noticias-indespa/reparacion-de-grua-de-caleta-portales-recibe-visto-bueno-y-pescadores-podran-volver-a-trabajar-tras-danos-provocados-por-temporales-0/",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 29283,
+    "sha256": "078d5f4785c2147947fe282fa500b197315ec1e2a733a29ea9dc99ae5577ed2a"
+  },
+  {
+    "file": "merluza_caracterizacion_enmalle_2011.pdf",
+    "requested_url": "https://www.subpesca.cl/fipa/613/articles-89285_informe_final.pdf",
+    "retrieved_at_utc": "2026-11-04T20:26:10.489492+00:00",
+    "final_url": "https://www.subpesca.cl/fipa/613/articles-89285_informe_final.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 12627055,
+    "sha256": "9ca9c0a2780c00e79aeeb1dc6652e18009f2e70e518f635c6fcec89bd69ccf27"
+  },
+  {
+    "file": "merluza_enmalle_2011.html",
+    "requested_url": "https://subpesca.cl/portal/fipa/Consultor/Pontificia-Universidad-Catolica-de-Valparaiso/89285:Caracterizacion-de-las-redes-de-enmalle-en-la-pesqueria-artesanal-de-merluza-comun",
+    "retrieved_at_utc": "2026-11-04T20:24:58.263865+00:00",
+    "error": "HTTPError: HTTP Error 500: Internal Server Error"
+  },
+  {
+    "file": "merluza_selectividad_2013.pdf",
+    "requested_url": "https://www.subpesca.cl/fipa/613/articles-89307_informe_final.pdf",
+    "retrieved_at_utc": "2026-11-04T20:24:58.266014+00:00",
+    "final_url": "https://www.subpesca.cl/fipa/613/articles-89307_informe_final.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 5747455,
+    "sha256": "97e0d2268d867eefb9100edba0f3726546a9b2ffe82d4b88d932c4d32ddc3530"
+  },
+  {
+    "file": "portales_official.geojson",
+    "requested_url": "https://geoportal.subpesca.cl/server/rest/services/IDE_PUBLICO/SRMPUB_CALETAS_PESQUERAS/MapServer/0/query?where=UPPER%28REP_SUBPESCA2.ADM_DDP.PART_SSP_T_CALETAS.NOMBRE%29+LIKE+%27%25PORTALES%25%27&outFields=%2A&outSR=4326&f=geojson&returnGeometry=true",
+    "retrieved_at_utc": "2026-11-04T20:24:58.263240+00:00",
+    "final_url": "https://geoportal.subpesca.cl/server/rest/services/IDE_PUBLICO/SRMPUB_CALETAS_PESQUERAS/MapServer/0/query?where=UPPER%28REP_SUBPESCA2.ADM_DDP.PART_SSP_T_CALETAS.NOMBRE%29+LIKE+%27%25PORTALES%25%27&outFields=%2A&outSR=4326&f=geojson&returnGeometry=true",
+    "status": 200,
+    "content_type": "application/geo+json;charset=UTF-8",
+    "bytes": 1663,
+    "sha256": "81244f4282d6b9743c0b04779214d6ee075e9a045840e0c96f1c07bedaff1cfe"
+  },
+  {
+    "file": "reineta_bathymetric_2017.html",
+    "requested_url": "https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S0718-19572017000200020&lng=en&tlng=en",
+    "retrieved_at_utc": "2026-11-04T20:24:23.424855+00:00",
+    "final_url": "https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S0718-19572017000200020&lng=en&tlng=en",
+    "status": 200,
+    "content_type": "text/html",
+    "bytes": 47118,
+    "sha256": "0ac2e27d45f85dc71da4fd81b39998ce4b89c41fa51721540db8d2b5fbfc9bf1"
+  },
+  {
+    "file": "reineta_ordenamiento_2004.pdf",
+    "requested_url": "https://www.subpesca.cl/fipa/613/articles-90259_archivo_01.pdf",
+    "retrieved_at_utc": "2026-11-04T20:24:17.953211+00:00",
+    "final_url": "https://www.subpesca.cl/fipa/613/articles-90259_archivo_01.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 2350478,
+    "sha256": "589afb3f155fb0695085ac3f5b1dc97d93ee0dda1a1ba9e7f0bb82210ccfe671"
+  },
+  {
+    "file": "reineta_origen_distribucion_2015.pdf",
+    "requested_url": "https://www.subpesca.cl/fipa/613/articles-89340_informe_final.pdf",
+    "retrieved_at_utc": "2026-11-04T20:24:23.204043+00:00",
+    "final_url": "https://www.subpesca.cl/fipa/613/articles-89340_informe_final.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 7376922,
+    "sha256": "799d13e7fe96985419d3c679fec55e63b79ae00923213207ba9d12129f2b5d4e"
+  },
+  {
+    "file": "reineta_v_region_1998.pdf",
+    "requested_url": "https://www.subpesca.cl/fipa/613/articles-89564_informe_final.pdf",
+    "retrieved_at_utc": "2026-11-04T20:24:22.584561+00:00",
+    "final_url": "https://www.subpesca.cl/fipa/613/articles-89564_informe_final.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 19754826,
+    "sha256": "cc9e519f6fbc90ea622dccbedbd3b08e32008573f6a8411728dd3ea66df24884"
+  },
+  {
+    "file": "sernapesca_desembarques_2000_2023.csv",
+    "requested_url": "https://datos.gob.cl/dataset/c452874d-0fc6-43f5-b0cb-c4c463a2eb9c/resource/a28f5929-4748-4a96-aa00-5cc0658c363d/download/bd_desembarque.csv",
+    "retrieved_at_utc": "2026-11-04T20:24:58.261895+00:00",
+    "final_url": "https://datos.gob.cl/dataset/c452874d-0fc6-43f5-b0cb-c4c463a2eb9c/resource/a28f5929-4748-4a96-aa00-5cc0658c363d/download/bd_desembarque.csv",
+    "status": 200,
+    "content_type": "text/csv",
+    "bytes": 14509997,
+    "sha256": "9381677b720346a1636fb03883df3425d900926b371e23bb8603933ec747fbdf"
+  },
+  {
+    "file": "sernapesca_desembarques_package.json",
+    "requested_url": "https://datos.gob.cl/api/3/action/package_show?id=desembarques-historicos",
+    "retrieved_at_utc": "2026-11-04T20:24:11.318786+00:00",
+    "final_url": "https://datos.gob.cl/api/3/action/package_show?id=desembarques-historicos",
+    "status": 200,
+    "content_type": "application/json;charset=utf-8",
+    "bytes": 2925,
+    "sha256": "877aa6d0853bd59d0e39d6fa9d8c811c01f74d9b0c4e14b907318850a4011ec0"
+  },
+  {
+    "file": "simmo_monitoreo.html",
+    "requested_url": "https://simmo.ifop.cl/monitoreo/",
+    "retrieved_at_utc": "2026-11-04T20:24:29.003864+00:00",
+    "final_url": "https://simmo.ifop.cl/monitoreo/",
+    "status": 200,
+    "content_type": "text/html",
+    "bytes": 64134,
+    "sha256": "9719b136f5bfd4322f3b81d30ad55e3faac48aad258e6914d99ab20b20dd658a"
+  }
+]

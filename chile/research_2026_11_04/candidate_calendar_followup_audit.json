@@ -1,0 +1,367 @@
+{
+  "schema_version": "portales_candidate_calendar_followup_v1",
+  "coordinate_box_diagnostic_only": {
+    "south": [
+      -34,
+      -32
+    ],
+    "west": [
+      -73,
+      -71
+    ]
+  },
+  "strata": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_zip_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "full_table_rows": 5157,
+      "candidate_keys": 476,
+      "september_all_ports": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 67,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 67,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        }
+      },
+      "blank_species_candidate_keys": {
+        "rows": 0,
+        "keys_with_hake_row": 0,
+        "keys_with_positive_hake_row": 0,
+        "keys_without_hake_row": 0,
+        "keys_with_only_blank_species_rows": 0
+      },
+      "position_conflicts": {
+        "conflicting_rows": 0,
+        "keys_to_quarantine_for_position_conflict": 0,
+        "anonymous_patterns": []
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_zip_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "full_table_rows": 4322,
+      "candidate_keys": 1253,
+      "september_all_ports": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 230,
+          "hake_rows": 1,
+          "hake_positive_weight_rows": 1,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 1,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 238,
+          "hake_rows": 1,
+          "hake_positive_weight_rows": 1,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 1,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        }
+      },
+      "blank_species_candidate_keys": {
+        "rows": 1,
+        "keys_with_hake_row": 0,
+        "keys_with_positive_hake_row": 0,
+        "keys_without_hake_row": 1,
+        "keys_with_only_blank_species_rows": 1
+      },
+      "position_conflicts": {
+        "conflicting_rows": 3,
+        "keys_to_quarantine_for_position_conflict": 3,
+        "anonymous_patterns": [
+          {
+            "rows": 1,
+            "generic_box_state": "inside",
+            "latitude_changes": {
+              "degree_digit_positions_changed": [
+                "units"
+              ],
+              "minute_or_second_changed": false
+            },
+            "longitude_changes": {
+              "degree_digit_positions_changed": [],
+              "minute_or_second_changed": false
+            },
+            "start_box_state": "inside"
+          },
+          {
+            "rows": 1,
+            "generic_box_state": "inside",
+            "latitude_changes": {
+              "degree_digit_positions_changed": [],
+              "minute_or_second_changed": false
+            },
+            "longitude_changes": {
+              "degree_digit_positions_changed": [
+                "tens"
+              ],
+              "minute_or_second_changed": false
+            },
+            "start_box_state": "outside"
+          },
+          {
+            "rows": 1,
+            "generic_box_state": "inside",
+            "latitude_changes": {
+              "degree_digit_positions_changed": [],
+              "minute_or_second_changed": false
+            },
+            "longitude_changes": {
+              "degree_digit_positions_changed": [],
+              "minute_or_second_changed": true
+            },
+            "start_box_state": "inside"
+          }
+        ]
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_zip_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "full_table_rows": 6081,
+      "candidate_keys": 875,
+      "september_all_ports": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 14,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 14,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        }
+      },
+      "blank_species_candidate_keys": {
+        "rows": 0,
+        "keys_with_hake_row": 0,
+        "keys_with_positive_hake_row": 0,
+        "keys_without_hake_row": 0,
+        "keys_with_only_blank_species_rows": 0
+      },
+      "position_conflicts": {
+        "conflicting_rows": 0,
+        "keys_to_quarantine_for_position_conflict": 0,
+        "anonymous_patterns": []
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_zip_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "full_table_rows": 4078,
+      "candidate_keys": 528,
+      "september_all_ports": {
+        "FECHA_HORA_RECALADA": {
+          "all_port_rows": 303,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        },
+        "FECHA_LANCE": {
+          "all_port_rows": 307,
+          "hake_rows": 0,
+          "hake_positive_weight_rows": 0,
+          "hake_rows_target_code_1": 0,
+          "hake_rows_other_target_code": 0,
+          "hake_rows_blank_target_code": 0,
+          "unparsed_full_table_dates": 0
+        }
+      },
+      "blank_species_candidate_keys": {
+        "rows": 0,
+        "keys_with_hake_row": 0,
+        "keys_with_positive_hake_row": 0,
+        "keys_without_hake_row": 0,
+        "keys_with_only_blank_species_rows": 0
+      },
+      "position_conflicts": {
+        "conflicting_rows": 0,
+        "keys_to_quarantine_for_position_conflict": 0,
+        "anonymous_patterns": []
+      }
+    }
+  ],
+  "holidays_by_recorded_recalada": {
+    "2024": {
+      "2024-03-29": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-04-01",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2024-04-02",
+        "keys_on_next_tuesday_friday_nonholiday": 0,
+        "keys_one_calendar_day_after": 0
+      },
+      "2024-05-01": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-05-02",
+        "keys_on_next_monday_friday_nonholiday": 12,
+        "next_tuesday_friday_nonholiday": "2024-05-02",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 12
+      },
+      "2024-05-21": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-05-22",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2024-05-22",
+        "keys_on_next_tuesday_friday_nonholiday": 0,
+        "keys_one_calendar_day_after": 0
+      },
+      "2024-06-20": {
+        "keys_on_holiday": 1,
+        "next_monday_friday_nonholiday": "2024-06-21",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2024-06-21",
+        "keys_on_next_tuesday_friday_nonholiday": 0,
+        "keys_one_calendar_day_after": 0
+      },
+      "2024-07-16": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-07-17",
+        "keys_on_next_monday_friday_nonholiday": 12,
+        "next_tuesday_friday_nonholiday": "2024-07-17",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 12
+      },
+      "2024-08-15": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-08-16",
+        "keys_on_next_monday_friday_nonholiday": 12,
+        "next_tuesday_friday_nonholiday": "2024-08-16",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 12
+      },
+      "2024-10-31": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-11-04",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2024-11-05",
+        "keys_on_next_tuesday_friday_nonholiday": 8,
+        "keys_one_calendar_day_after": 0
+      },
+      "2024-11-01": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-11-04",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2024-11-05",
+        "keys_on_next_tuesday_friday_nonholiday": 8,
+        "keys_one_calendar_day_after": 0
+      },
+      "2024-12-25": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2024-12-26",
+        "keys_on_next_monday_friday_nonholiday": 9,
+        "next_tuesday_friday_nonholiday": "2024-12-26",
+        "keys_on_next_tuesday_friday_nonholiday": 9,
+        "keys_one_calendar_day_after": 9
+      }
+    },
+    "2025": {
+      "2025-01-01": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-01-02",
+        "keys_on_next_monday_friday_nonholiday": 12,
+        "next_tuesday_friday_nonholiday": "2025-01-02",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 12
+      },
+      "2025-04-18": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-04-21",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2025-04-22",
+        "keys_on_next_tuesday_friday_nonholiday": 0,
+        "keys_one_calendar_day_after": 0
+      },
+      "2025-05-01": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-05-02",
+        "keys_on_next_monday_friday_nonholiday": 10,
+        "next_tuesday_friday_nonholiday": "2025-05-02",
+        "keys_on_next_tuesday_friday_nonholiday": 10,
+        "keys_one_calendar_day_after": 10
+      },
+      "2025-05-21": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-05-22",
+        "keys_on_next_monday_friday_nonholiday": 12,
+        "next_tuesday_friday_nonholiday": "2025-05-22",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 12
+      },
+      "2025-06-20": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-06-23",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2025-06-24",
+        "keys_on_next_tuesday_friday_nonholiday": 8,
+        "keys_one_calendar_day_after": 0
+      },
+      "2025-07-16": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-07-17",
+        "keys_on_next_monday_friday_nonholiday": 2,
+        "next_tuesday_friday_nonholiday": "2025-07-17",
+        "keys_on_next_tuesday_friday_nonholiday": 2,
+        "keys_one_calendar_day_after": 2
+      },
+      "2025-08-15": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-08-18",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2025-08-19",
+        "keys_on_next_tuesday_friday_nonholiday": 0,
+        "keys_one_calendar_day_after": 0
+      },
+      "2025-10-31": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-11-03",
+        "keys_on_next_monday_friday_nonholiday": 0,
+        "next_tuesday_friday_nonholiday": "2025-11-04",
+        "keys_on_next_tuesday_friday_nonholiday": 12,
+        "keys_one_calendar_day_after": 0
+      },
+      "2025-12-25": {
+        "keys_on_holiday": 0,
+        "next_monday_friday_nonholiday": "2025-12-26",
+        "keys_on_next_monday_friday_nonholiday": 8,
+        "next_tuesday_friday_nonholiday": "2025-12-26",
+        "keys_on_next_tuesday_friday_nonholiday": 8,
+        "keys_one_calendar_day_after": 8
+      }
+    }
+  },
+  "evaluation_ready": false,
+  "training_ready": false
+}

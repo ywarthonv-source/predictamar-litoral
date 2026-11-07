@@ -1,0 +1,203 @@
+{
+  "schema_version": "ifop_alignment_inputs_v1",
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "source_rows": 5157,
+      "reported_soak_numeric_rows": 4339,
+      "overflow_full_value_frequencies": {
+        "72": 1,
+        "75": 1
+      },
+      "suffix_contrasts": {
+        "0": 3051,
+        "15": 99,
+        "25": 41,
+        "30": 523,
+        "45": 48,
+        "50": 125,
+        "75": 1
+      },
+      "suffix_01_to_09_rows": 0,
+      "full_values_1_to_9_rows": 0,
+      "dictionary_sheet": "Bitácora Enmalle",
+      "dictionary_rows_1based": {
+        "FECHA_HORA_RECALADA": 3,
+        "FECHA_HORA_ZARPE": 4,
+        "FECHA_LANCE": 15,
+        "LATITUD": 16,
+        "LONGITUD": 17
+      },
+      "candidate_date_checks": {
+        "candidate_keys": 476,
+        "conflicting_lance_timestamps": 0,
+        "conflicting_reported_positions": 0,
+        "different_departure_return_calendar_days": 2,
+        "lance_day_differs_from_departure": 2,
+        "lance_day_differs_from_return": 0,
+        "lance_outside_reported_trip": 0,
+        "lance_time_equals_departure": 0,
+        "lance_time_equals_return": 475,
+        "parsed_keys": 476,
+        "unparseable_anchor": 0
+      },
+      "access_parser_cross_check": {
+        "source_rows": 5157,
+        "unique_candidate_lance_keys": 476,
+        "lance_timestamp_equals_return": 475
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "source_rows": 4322,
+      "reported_soak_numeric_rows": 2326,
+      "overflow_full_value_frequencies": {
+        "66": 1
+      },
+      "suffix_contrasts": {
+        "0": 1837,
+        "15": 29,
+        "25": 0,
+        "30": 184,
+        "45": 27,
+        "50": 26,
+        "75": 0
+      },
+      "suffix_01_to_09_rows": 10,
+      "full_values_1_to_9_rows": 3,
+      "dictionary_sheet": "Bitácora Espinel",
+      "dictionary_rows_1based": {
+        "FECHA_HORA_RECALADA": 3,
+        "FECHA_HORA_ZARPE": 4,
+        "FECHA_LANCE": 15,
+        "LATITUD": 16,
+        "LONGITUD": 17
+      },
+      "candidate_date_checks": {
+        "candidate_keys": 1253,
+        "conflicting_lance_timestamps": 0,
+        "conflicting_reported_positions": 0,
+        "different_departure_return_calendar_days": 2,
+        "lance_day_differs_from_departure": 2,
+        "lance_day_differs_from_return": 0,
+        "lance_outside_reported_trip": 0,
+        "lance_time_equals_departure": 0,
+        "lance_time_equals_return": 1252,
+        "parsed_keys": 1253,
+        "unparseable_anchor": 0
+      },
+      "access_parser_cross_check": {
+        "source_rows": 4322,
+        "unique_candidate_lance_keys": 1253,
+        "lance_timestamp_equals_return": 1252
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "source_rows": 6081,
+      "reported_soak_numeric_rows": 0,
+      "overflow_full_value_frequencies": {},
+      "suffix_contrasts": {
+        "0": 0,
+        "15": 0,
+        "25": 0,
+        "30": 0,
+        "45": 0,
+        "50": 0,
+        "75": 0
+      },
+      "suffix_01_to_09_rows": 0,
+      "full_values_1_to_9_rows": 0,
+      "dictionary_sheet": "Bitácora Enmalle",
+      "dictionary_rows_1based": {
+        "FECHA_HORA_RECALADA": 3,
+        "FECHA_HORA_ZARPE": 4,
+        "FECHA_LANCE": 15,
+        "LATITUD": 16,
+        "LONGITUD": 17
+      },
+      "candidate_date_checks": {
+        "candidate_keys": 875,
+        "conflicting_lance_timestamps": 0,
+        "conflicting_reported_positions": 0,
+        "different_departure_return_calendar_days": 5,
+        "lance_day_differs_from_departure": 5,
+        "lance_day_differs_from_return": 0,
+        "lance_outside_reported_trip": 0,
+        "lance_time_equals_departure": 0,
+        "lance_time_equals_return": 873,
+        "parsed_keys": 875,
+        "unparseable_anchor": 0
+      },
+      "access_parser_cross_check": {
+        "source_rows": 6081,
+        "unique_candidate_lance_keys": 875,
+        "lance_timestamp_equals_return": 873
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "source_rows": 4078,
+      "reported_soak_numeric_rows": 2489,
+      "overflow_full_value_frequencies": {
+        "93": 16,
+        "1670": 6,
+        "9999": 11
+      },
+      "suffix_contrasts": {
+        "0": 1939,
+        "15": 44,
+        "25": 6,
+        "30": 187,
+        "45": 18,
+        "50": 33,
+        "75": 0
+      },
+      "suffix_01_to_09_rows": 13,
+      "full_values_1_to_9_rows": 1,
+      "dictionary_sheet": "Bitácora Espinel",
+      "dictionary_rows_1based": {
+        "FECHA_HORA_RECALADA": 3,
+        "FECHA_HORA_ZARPE": 4,
+        "FECHA_LANCE": 15,
+        "LATITUD": 16,
+        "LONGITUD": 17
+      },
+      "candidate_date_checks": {
+        "candidate_keys": 528,
+        "conflicting_lance_timestamps": 0,
+        "conflicting_reported_positions": 0,
+        "different_departure_return_calendar_days": 1,
+        "lance_day_differs_from_departure": 1,
+        "lance_day_differs_from_return": 0,
+        "lance_outside_reported_trip": 0,
+        "lance_time_equals_departure": 0,
+        "lance_time_equals_return": 528,
+        "parsed_keys": 528,
+        "unparseable_anchor": 0
+      },
+      "access_parser_cross_check": {
+        "source_rows": 4078,
+        "unique_candidate_lance_keys": 528,
+        "lance_timestamp_equals_return": 528
+      }
+    }
+  ],
+  "training_ready": false,
+  "timezone_validated": false,
+  "position_origin_validated": false,
+  "limitations": [
+    "date checks compare recorded clock and calendar fields without assuming timezone",
+    "candidate keys do not certify fishing trips or lances",
+    "overflow frequencies do not identify sentinels without a source rule",
+    "no individual dates, positions, identities or rows published"
+  ]
+}

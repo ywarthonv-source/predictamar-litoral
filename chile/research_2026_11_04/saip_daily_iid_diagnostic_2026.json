@@ -1,0 +1,226 @@
+{
+  "minimum_days": 8,
+  "rows": 2261,
+  "matched_rows": 1751,
+  "jan_apr_rows": 1290,
+  "jan_apr_matched_rows": 1171,
+  "november_rows_through_day_3": 1,
+  "nrt_finite_rows_outside_my": 1,
+  "strata": [
+    {
+      "month": "2026-01",
+      "gear": "Enmalle",
+      "days": 19,
+      "rho_daily_kg": -0.0158,
+      "rho_mean_kg_per_row": 0.2684,
+      "rho_daily_row_count": -0.1003,
+      "iid_permutation_diagnostic": [
+        0.9509262268443289,
+        0.26789330266743333,
+        0.6804829879253018
+      ]
+    },
+    {
+      "month": "2026-01",
+      "gear": "Espinel",
+      "days": 19,
+      "rho_daily_kg": 0.086,
+      "rho_mean_kg_per_row": 0.1501,
+      "rho_daily_row_count": -0.2021,
+      "iid_permutation_diagnostic": [
+        0.7254568635784105,
+        0.5338616534586635,
+        0.4039149021274468
+      ]
+    },
+    {
+      "month": "2026-02",
+      "gear": "Enmalle",
+      "days": 20,
+      "rho_daily_kg": 0.1482,
+      "rho_mean_kg_per_row": -0.0887,
+      "rho_daily_row_count": 0.4338,
+      "iid_permutation_diagnostic": [
+        0.5305367365815855,
+        0.7079323016924577,
+        0.05967350816229594
+      ]
+    },
+    {
+      "month": "2026-02",
+      "gear": "Espinel",
+      "days": 19,
+      "rho_daily_kg": 0.2659,
+      "rho_mean_kg_per_row": 0.1807,
+      "rho_daily_row_count": 0.1705,
+      "iid_permutation_diagnostic": [
+        0.26801829954251144,
+        0.4541636459088523,
+        0.4815129621759456
+      ]
+    },
+    {
+      "month": "2026-03",
+      "gear": "Enmalle",
+      "days": 20,
+      "rho_daily_kg": 0.0511,
+      "rho_mean_kg_per_row": -0.0331,
+      "rho_daily_row_count": 0.0424,
+      "iid_permutation_diagnostic": [
+        0.8301292467688308,
+        0.8876778080547987,
+        0.8590035249118771
+      ]
+    },
+    {
+      "month": "2026-03",
+      "gear": "Espinel",
+      "days": 20,
+      "rho_daily_kg": 0.0173,
+      "rho_mean_kg_per_row": -0.0586,
+      "rho_daily_row_count": 0.0517,
+      "iid_permutation_diagnostic": [
+        0.9426014349641259,
+        0.8042798930026749,
+        0.8288792780180495
+      ]
+    },
+    {
+      "month": "2026-04",
+      "gear": "Enmalle",
+      "days": 16,
+      "rho_daily_kg": 0.1412,
+      "rho_mean_kg_per_row": 0.1353,
+      "rho_daily_row_count": 0.1444,
+      "iid_permutation_diagnostic": [
+        0.6035099122521937,
+        0.6169595760105997,
+        0.593035174120647
+      ]
+    },
+    {
+      "month": "2026-04",
+      "gear": "Espinel",
+      "days": 14,
+      "rho_daily_kg": -0.1121,
+      "rho_mean_kg_per_row": -0.0154,
+      "rho_daily_row_count": -0.0066,
+      "iid_permutation_diagnostic": [
+        0.7038074048148796,
+        0.9628509287267818,
+        0.9842253943651409
+      ]
+    },
+    {
+      "month": "2026-05",
+      "gear": "Enmalle",
+      "days": 9,
+      "rho_daily_kg": 0.05,
+      "rho_mean_kg_per_row": -0.1,
+      "rho_daily_row_count": -0.042,
+      "iid_permutation_diagnostic": [
+        0.9078023049423765,
+        0.8090297742556436,
+        0.9202019949501262
+      ]
+    },
+    {
+      "month": "2026-05",
+      "gear": "Espinel",
+      "days": 8,
+      "rho_daily_kg": -0.381,
+      "rho_mean_kg_per_row": -0.527,
+      "rho_daily_row_count": -0.0982,
+      "iid_permutation_diagnostic": [
+        0.3589410264743381,
+        0.1851953701157471,
+        0.8248293792655184
+      ]
+    },
+    {
+      "month": "2026-06",
+      "gear": "Enmalle",
+      "days": 4
+    },
+    {
+      "month": "2026-06",
+      "gear": "Espinel",
+      "days": 6
+    },
+    {
+      "month": "2026-07",
+      "gear": "Enmalle",
+      "days": 8,
+      "rho_daily_kg": -0.0952,
+      "rho_mean_kg_per_row": 0.0952,
+      "rho_daily_row_count": -0.2892,
+      "iid_permutation_diagnostic": [
+        0.8414789630259244,
+        0.8414289642758931,
+        0.48916277093072674
+      ]
+    },
+    {
+      "month": "2026-07",
+      "gear": "Espinel",
+      "days": 7
+    },
+    {
+      "month": "2026-08",
+      "gear": "Enmalle",
+      "days": 10,
+      "rho_daily_kg": 0.4061,
+      "rho_mean_kg_per_row": 0.1515,
+      "rho_daily_row_count": 0.4866,
+      "iid_permutation_diagnostic": [
+        0.24601884952876177,
+        0.6783080422989425,
+        0.15464613384665382
+      ]
+    },
+    {
+      "month": "2026-08",
+      "gear": "Espinel",
+      "days": 11,
+      "rho_daily_kg": 0.2636,
+      "rho_mean_kg_per_row": 0.2,
+      "rho_daily_row_count": 0.1553,
+      "iid_permutation_diagnostic": [
+        0.4367140821479463,
+        0.5582610434739131,
+        0.6503337416564586
+      ]
+    },
+    {
+      "month": "2026-10",
+      "gear": "Enmalle",
+      "days": 12,
+      "rho_daily_kg": 0.3217,
+      "rho_mean_kg_per_row": 0.0629,
+      "rho_daily_row_count": 0.1555,
+      "iid_permutation_diagnostic": [
+        0.31171720706982325,
+        0.851828704282393,
+        0.6247843803904902
+      ]
+    },
+    {
+      "month": "2026-10",
+      "gear": "Espinel",
+      "days": 11,
+      "rho_daily_kg": 0.0957,
+      "rho_mean_kg_per_row": 0.0455,
+      "rho_daily_row_count": 0.41,
+      "iid_permutation_diagnostic": [
+        0.7803804904877378,
+        0.9010524736881578,
+        0.20891977700557485
+      ]
+    },
+    {
+      "month": "2026-11",
+      "gear": "Enmalle",
+      "days": 0
+    }
+  ]
+}

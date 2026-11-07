@@ -1,0 +1,403 @@
+{
+  "schema_version": "ifop_reported_zero_activity_v1",
+  "candidate_trip_key": [
+    "COD_BARCO",
+    "FECHA_HORA_ZARPE",
+    "FECHA_HORA_RECALADA"
+  ],
+  "results": [
+    {
+      "year": 2025,
+      "gear": "enmalle",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "selected_rows": 551,
+      "candidate_trip_count": 476,
+      "reported_state_candidate_trip_counts": {
+        "reported_positive_hake": 454,
+        "reported_no_capture_trip_code999_zero": 17,
+        "target_not_listed_no_zero_imputed": 5
+      },
+      "declared_activity_by_reported_state": {
+        "reported_positive_hake": {
+          "candidate_trips": 454,
+          "all_rows_positive_declared_effort": 453,
+          "all_rows_positive_declared_caladas": 452,
+          "all_rows_positive_declared_soak_hours": 453,
+          "all_rows_missing_soak_hours": 1,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 454,
+          "positive_trip_duration_lance_within_trip": 454
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 17,
+          "all_rows_positive_declared_effort": 17,
+          "all_rows_positive_declared_caladas": 17,
+          "all_rows_positive_declared_soak_hours": 17,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 17,
+          "positive_trip_duration_lance_within_trip": 17
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 5,
+          "all_rows_positive_declared_effort": 5,
+          "all_rows_positive_declared_caladas": 5,
+          "all_rows_positive_declared_soak_hours": 5,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 5,
+          "positive_trip_duration_lance_within_trip": 5
+        }
+      },
+      "trip_duration_hours_by_reported_state": {
+        "reported_positive_hake": {
+          "minimum": 1.8333333333333333,
+          "median": 5.0,
+          "maximum": 30.166666666666668
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "minimum": 3.75,
+          "median": 4.666666666666667,
+          "maximum": 5.833333333333333
+        },
+        "target_not_listed_no_zero_imputed": {
+          "minimum": 3.0,
+          "median": 3.5,
+          "maximum": 5.5
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "gear": "espinel",
+      "source_sha256": "c1e36a8987af6442ede3880204e2f266590a555442b5fe017c9c17c59f4f4d74",
+      "selected_rows": 1405,
+      "candidate_trip_count": 1253,
+      "reported_state_candidate_trip_counts": {
+        "reported_positive_hake": 1225,
+        "target_not_listed_no_zero_imputed": 3,
+        "reported_no_capture_trip_code999_zero": 23,
+        "reported_hake_weight_zero": 2
+      },
+      "declared_activity_by_reported_state": {
+        "reported_positive_hake": {
+          "candidate_trips": 1225,
+          "all_rows_positive_declared_effort": 1225,
+          "all_rows_positive_declared_caladas": 1222,
+          "all_rows_positive_declared_soak_hours": 1225,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 1225,
+          "positive_trip_duration_lance_within_trip": 1225
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 3,
+          "all_rows_positive_declared_effort": 3,
+          "all_rows_positive_declared_caladas": 3,
+          "all_rows_positive_declared_soak_hours": 2,
+          "all_rows_missing_soak_hours": 1,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 3,
+          "positive_trip_duration_lance_within_trip": 3
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 23,
+          "all_rows_positive_declared_effort": 23,
+          "all_rows_positive_declared_caladas": 23,
+          "all_rows_positive_declared_soak_hours": 23,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 23,
+          "positive_trip_duration_lance_within_trip": 23
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 2,
+          "all_rows_positive_declared_effort": 2,
+          "all_rows_positive_declared_caladas": 2,
+          "all_rows_positive_declared_soak_hours": 2,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 2,
+          "positive_trip_duration_lance_within_trip": 2
+        }
+      },
+      "trip_duration_hours_by_reported_state": {
+        "reported_positive_hake": {
+          "minimum": 2.5,
+          "median": 4.666666666666667,
+          "maximum": 7.5
+        },
+        "target_not_listed_no_zero_imputed": {
+          "minimum": 4.166666666666667,
+          "median": 4.5,
+          "maximum": 14.0
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "minimum": 3.0,
+          "median": 5.0,
+          "maximum": 27.666666666666668
+        },
+        "reported_hake_weight_zero": {
+          "minimum": 3.6666666666666665,
+          "median": 4.583333333333333,
+          "maximum": 5.5
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "enmalle",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "selected_rows": 1049,
+      "candidate_trip_count": 875,
+      "reported_state_candidate_trip_counts": {
+        "reported_positive_hake": 820,
+        "reported_no_capture_trip_code999_zero": 33,
+        "target_not_listed_no_zero_imputed": 10,
+        "reported_hake_weight_zero": 12
+      },
+      "declared_activity_by_reported_state": {
+        "reported_positive_hake": {
+          "candidate_trips": 820,
+          "all_rows_positive_declared_effort": 820,
+          "all_rows_positive_declared_caladas": 809,
+          "all_rows_positive_declared_soak_hours": 0,
+          "all_rows_missing_soak_hours": 820,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 820,
+          "positive_trip_duration_lance_within_trip": 820
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 33,
+          "all_rows_positive_declared_effort": 33,
+          "all_rows_positive_declared_caladas": 33,
+          "all_rows_positive_declared_soak_hours": 0,
+          "all_rows_missing_soak_hours": 33,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 33,
+          "positive_trip_duration_lance_within_trip": 33
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 10,
+          "all_rows_positive_declared_effort": 10,
+          "all_rows_positive_declared_caladas": 10,
+          "all_rows_positive_declared_soak_hours": 0,
+          "all_rows_missing_soak_hours": 10,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 10,
+          "positive_trip_duration_lance_within_trip": 10
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 12,
+          "all_rows_positive_declared_effort": 12,
+          "all_rows_positive_declared_caladas": 12,
+          "all_rows_positive_declared_soak_hours": 0,
+          "all_rows_missing_soak_hours": 12,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 12,
+          "positive_trip_duration_lance_within_trip": 12
+        }
+      },
+      "trip_duration_hours_by_reported_state": {
+        "reported_positive_hake": {
+          "minimum": 2.5,
+          "median": 4.666666666666667,
+          "maximum": 30.5
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "minimum": 2.5,
+          "median": 4.5,
+          "maximum": 7.0
+        },
+        "target_not_listed_no_zero_imputed": {
+          "minimum": 3.3333333333333335,
+          "median": 4.5,
+          "maximum": 5.833333333333333
+        },
+        "reported_hake_weight_zero": {
+          "minimum": 4.0,
+          "median": 5.25,
+          "maximum": 6.5
+        }
+      }
+    },
+    {
+      "year": 2024,
+      "gear": "espinel",
+      "source_sha256": "b297d0f67f0a3fbd74c0d439cfb20892144360a480b33fc40d0f7ccc25cee029",
+      "selected_rows": 610,
+      "candidate_trip_count": 528,
+      "reported_state_candidate_trip_counts": {
+        "reported_positive_hake": 499,
+        "target_not_listed_no_zero_imputed": 12,
+        "reported_hake_weight_zero": 6,
+        "reported_no_capture_trip_code999_zero": 10,
+        "conflicting_code999_positive_weight": 1
+      },
+      "declared_activity_by_reported_state": {
+        "reported_positive_hake": {
+          "candidate_trips": 499,
+          "all_rows_positive_declared_effort": 499,
+          "all_rows_positive_declared_caladas": 498,
+          "all_rows_positive_declared_soak_hours": 499,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 499,
+          "positive_trip_duration_lance_within_trip": 499
+        },
+        "target_not_listed_no_zero_imputed": {
+          "candidate_trips": 12,
+          "all_rows_positive_declared_effort": 12,
+          "all_rows_positive_declared_caladas": 12,
+          "all_rows_positive_declared_soak_hours": 12,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 12,
+          "positive_trip_duration_lance_within_trip": 12
+        },
+        "reported_hake_weight_zero": {
+          "candidate_trips": 6,
+          "all_rows_positive_declared_effort": 6,
+          "all_rows_positive_declared_caladas": 6,
+          "all_rows_positive_declared_soak_hours": 6,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 6,
+          "positive_trip_duration_lance_within_trip": 6
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "candidate_trips": 10,
+          "all_rows_positive_declared_effort": 10,
+          "all_rows_positive_declared_caladas": 10,
+          "all_rows_positive_declared_soak_hours": 10,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 10,
+          "positive_trip_duration_lance_within_trip": 10
+        },
+        "conflicting_code999_positive_weight": {
+          "candidate_trips": 1,
+          "all_rows_positive_declared_effort": 1,
+          "all_rows_positive_declared_caladas": 1,
+          "all_rows_positive_declared_soak_hours": 1,
+          "all_rows_missing_soak_hours": 0,
+          "conflicting_declared_effort_within_trip": 0,
+          "any_nonempty_FECHA_HORA_INI_CALADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_CALADO": 0,
+          "any_nonempty_FECHA_HORA_INI_VIRADO": 0,
+          "any_nonempty_FECHA_HORA_FIN_VIRADO": 0,
+          "parseable_departure_return_lance": 1,
+          "positive_trip_duration_lance_within_trip": 1
+        }
+      },
+      "trip_duration_hours_by_reported_state": {
+        "reported_positive_hake": {
+          "minimum": 2.5,
+          "median": 4.666666666666667,
+          "maximum": 27.833333333333332
+        },
+        "target_not_listed_no_zero_imputed": {
+          "minimum": 4.0,
+          "median": 5.375,
+          "maximum": 7.833333333333333
+        },
+        "reported_hake_weight_zero": {
+          "minimum": 4.0,
+          "median": 4.5,
+          "maximum": 5.0
+        },
+        "reported_no_capture_trip_code999_zero": {
+          "minimum": 3.5,
+          "median": 4.5,
+          "maximum": 5.0
+        },
+        "conflicting_code999_positive_weight": {
+          "minimum": 5.5,
+          "median": 5.5,
+          "maximum": 5.5
+        }
+      }
+    }
+  ],
+  "cross_gear_key_checks": [
+    {
+      "year": 2025,
+      "cross_gear_candidate_key_overlap": 0,
+      "candidate_keys_union": 1729
+    },
+    {
+      "year": 2024,
+      "cross_gear_candidate_key_overlap": 0,
+      "candidate_keys_union": 1403
+    }
+  ],
+  "zero_labels_validated": false,
+  "training_ready": false,
+  "limitations": [
+    "reported activity is internal documentary support, not independent confirmation of fishing",
+    "missing target species is never imputed as zero",
+    "zero weight and no-capture code are retained as separate reported states",
+    "empty deployment/retrieval timestamps are not repaired from other fields",
+    "no CPUE estimates, ecological absence labels or recommendations generated"
+  ]
+}
